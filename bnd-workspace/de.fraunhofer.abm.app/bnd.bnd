@@ -16,7 +16,6 @@ JPM-Command:			abm
 
 -includeresource: \
 	{readme.md}, \
-	{configuration=configuration}, \
 	{static=static}, \
 	web=web
 
