@@ -4,7 +4,7 @@
 * Download and install Java Development Kit (http://www.oracle.com/technetwork/java/javase/downloads/index.html)
 * Download and install Eclipse IDE for Java Developers (http://www.eclipse.org/downloads/eclipse-packages/)
 * Clone the ABM repository
-  * `git clone https://git.cs.upb.de/henni/abm.git abm`
+  * `git clone git@github.com:nguyenLisa/abm.git abm`
   * or with the Eclipse Git client
 * Start Eclipse with the workspace directory set to "abm/eclipse-workspace"
 * Install bndtools from the Market Place
