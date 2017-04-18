@@ -1,0 +1,41 @@
+<div>
+	<div class="modal-header">
+	    <h3 class="modal-title" id="modal-title">Select a commit</h3>
+	</div>
+	<div class="modal-body" id="modal-body">
+		<uib-tabset active="active">
+		    <!-- ####### tab for branches -->
+		    <uib-tab index="0" heading="Branches">
+		   		<ul class="list" ng-hide="$ctrl.loading">
+					<li ng-repeat="branch in $ctrl.branches"><a style="cursor: pointer;" ng-click="$ctrl.switchCommit(branch.commit)"><strong style="font-family: monospace">{{branch.commit}}</strong> - {{branch.name}}</a></li>
+				</ul>
+		    </uib-tab>
+		    
+		    <!-- ####### tab for tags -->
+		    <uib-tab index="1" heading="Tags">
+		   		<ul class="list" ng-hide="$ctrl.loading">
+					<li ng-repeat="tag in $ctrl.tags"><a style="cursor: pointer;" ng-click="$ctrl.switchCommit(tag.commit)"><strong style="font-family: monospace">{{tag.commit}}</strong> - {{tag.name}}</a></li>
+				</ul>
+		    </uib-tab>
+
+
+		    <!-- ####### tab for commits -->
+		    <uib-tab index="2" heading="Commits">
+		        <ul class="list" ng-hide="$ctrl.loading">
+					<li ng-repeat="newCommit in $ctrl.commits"><a style="cursor: pointer;" ng-click="$ctrl.switchCommit(newCommit.commitId)"><strong style="font-family: monospace">{{newCommit.commitId}}</strong> - {{newCommit.creationDate}} - {{newCommit.message}}</a></li>
+				</ul>
+				<ul class="pager">
+				    <li><a ng-click="$ctrl.loadPrevCommitPage()" style="cursor: pointer;" ng-enabled="$ctrl.page > 1">Previous</a></li>
+				    <li><a ng-click="$ctrl.loadNextCommitPage()" style="cursor: pointer;">Next</a></li>
+				</ul>
+		    </uib-tab>
+		</uib-tabset>
+	</div>
+	<div class="modal-footer">
+		<button class="btn btn-warning" type="button" ng-click="$ctrl.cancel();">Cancel</button>
+	</div>
+	<div class="wrapper" ng-show="$ctrl.loading">
+		<span class="cssload-loader"></span>
+	</div>
+	<br/>
+</div>

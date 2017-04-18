@@ -1,0 +1,35 @@
+<div class="wrapper" ng-show="loading">
+	<span class="cssload-loader"></span>
+</div>
+<div class="col-md-12 col-md-offset-0" ng-controller="buildController as bc" ng-hide="loading">
+    <h2>Build result</h2>
+	<button class="btn btn-danger" ng-click="bc.cancelBuild(bc.buildResult.id)" ng-show="bc.buildResult.status == 'RUNNING'" >Cancel build</button><br><br>
+	<button class="btn btn-info" ng-click="bc.downloadArchive(bc.buildResult.id)" ng-show="bc.buildResult.status == 'FINISHED'" >Download</button>
+	<button class="btn btn-danger" ng-click="bc.deleteBuild(bc.buildResult.id)" ng-show="bc.buildResult.status == 'FINISHED'" confirm="Removal is irreversible! Continue?">Delete</button><br><br>
+
+	<uib-accordion ng-repeat="projectBuild in bc.buildResult.projectBuilds">
+		<div uib-accordion-group ng-class="projectBuild.cssClass" is-open="status.open">
+			<uib-accordion-heading>
+				{{projectBuild.repository.name}} <span class="cssload-loader" ng-show="projectBuild.cssClass == 'panel-warning'" style="width: 16px; height: 16px"></span>
+		        <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+            </uib-accordion-heading> 
+			<uib-accordion ng-repeat="step in projectBuild.buildSteps">
+			    <div uib-accordion-group ng-class="step.cssClass" is-open="inner_status.open">
+			      <uib-accordion-heading>
+			        {{step.name}} - {{step.status}} <span class="cssload-loader" ng-show="step.status == 'IN_PROGRESS'" style="width: 16px; height: 16px"></span>
+			        <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': inner_status.open, 'glyphicon-chevron-right': !inner_status.open}"></i>
+			      </uib-accordion-heading>
+			      <uib-tabset active="active">
+    			      <uib-tab index="0" heading="STDOUT"><pre>{{step.stdout}}</pre></uib-tab>
+    			      <uib-tab index="1" heading="STDERR"><pre>{{step.stderr}}</pre></uib-tab>
+			      </uib-tabset>
+			    </div>
+			</uib-accordion>
+			<ul ng-repeat="artifact in projectBuild.buildArtifacts">
+				<li>{{artifact}}</li>
+			</ul>
+		</div>
+	</uib-accordion>
+	
+	
+</div>

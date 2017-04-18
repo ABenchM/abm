@@ -1,0 +1,7 @@
+-plugin.apache: \
+\
+	aQute.bnd.repository.maven.provider.MavenBndRepository; \
+		snapshotUrl=https://repository.apache.org/content/groups/snapshots/; \
+		releaseUrl= http://repo1.maven.org/maven2/; \
+		index=${.}/apache.maven; \
+		name="Apache"

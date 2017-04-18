@@ -1,0 +1,23 @@
+#
+#  DEFAULTS
+#
+
+Bundle-Version:					1.0.0.${tstamp}
+Bundle-Description: JDBC DAOs to access and store UserAdmin data
+
+	
+-buildpath: \
+	osgi.enroute.base.api;version=1.0,\
+	org.osgi.service.jdbc,\
+	tx-control-provider-jdbc-local;version=latest,\
+	tx-control-service-local;version=latest,\
+	de.fraunhofer.abm.useradmin.dao;version=latest
+
+-testpath: \
+	osgi.enroute.junit.wrapper;version=4.12
+
+-includeresource: \
+	{configuration=configuration}, \
+	{useradmin_ddl.sql}
+
+Private-Package: de.fraunhofer.abm.useradmin.dao.jdbc

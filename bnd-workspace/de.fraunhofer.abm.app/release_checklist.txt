@@ -1,0 +1,10 @@
+Release Checklist
+====================================
+- Check database configuration in de.fraunhofer.abm.app/configuration
+- Check database configuration in de.fraunhofer.abm.collection.dao.jpa/configuration
+- Make sure the database schema is up-to-date
+- Remove gogo shell bundle from run configuration
+- (Set launch.keep=true in Runtime Properties, so that configuration etc. gets saved on disk)
+- RequestDelayFilter abschalten
+- Websocket für build monitoring umstellen auf abm.cs.upb.de:8080
+- user und passwort für webconsole setzen 

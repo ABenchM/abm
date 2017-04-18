@@ -1,0 +1,41 @@
+<section ng-controller="collectionController as cc">
+
+	<h1 ng-init="loadUserCollections();">My Collections</h1>
+
+	<div class="wrapper" ng-show="loading">
+		<h2>Loading...</h2>
+		<span class="cssload-loader"></span>
+	</div>
+
+
+	<div id="user-collections-table" ui-grid="gridOpts" ui-grid-resize-columns ui-grid-auto-resize class="grid" ng-hide="loading"></div>
+
+<!-- 
+	<table class="table table-bordered table-striped table-hover" ng-hide="loading">
+		<col width="*">
+		<col width="*">
+		<col width="10%">
+		<col width="5%">
+		<col width="10%">
+		<tr>
+			<th>Name</th>
+			<th>Description</th>
+			<th>Creation Date</th>
+			<th>Size</th>
+			<th></th>
+		</tr>
+		<tr ng-repeat="row in gridOpts.data">
+			<td>{{row.name}}</td>
+			<td>{{row.description}}</td>
+			<td>{{row.creationDate | date:'short'}}</td>
+			<td>{{row.repositories.length | number}}</td>
+			<td>
+				<button ng-click="cc.edit(row.id)" class="btn btn-xs" title="Edit"><i class="glyphicon glyphicon-pencil"></i></button>
+				<button ng-click="cc.remove(row.id)" class="btn btn-xs btn-danger" title="Delete" confirm="Removal is irreversible! Continue?">
+					<i class="glyphicon glyphicon-trash"></i></button></td>
+			</td>
+		</tr>
+	</table>
+ -->
+
+</section>

@@ -1,0 +1,10 @@
+<div ng-hide="attrs.id">
+    <a class="btn btn-lg btn-primary" ng-disabled="true" ng-transclude></a>
+
+</div>
+<div ng-show="attrs.id">
+    <div>
+        <a class="btn btn-xs btn-success" ng-hide="inCart()" ng-click="ngCart.addItem(id, name, price, q, data)">Select</a>
+        <a class="btn btn-xs btn-danger" ng-show="inCart()" ng-click="ngCart.removeItemById(id)">Deselect</a>
+    </div>
+</div>

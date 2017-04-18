@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+	version="2.0">
+
+	<persistence-unit name="collection-unit">
+		<description>Test persistence unit for the Transaction Control JPA Provider</description>
+		<!-- 
+		<properties>
+			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" />
+			<property name="hibernate.hbm2ddl.import_files_sql_extractor" value="org.hibernate.tool.hbm2ddl.MultipleLinesSqlCommandExtractor" />
+			<property name="javax.persistence.schema-generation.database.action" value="drop-and-create" />
+			<property name="javax.persistence.schema-generation.create-source" value="script" />
+			<property name="javax.persistence.schema-generation.create-script-source" value="META-INF/sql/create.sql" />
+			<property name="javax.persistence.sql-load-script-source" value="META-INF/sql/data.sql" />
+		</properties>
+		-->
+		<properties>
+			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" />
+			<!-- 
+			<property name="javax.persistence.schema-generation.database.action" value="drop-and-create" />
+			 <property name="javax.persistence.sql-load-script-source" value="META-INF/sql/data.sql" />
+			 -->
+		</properties>
+	</persistence-unit>
+</persistence>
