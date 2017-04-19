@@ -1,9 +1,5 @@
 package de.fraunhofer.abm.app.controllers;
 
-import java.io.IOException;
-
-import javax.servlet.http.HttpServletResponse;
-
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
@@ -23,7 +19,7 @@ import osgi.enroute.webserver.capabilities.RequireWebServerExtender;
 @RequireWebServerExtender
 @RequireConfigurerExtender
 @Component(name="de.fraunhofer.abm.rest.commit")
-public class CommitController implements REST {
+public class CommitController extends AbstractController implements REST {
 
     private static final transient Logger logger = LoggerFactory.getLogger(CommitController.class);
 
@@ -96,12 +92,8 @@ public class CommitController implements REST {
         return true;
     }
 
-    private void sendError(HttpServletResponse resp, int code, String mesg) {
-        resp.setStatus(code);
-        try {
-            resp.getWriter().println(mesg);
-        } catch (IOException e) {
-            logger.error("Couldn't send error response", e);
-        }
+    @Override
+    Logger getLogger() {
+        return logger;
     }
 }

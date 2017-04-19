@@ -1,12 +1,16 @@
 package de.fraunhofer.abm.app.controllers;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletResponse;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.fraunhofer.abm.domain.RepositoryDTO;
 import de.fraunhofer.abm.domain.RepositoryPropertyDTO;
@@ -19,7 +23,9 @@ import osgi.enroute.webserver.capabilities.RequireWebServerExtender;
 @RequireWebServerExtender
 @RequireConfigurerExtender
 @Component(name="de.fraunhofer.abm.rest.criteria")
-public class CriteriaFilterController implements REST {
+public class CriteriaFilterController extends AbstractController implements REST {
+
+    private static final transient Logger logger = LoggerFactory.getLogger(CriteriaFilterController.class);
 
     private static final String NOT_APPLICABLE = "n/a";
 
@@ -46,6 +52,10 @@ public class CriteriaFilterController implements REST {
         RequestDTO dto = rr._body();
 
         try {
+            if(dto.repos == null) {
+                throw new IllegalArgumentException("repos are missing");
+            }
+
             List<RepositoryPropertyDTO> result = new ArrayList<>();
             for (RepositoryDTO repo : dto.repos) {
                 result.addAll(projectAnalysis.analyze(repo));
@@ -53,6 +63,9 @@ public class CriteriaFilterController implements REST {
 
             List<RepositoryDTO> matches = filterResultsWithCriteria(result, dto);
             return matches;
+        } catch (IllegalArgumentException e) {
+            sendError(rr._response(), HttpServletResponse.SC_BAD_REQUEST, e.getLocalizedMessage());
+            return Collections.emptyList();
         } catch (Exception e) {
             throw new ServletException("Couldn't analyze repositories", e);
         }
@@ -61,6 +74,9 @@ public class CriteriaFilterController implements REST {
     private List<RepositoryDTO> filterResultsWithCriteria(List<RepositoryPropertyDTO> result, RequestDTO request) {
         List<RepositoryDTO> matchingRepos = new ArrayList<>();
         CriteriaDTO criteria = request.criteria;
+        if(criteria == null) {
+            throw new IllegalArgumentException("criteria are missing");
+        }
 
         for (RepositoryDTO repositoryDTO : request.repos) {
             boolean matches = matchesBuildSystem(criteria, result, repositoryDTO);
@@ -153,5 +169,10 @@ public class CriteriaFilterController implements REST {
             }
         }
         return NOT_APPLICABLE;
+    }
+
+    @Override
+    Logger getLogger() {
+        return logger;
     }
 }

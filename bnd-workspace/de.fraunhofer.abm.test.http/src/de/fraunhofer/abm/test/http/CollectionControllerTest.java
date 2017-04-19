@@ -75,7 +75,7 @@ public class CollectionControllerTest extends AbstractHttpTest {
         Assert.assertEquals(200, response.getResponseCode());
 
         // get collections
-        uri = baseUri + "/rest/collection?user=" + user;
+        uri = baseUri + "/rest/collection?user=" + USER;
         collections = HttpUtils.get(uri, headers, charset);
         Assert.assertEquals("[]", collections);
     }

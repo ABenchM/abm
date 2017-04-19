@@ -3,6 +3,8 @@ package de.fraunhofer.abm.app.controllers;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ReferenceCardinality;
@@ -23,7 +25,7 @@ import osgi.enroute.webserver.capabilities.RequireWebServerExtender;
 @RequireWebServerExtender
 @RequireConfigurerExtender
 @Component(name="de.fraunhofer.abm.rest.commit.selection")
-public class CommitSelectionController implements REST {
+public class CommitSelectionController extends AbstractController implements REST {
 
     private static final transient Logger logger = LoggerFactory.getLogger(CommitSelectionController.class);
 
@@ -37,6 +39,10 @@ public class CommitSelectionController implements REST {
     public List<CommitDTO> postCommits(PostRequest pr) throws Exception {
         List<CommitDTO> commits = new ArrayList<>();
         RequestData data = pr._body();
+        if(data.repository == null) {
+            sendError(pr._response(), HttpServletResponse.SC_BAD_REQUEST, "repository is missing");
+        }
+
         RepositoryDTO repo = data.repository;
         int page = data.page;
         for (Crawler crawler : crawlers) {
@@ -89,5 +95,10 @@ public class CommitSelectionController implements REST {
         public RepositoryDTO repository;
         public int page;
         public RequestData() {}
+    }
+
+    @Override
+    Logger getLogger() {
+        return logger;
     }
 }
