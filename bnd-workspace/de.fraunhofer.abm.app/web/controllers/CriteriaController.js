@@ -54,7 +54,6 @@ function criteriaController($rootScope, $scope, $http, $location, $route, ngCart
 	function createRequestObject() {
 		return {
 			criteria : {
-				size : [],
 				buildsystems : [],
 				languages : [],
 				licenses : [],
