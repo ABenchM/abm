@@ -6,13 +6,14 @@ import java.util.Date;
 import java.util.Optional;
 import java.util.UUID;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.fraunhofer.abm.app.auth.Authorizer;
-import de.fraunhofer.abm.app.auth.SecurityContext;
 import de.fraunhofer.abm.collection.dao.BuildResultDao;
 import de.fraunhofer.abm.collection.dao.CollectionDao;
 import de.fraunhofer.abm.collection.dao.VersionDao;
@@ -29,7 +30,7 @@ import osgi.enroute.webserver.capabilities.RequireWebServerExtender;
 @RequireWebServerExtender
 @RequireConfigurerExtender
 @Component(name="de.fraunhofer.abm.rest.version")
-public class VersionController implements REST {
+public class VersionController extends AbstractController implements REST {
     private static final transient Logger logger = LoggerFactory.getLogger(VersionController.class);
 
     @Reference
@@ -61,7 +62,16 @@ public class VersionController implements REST {
 
         VersionDTO version = vr._body();
         if("derive".equals(action)) {
-            version = deriveVersion(version);
+            if(version.id == null) {
+                sendError(vr._response(), HttpServletResponse.SC_BAD_REQUEST, "submitted version is missing an id");
+                return null;
+            }
+            try {
+                version = deriveVersion(version);
+            } catch(IllegalArgumentException e ) {
+                sendError(vr._response(), HttpServletResponse.SC_BAD_REQUEST, e.getLocalizedMessage());
+                return null;
+            }
         } else if("unfreeze".equals(action)) {
             BuildResultDTO dto = buildResultDao.findByVersion(version.id);
             if(dto != null) {
@@ -80,11 +90,16 @@ public class VersionController implements REST {
             // unfreeze version
             version.frozen = false;
             versionDao.update(version);
+        } else {
+            sendError(vr._response(), HttpServletResponse.SC_BAD_REQUEST, "unknown action " + action);
+            return null;
         }
         return version;
     }
 
     private VersionDTO deriveVersion(VersionDTO version) {
+        ensureUserIsOwner(authorizer, collectionDao, version);
+
         version.comment = "Derived from version " + version.number + ": " + version.comment;
         version.id = UUID.randomUUID().toString();
         version.creationDate = new Date();
@@ -92,7 +107,11 @@ public class VersionController implements REST {
         for (CommitDTO commit : version.commits) {
             commit.id = UUID.randomUUID().toString();
         }
-        version.number = findNextVersionNumberForCollection(version.collectionId);
+        try {
+            version.number = findNextVersionNumberForCollection(version.collectionId);
+        } catch(Exception e) {
+            throw new IllegalArgumentException("could not find next version number for given collection");
+        }
         versionDao.save(version);
         return version;
     }
@@ -101,39 +120,28 @@ public class VersionController implements REST {
         authorizer.requireRole("RegisteredUser");
         VersionDTO version = vr._body();
 
-        // make sure the session user is the owner
-        String sessionUser = SecurityContext.getInstance().getUser();
-        CollectionDTO databaseCollection = collectionDao.findById(version.collectionId);
-        String owner = databaseCollection.user;
-        if(!owner.equals(sessionUser)) {
-            authorizer.requireRole("Admin");
-        }
+        ensureUserIsOwner(authorizer, collectionDao, version);
+        // permissions are checked, now update the version
 
         // assign an UUID to all new commits
         for (CommitDTO commit : version.commits) {
             commit.id = Optional.ofNullable(commit.id).orElse(UUID.randomUUID().toString());
         }
 
-        // permissions are checked, now update the version
         versionDao.update(version);
         return version;
     }
 
-    public void deleteVersion(String id) {
+    public void deleteVersion(RESTRequest rr, String id) {
         authorizer.requireRole("RegisteredUser");
-
-        // make sure the user is the owner of the commit
         VersionDTO version = versionDao.findById(id);
-        String sessionUser = SecurityContext.getInstance().getUser();
-        CollectionDTO collection = collectionDao.findById(version.collectionId);
-        String owner = collection.user;
-        if(!sessionUser.equals(owner)) {
-            authorizer.requireRole("Admin");
-        }
+        ensureUserIsOwner(authorizer, collectionDao, version);
 
         // make sure this is not the only version
+        CollectionDTO collection = collectionDao.findById(version.collectionId);
         if(collection.versions.size() == 1) {
-            throw new RuntimeException("Cannot delete the only version");
+            sendError(rr._response(), HttpServletResponse.SC_BAD_REQUEST, "Cannot delete the only version");
+            return;
         }
 
         // permissions are checked, now delete the collection
@@ -147,5 +155,10 @@ public class VersionController implements REST {
             maxVersion = Math.max(maxVersion, version.number);
         }
         return ++maxVersion;
+    }
+
+    @Override
+    Logger getLogger() {
+        return logger;
     }
 }

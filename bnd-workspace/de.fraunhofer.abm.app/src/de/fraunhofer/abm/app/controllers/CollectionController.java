@@ -10,6 +10,8 @@ import java.util.UUID;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.fraunhofer.abm.app.auth.Authorizer;
 import de.fraunhofer.abm.app.auth.SecurityContext;
@@ -28,7 +30,9 @@ import osgi.enroute.webserver.capabilities.RequireWebServerExtender;
 @RequireWebServerExtender
 @RequireConfigurerExtender
 @Component(name="de.fraunhofer.abm.rest.collection")
-public class CollectionController implements REST {
+public class CollectionController extends AbstractController implements REST {
+
+    private static final transient Logger logger = LoggerFactory.getLogger(CollectionController.class);
 
     @Reference
     private CollectionDao collectionDao;
@@ -85,12 +89,8 @@ public class CollectionController implements REST {
         CollectionDTO collection = cr._body();
 
         // make sure the session user is the owner
-        String sessionUser = SecurityContext.getInstance().getUser();
         CollectionDTO databaseCollection = collectionDao.findById(collection.id);
-        String owner = databaseCollection.user;
-        if(!owner.equals(sessionUser)) {
-            authorizer.requireRole("Admin");
-        }
+        ensureUserIsOwner(authorizer, databaseCollection);
 
         // permissions are checked, now update the collection
         collectionDao.update(collection);
@@ -100,16 +100,11 @@ public class CollectionController implements REST {
         authorizer.requireRole("RegisteredUser");
 
         // make sure the user is the owner of the collection
-        String sessionUser = SecurityContext.getInstance().getUser();
         CollectionDTO collection = collectionDao.findById(id);
-        String owner = collection.user;
-        if(!sessionUser.equals(owner)) {
-            authorizer.requireRole("Admin");
-        }
+        ensureUserIsOwner(authorizer, collection);
 
         // permissions are ok, we can now delete the collection, all its versions and
         // all build results
-
         // delete all build results of all version of this collection
         for (VersionDTO version : collection.versions) {
             if(version.frozen) {
@@ -121,5 +116,10 @@ public class CollectionController implements REST {
 
         // delete the collection
         collectionDao.delete(id);
+    }
+
+    @Override
+    Logger getLogger() {
+        return logger;
     }
 }

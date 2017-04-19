@@ -6,7 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.fraunhofer.abm.app.auth.Authorizer;
-import de.fraunhofer.abm.app.auth.SecurityContext;
 import de.fraunhofer.abm.collection.dao.CollectionDao;
 import de.fraunhofer.abm.collection.dao.CommitDao;
 import de.fraunhofer.abm.domain.CollectionDTO;
@@ -83,12 +82,8 @@ public class CommitController extends AbstractController implements REST {
 
     private boolean isUserOwnerOfCommit(String id) {
         authorizer.requireRole("RegisteredUser");
-        String sessionUser = SecurityContext.getInstance().getUser();
         CollectionDTO collection = collectionDao.findByCommit(id);
-        String owner = collection.user;
-        if(!sessionUser.equals(owner)) {
-            authorizer.requireRole("Admin");
-        }
+        ensureUserIsOwner(authorizer, collection);
         return true;
     }
 
