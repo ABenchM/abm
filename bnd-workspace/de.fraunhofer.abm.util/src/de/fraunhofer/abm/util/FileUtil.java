@@ -15,6 +15,7 @@ public class FileUtil {
             return;
         }
 
+        removeReadonlyFlag(dir);
         Path directory = dir.toPath();
         Files.walkFileTree(directory, new SimpleFileVisitor<Path>() {
             @Override
@@ -26,6 +27,28 @@ public class FileUtil {
             @Override
             public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
                 Files.delete(dir);
+                return FileVisitResult.CONTINUE;
+            }
+
+        });
+    }
+
+    public static void removeReadonlyFlag(File dir) throws IOException {
+        if(!dir.exists()) {
+            return;
+        }
+
+        Path directory = dir.toPath();
+        Files.walkFileTree(directory, new SimpleFileVisitor<Path>() {
+            @Override
+            public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+                file.toFile().setWritable(true);
+                return FileVisitResult.CONTINUE;
+            }
+
+            @Override
+            public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
+                dir.toFile().setWritable(true);
                 return FileVisitResult.CONTINUE;
             }
 
