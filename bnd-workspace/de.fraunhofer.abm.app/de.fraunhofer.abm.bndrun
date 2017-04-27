@@ -73,7 +73,8 @@ JPM-Command:					abm
 	osgi.identity;filter:='(osgi.identity=de.fraunhofer.abm.projectanalyzer.language)',\
 	osgi.identity;filter:='(osgi.identity=de.fraunhofer.abm.projectanalyzer.size)',\
 	osgi.identity;filter:='(osgi.identity=de.fraunhofer.abm.projectanalyzer.license)',\
-	osgi.identity;filter:='(osgi.identity=de.fraunhofer.abm.builder.docker.sbt)'
+	osgi.identity;filter:='(osgi.identity=de.fraunhofer.abm.builder.docker.sbt)',\
+	osgi.identity;filter:='(osgi.identity=de.fraunhofer.abm.projectanalyzer.hermes)'
 
 -runee: JavaSE-1.8
 -runbundles: \
@@ -155,7 +156,29 @@ JPM-Command:					abm
 	de.fraunhofer.abm.builder.docker.sbt;version=snapshot,\
 	tx-control-provider-jdbc-local;version='[0.0.3,0.0.4)',\
 	tx-control-provider-jpa-local;version='[0.0.3,0.0.4)',\
-	tx-control-service-local;version='[0.0.3,0.0.4)'
+	tx-control-service-local;version='[0.0.3,0.0.4)',\
+	de.fraunhofer.abm.projectanalyzer.hermes;version=snapshot,\
+	com.fasterxml.jackson.core.jackson-annotations;version='[2.8.0,2.8.1)',\
+	com.fasterxml.jackson.core.jackson-core;version='[2.8.8,2.8.9)',\
+	com.fasterxml.jackson.core.jackson-databind;version='[2.8.8,2.8.9)',\
+	com.fasterxml.jackson.dataformat.jackson-dataformat-csv;version='[2.8.8,2.8.9)',\
+	com.fasterxml.jackson.datatype.jackson-datatype-jdk8;version='[2.8.8,2.8.9)',\
+	com.fasterxml.jackson.datatype.jackson-datatype-jsr310;version='[2.8.8,2.8.9)',\
+	com.google.guava;version='[21.0.0,21.0.1)',\
+	com.google.inject;version='[4.1.0,4.1.1)',\
+	com.typesafe.akka.actor;version='[2.4.17,2.4.18)',\
+	com.typesafe.akka.stream;version='[2.4.17,2.4.18)',\
+	com.typesafe.config;version='[1.3.0,1.3.1)',\
+	com.typesafe.sslconfig;version='[0.2.2,0.2.3)',\
+	joda-time;version='[2.9.9,2.9.10)',\
+	org.apache.commons.codec;version='[1.9.0,1.9.1)',\
+	org.apache.commons.lang3;version='[3.5.0,3.5.1)',\
+	org.reactivestreams.reactive-streams;version='[1.0.0,1.0.1)',\
+	org.scala-lang.modules.scala-java8-compat;version='[0.8.0,0.8.1)',\
+	org.scala-lang.modules.scala-parser-combinators;version='[1.0.4,1.0.5)',\
+	org.scala-lang.scala-library;version='[2.11.11,2.11.12)',\
+	org.scala-lang.scala-reflect;version='[2.11.11,2.11.12)',\
+	org.scala-lang.scala-xml;version='[2.11.0,2.11.1)'
 -runproperties: \
 	felix.webconsole.password=password,\
 	org.jboss.logging.provider=slf4j,\
