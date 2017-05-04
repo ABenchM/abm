@@ -1,4 +1,4 @@
-.gradle/
-/generated/
-enroute.zip
-.metadata
+eclipse-workspace
+workspace-eclipse
+dist
+.gradle
