@@ -27,6 +27,7 @@ import de.fraunhofer.abm.domain.BranchDTO;
 import de.fraunhofer.abm.domain.CommitDTO;
 import de.fraunhofer.abm.domain.RepositoryDTO;
 import de.fraunhofer.abm.domain.TagDTO;
+import de.fraunhofer.abm.http.client.Base64;
 import de.fraunhofer.abm.http.client.HttpUtils;
 
 @Component
@@ -199,7 +200,8 @@ public class GithubCrawler implements Crawler {
 
     static Map<String, String> header = new HashMap<>();
     static {
-        // TODO change this to a technical account owned by Fraunhofer
-        header.put("Authorization", "Basic ");
+		String token = "f6069438a909eb2b96aca4ab1159be3b38d7f780:x-oauth-basic";
+		String authString = "Basic " + Base64.encodeBytes(token.getBytes());
+        header.put("Authorization", authString);
     }
 }
