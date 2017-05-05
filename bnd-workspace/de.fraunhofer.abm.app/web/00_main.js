@@ -26,7 +26,7 @@
 		$routeProvider.otherwise('/');
 		
 		GoogleSigninProvider.init({
-	        client_id: '543246682290-l0jtt85dc2d08vl2n02tplsag69i8l0u.apps.googleusercontent.com',
+	        client_id: '1028525994000-2e188qbc7bgpmrdrqp0crfjaavn2o3oo.apps.googleusercontent.com',
 	    });
 	}]);
 	

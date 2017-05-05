@@ -32,7 +32,7 @@ import osgi.enroute.webserver.capabilities.RequireWebServerExtender;
 @Component(name="de.fraunhofer.abm.rest")
 public class AbmApplication implements REST {
 
-    private static final String GOOGLE_CLIENT_ID = "";
+    private static final String GOOGLE_CLIENT_ID = "1028525994000-2e188qbc7bgpmrdrqp0crfjaavn2o3oo.apps.googleusercontent.com";
 
     @Reference
     private Crawler crawler;
