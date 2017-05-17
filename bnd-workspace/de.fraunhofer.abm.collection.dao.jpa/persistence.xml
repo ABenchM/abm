@@ -7,7 +7,7 @@
 
 	<persistence-unit name="collection-unit">
 		<description>Test persistence unit for the Transaction Control JPA Provider</description>
-		<!-- 
+		<!-- Ignore those lines.
 		<properties>
 			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" />
 			<property name="hibernate.hbm2ddl.import_files_sql_extractor" value="org.hibernate.tool.hbm2ddl.MultipleLinesSqlCommandExtractor" />

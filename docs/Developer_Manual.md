@@ -31,6 +31,11 @@
     * comment <property name="javax.persistence.schema-generation.database.action" value="drop-and-create" /> again
     
 ## Launching
+To be able to use the full application, ensure the following before launching:
+* If it is not already running, start mysql: `service mysql start`. You can check the status with `service mysql status`
+* The docker images for Maven and SPT should show up in `docker images`. If this is not the case, set up docker again.
+* Docker should be running: `docker run -it ubuntu`
+Launching the application:
 * Open de.fraunhofer.abm.app/de.fraunhofer.abm.bndrun
 * Click on Run OSGi in the top right corner
 
