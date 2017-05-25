@@ -9,7 +9,7 @@
 <meta name="google-signin-client_id" content="1028525994000-2e188qbc7bgpmrdrqp0crfjaavn2o3oo.apps.googleusercontent.com">
 <link rel="icon" href="/de.fraunhofer.abm/favicon.ico">
 
-<title></title>
+<title>Automatic Benchmark Management</title>
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <link rel="stylesheet" type="text/css" href="/osgi.enroute.webresource/${bsn}/${Bundle-Version}/*.css">
@@ -32,21 +32,24 @@
 </head>
 
 <body ng-app="de.fraunhofer.abm" ng-cloak class="ng-cloak">
-	<div class="max-extend" style="max-width: 1400px; margin:auto">
+	<div class="max-extend" style="max-width: 1400px; margin:auto;">
 	<div class="container-fluid">
 		<div class="header">
-			<ul class="nav nav-pills pull-right" ng-controller="loginController">
-				<li ng-class="{active: page() == '/'}"><a href="#/">Search</a></li>
-				<li ng-class="{active: page() == '/collection'}"><a href="#/collection"><ngcart-summary></ngcart-summary></a></li>
+			<!--<img class="logo pull-right" src="logo.png" alt="Placeholder for logo">-->
+			<ul class="nav nav-pills pull-left" ng-controller="loginController">
+				<li ng-class="{active: page() == '/'}"><a href="#/">Find Collections</a></li>
+				<li ng-class="{active: page() == '/search'}" ng-hide="user === undefined"><a href="#/search">Search</a></li>
+				<li ng-class="{active: page() == '/collection'}" ng-hide="user === undefined"><a href="#/collection"><ngcart-summary></ngcart-summary></a></li>
 				<li ng-class="{active: page() == '/my'}" ng-hide="user === undefined"><a href="#/my">My Collections</a></li>
+				<li ng-class="{active: page() == '/filters'}" ng-hide="user === undefined"><a href="#/filters">Filters</a></li>
 				<li ng-class="{active: page() == '/about'}"><a href="#/about">About</a></li>
 				<li ng-class="{active: page() == '/login'}" ng-show="user === undefined"><a href="#/login">Login</a></li>
 				<li ng-hide="user === undefined"><a href="" ng-click="logout()">Logout</a></li>
 			</ul>
-			<h3 class="text-muted">Automatic Benchmark Management</h3>
+			<h3 class="text-muted pull-right">Automatic Benchmark Management</h3>
 		</div>
-
-  		<div ng-view></div>  	
+ 
+  		<div style="margin-top:89px;position:relative" ng-view></div>  	
 
 <!-- 
 		<div class="footer">
@@ -59,6 +62,7 @@
 
 	<script src="/osgi.enroute.webresource/${bsn}/${Bundle-Version}/*.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular-sanitize.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular-animate.js"></script>
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 	<script src="uib/ui-bootstrap.js"></script>
@@ -69,7 +73,6 @@
 	<script src="main/libs/ui.select/select.min.js"></script>
 	<script src="main/libs/ngCart/ngCart.js"></script>
 	<script src="main/libs/convenience.js"></script>
-	
 	
 </body>
 </html>

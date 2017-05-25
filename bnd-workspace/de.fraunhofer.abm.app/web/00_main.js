@@ -10,11 +10,13 @@
 			  'ngSanitize', 'ui.select', 
 			  'angular-confirm',
 			  'ui-notification',
-			  'google-signin'
+			  'google-signin',
+			  'ngAnimate'
 			]);
 
 	MODULE.config(['$routeProvider', 'GoogleSigninProvider', function($routeProvider, GoogleSigninProvider) {
 		$routeProvider.when('/', { controller: mainProvider, templateUrl: '/de.fraunhofer.abm/template/home.htm'});
+		$routeProvider.when('/search', { controller: mainProvider, templateUrl: '/de.fraunhofer.abm/template/search.htm'});
 		$routeProvider.when('/about', { templateUrl: '/de.fraunhofer.abm/template/about.htm'});
 		$routeProvider.when('/collection', { templateUrl: '/de.fraunhofer.abm/template/cart.htm'});
 		$routeProvider.when('/editCollection/:id', { templateUrl: '/de.fraunhofer.abm/template/editCollection.htm'});
@@ -22,6 +24,7 @@
 		$routeProvider.when('/createCollection', { templateUrl: '/de.fraunhofer.abm/template/createCollection.htm'});
 		$routeProvider.when('/applyCriteria', { templateUrl: '/de.fraunhofer.abm/template/applyCriteria.htm'});
 		$routeProvider.when('/my', { templateUrl: '/de.fraunhofer.abm/template/my.htm'});
+		$routeProvider.when('/filters', { templateUrl: '/de.fraunhofer.abm/template/filters.htm'});
 		$routeProvider.when('/build/:id', { templateUrl: '/de.fraunhofer.abm/template/build.htm'});
 		$routeProvider.otherwise('/');
 		

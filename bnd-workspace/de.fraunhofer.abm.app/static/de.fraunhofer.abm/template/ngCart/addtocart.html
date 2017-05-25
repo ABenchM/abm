@@ -3,8 +3,8 @@
 
 </div>
 <div ng-show="attrs.id">
-    <div>
-        <a class="btn btn-xs btn-success" ng-hide="inCart()" ng-click="ngCart.addItem(id, name, price, q, data)">Select</a>
+    <div style="width:60px;">
+        <a class="btn btn-xs btn-success" ng-hide="inCart()" ng-click="ngCart.addItem(id, name, price, q, data)" style="width:100%;">Select</a>
         <a class="btn btn-xs btn-danger" ng-show="inCart()" ng-click="ngCart.removeItemById(id)">Deselect</a>
     </div>
 </div>
