@@ -2,6 +2,7 @@ package de.fraunhofer.abm.app.controllers;
 
 import java.io.File;
 import java.util.Comparator;
+import java.util.Map;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -68,6 +69,29 @@ public class BuildController implements REST {
         }
 
         BuildResultDTO dto = buildResultDao.findByVersion(versionId);
+        for (ProjectBuildDTO projectBuild : dto.projectBuilds) {
+            projectBuild.repository = repositoryDao.findById(projectBuild.repositoryId);
+        }
+        dto.projectBuilds.sort(new Comparator<ProjectBuildDTO>() {
+            @Override
+            public int compare(ProjectBuildDTO o1, ProjectBuildDTO o2) {
+                return o1.repository.name.compareTo(o2.repository.name);
+            }
+        });
+        return dto;
+    }
+
+    public BuildResultDTO getBuild(RESTRequest rr) throws Exception {
+    	Map<String, String[]> params = rr._request().getParameterMap();
+    	
+        // make sure the collection is public
+        VersionDTO version = versionDao.findById(params.get("id")[0]);
+        CollectionDTO databaseCollection = collectionDao.findById(version.collectionId);
+        if (databaseCollection.privateStatus) {
+            authorizer.requireRole("Admin");
+        }
+
+        BuildResultDTO dto = buildResultDao.findByVersion(params.get("id")[0]);
         for (ProjectBuildDTO projectBuild : dto.projectBuilds) {
             projectBuild.repository = repositoryDao.findById(projectBuild.repositoryId);
         }

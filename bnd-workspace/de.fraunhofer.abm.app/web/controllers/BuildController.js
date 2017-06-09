@@ -130,7 +130,7 @@ function buildController($rootScope, $scope, $http, $location, $routeParams, bui
 				function success(d) {
 					$location.path('/editCollection/' + d.data);
 				}, function failure(d) {
-					if(d.status == 401) {
+					if(d.status == 403) {
 						modalLoginService();
 					} else {
 						Notification.error('Failed with ['+ d.status + '] '+ d.statusText);
@@ -185,7 +185,7 @@ function buildController($rootScope, $scope, $http, $location, $routeParams, bui
 					
 					console.log(self.buildResult);
 				}, function failure(d) {
-					if(d.status == 401) {
+					if(d.status == 403) {
 						modalLoginService();
 					} else {
 						Notification.error('Failed with ['+ d.status + '] '+ d.statusText);

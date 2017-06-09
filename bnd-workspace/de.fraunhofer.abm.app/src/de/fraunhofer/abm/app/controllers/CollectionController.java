@@ -1,5 +1,6 @@
 package de.fraunhofer.abm.app.controllers;
 
+import java.io.Console;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
@@ -49,17 +50,23 @@ public class CollectionController extends AbstractController implements REST {
     }
 
     public List<CollectionDTO> getCollection(RESTRequest rr) {
-        authorizer.requireRole("RegisteredUser");
-
         List<CollectionDTO> result = Collections.emptyList();
         Map<String, String[]> params = rr._request().getParameterMap();
         if(params.isEmpty()) {
+            authorizer.requireRole("RegisteredUser");
             result = collectionDao.select();
+        } else if(params.get("privateStatus") != null) {
+        	if(params.get("id") != null){
+        		result = collectionDao.findPublicId(params.get("id")[0]);
+        	} else {
+        		result = collectionDao.findPublic();
+        	}
         } else {
+        	authorizer.requireRole("RegisteredUser");
             if(params.get("user") != null) {
                 String requestUser = params.get("user")[0];
                 result = collectionDao.findByUser(requestUser);
-            }
+            } 
         }
         return result;
     }

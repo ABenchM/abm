@@ -55,13 +55,17 @@ function searchController($rootScope, $scope, $http, $location, searchResultServ
 	self.search = function() {
 		$rootScope.loading = true;
 		searchResultService.results.clear();
-		$http.get('/rest/search/'+$scope.query).then(
+		$http({
+			method: 'GET',
+			url: '/rest/search/'+$scope.query,
+			params: {language: self.language}
+		}).then(
 			function(d) {
 				d.data.forEach(function(record) {
 					searchResultService.results.push(record);
 				});
 			}, function(d) {
-				if(d.status == 401) {
+				if(d.status == '403') {
 					$location.path('/login');
 				} else {
 					Notification.error('Failed with ['+ d.status + '] '+ d.statusText);

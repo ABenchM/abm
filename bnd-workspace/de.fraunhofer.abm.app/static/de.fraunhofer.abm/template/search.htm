@@ -3,17 +3,18 @@
 		<h1></h1>
 		<p class="lead">${Bundle-Description}</p>
 		<p>
-			<form ng-submit="sc.search()">
+			<form ng-submit="sc.search()" name="searchForm">
 				<input type="text" ng-model="query" name="query" size="48">
 				<input type=submit class="btn btn-success" role="button" value="Search"/>
 			</form>
 		</p>
 		<div style="max-width:1000px;margin:auto;">
-			<div ng-show="showOptions" class="text-left <!--optionMenu-->">
+			<div ng-show="showOptions" class="text-left optionMenu"> 	<!-- The animation here breaks if height is set to auto.
+																		Manually set the correct height the .optionMenu class of the css file -->
 			<!--
 				<div class="form-group">
 		        	<label for="buildsystem">Build System</label>
-					<ui-select multiple ng-model="sc.buildsystem.selected" ng-disabled="sc.disabled" title="Choose a build system">
+					<ui-select multiple ng-model="sc.buildsystem.selected" ng-disabled="sc.disabled" title="Choose a build system" form="searchForm">
 					      <ui-select-match placeholder="Select or search a build system in the list...">{{$item.name}}</ui-select-match>
 					      <ui-select-choices repeat="buildsystem in sc.buildsystems | filter: $select.search">
 					      <span ng-bind-html="buildsystem.name | highlight: $select.search"></span>
@@ -22,20 +23,22 @@
 					</ui-select>
 				</div>
 				<p></p>
+				-->
 				<div class="form-group">
 			        <label for="language">Language</label>
-					<ui-select multiple ng-model="sc.language.selected" ng-disabled="sc.disabled" title="Choose a language">
+					<ui-select multiple ng-model="sc.language.selected" ng-disabled="sc.disabled" title="Choose a language" form="searchForm">
 					      <ui-select-match placeholder="Select or search a language in the list...">{{$item.name}}</ui-select-match>
 				    	  <ui-select-choices repeat="language in sc.languages | filter: $select.search">
 					      <span ng-bind-html="language.name | highlight: $select.search"></span>
-					      <!-- <small ng-bind-html="language.code | highlight: $select.search"></small>->
+					      <!-- <small ng-bind-html="language.code | highlight: $select.search"></small>-->
 					    </ui-select-choices>
 					</ui-select>
 				</div>
+				<!--
 				<p></p>
 				<div class="form-group">
 		    	    <label for="language">License</label>
-					<ui-select multiple ng-model="sc.license.selected" ng-disabled="sc.disabled" title="Choose a license">
+					<ui-select multiple ng-model="sc.license.selected" ng-disabled="sc.disabled" title="Choose a license" form="searchForm">
 					      <ui-select-match placeholder="Select or search a license in the list...">{{$item.name}}</ui-select-match>
 					      <ui-select-choices repeat="license in sc.licenses | filter: $select.search">
 					      <span ng-bind-html="license.name | highlight: $select.search"></span>
@@ -46,7 +49,7 @@
 				<p></p>
 				<div class="form-group">
 		        	<label for="language">Size (number of files)</label>
-					<ui-select multiple ng-model="sc.size.selected" ng-disabled="sc.disabled" title="Choose a size">
+					<ui-select multiple ng-model="sc.size.selected" ng-disabled="sc.disabled" title="Choose a size" form="searchForm">
 				    	  <ui-select-match placeholder="Select or search a size in the list...">{{$item.name}}</ui-select-match>
 				    	  <ui-select-choices repeat="size in sc.sizes | filter: $select.search">
 				    	  <span ng-bind-html="size.name | highlight: $select.search"></span>
@@ -54,8 +57,7 @@
 				    	</ui-select-choices>
 					</ui-select>
 				</div>
-			-->
-			<p>This function is not yet implemented. Check back soon!</p>
+				-->
 			</div>
 			<div class="text-right">
 		        <a class="btn btn-xs btn-success" ng-hide="showOptions" ng-click="showOptions=true;">Show Filtering Options</a>
@@ -101,7 +103,7 @@
 					<td>{{row.description}}</td>
 					<td>{{row.creationDate | date:'short'}}</td>
 					<!--<td>{{row.language}}</td>-->
-					<td>{{row.size}}</td>
+					<td>{{row.size | fileSize}}</td>
 					<td><ngcart-addtocart id="{{ row.id }}" name="{{ row.name }}" price="1" quantity="1" quantity-max="30" data="row"></ngcart-addtocart></td>
 				</tr>
 			</table>

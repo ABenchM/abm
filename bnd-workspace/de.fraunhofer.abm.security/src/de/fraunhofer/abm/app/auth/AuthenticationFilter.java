@@ -44,7 +44,8 @@ public class AuthenticationFilter implements Filter {
                 } else {
                     logger.debug("Not logged in");
                     SecurityContext.getInstance().setUser("anonymous");
-                    res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                    //res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                    chain.doFilter(req, res);
                 }
             } catch (Exception e) {
                 throw new ServletException(e);

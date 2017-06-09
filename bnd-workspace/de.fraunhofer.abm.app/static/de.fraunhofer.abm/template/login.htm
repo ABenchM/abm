@@ -11,14 +11,15 @@
             <input type="password" name="password" id="password" class="form-control" ng-model="credentials.password" required />
             <span ng-show="form.password.$dirty && form.password.$error.required" class="help-block">Password is required</span>
         </div>
-        <div class="form-actions">
+        <div class="form-actions text-right">
+			<a class="btn btn-primary" href=#/register>Register</a>
             <button type="submit" ng-disabled="form.$invalid" class="btn btn-primary">Login</button>
             <div class="wrapper" ng-show="loading">
 				<span class="cssload-loader"></span>
 			</div>
         </div>
     </form>
-    <hr>
-    <h1>Or</h1>
-    <button class="btn btn-primary" ng-click="googleLogin()">Login with Google account</button>
+    <div class="text-right" style="margin-top: 10px">
+    	<button class="btn btn-primary" ng-click="googleLogin()">Login with Google account</button>
+    </div>
 </div>

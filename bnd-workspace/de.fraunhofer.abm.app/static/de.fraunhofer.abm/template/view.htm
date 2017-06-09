@@ -1,0 +1,35 @@
+<div class="wrapper" ng-show="loading">
+	<span class="cssload-loader"></span>
+</div>
+<div class="col-md-12 col-md-offset-0" ng-controller="viewController as vc" ng-hide="loading">
+	<h2>{{collection.name}}</h2>
+	<p>{{collection.description}}</p>
+	<p>Created by: {{collection.user}}</p>
+	<hr>
+	<div uib-dropdown>
+	  	<button id="single-button" type="button" class="btn btn-success btn-xs" uib-dropdown-toggle ng-disabled="cc.disabled || cc.saving">
+	     	Version {{selectedVersion.number}} &nbsp;&nbsp;&dash;&nbsp;&nbsp;  {{selectedVersion.creationDate | date:'short'}}&nbsp;&nbsp;<span class="caret"></span>
+    	</button>
+		<ul class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown">
+			<li ng-repeat="version in collection.versions"><a href ng-click="vc.selectVersion(version)">{{version.number}} &nbsp;&nbsp;&dash;&nbsp;&nbsp;  {{version.creationDate | date:'short'}}</a></li>
+		</ul>
+	</div>
+	<br>
+	<table class="table table-bordered table-striped" style="max-height:400px">
+   		<tr>
+   			<th>Name</th>
+   			<th>Commit</th>
+   		</tr>
+   		<tr ng-repeat="commit in selectedVersion.commits">
+			<td>{{commit.repository.name}}</td>
+			<td>{{commit.commitId}}</td>
+   		</tr>
+   	</table>
+   	<div>
+   		<a href="#/" class="btn btn-primary btn-xs">Return to Collection Search</a>
+   		<span class="pull-right">
+   			<p ng-hide="selectedVersion.frozen">This version is not currently built</p>
+   			<button ng-click="vc.downloadBuild(selectedVersion.id)" ng-show="selectedVersion.frozen" ng-disabled="vc.downloading" class="btn btn-success btn-xs">Download this version</a>
+   		</span>
+   	</div>
+</div>

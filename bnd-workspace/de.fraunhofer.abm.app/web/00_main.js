@@ -21,11 +21,13 @@
 		$routeProvider.when('/collection', { templateUrl: '/de.fraunhofer.abm/template/cart.htm'});
 		$routeProvider.when('/editCollection/:id', { templateUrl: '/de.fraunhofer.abm/template/editCollection.htm'});
 		$routeProvider.when('/login', { templateUrl: '/de.fraunhofer.abm/template/login.htm'});
+		$routeProvider.when('/register', { templateUrl: '/de.fraunhofer.abm/template/register.htm'});
 		$routeProvider.when('/createCollection', { templateUrl: '/de.fraunhofer.abm/template/createCollection.htm'});
 		$routeProvider.when('/applyCriteria', { templateUrl: '/de.fraunhofer.abm/template/applyCriteria.htm'});
 		$routeProvider.when('/my', { templateUrl: '/de.fraunhofer.abm/template/my.htm'});
 		$routeProvider.when('/filters', { templateUrl: '/de.fraunhofer.abm/template/filters.htm'});
 		$routeProvider.when('/build/:id', { templateUrl: '/de.fraunhofer.abm/template/build.htm'});
+		$routeProvider.when('/view/:id', { templateUrl: '/de.fraunhofer.abm/template/view.htm'});
 		$routeProvider.otherwise('/');
 		
 		GoogleSigninProvider.init({

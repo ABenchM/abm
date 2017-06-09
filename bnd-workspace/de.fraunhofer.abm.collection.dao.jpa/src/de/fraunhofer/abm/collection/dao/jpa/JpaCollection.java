@@ -1,5 +1,6 @@
 package de.fraunhofer.abm.collection.dao.jpa;
 
+import java.util.Date;
 import static javax.persistence.FetchType.LAZY;
 
 import java.util.List;
@@ -29,6 +30,12 @@ public class JpaCollection {
 
     @Column
     public String description;
+    
+    @Column
+    public int privateStatus;
+    
+    @Column
+    public Date creation_date;
 
     @OneToMany(fetch=LAZY, mappedBy="collection", cascade=CascadeType.ALL)
     @OrderBy("number")
@@ -40,6 +47,8 @@ public class JpaCollection {
         collection.user = dto.user;
         collection.name = dto.name;
         collection.description = dto.description;
+        collection.privateStatus = ((dto.privateStatus)? 1: 0);
+        collection.creation_date = dto.creation_date;
         collection.versions = dto.versions.stream()
                 .map(JpaVersion::fromDTO)
                 .map(version -> {
@@ -56,6 +65,8 @@ public class JpaCollection {
         collection.user = this.user;
         collection.name = this.name;
         collection.description = this.description;
+        collection.privateStatus = (this.privateStatus == 1);
+        collection.creation_date = this.creation_date;
         collection.versions = this.versions.stream()
                 .map(JpaVersion::toDTO)
                 .map(version -> {

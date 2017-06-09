@@ -5,5 +5,6 @@ CREATE TABLE `collection`
    `description` text,
    `creation_date` timestamp,
    `user` varchar(255) NOT NULL,
+   `privateStatus` boolean DEFAULT true,
    PRIMARY KEY(`id`)
 );

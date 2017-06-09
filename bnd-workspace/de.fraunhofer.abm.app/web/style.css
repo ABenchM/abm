@@ -34,6 +34,13 @@ body {
   line-height: 40px;
 }
 
+/* Sidebar to display builds */
+.sidebar {
+  position: fixed;
+  top: 150px;
+  left: 0;
+}
+
 /* Format the logo into the header*/
 .logo {
   height: 55px;
@@ -68,11 +75,15 @@ body {
   font-size: .9em;
 }
 
-/* Allow animated menus (Not working)*/
+/* Allow animated menus */
 .optionMenu{
   transition: all ease-out 0.5s;
-  height: auto;
+  height: 71px;
   opacity: 1;
+}
+
+.optionMenu.ng-animate{
+  overflow: hidden;
 }
 
 .optionMenu.ng-hide{
@@ -107,19 +118,27 @@ body {
   }
 }
 
+.aboutText p, .aboutText li{
+	text-align: justify;
+}
+
 .activity-indicator {
 	margin-bottom: 2em;
 	color: #7a7a7a;
 }
 
 tr.selected {
-	background-color: #f5fff5;
+	background-color: #d5f5ff !important;
 }
 
 tr.deseleted {
 	background-color: white;
 }
 
+td {
+	 overflow: hidden;
+	 white-space: nowrap;
+}
 ul.list {
 	display:block; 
 	float: none; 

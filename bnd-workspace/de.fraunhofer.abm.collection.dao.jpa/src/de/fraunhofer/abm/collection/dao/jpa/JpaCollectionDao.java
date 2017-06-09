@@ -66,6 +66,26 @@ public class JpaCollectionDao extends AbstractJpaDao implements CollectionDao {
             return result.toDTO();
         });
     }
+    
+    @Override
+    public List<CollectionDTO> findPublicId(String id) {
+        return transactionControl.notSupported(() -> {
+            TypedQuery<JpaCollection> query = em.createQuery("SELECT c FROM collection c WHERE c.id = :id AND c.privateStatus = 0 ORDER BY c.name", JpaCollection.class);
+            query.setParameter("id", id);
+            List<JpaCollection> jpaList = query.getResultList();
+            return jpaList.stream().map(JpaCollection::toDTO).collect(Collectors.toList());
+        });
+    }
+    
+    @Override
+    public List<CollectionDTO> findPublic(){
+    	return transactionControl.notSupported(() -> {
+            TypedQuery<JpaCollection> query = em.createQuery("SELECT c FROM collection c WHERE c.privateStatus = 0 ORDER BY c.creation_date DESC", JpaCollection.class);
+            query.setMaxResults(30);
+            List<JpaCollection> jpaList = query.getResultList();
+            return jpaList.stream().map(JpaCollection::toDTO).collect(Collectors.toList());
+        });
+    }
 
     @Override
     public void save(CollectionDTO collection) {
@@ -92,6 +112,7 @@ public class JpaCollectionDao extends AbstractJpaDao implements CollectionDao {
             JpaCollection jpaCollection = em.find(JpaCollection.class, collection.id);
             jpaCollection.name = collection.name;
             jpaCollection.description = collection.description;
+            jpaCollection.privateStatus = (collection.privateStatus)? 1: 0;
             em.persist(jpaCollection);
             return null;
         });

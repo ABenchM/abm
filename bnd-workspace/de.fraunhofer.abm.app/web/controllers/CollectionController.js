@@ -6,10 +6,13 @@ function collectionController($rootScope, $scope, $http, $location, $route, ngCa
 	var self = this;
 	self.collection = collectionService.collection;
 	self.version = collectionService.version;
+	self.showCollection = false;
+	self.disableBuild = false;
 	
 	var columnDefinition = [
 		{ name: 'name' },
 		{ name: 'description' },
+		{ displayName: 'Creation date', cellTemplate: '<div><p>{{row.versions[0].creationDate}}</p></div>'},
 		{ displayName: 'Actions', name: 'actions', 
 			cellTemplate: '<div>'+
 			'<button ng-click="grid.appScope.cc.edit(row.entity)" style="margin: 3px" class="btn btn-xs"><i class="glyphicon glyphicon-pencil"></i></button>'+
@@ -34,7 +37,7 @@ function collectionController($rootScope, $scope, $http, $location, $route, ngCa
 			function(resp) {
 				$scope.gridOpts.data = resp.data;
 			}, function(d) {
-				if(d.status == 401) {
+				if(d.status == '403') {
 					$location.path('/login');
 				} else {
 					Notification.error('Failed with ['+ d.status + '] '+ d.statusText);
@@ -46,12 +49,17 @@ function collectionController($rootScope, $scope, $http, $location, $route, ngCa
 	}
 	
 	self.edit = function(collection) {
-		$location.path('/editCollection/'+collection.id);
 		collectionService.setCollection(collection);
+		self.collection = collectionService.getCollection();
+		self.version = collectionService.version;
+		self.showCollection = true;
 	}
 
 	self.save = function() {
 		$rootScope.loading = true;
+		
+		self.collection.creation_date = new Date();
+		self.collection.privateStatus = false;
 
 		var version = {
 			number: 1,
@@ -76,7 +84,7 @@ function collectionController($rootScope, $scope, $http, $location, $route, ngCa
 				function() {
 					$location.path('/my');
 				}, function(d) {
-					if(d.status == 401) {
+					if(d.status == 403) {
 						modalLoginService();
 					} else {
 						Notification.error('Failed with ['+ d.status + '] '+ d.statusText);
@@ -90,9 +98,9 @@ function collectionController($rootScope, $scope, $http, $location, $route, ngCa
 		self.saving = true;
 		$http.put('/rest/collection', self.collection, null).then(
 			function() {
-				//$location.path('/my');
+				$location.path('/my');
 			}, function(d) {
-				if(d.status == 401) {
+				if(d.status == 403) {
 					modalLoginService();
 				} else {
 					Notification.error('Failed with ['+ d.status + '] '+ d.statusText);
@@ -116,7 +124,7 @@ function collectionController($rootScope, $scope, $http, $location, $route, ngCa
 					}
 				}
 			}, function(d) {
-				if(d.status == 401) {
+				if(d.status == 403) {
 					modalLoginService();
 				} else {
 					Notification.error('Failed with ['+ d.status + '] '+ d.statusText);
@@ -164,7 +172,7 @@ function collectionController($rootScope, $scope, $http, $location, $route, ngCa
 				}
 				self.selection.clear();
 			}, function(d) {
-				if(d.status == 401) {
+				if(d.status == 403) {
 					modalLoginService();
 				} else {
 					Notification.error('Failed with ['+ d.status + '] '+ d.statusText);
@@ -193,7 +201,7 @@ function collectionController($rootScope, $scope, $http, $location, $route, ngCa
 						}
 					}
 				}, function(d) {
-					if(d.status == 401) {
+					if(d.status == 403) {
 						modalLoginService();
 					} else {
 						Notification.error('Failed with ['+ d.status + '] '+ d.statusText);
@@ -233,7 +241,7 @@ function collectionController($rootScope, $scope, $http, $location, $route, ngCa
 					}
 				}
 			}, function(d) {
-				if(d.status == 401) {
+				if(d.status == 403) {
 					modalLoginService();
 				} else {
 					Notification.error('Failed with ['+ d.status + '] '+ d.statusText);
@@ -252,7 +260,7 @@ function collectionController($rootScope, $scope, $http, $location, $route, ngCa
 					collectionService.version.frozen = true;
 					$location.path('/build/'+self.version.id);
 				}, function(d) {
-					if(d.status == 401) {
+					if(d.status == 403) {
 						modalLoginService();
 					} else {
 						Notification.error('Failed with ['+ d.status + '] '+ d.statusText);
@@ -265,5 +273,46 @@ function collectionController($rootScope, $scope, $http, $location, $route, ngCa
 	self.selectCommit = function(commit) {
 		collectionService.commit = commit;
 		commitSelectorService();
+	}
+	
+	self.deriveVersion = function() {
+		self.disabled=true;
+		$http({
+		    method: 'POST',
+			url: '/rest/version/derive',
+			data: collectionService.version
+		}).then(
+			function(resp) {
+				var derivedVersion = resp.data;
+				collectionService.collection.versions.push(derivedVersion);
+				collectionService.collection.version = derivedVersion;
+				self.version = derivedVersion;
+			}, function(d) {
+				Notification.error('Failed with ['+ d.status + '] '+ d.statusText);
+			})['finally'](function() {
+				self.disabled=false;
+			});
+	}
+	
+	self.addBuild = function(version) {
+		$location.path('/build/'+version.id);
+	}
+	
+	self.unfreeze = function(version) {
+		self.disableBuild=true;
+		$http({
+		    method: 'POST',
+			url: '/rest/version/unfreeze',
+			data: version
+		}).then(
+			function(resp) {
+				self.version = version;
+				self.collection.version = version;
+				self.collection.version.frozen = false;
+			}, function(d) {
+				Notification.error('Failed with ['+ d.status + '] '+ d.statusText);
+			})['finally'](function() {
+				self.disableBuild=false;
+			});
 	}
 }]);
