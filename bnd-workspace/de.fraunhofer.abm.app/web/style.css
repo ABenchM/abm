@@ -78,7 +78,7 @@ body {
 /* Allow animated menus */
 .optionMenu{
   transition: all ease-out 0.5s;
-  height: 71px;
+  height: 20px;
   opacity: 1;
 }
 

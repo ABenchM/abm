@@ -23,18 +23,18 @@
 					</ui-select>
 				</div>
 				<p></p>
-				-->
+				
 				<div class="form-group">
 			        <label for="language">Language</label>
 					<ui-select multiple ng-model="sc.language.selected" ng-disabled="sc.disabled" title="Choose a language" form="searchForm">
 					      <ui-select-match placeholder="Select or search a language in the list...">{{$item.name}}</ui-select-match>
 				    	  <ui-select-choices repeat="language in sc.languages | filter: $select.search">
 					      <span ng-bind-html="language.name | highlight: $select.search"></span>
-					      <!-- <small ng-bind-html="language.code | highlight: $select.search"></small>-->
+					      <!-- <small ng-bind-html="language.code | highlight: $select.search"></small>->
 					    </ui-select-choices>
 					</ui-select>
 				</div>
-				<!--
+				
 				<p></p>
 				<div class="form-group">
 		    	    <label for="language">License</label>
@@ -58,6 +58,7 @@
 					</ui-select>
 				</div>
 				-->
+				<p>This feature is not currently implemented. Check back soon!</p>
 			</div>
 			<div class="text-right">
 		        <a class="btn btn-xs btn-success" ng-hide="showOptions" ng-click="showOptions=true;">Show Filtering Options</a>
