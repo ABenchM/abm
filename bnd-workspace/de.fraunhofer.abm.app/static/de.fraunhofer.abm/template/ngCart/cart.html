@@ -1,0 +1,35 @@
+
+<div class="alert alert-warning" role="alert" ng-show="ngCart.getTotalItems() === 0">
+    Your collection is empty
+</div>
+
+<div class="table-responsive col-lg-12" ng-show="ngCart.getTotalItems() > 0" style="max-height:600px">
+
+<table ng-table="vm.tableParams" class="table table-condensed table-bordered table-hover ngCart cart" show-filter="false">
+	<col width="*">
+	<col width="*">
+	<col width="10%">
+	<col width="7%">
+	<!--<col width="4%">-->
+	<col width="5%">
+	<tr ng-repeat="item in ngCart.getCart().items track by $index" >
+  		<td title="'Repository'">{{item.getData().name}}</td>
+  		<td title="'Description'">{{item.getData().description}}</td>
+  		<td title="'Created'">{{item.getData().creationDate | date:'short'}}</td>
+  		<!--<td title="'Language'">{{item.getData().language}}</td>-->
+  		<td title="'Total File Size'">{{item.getData().size | fileSize}}</td>
+  		<td title="'Remove'">
+  			<input type=button class="btn btn-xs btn-danger" role="button" value="Remove" ng-click="ngCart.removeItemById(item.getId())"/>
+  		</td>
+	</tr>
+</table>
+
+</div>
+<style>
+    .ngCart.cart span[ng-click] {
+        cursor: pointer;
+    }
+    .ngCart.cart .glyphicon.disabled {
+        color:#aaa;
+    }
+</style>

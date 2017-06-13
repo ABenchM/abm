@@ -1,0 +1,23 @@
+#
+# 
+#
+
+Bundle-Version:1.0.0.${tstamp}
+Bundle-Description: API for the different web crawlers, which collect meta data from open source \
+	hosters like github or sourceforge
+
+	
+Export-Package: \
+	de.fraunhofer.abm.crawler.api;provide:=true,\
+	de.fraunhofer.abm.domain
+
+
+Require-Capability: \
+	compile-only
+
+-buildpath: \
+	osgi.enroute.base.api;version=1.0,\
+	de.fraunhofer.abm.domain;version=latest
+
+-testpath: \
+	osgi.enroute.junit.wrapper;version=4.12

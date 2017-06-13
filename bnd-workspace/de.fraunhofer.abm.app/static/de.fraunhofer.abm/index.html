@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="author" content="">
+<meta name="google-signin-client_id" content="1028525994000-2e188qbc7bgpmrdrqp0crfjaavn2o3oo.apps.googleusercontent.com">
+<link rel="icon" href="/de.fraunhofer.abm/favicon.ico">
+
+<title>Automatic Benchmark Management</title>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" href="/osgi.enroute.webresource/${bsn}/${Bundle-Version}/*.css">
+<link rel="stylesheet" type="text/css" href="main/libs/ui.grid/ui-grid.min.css"> 
+<link rel="stylesheet" type="text/css" href="main/libs/ui.select/select.min.css"> 
+<link rel="stylesheet" type="text/css" href="main/libs/angular-ui-notification/angular-ui-notification.min.css"> 
+
+<style type="text/css">
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}
+</style>
+
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+</head>
+
+<body ng-app="de.fraunhofer.abm" ng-cloak class="ng-cloak">
+	<div class="max-extend" style="max-width: 1400px; margin:auto;">
+	<div class="container-fluid">
+		<div class="header">
+			<!--<img class="logo pull-right" src="logo.png" alt="Placeholder for logo">-->
+			<ul class="nav nav-pills pull-left" ng-controller="loginController">
+				<li ng-class="{active: page() == '/'}"><a href="#/">Find Collections</a></li>
+				<li ng-class="{active: page() == '/search'}" ng-hide="user === undefined"><a href="#/search">Search</a></li>
+				<li ng-class="{active: page() == '/collection'}" ng-hide="user === undefined"><a href="#/collection"><ngcart-summary></ngcart-summary></a></li>
+				<li ng-class="{active: page() == '/my'}" ng-hide="user === undefined"><a href="#/my">My Collections</a></li>
+				<li ng-class="{active: page() == '/filters'}" ng-hide="user === undefined"><a href="#/filters">Filters</a></li>
+				<li ng-class="{active: page() == '/about'}"><a href="#/about">About</a></li>
+				<li ng-class="{active: page() == '/login'}" ng-show="user === undefined"><a href="#/login">Login</a></li>
+				<li ng-hide="user === undefined"><a href="" ng-click="logout()">Logout</a></li>
+			</ul>
+			<h3 class="text-muted pull-right">Automatic Benchmark Management</h3>
+		</div>
+		
+		<div class="sidebar">
+			
+		</div>
+		 
+  		<div style="margin-top:89px;position:relative" ng-view></div>  	
+
+<!-- 
+		<div class="footer">
+			<p>&copy; ${def;Bundle-Vendor;Fraunhofer IEM} ${tstamp;YYYY}</p>
+		</div>
+ -->
+
+	</div>
+	</div>
+
+	<script src="/osgi.enroute.webresource/${bsn}/${Bundle-Version}/*.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular-sanitize.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular-animate.js"></script>
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+	<script src="uib/ui-bootstrap.js"></script>
+	<script src="main/libs/angular-confirm/angular-confirm.min.js"></script>
+	<script src="main/libs/angular-google-signin/ng-google-signin.min.js"></script>
+	<script src="main/libs/angular-ui-notification/angular-ui-notification.min.js"></script>
+	<script src="main/libs/ui.grid/ui-grid.min.js"></script>
+	<script src="main/libs/ui.select/select.min.js"></script>
+	<script src="main/libs/ngCart/ngCart.js"></script>
+	<script src="main/libs/convenience.js"></script>
+	
+</body>
+</html>

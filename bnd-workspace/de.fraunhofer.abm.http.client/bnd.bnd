@@ -1,0 +1,6 @@
+Bundle-Version: 1.0.0.${tstamp}
+Export-Package: \
+	de.fraunhofer.abm.http.client,\
+	de.fraunhofer.abm.http.client.cache
+-buildpath:  \
+	slf4j.api

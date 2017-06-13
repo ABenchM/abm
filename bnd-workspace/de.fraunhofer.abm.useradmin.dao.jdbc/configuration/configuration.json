@@ -1,0 +1,18 @@
+[
+	{
+		"service.factoryPid": "org.apache.aries.tx.control.jdbc.local",
+		"service.pid": "de.fraunhofer.abm.useradmin.role.dao.datasource.development",
+		"user": "root",
+		"password": "password",
+		"databaseName": "abm",
+		"dataSourceName": "localDS-MySQL",
+		"serverName": "localhost",
+		"portNumber": "3306",
+		"aries.dsf.target.filter": "(osgi.jdbc.driver.name=mysql)",
+		"aries.jdbc.property.names": "user,serverName,portNumber,password,databaseName"
+	},
+	{
+		"service.pid": "de.fraunhofer.abm.useradmin.role.dao",
+		"provider.target": "(dataSourceName=localDS-MySQL)"
+	}
+]

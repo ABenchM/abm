@@ -1,0 +1,6 @@
+Bundle-Version: 1.0.0.${tstamp}
+-buildpath: \
+	de.fraunhofer.abm.domain;version=latest,\
+	de.fraunhofer.abm.builder.api;version=latest,\
+	osgi.enroute.base.api
+Export-Package: de.fraunhofer.abm.builder.docker.base

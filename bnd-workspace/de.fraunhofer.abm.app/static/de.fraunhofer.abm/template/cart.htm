@@ -1,0 +1,15 @@
+<section ng-controller="cartController as cc">
+
+  	<div class="col-lg-12"  ng-show="cc.cart.getTotalItems() > 0">
+  	  <h2 class="pull-left" style="margin-top:0px">Selected Projects</h2>
+	  <input type=button class="btn btn-danger pull-right" style="margin-top:5px;" role="button" value="Remove all" ng-click="cc.cart.empty()"/>
+  	</div>
+  	
+  	<ngcart-cart></ngcart-cart>
+  	
+  	<div class="col-lg-12 text-right">
+  	  <a href="#/createCollection" role="button" class="btn btn-success" ng-show="cc.cart.getTotalItems() > 0">Create Collection</a>
+  	  <a href="#/applyCriteria" role="button" class="btn btn-success" ng-show="cc.cart.getTotalItems() > 0">Narrow down</a>
+	  <!--<input type=button class="btn btn-danger" role="button" value="Remove all" ng-show="cc.cart.getTotalItems() > 0" ng-click="cc.cart.empty()"/>-->
+  	</div>
+</section>

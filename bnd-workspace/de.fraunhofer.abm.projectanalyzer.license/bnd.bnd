@@ -1,0 +1,8 @@
+-buildpath: \
+	de.fraunhofer.abm.projectanalyzer.api;version=latest,\
+	de.fraunhofer.abm.domain;version=latest,\
+	osgi.enroute.base.api
+Bundle-Version: 1.0.0.${tstamp}
+-includeresource: \
+	resources=resources
+Private-Package: de.fraunhofer.abm.projectanalyzer.license

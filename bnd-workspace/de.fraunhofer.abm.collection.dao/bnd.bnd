@@ -1,0 +1,5 @@
+Bundle-Version:1.0.0.${tstamp}
+Bundle-Description: DAO interface for collections
+	
+Export-Package: de.fraunhofer.abm.collection.dao
+-buildpath: de.fraunhofer.abm.domain;version=latest

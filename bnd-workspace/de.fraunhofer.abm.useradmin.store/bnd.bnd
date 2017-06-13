@@ -1,0 +1,12 @@
+Bundle-Version:	1.0.0.${tstamp}
+Bundle-Description: RoleRepositoryStore, which uses a JDBC connection to store the data in a database
+	
+-buildpath: \
+	osgi.enroute.base.api;version=1.0,\
+	org.apache.felix.useradmin,\
+	de.fraunhofer.abm.useradmin.dao;version=latest
+
+-testpath: \
+	osgi.enroute.junit.wrapper;version=4.12
+
+

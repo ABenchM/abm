@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" output="bin" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
+	<classpathentry kind="con" path="aQute.bnd.classpath.container"/>
+	<classpathentry kind="lib" path="lib/abstract-interpretation-framework_2.11.jar"/>
+	<classpathentry kind="lib" path="lib/architecture-validation_2.11.jar"/>
+	<classpathentry kind="lib" path="lib/bugpicker-core_2.11.jar"/>
+	<classpathentry kind="lib" path="lib/bytecode-assembler_2.11.jar"/>
+	<classpathentry kind="lib" path="lib/bytecode-creator_2.11.jar"/>
+	<classpathentry kind="lib" path="lib/bytecode-disassembler_2.11.jar"/>
+	<classpathentry kind="lib" path="lib/bytecode-infrastructure_2.11.jar"/>
+	<classpathentry kind="lib" path="lib/bytecode-representation_2.11.jar"/>
+	<classpathentry kind="lib" path="lib/common_2.11.jar"/>
+	<classpathentry kind="lib" path="lib/dependencies-extraction-library_2.11.jar"/>
+	<classpathentry kind="lib" path="lib/opal-developer-tools_2.11.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

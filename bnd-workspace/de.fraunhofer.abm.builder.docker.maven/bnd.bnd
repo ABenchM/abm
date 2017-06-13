@@ -1,0 +1,10 @@
+-buildpath: \
+	osgi.enroute.base.api,\
+	de.fraunhofer.abm.domain;version=latest,\
+	de.fraunhofer.abm.builder.api;version=latest,\
+	de.fraunhofer.abm.builder.docker.base;version=latest
+Private-Package: \
+	de.fraunhofer.abm.builder.docker.maven,\
+	de.fraunhofer.abm.builder.docker.maven.steps
+Include-Resource: Dockerfile
+Bundle-Version: 1.0.0.${tstamp}

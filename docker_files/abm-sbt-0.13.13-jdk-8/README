@@ -1,0 +1,8 @@
+to create this base image for sbt builds run:
+
+  docker build -t abm/sbt:01313-jdk-8 . 
+
+Additionally a VOLUME has to be created as download cache for Ivy.
+This has to be mounted at /root/.ivy2
+
+  docker volume create --name IVY_REPO -d local

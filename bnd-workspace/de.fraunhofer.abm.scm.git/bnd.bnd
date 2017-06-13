@@ -1,0 +1,6 @@
+-buildpath: \
+	osgi.enroute.base.api,\
+	org.eclipse.jgit,\
+	de.fraunhofer.abm.scm.api;version=latest,\
+	de.fraunhofer.abm.domain;version=latest
+Bundle-Version: 1.0.0.${tstamp}
