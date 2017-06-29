@@ -80,3 +80,12 @@ when ABM is started. The password for system console is defined in de.fraunhofer
 * Create the maven build image:
   * `cd abm/docker_files/abm-maven-3-jdk-7`
   * `docker build -t abm/maven:3-jdk-7 .`  
+  
+## Updating the Database
+While the database is automatically generated during setup, when a installation of ABM is updated some modifications to the local database may be needed.
+The changes can be made by reinitilizing the database, but that results in the loss of all data stored on the database.
+To avoid this, make the following changes to your local database for each of the new commits you are applying.
+* Commit 983a572 (Jun 9, 2017 / Added simple public collection feature)
+  * To table "collection":
+    * Add column "privateStatus" (type tinyint, default 0)
+    * Add column "creation_date" (type datetime)
