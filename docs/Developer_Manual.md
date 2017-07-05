@@ -89,3 +89,11 @@ To avoid this, make the following changes to your local database for each of the
   * To table "collection":
     * Add column "privateStatus" (type tinyint, default 0)
     * Add column "creation_date" (type datetime)
+    * Commit 983a572 (Jun 9, 2017 / Added simple public collection feature)
+* Commit f5fa5cd (Jul 5, 2017 / Added Pinning Collections and Simple Build Sidebar)
+  * Add new table "collectionPin" with the following colunms:
+    * Column "user" (type varchar(255))
+    * Column "id" (type varchar(255))
+  * Add new table "filterPin" with the following colunms:
+    * Column "user" (type varchar(255))
+    * Column "id" (type varchar(255))
