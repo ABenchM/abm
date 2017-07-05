@@ -1,6 +1,6 @@
 angular.module('de.fraunhofer.abm').controller("viewController", 
-['$rootScope', '$scope', '$http', '$location', '$routeParams', 'Notification',
-function viewController($rootScope, $scope, $http, $location, $routeParams, Notification) {
+['$rootScope', '$scope', '$http', '$location', '$routeParams', 'Notification', 'ngCart',
+function viewController($rootScope, $scope, $http, $location, $routeParams, Notification, ngCart) {
 	var self = this;
 	
 	self.id = $routeParams.id;
@@ -14,8 +14,24 @@ function viewController($rootScope, $scope, $http, $location, $routeParams, Noti
 			params: {'privateStatus': false, 'id': collectionId}
 		}).then(
 			function(resp) {
-				$scope.collection = resp.data[0];
-				$scope.selectedVersion = resp.data[0].versions[0];
+				if(resp.data[0] != undefined){
+					$scope.collection = resp.data[0];
+					$scope.selectedVersion = resp.data[0].versions[0];
+					if($rootScope.user != undefined){
+						$http({
+							method: 'GET',
+							url: '/rest/pin/' + $rootScope.user + '/'  + $scope.collection.id
+						}).then(
+							function success(d) {
+								$scope.pinned = d.data;
+							}, function failure(d){
+									Notification.error('Failed with ['+ d.status + '] '+ d.statusText);
+							});
+					}
+				} else {
+					Notification.error('Collection not found, collection may be private or may not exist.');
+					$location.path('/');
+				}
 			}, function(d) {
 				Notification.error('Failed with ['+ d.status + '] '+ d.statusText);
 				$location.path('/');
@@ -47,6 +63,52 @@ function viewController($rootScope, $scope, $http, $location, $routeParams, Noti
 	
 	self.selectVersion = function(version){
 		$scope.selectedVersion = version;
+	}
+	
+	self.pin = function(){
+		self.disabled = true;
+		$http({
+			method: 'POST',
+			url: '/rest/pin/',
+			data: {'type': "collection", 'user': $rootScope.user, 'id': $scope.collection.id}
+		}).then(
+			function(){
+				$scope.pinned = true;
+			}, function(d){
+				Notification.error('Failed with ['+ d.status + '] '+ d.statusText);
+			})['finally'](function (){
+				self.disabled = false;
+			});
+	}
+	
+	self.unpin = function(){
+		self.disabled = true;
+		$http({
+			method: 'DELETE',
+			url: '/rest/pin/',
+			data: {'type': "collection", 'user': $rootScope.user, 'id': $scope.collection.id}
+		}).then(
+			function(){
+				$scope.pinned = false;
+			}, function(d){
+				Notification.error('Failed with ['+ d.status + '] '+ d.statusText);
+			})['finally'](function (){
+				self.disabled = false;
+			});
+	}
+	
+	self.selectAll = function(){
+		for (var i=0; i<$scope.selectedVersion.commits.length; i++) {
+			var repo = $scope.selectedVersion.commits[i].repository;
+			ngCart.addItem(repo.id.toString(), repo.name, 1, 1, repo);
+		}
+	}
+	
+	self.removeAll = function(){
+		for (var i=0; i<$scope.selectedVersion.commits.length; i++) {
+			var repo = $scope.selectedVersion.commits[i].repository;
+			ngCart.removeItemById(repo.id.toString());
+		}
 	}
 	
 	self.loadCollection(self.id);

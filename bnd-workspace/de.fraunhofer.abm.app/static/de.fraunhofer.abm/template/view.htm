@@ -6,27 +6,43 @@
 	<p>{{collection.description}}</p>
 	<p>Created by: {{collection.user}}</p>
 	<hr>
-	<div uib-dropdown>
-	  	<button id="single-button" type="button" class="btn btn-success btn-xs" uib-dropdown-toggle ng-disabled="cc.disabled || cc.saving">
-	     	Version {{selectedVersion.number}} &nbsp;&nbsp;&dash;&nbsp;&nbsp;  {{selectedVersion.creationDate | date:'short'}}&nbsp;&nbsp;<span class="caret"></span>
-    	</button>
-		<ul class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown">
-			<li ng-repeat="version in collection.versions"><a href ng-click="vc.selectVersion(version)">{{version.number}} &nbsp;&nbsp;&dash;&nbsp;&nbsp;  {{version.creationDate | date:'short'}}</a></li>
-		</ul>
+	<div class="row col-lg-12">
+		<span uib-dropdown>
+	  		<button id="single-button" type="button" class="btn btn-success btn-xs" uib-dropdown-toggle ng-disabled="cc.disabled || cc.saving">
+	     		Version {{selectedVersion.number}} &nbsp;&nbsp;&dash;&nbsp;&nbsp;  {{selectedVersion.creationDate | date:'short'}}&nbsp;&nbsp;<span class="caret"></span>
+    		</button>
+			<ul class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown">
+				<li ng-repeat="version in collection.versions"><a href ng-click="vc.selectVersion(version)">{{version.number}} &nbsp;&nbsp;&dash;&nbsp;&nbsp;  {{version.creationDate | date:'short'}}</a></li>
+			</ul>
+		</span>
+		<span style="float:right;">
+			<input type=button class="btn btn-success" role="button" value="Select all" ng-click="vc.selectAll();"/>
+			<input type=button class="btn btn-danger" role="button" value="Deselect all" ng-click="vc.removeAll();"/>
+		</span>
 	</div>
 	<br>
+	<br>
 	<table class="table table-bordered table-striped" style="max-height:400px">
+		<col width="*">
+		<col width="*">
+		<col width="5%">
    		<tr>
    			<th>Name</th>
    			<th>Commit</th>
+   			<th></th>
    		</tr>
    		<tr ng-repeat="commit in selectedVersion.commits">
 			<td>{{commit.repository.name}}</td>
 			<td>{{commit.commitId}}</td>
+			<td><ngcart-addtocart id="{{ commit.repository.id }}" name="{{ commit.repository.name }}" price="1" quantity="1" quantity-max="30" data="commit.repository"></ngcart-addtocart></td>
    		</tr>
    	</table>
    	<div>
    		<a href="#/" class="btn btn-primary btn-xs">Return to Collection Search</a>
+   		<span ng-hide="user === undefined" ng-disabled="vc.disabled">
+				<button class="btn btn-xs btn-primary" ng-click="vc.pin()" ng-hide="pinned;">Pin</button>
+				<button class="btn btn-xs btn-primary" ng-click="vc.unpin()" ng-show="pinned;">Unpin</button>
+		</span>
    		<span class="pull-right">
    			<p ng-hide="selectedVersion.frozen">This version is not currently built</p>
    			<button ng-click="vc.downloadBuild(selectedVersion.id)" ng-show="selectedVersion.frozen" ng-disabled="vc.downloading" class="btn btn-success btn-xs">Download this version</a>

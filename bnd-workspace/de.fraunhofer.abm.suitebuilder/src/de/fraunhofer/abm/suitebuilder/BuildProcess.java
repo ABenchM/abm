@@ -49,6 +49,7 @@ public class BuildProcess implements Callable<BuildResultDTO> {
     private BuildResultDTO buildResult;
     private List<BuildProgressListener> listeners = new ArrayList<>();
     private String id;
+    private String repoId;
     private ProjectBuilder builder;
     private CommitDao commitDao;
     private BuildResultDao buildResultDao;
@@ -103,6 +104,7 @@ public class BuildProcess implements Callable<BuildResultDTO> {
 
             CommitDTO commit = projectBuild.commit;
             RepositoryDTO repo = commit.repository;
+            this.repoId = repo.id;
             File repoDir = new File(workspace, repo.id+'_'+System.currentTimeMillis());
 
             // the checkout step is common to all builders, so it is handled by BuildProcess,
@@ -288,7 +290,7 @@ public class BuildProcess implements Callable<BuildResultDTO> {
      *
      * @return false if the process could not be cancelled, typically because it has already completed normally; true otherwise
      */
-    public boolean cancel() {
+    public String cancel() {
         this.status = STATUS.CANCELLED;
         this.buildResult.status = STATUS.CANCELLED.toString();
         buildResultDao.update(buildResult);
@@ -300,7 +302,9 @@ public class BuildProcess implements Callable<BuildResultDTO> {
                 logger.error("Couldn't delete workspace directory {}", workspace, e);
             }
         }
-        return futureCancelled;
+        if(futureCancelled){
+        	return this.repoId;
+        } else {return null;}
     }
 
     public BuildResultDTO getBuildResultDTO() {

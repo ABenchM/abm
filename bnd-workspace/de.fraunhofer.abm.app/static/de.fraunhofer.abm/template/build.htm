@@ -5,7 +5,7 @@
     <h2>Build result</h2>
 	<button class="btn btn-danger" ng-click="bc.cancelBuild(bc.buildResult.id)" ng-show="bc.buildResult.status == 'RUNNING'" >Cancel build</button><br><br>
 	<button class="btn btn-info" ng-click="bc.downloadArchive(bc.buildResult.id)" ng-show="bc.buildResult.status == 'FINISHED'" >Download</button>
-	<button class="btn btn-danger" ng-click="bc.deleteBuild(bc.buildResult.id)" ng-show="bc.buildResult.status == 'FINISHED'" confirm="Removal is irreversible! Continue?">Delete</button><br><br>
+	<button class="btn btn-danger" ng-click="bc.deleteBuild(bc.buildResult.id)" ng-show="bc.buildResult.status == 'FINISHED' || bc.buildResult.status == 'CANCELLED'"" confirm="Removal is irreversible! Continue?">Delete</button><br><br>
 
 	<uib-accordion ng-repeat="projectBuild in bc.buildResult.projectBuilds">
 		<div uib-accordion-group ng-class="projectBuild.cssClass" is-open="status.open">

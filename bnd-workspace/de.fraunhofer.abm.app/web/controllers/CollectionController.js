@@ -1,8 +1,8 @@
 angular.module('de.fraunhofer.abm').controller("collectionController", 
 ['$rootScope', '$scope', '$http', '$location', '$route', 'ngCart', 'modalLoginService', 
-	'collectionService', 'commitSelectorService', 'buildService', 'Notification',
+	'collectionService', 'commitSelectorService', 'buildService', 'buildViewerService','Notification',
 function collectionController($rootScope, $scope, $http, $location, $route, ngCart, modalLoginService, 
-		collectionService, commitSelectorService, buildService, Notification) {
+		collectionService, commitSelectorService, buildService, buildViewerService, Notification) {
 	var self = this;
 	self.collection = collectionService.collection;
 	self.version = collectionService.version;
@@ -253,12 +253,13 @@ function collectionController($rootScope, $scope, $http, $location, $route, ngCa
 	}
 	
 	self.build = function() {
+		self.deleteBuild(self.version);
 		$http.post('/rest/build', self.version, null).then(
 				function(d) {
 					var buildId = d.data;
-					buildService.buildId = buildId;
-					collectionService.version.frozen = true;
-					$location.path('/build/'+self.version.id);
+					//collectionService.version.frozen = true;
+					self.version.frozen = true;
+					buildViewerService.builds.push({"id": self.version.id, "name": self.collection.name, "versionNum": self.version.number});
 				}, function(d) {
 					if(d.status == 403) {
 						modalLoginService();
@@ -295,11 +296,68 @@ function collectionController($rootScope, $scope, $http, $location, $route, ngCa
 	}
 	
 	self.addBuild = function(version) {
-		$location.path('/build/'+version.id);
+		targetTab = buildViewerService.builds.findIndex(self.findTab, version);
+		if(targetTab < 0){
+			buildViewerService.builds.push({"id": version.id, "name": self.collection.name, "versionNum": version.number});
+			targetTab = buildViewerService.builds.length - 1;
+		}
+		buildViewerService.initialSelection = buildViewerService.builds[targetTab];
+		buildViewerService.launch();
+		$rootScope.hideSidebar = true;
 	}
 	
 	self.unfreeze = function(version) {
 		self.disableBuild=true;
+		$http({
+			method: 'GET',
+			url: '/rest/build/' + version.id
+		}).then(
+			function success(d) {
+				self.buildResult = d.data;
+				if(self.buildResult.status == 'RUNNING' || self.buildResult.status == 'WAITING') {
+					repoId = undefined;
+					self.socket = new WebSocket("ws://localhost:8080/ws/build");
+					self.socket.binaryType = "arraybuffer";
+					self.socket.onopen = function() {
+						console.log("Socket is open!");
+						self.socket.send(JSON.stringify({msg: 'listen', id: self.buildResult.id}));
+						console.log('Sending command');
+						self.socket.send(JSON.stringify({msg: 'cancel', id: self.buildResult.id}));
+						if(self.buildResult.status == 'WAITING'){
+							self.socket.close();
+						}
+					}
+					self.socket.onmessage = function(e) {
+						resp = JSON.parse(e.data)
+						if(resp.msg == "build_finished" && resp.repository == repoId){
+							self.socket.close();
+						} else if(resp.msg == "build_cancelled"){
+							repoId = resp.repository;
+						}
+					}
+					self.socket.onclose = function(e) {
+						console.log("Connection closed, deleting build");
+						self.deleteBuild(version);
+					}
+				} else {
+					self.deleteBuild(version);
+				}
+			}, function failure(d) {
+				if(d.status == 403) {
+					modalLoginService();
+				} else {
+					Notification.error('Failed with ['+ d.status + '] '+ d.statusText);
+				}
+			})['finally'](function() {
+				targetTab = buildViewerService.builds.findIndex(self.findTab, self.version);
+				if(targetTab >= 0){
+					buildViewerService.builds.splice(targetTab, 1);
+				}
+				self.disableBuild=false;
+			});
+	}
+	
+	self.deleteBuild = function(version){
 		$http({
 		    method: 'POST',
 			url: '/rest/version/unfreeze',
@@ -311,8 +369,10 @@ function collectionController($rootScope, $scope, $http, $location, $route, ngCa
 				self.collection.version.frozen = false;
 			}, function(d) {
 				Notification.error('Failed with ['+ d.status + '] '+ d.statusText);
-			})['finally'](function() {
-				self.disableBuild=false;
-			});
+			})
+	}
+	
+	self.findTab = function(item){
+		return (item.id == this.id);
 	}
 }]);

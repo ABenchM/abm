@@ -29,4 +29,11 @@ public class UserAdminAuthorizer implements Authorizer {
             }
         }
     }
+    
+    public void requireUser(String user) throws SecurityException {
+    	String username = SecurityContext.getInstance().getUser();
+    	if(!user.equals(username)){
+    		throw new SecurityException(username + " cannot perform actions on " + user + "'s data.");
+    	}
+    }
 }

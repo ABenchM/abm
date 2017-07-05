@@ -75,6 +75,7 @@ public class VersionController extends AbstractController implements REST {
         } else if("unfreeze".equals(action)) {
             BuildResultDTO dto = buildResultDao.findByVersion(version.id);
             if(dto != null) {
+            	
                 // delete build from disk
                 File buildDir = new File(dto.dir);
                 try {

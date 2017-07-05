@@ -18,6 +18,8 @@ import de.fraunhofer.abm.app.auth.Authorizer;
 import de.fraunhofer.abm.app.auth.SecurityContext;
 import de.fraunhofer.abm.collection.dao.BuildResultDao;
 import de.fraunhofer.abm.collection.dao.CollectionDao;
+import de.fraunhofer.abm.collection.dao.CollectionPinDao;
+import de.fraunhofer.abm.collection.dao.FilterPinDao;
 import de.fraunhofer.abm.domain.BuildResultDTO;
 import de.fraunhofer.abm.domain.CollectionDTO;
 import de.fraunhofer.abm.domain.CommitDTO;
@@ -40,7 +42,7 @@ public class CollectionController extends AbstractController implements REST {
 
     @Reference
     private BuildResultDao buildResultDao;
-
+    
     @Reference
     private Authorizer authorizer;
 

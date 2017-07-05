@@ -49,11 +49,11 @@
 			<h3 class="text-muted pull-right">Automatic Benchmark Management</h3>
 		</div>
 		
-		<div class="sidebar">
-			
-		</div>
-		 
   		<div style="margin-top:89px;position:relative" ng-view></div>  	
+		
+		<div class="sidebar" ng-controller="buildTabController as btc" ng-hide="hideSidebar">
+			<a href ng-repeat="tab in btc.tabs" ng-click="btc.open(tab);">{{tab | tabTitle}}</a>
+		</div>
 
 <!-- 
 		<div class="footer">

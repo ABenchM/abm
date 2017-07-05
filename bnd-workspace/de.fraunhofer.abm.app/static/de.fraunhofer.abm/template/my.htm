@@ -9,31 +9,35 @@
 
 
 <!--	<div id="user-collections-table" ui-grid="gridOpts" ui-grid-resize-columns ui-grid-auto-resize class="grid" ng-hide="loading"></div> -->
-
-	<table class="table table-bordered table-striped table-hover" style="max-height:400px;table-layout:fixed;" ng-hide="loading">
-		<col width="23%">
-		<col width="39%">
-		<col width="10%">
-		<!-- <col width="5%"> -->
-		<col width="23%">
-		<col width="5%">
-		<tr>
-			<th>Name</th>
-			<th>Description</th>
-			<th>Creation Date</th>
-			<!-- <th>Size</th> -->
-			<th>ID</th>
-			<th></th>
-		</tr>
-		<tr ng-repeat="row in gridOpts.data" ng-class="{'selected': (row.id == cc.collection.id) && cc.showCollection}" ng-click="cc.edit(row)">
-			<td>{{row.name}}</td>
-			<td>{{row.description}}</td>
-			<td>{{row.creation_date | date:'short'}}</td>
-			<!-- <td>{{row.repositories.length | number}}</td> -->
-			<td>{{row.id}}</td>
-			<td style="font-weight:bold">{{row.privateStatus | privateFilter}}</td>
-		</tr>
-	</table>
+	<div ng-hide="loading">
+		<p ng-show="gridOpts.data[0] === undefined" class="alert alert-warning">You have not created any collections yet. To create a new collection, collect projects using the search feature and create a collection from them in the Projects tab.</p>
+		
+		<table class="table table-bordered table-striped table-hover" style="max-height:400px;table-layout:fixed;" ng-hide="gridOpts.data[0] === undefined">
+			<col width="23%">
+			<col width="39%">
+			<col width="10%">
+			<!-- <col width="5%"> -->
+			<col width="23%">
+			<col width="5%">
+			<tr>
+				<th>Name</th>
+				<th>Description</th>
+				<th>Creation Date</th>
+				<!-- <th>Size</th> -->
+				<th>ID</th>
+				<th></th>
+			</tr>
+			<tr ng-repeat="row in gridOpts.data" ng-class="{'selected': (row.id == cc.collection.id) && cc.showCollection}" ng-click="cc.edit(row)">
+				<td>{{row.name}}</td>
+				<td>{{row.description}}</td>
+				<td>{{row.creation_date | date:'short'}}</td>
+				<!-- <td>{{row.repositories.length | number}}</td> -->
+				<td>{{row.id}}</td>
+				<td style="font-weight:bold">{{row.privateStatus | privateFilter}}</td>
+			</tr>
+		</table>
+	</div>
+	
 	<div ng-show="cc.showCollection">
 		<hr>
 		<form name="form" role="form">
@@ -85,6 +89,7 @@
 	            <button ng-disabled="loading || cc.saving || cc.disableBuild" class="btn btn-danger btn-sm" ng-click="cc.unfreeze(cc.version)">Unfreeze</button>
 			</div>
     	</div>
+    	
    		<table class="table table-bordered table-striped">
    			<tr>
    				<th>Name</th>

@@ -111,9 +111,9 @@ public class BuildStatusSocket implements BuildProgressListener {
             logger.debug("Looking for build {}", buildId);
             BuildProcess process = builder.getBuildProcess(buildId);
             if(process != null) {
-                boolean success = process.cancel();
-                if(success) {
-                    remote.sendString("{\"msg\": \"build_cancelled\", \"id\": \"" + buildId + "\"}");
+                String repoId = process.cancel();
+                if(repoId != null) {
+                    remote.sendString("{\"msg\": \"build_cancelled\", \"id\": \"" + buildId + "\", \"repository\": \"" + repoId + "\"}");
                 } else {
                     remote.sendString("{\"msg\": \"error\", \"text\": \"Build with ID "+buildId+" could not be stopped\"}");
                 }
