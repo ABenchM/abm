@@ -39,7 +39,7 @@ Launching the application:
 * Open de.fraunhofer.abm.app/de.fraunhofer.abm.bndrun
 * Click on Run OSGi in the top right corner
 
-##Launching or bouncing the application on production server.
+## Launching or bouncing the application on production server
 * Go to the following path /opt/abm
 * Run the command in start file residing at that location.
 * Check the process is running or not through the following command -> ps -ef | grep abm
