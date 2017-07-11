@@ -39,6 +39,11 @@ Launching the application:
 * Open de.fraunhofer.abm.app/de.fraunhofer.abm.bndrun
 * Click on Run OSGi in the top right corner
 
+##Launching or bouncing the application on production server.
+* Go to the following path /opt/abm
+* Run the command in start file residing at that location.
+* Check the process is running or not through the following command -> ps -ef | grep abm
+
 ## User management
 Users can login with a local user or a Google account. All users are managed by the OSGi UserAdmin
 service. You can access the management console by browsing to http://localhost:8080/system/console
