@@ -14,4 +14,12 @@ function cartController($rootScope, $scope, $http, $location, ngCart, searchResu
 			ngCart.addItem(repo.id.toString(), repo.name, 1, 1, repo);
 		}
 	};
+	
+	self.createJSON = function(){
+		repoList = [];
+		items = self.cart.getCart().items;
+		for (i=0; i<self.cart.getTotalItems(); i++) {
+			repoList.push({"id": items[i].getData().name, "cp": '?'});
+		}
+	}
 }]);

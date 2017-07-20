@@ -5,12 +5,15 @@
 	</div>
 	
 	<div class="modal-sidebar sidebar">
-		<a href ng-repeat="tab in $ctrl.tabs" ng-class="{'selected': (tab == $ctrl.showing)}" ng-click="$ctrl.select(tab);">
+		<div class="sidebarTab" ng-repeat="tab in $ctrl.tabs" ng-class="{'selected': (tab == $ctrl.showing)}">
+			<a href style="background:linear-gradient(to right, {{tab.buildStatus | statusColour}} {{tab.progress * 100}}%, transparent 0%)" ng-click="$ctrl.select(tab);">
 			{{tab | tabTitle}}
-		</a>
+			</a>
+		</div>
 	</div>
 	
 	<div class="modal-body" ng-hide="loading">
+		<p class="highlight" ng-show="build.status == 'WAITING'">This build is currently pending, and will start when other builds are finished.</p>
 		<uib-accordion ng-repeat="projectBuild in build.projectBuilds">
 			<div uib-accordion-group ng-class="projectBuild.cssClass" is-open="status.open">
 				<uib-accordion-heading>
@@ -46,6 +49,7 @@
 			<button class="btn btn-info" ng-click="$ctrl.downloadArchive(build.id)" ng-show="build.status == 'FINISHED'" >Download</button>
 			<button class="btn btn-danger" ng-click="$ctrl.deleteBuild(build.id)" ng-show="build.status == 'FINISHED' || build.status == 'CANCELLED'"" confirm="Removal is irreversible! Continue?">Delete</button>
 		</span>
-		<button class="btn btn-warning" type="button" ng-click="$ctrl.close()">Dismiss Panel</button>
+		<button class="btn btn-warning" type="button" ng-click="$ctrl.dismiss(build.id)">Hide Build</button>
+		<button class="btn btn-warning" type="button" ng-click="$ctrl.close()">Close Panel</button>
 	</div>
 </div>

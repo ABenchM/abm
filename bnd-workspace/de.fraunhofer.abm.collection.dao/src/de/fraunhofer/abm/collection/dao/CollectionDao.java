@@ -12,6 +12,7 @@ public interface CollectionDao {
     public CollectionDTO findById(String id);
     public List<CollectionDTO> findPublicId(String id);
     public List<CollectionDTO> findPublic();
+    public List<CollectionDTO> findPublic(String keyword);
     public void save(CollectionDTO collection);
     public void update(CollectionDTO collection);
     public void delete(String id);

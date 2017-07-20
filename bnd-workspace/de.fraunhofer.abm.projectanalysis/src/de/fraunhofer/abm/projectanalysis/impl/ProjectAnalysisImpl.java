@@ -89,16 +89,18 @@ public class ProjectAnalysisImpl implements ProjectAnalysis {
                 }
             }
 
-            List<RepositoryPropertyDTO> properties = new ArrayList<>();
+            List<RepositoryPropertyDTO> properties = repoPropDao.findByRepository(repo.id);
             for (ProjectAnalyzerFactory projectAnalyzerFactory : analyzerFactories) {
-                ProjectAnalyzer analyzer = projectAnalyzerFactory.createNewAnalyzer();
-                try {
-                    List<RepositoryPropertyDTO> analyzerResult = analyzer.analyze(repo, targetDir);
-                    properties.addAll(analyzerResult);
-                } catch (Throwable e) {
-                    // errors in an analyzer shouldn't not effect the overall analysis, so we catch all
-                    logger.error("Analyzer {} threw an exception", analyzer.getClass().getSimpleName(), e);
-                }
+            	if(!checkForTag(properties, projectAnalyzerFactory.getType())){
+	                ProjectAnalyzer analyzer = projectAnalyzerFactory.createNewAnalyzer();
+	                try {
+	                    List<RepositoryPropertyDTO> analyzerResult = analyzer.analyze(repo, targetDir);
+	                    properties.addAll(analyzerResult);
+	                } catch (Throwable e) {
+	                    // errors in an analyzer shouldn't not effect the overall analysis, so we catch all
+	                    logger.error("Analyzer {} threw an exception", analyzer.getClass().getSimpleName(), e);
+	                }
+            	}
             }
 
             try {
@@ -112,6 +114,13 @@ public class ProjectAnalysisImpl implements ProjectAnalysis {
             savePropertiesToDb(properties);
 
             return properties;
+        }
+        
+        private boolean checkForTag(List<RepositoryPropertyDTO> tags, String type){
+        	for(RepositoryPropertyDTO tag : tags){
+        		if(tag.name.equals(type)){return true;}
+        	}
+        	return false;
         }
 
         @SuppressWarnings("unused")

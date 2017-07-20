@@ -97,6 +97,23 @@ function publicController($rootScope, $scope, $http, $location, $route, Notifica
 			});
 	}
 	
+	self.search = function(query) {
+		self.searching = true;
+		$http({
+			method: 'GET',
+			url: '/rest/collection/',
+				params: {'privateStatus': false, 'keyword': query}
+		}).then(
+			function(d) {
+				$scope.publicData = d.data;
+			}, function(d) {
+				Notification.error('Failed with ['+ d.status + '] '+ d.statusText);
+			}
+		)['finally'](function() {
+			self.searching = false;
+		});
+	};
+	
 	self.view = function(id) {
 		$location.path('/view/' + id);
 	}

@@ -1,8 +1,11 @@
 package de.fraunhofer.abm.app.controllers;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Map;
+import java.util.HashMap;
+import java.util.List;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -16,6 +19,7 @@ import de.fraunhofer.abm.collection.dao.CollectionDao;
 import de.fraunhofer.abm.collection.dao.RepositoryDao;
 import de.fraunhofer.abm.collection.dao.VersionDao;
 import de.fraunhofer.abm.domain.BuildResultDTO;
+import de.fraunhofer.abm.domain.BuildStepDTO;
 import de.fraunhofer.abm.domain.CollectionDTO;
 import de.fraunhofer.abm.domain.ProjectBuildDTO;
 import de.fraunhofer.abm.domain.VersionDTO;
@@ -80,6 +84,38 @@ public class BuildController implements REST {
         });
         return dto;
     }
+    
+    public List<Map<String, String>> getBuilds(String user){
+    	authorizer.requireUser(user);
+    	
+    	List<BuildResultDTO> builds = buildResultDao.findRunning(user);
+    	List<Map<String, String>> results = new ArrayList<>();
+    	
+    	for(BuildResultDTO dto: builds){
+    		Map<String, String> map = new HashMap<String, String>();
+            VersionDTO version = versionDao.findById(dto.versionId);
+            CollectionDTO collection = collectionDao.findById(version.collectionId);
+            
+            for (ProjectBuildDTO projectBuild : dto.projectBuilds) {
+                projectBuild.repository = repositoryDao.findById(projectBuild.repositoryId);
+            }
+            dto.projectBuilds.sort(new Comparator<ProjectBuildDTO>() {
+                @Override
+                public int compare(ProjectBuildDTO o1, ProjectBuildDTO o2) {
+                    return o1.repository.name.compareTo(o2.repository.name);
+                }
+            });
+            
+            map.put("id", dto.versionId);
+            map.put("name", collection.name);
+            map.put("versionNum", String.valueOf(version.number));
+            map.put("progress", String.valueOf(buildProgress(dto)));
+            map.put("buildStatus", dto.status);
+            results.add(map);
+    	}
+    	
+    	return results;
+    }
 
     public BuildResultDTO getBuild(RESTRequest rr) throws Exception {
     	Map<String, String[]> params = rr._request().getParameterMap();
@@ -116,6 +152,14 @@ public class BuildController implements REST {
         if (!owner.equals(sessionUser)) {
             authorizer.requireRole("Admin");
         }
+        
+        try{
+        	BuildResultDTO oldBuild = getBuild(version.id);
+            logger.info("Deleting outdated build for version {}", version.id);
+            deleteBuild(oldBuild.id);
+        } catch(NullPointerException e){
+            logger.info("No outdated build found for version {}", version.id);
+        }
 
         logger.info("Start building version {}", version.id);
         BuildProcess build = builder.initialize(version);
@@ -145,5 +189,17 @@ public class BuildController implements REST {
         version.frozen = false;
         versionDao.update(version);
         return databaseCollection.id;
+    }
+    
+    private float buildProgress(BuildResultDTO dto){
+    	if(dto.status.equals("WAITING")){return 0;};
+    	float i = 0;
+    	for(ProjectBuildDTO projectBuild : dto.projectBuilds){
+    		for(BuildStepDTO step: projectBuild.buildSteps){
+    			if(step.status.equals("IN_PROGRESS")){return i/dto.projectBuilds.size();}
+    		}
+    		i++;
+    	}
+    	return 1;
     }
 }

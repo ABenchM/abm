@@ -12,10 +12,16 @@ import de.fraunhofer.abm.projectanalyzer.api.ProjectAnalyzerFactory;
 public class LicenseAnalyzerFactory implements ProjectAnalyzerFactory {
 
     private LicenseStore licenseStore;
+    private String type = "license";
 
     @Override
     public ProjectAnalyzer createNewAnalyzer() {
         return new LicenseAnalyzer();
+    }
+    
+    @Override
+    public String getType(){
+    	return type;
     }
 
     @Activate

@@ -27,6 +27,7 @@ angular.module('de.fraunhofer.abm').controller('modalBuildController', function(
 						$scope.$apply();
 					}
 				} else if(resp.msg == "buildsteps") {
+					if($scope.build.status == 'WAITING'){$scope.build.status = 'RUNNING';}
 					var repoId = resp.repository;
 					var steps = resp.steps;
 					for(var i=0; i<$scope.build.projectBuilds.length; i++) {
@@ -48,7 +49,18 @@ angular.module('de.fraunhofer.abm').controller('modalBuildController', function(
 					for(var i=0; i<$scope.build.projectBuilds.length; i++) {
 						var currentBuild = $scope.build.projectBuilds[i];
 						if(currentBuild.repositoryId == repoId) {
-							currentBuild.cssClass = 'panel-success'; // TODO do only, if all steps finished successfully
+							currentBuild.cssClass = 'panel-success';
+							for(var j=0; j<currentBuild.buildSteps.length; j++) {
+								var currentStep = currentBuild.buildSteps[j];
+									if(currentStep.status == 'FAILED') {
+										currentBuild.cssClass = 'panel-danger';
+										break;
+									} else if(currentStep.status == 'CANCELLED') {
+										currentBuild.cssClass = 'panel-info';
+										$scope.build.status = 'CANCELLED';
+										break;
+									}
+							}
 							break;
 						}
 					}
@@ -138,7 +150,7 @@ angular.module('de.fraunhofer.abm').controller('modalBuildController', function(
 		}).then(
 				function success(d) {
 					$scope.build = d.data;
-					if($scope.build.status == 'RUNNING' && $ctrl.socket == null) {
+					if(($scope.build.status == 'RUNNING' || $scope.build.status == 'WAITING') && $ctrl.socket == null) {
 						console.log('Opening websocket');
 						$ctrl.openSocket($scope.build.id);
 					}
@@ -158,6 +170,8 @@ angular.module('de.fraunhofer.abm').controller('modalBuildController', function(
 							} else if(currentStep.status == 'FAILED') {
 								currentStep.cssClass = 'panel-danger';
 								currentBuild.cssClass = 'panel-danger';
+							} else if(currentStep.status == 'FAILED') {
+								currentStep.cssClass = 'panel-warning';
 							}
 						}
 						
@@ -185,13 +199,19 @@ angular.module('de.fraunhofer.abm').controller('modalBuildController', function(
 				});
 	}
 	
+	$ctrl.dismiss = function(tabId){
+		targetTab = buildViewerService.builds.findIndex($ctrl.findTab, tabId);
+		buildViewerService.builds.splice(targetTab, 1);
+		$ctrl.close();
+	}
+	
 	$ctrl.close = function(){
 		if($ctrl.socket != null){$ctrl.socket.close();}
 		$uibModalInstance.close();
 	}
 	
 	$ctrl.findTab = function(item){
-		return item.id = this;
+		return item.id == this;
 	}
 	
 	$scope.$on('modal.closing', function(event, reason, closed){

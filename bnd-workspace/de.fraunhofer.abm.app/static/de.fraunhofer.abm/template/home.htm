@@ -45,7 +45,11 @@
 	</div>
 	
 	<hr>
-	
+	<form ng-submit="wordSearch" name="searchForm">
+		<h3 style="display:inline">Find Collections:</h3>
+		<input type="text" name="query" id="query" size="36" ng-model="searchQuery" style="width:50%" text="Enter a keyword">
+		<button class="btn btn-success" type="submit" ng-click="pc.search(searchQuery)">Search</button>
+	</form>
 	<form name="idSearch" role="form">
 		<p style="display:inline">Enter Collection ID:</p>
 		<input type="text" name="idField" id="idField" ng-model="targetId" style="width:30%">
@@ -59,31 +63,35 @@
 		<span class="cssload-loader"></span>
 	</div>
 	
-	<table class="table table-bordered table-striped table-hover" style="table-layout:fixed;" ng-hide="pc.loading">
-		<col width="23%">
-		<col width="39%">
-		<col width="10%">
-		<!-- <col width="5%"> -->
-		<col width="23%">
-		<col width="5%" ng-hide="user === undefined">
-		<tr>
-			<th>Name</th>
-			<th>Description</th>
-			<th>Creation Date</th>
-			<!-- <th>Size</th> -->
-			<th>ID</th>
-			<th ng-hide="user === undefined"></th>
-		</tr>
-		<tr ng-repeat="row in publicData">
-			<td ng-click="pc.view(row.id)">{{row.name}}</td>
-			<td ng-click="pc.view(row.id)">{{row.description}}</td>
-			<td ng-click="pc.view(row.id)">{{row.creation_date | date:'short'}}</td>
-			<!-- <td>{{row.repositories.length | number}}</td> -->
-			<td ng-click="pc.view(row.id)">{{row.id}}</td>
-			<td ng-hide="user === undefined">
-				<button class="btn btn-xs btn-primary" style="width:100%;" ng-click="pc.pin(row)" ng-hide="row.pinned">Pin</button>
-				<button class="btn btn-xs btn-primary" style="width:100%;" ng-click="pc.unpin(row)" ng-show="row.pinned">Unpin</button>
-			</td>
-		</tr>
-	</table>
+	<div ng-hide="pc.loading || pc.searching">
+		<p ng-show="publicData[0] === undefined" class="alert alert-warning">No results found.</p>
+		
+		<table class="table table-bordered table-striped table-hover" style="table-layout:fixed;" ng-hide="publicData[0] === undefined">
+			<col width="23%">
+			<col width="39%">
+			<col width="10%">
+			<!-- <col width="5%"> -->
+			<col width="23%">
+			<col width="5%" ng-hide="user === undefined">
+			<tr>
+				<th>Name</th>
+				<th>Description</th>
+				<th>Creation Date</th>
+				<!-- <th>Size</th> -->
+				<th>ID</th>
+				<th ng-hide="user === undefined"></th>
+			</tr>
+			<tr ng-repeat="row in publicData">
+				<td ng-click="pc.view(row.id)">{{row.name}}</td>
+				<td ng-click="pc.view(row.id)">{{row.description}}</td>
+				<td ng-click="pc.view(row.id)">{{row.creation_date | date:'short'}}</td>
+				<!-- <td>{{row.repositories.length | number}}</td> -->
+				<td ng-click="pc.view(row.id)">{{row.id}}</td>
+				<td ng-hide="user === undefined">
+					<button class="btn btn-xs btn-primary" style="width:100%;" ng-click="pc.pin(row)" ng-hide="row.pinned">Pin</button>
+					<button class="btn btn-xs btn-primary" style="width:100%;" ng-click="pc.unpin(row)" ng-show="row.pinned">Unpin</button>
+				</td>
+			</tr>
+		</table>
+	</div>
 </section>

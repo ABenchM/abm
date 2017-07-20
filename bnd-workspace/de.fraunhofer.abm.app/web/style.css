@@ -41,11 +41,8 @@ body {
   left: -1px;
 }
 
-.sidebar a {
-  display: block;
-  color: black;
+.sidebar .sidebarTab {
   background-color: #f5f5f5;
-  padding: 5px;
   border: solid black;
   border-width: 1px;
   border-radius: 0 5px 5px 0;
@@ -56,14 +53,23 @@ body {
 }
 
 
-.sidebar a.selected{
+.sidebar .sidebarTab.selected{
   background-color: white;
   border-left: white;
 }
 
-.sidebar a:focus, .sidebar a:hover {
-  text-decoration: none;
+.sidebar .sidebarTab:focus, .sidebar .sidebarTab:hover {
   background-color: lightgray;
+}
+
+.sidebar .sidebarTab a{
+  display: block;
+  color: black;
+  padding: 5px;
+}
+
+.sidebar .sidebarTab a:focus, .sidebar .sidebarTab a:hover {
+  text-decoration: none;
 }
 
 /* Allows a modal window to appear from the left */
@@ -85,6 +91,13 @@ body {
 .logo {
   height: 55px;
   margin-bottom: 4px;
+}
+
+/* Marks important text */
+.highlight {
+  padding:10px;
+  background-color:#FFFF66;
+  border-radius:15px;
 }
 
 /* Custom page footer */

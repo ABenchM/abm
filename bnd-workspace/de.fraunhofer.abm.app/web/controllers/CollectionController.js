@@ -1,8 +1,8 @@
 angular.module('de.fraunhofer.abm').controller("collectionController", 
 ['$rootScope', '$scope', '$http', '$location', '$route', 'ngCart', 'modalLoginService', 
-	'collectionService', 'commitSelectorService', 'buildService', 'buildViewerService','Notification',
+	'collectionService', 'commitSelectorService', 'buildViewerService','Notification',
 function collectionController($rootScope, $scope, $http, $location, $route, ngCart, modalLoginService, 
-		collectionService, commitSelectorService, buildService, buildViewerService, Notification) {
+		collectionService, commitSelectorService, buildViewerService, Notification) {
 	var self = this;
 	self.collection = collectionService.collection;
 	self.version = collectionService.version;
@@ -253,13 +253,14 @@ function collectionController($rootScope, $scope, $http, $location, $route, ngCa
 	}
 	
 	self.build = function() {
-		self.deleteBuild(self.version);
 		$http.post('/rest/build', self.version, null).then(
 				function(d) {
 					var buildId = d.data;
 					//collectionService.version.frozen = true;
 					self.version.frozen = true;
-					buildViewerService.builds.push({"id": self.version.id, "name": self.collection.name, "versionNum": self.version.number});
+					buildViewerService.builds.push({"id": self.version.id, "name": self.collection.name, "versionNum": self.version.number, "progress": 0, "buildStatus": 'RUNNING'});
+					targetTab = buildViewerService.builds.length - 1;
+					self.getBuildProgress(self.version.id, targetTab);
 				}, function(d) {
 					if(d.status == 403) {
 						modalLoginService();
@@ -298,8 +299,9 @@ function collectionController($rootScope, $scope, $http, $location, $route, ngCa
 	self.addBuild = function(version) {
 		targetTab = buildViewerService.builds.findIndex(self.findTab, version);
 		if(targetTab < 0){
-			buildViewerService.builds.push({"id": version.id, "name": self.collection.name, "versionNum": version.number});
+			buildViewerService.builds.push({"id": version.id, "name": self.collection.name, "versionNum": version.number, "progress": 0, "buildStatus": ''});
 			targetTab = buildViewerService.builds.length - 1;
+			self.getBuildProgress(version.id, targetTab);
 		}
 		buildViewerService.initialSelection = buildViewerService.builds[targetTab];
 		buildViewerService.launch();
@@ -374,5 +376,39 @@ function collectionController($rootScope, $scope, $http, $location, $route, ngCa
 	
 	self.findTab = function(item){
 		return (item.id == this.id);
+	}
+	
+	self.getBuildProgress = function(versionId, targetTab){
+		$http({
+			method: 'GET',
+			url: '/rest/build/' + versionId
+		}).then(
+			function success(d) {
+				build = d.data;
+				progress = 0;
+				if(build.status == "RUNNING"){
+					for(i=0;i<build.projectBuilds.length;i++){
+						buildProject = build.projectBuilds[i];
+						for(j=0;j<buildProject.buildSteps.length;j++){
+							if(buildProject.buildSteps[j].status == "IN_PROGRESS"){
+								progress = i/build.projectBuilds.length;
+							}
+						}
+					}
+				} else if(build.status == "FINISHED"){
+					progress = 1;
+				}
+			}, function failure(d) {
+				if(d.status == 403) {
+					modalLoginService();
+				} else {
+					Notification.error('Failed with ['+ d.status + '] '+ d.statusText);
+				}
+				progress =  0;
+			})['finally']( function (){
+				buildViewerService.builds[targetTab].progress = progress;
+				buildViewerService.builds[targetTab].buildStatus = build.status;
+				buildViewerService.addListener(build.id);
+			});
 	}
 }]);

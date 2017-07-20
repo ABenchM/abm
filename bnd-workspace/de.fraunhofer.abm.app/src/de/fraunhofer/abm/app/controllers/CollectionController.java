@@ -60,6 +60,8 @@ public class CollectionController extends AbstractController implements REST {
         } else if(params.get("privateStatus") != null) {
         	if(params.get("id") != null){
         		result = collectionDao.findPublicId(params.get("id")[0]);
+        	} else if(params.get("keyword") != null){
+        		result = collectionDao.findPublic(params.get("keyword")[0]);
         	} else {
         		result = collectionDao.findPublic();
         	}

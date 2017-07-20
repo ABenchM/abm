@@ -52,7 +52,9 @@
   		<div style="margin-top:89px;position:relative" ng-view></div>  	
 		
 		<div class="sidebar" ng-controller="buildTabController as btc" ng-hide="hideSidebar">
-			<a href ng-repeat="tab in btc.tabs" ng-click="btc.open(tab);">{{tab | tabTitle}}</a>
+			<div ng-repeat="tab in btc.tabs" class="sidebarTab">
+				<a href style="background:linear-gradient(to right, {{tab.buildStatus | statusColour}} {{tab.progress * 100}}%, transparent 0%)" ng-click="btc.open(tab);">{{tab | tabTitle}}</a>
+			</div>
 		</div>
 
 <!-- 

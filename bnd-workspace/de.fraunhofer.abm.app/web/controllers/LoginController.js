@@ -1,6 +1,6 @@
 angular.module('de.fraunhofer.abm').controller('loginController', 
-[ '$rootScope', '$scope', '$http', '$location', '$cookies', 'ngCart', 'GoogleSignin', 'Notification',
-function($rootScope, $scope, $http, $location, $cookies, ngCart, GoogleSignin, Notification) {
+[ '$rootScope', '$scope', '$http', '$location', '$cookies', 'ngCart', 'GoogleSignin', 'Notification', 'buildViewerService',
+function($rootScope, $scope, $http, $location, $cookies, ngCart, GoogleSignin, Notification, buildViewerService) {
 	$scope.credentials = {};
 	$scope.login = function() {
 		$rootScope.loading = true;

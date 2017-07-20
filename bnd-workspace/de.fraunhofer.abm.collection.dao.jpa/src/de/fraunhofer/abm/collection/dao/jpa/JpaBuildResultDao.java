@@ -1,6 +1,8 @@
 package de.fraunhofer.abm.collection.dao.jpa;
 
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -54,6 +56,18 @@ public class JpaBuildResultDao implements BuildResultDao {
             } catch(NoResultException e) {
                 return null;
             }
+        });
+    }
+    
+    @Override
+    public List<BuildResultDTO> findRunning(String user) {
+        return transactionControl.notSupported(() -> {
+            TypedQuery<JpaBuildResult> query = em.createQuery("SELECT b FROM build_result b WHERE (b.status = 'RUNNING' OR b.status = 'WAITING') AND EXISTS "
+            		+ "(SELECT v FROM version v WHERE v.id = b.versionId AND EXISTS "
+            		+ "(SELECT c FROM collection c WHERE c.id = v.collection.id AND c.user = :user))", JpaBuildResult.class);
+            query.setParameter("user", user);
+            List<JpaBuildResult> jpaList = query.getResultList();
+            return jpaList.stream().map(JpaBuildResult::toDTO).collect(Collectors.toList());
         });
     }
 

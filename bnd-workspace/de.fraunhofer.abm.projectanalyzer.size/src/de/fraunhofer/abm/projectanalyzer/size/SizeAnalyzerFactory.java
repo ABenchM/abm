@@ -8,9 +8,15 @@ import de.fraunhofer.abm.projectanalyzer.api.ProjectAnalyzerFactory;
 @Component
 public class SizeAnalyzerFactory implements ProjectAnalyzerFactory {
 
+	private String type = "files";
+	
     @Override
     public ProjectAnalyzer createNewAnalyzer() {
         return new SizeAnalyzer();
     }
-
+    
+    @Override
+    public String getType(){
+    	return type;
+    }
 }
