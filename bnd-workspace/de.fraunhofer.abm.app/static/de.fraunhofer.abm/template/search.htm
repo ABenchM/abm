@@ -3,8 +3,8 @@
 		<h1></h1>
 		<p class="lead">${Bundle-Description}</p>
 		<p>
-			<form ng-submit="sc.search()" name="searchForm">
-				<input type="text" ng-model="query" name="query" size="48">
+			<form ng-submit="sc.search()">
+				<input type="text" ng-model="query" name="query" placeholder = "use user:ownername for search by Repository Owner" size="48">
 				<input type=submit class="btn btn-success" role="button" value="Search"/>
 			</form>
 		</p>

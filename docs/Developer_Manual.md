@@ -39,6 +39,11 @@ Launching the application:
 * Open de.fraunhofer.abm.app/de.fraunhofer.abm.bndrun
 * Click on Run OSGi in the top right corner
 
+## Launching or bouncing the application on production server
+* Go to the following path /opt/abm
+* Run the command in start file residing at that location.
+* Check the process is running or not through the following command -> ps -ef | grep abm
+
 ## User management
 Users can login with a local user or a Google account. All users are managed by the OSGi UserAdmin
 service. You can access the management console by browsing to http://localhost:8080/system/console
@@ -80,3 +85,20 @@ when ABM is started. The password for system console is defined in de.fraunhofer
 * Create the maven build image:
   * `cd abm/docker_files/abm-maven-3-jdk-7`
   * `docker build -t abm/maven:3-jdk-7 .`  
+  
+## Updating the Database
+While the database is automatically generated during setup, when a installation of ABM is updated some modifications to the local database may be needed.
+The changes can be made by reinitilizing the database, but that results in the loss of all data stored on the database.
+To avoid this, make the following changes to your local database for each of the new commits you are applying.
+* Commit 983a572 (Jun 9, 2017 / Added simple public collection feature)
+  * To table "collection":
+    * Add column "privateStatus" (type tinyint, default 0)
+    * Add column "creation_date" (type datetime)
+    * Commit 983a572 (Jun 9, 2017 / Added simple public collection feature)
+* Commit f5fa5cd (Jul 5, 2017 / Added Pinning Collections and Simple Build Sidebar)
+  * Add new table "collectionPin" with the following colunms:
+    * Column "user" (type varchar(255))
+    * Column "id" (type varchar(255))
+  * Add new table "filterPin" with the following colunms:
+    * Column "user" (type varchar(255))
+    * Column "id" (type varchar(255))

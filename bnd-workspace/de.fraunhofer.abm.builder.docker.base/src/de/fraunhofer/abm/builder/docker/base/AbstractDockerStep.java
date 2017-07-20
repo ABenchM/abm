@@ -27,7 +27,7 @@ public abstract class AbstractDockerStep<T> extends AbstractBuildStep<T> {
 
     protected Result exec(String cmd, File dir) throws IOException, InterruptedException {
         logger.debug("Executing command [{}] in directory {}", cmd, dir.getAbsolutePath());
-        String[] env = environmentToArray();
+        String[] env = 	environmentToArray();
         String[] _cmd = cmd.split(" ");
         Process p = Runtime.getRuntime().exec(_cmd, env, dir);
         ByteArrayOutputStream stdout = new ByteArrayOutputStream();

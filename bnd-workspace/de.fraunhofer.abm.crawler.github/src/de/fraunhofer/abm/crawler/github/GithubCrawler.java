@@ -46,6 +46,7 @@ public class GithubCrawler implements Crawler {
     public List<RepositoryDTO> search(String query) throws Exception {
         logger.debug("Searching for [{}]", query);
         List<RepositoryDTO> result = new ArrayList<>();
+        try{
         String uri = "https://api.github.com/search/repositories?q=" + URLEncoder.encode(query, "UTF-8");
         String resp = HttpUtils.get(uri, header, "utf-8");
         JSONObject json = new JSONObject(resp);
@@ -55,6 +56,10 @@ public class GithubCrawler implements Crawler {
                 result.add(createRepository(items.getJSONObject(i)));
             }
         }
+    }catch(Exception e)
+    {
+    	logger.debug("Couldn't find the repository for the owner given", e);	
+    }
         return result;
     }
 
