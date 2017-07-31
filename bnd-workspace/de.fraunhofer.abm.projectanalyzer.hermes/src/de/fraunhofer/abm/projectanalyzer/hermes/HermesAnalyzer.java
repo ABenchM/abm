@@ -47,7 +47,7 @@ public class HermesAnalyzer implements ProjectAnalyzer {
 	private File ProjectPath;
 	
 	
-	static{
+	/*static{
 		Qnamemap.put("org.opalj.hermes.queries.Metrics","Metrics");
 		Qnamemap.put("org.opalj.hermes.queries.FieldAccessStatistics","FieldAccessStatistics");
 		Qnamemap.put("org.opalj.hermes.queries.TrivialReflectionUsage","TrivialReflectionUsage");
@@ -68,7 +68,7 @@ public class HermesAnalyzer implements ProjectAnalyzer {
 		Qnamemap.put("org.opalj.hermes.queries.BytecodeInstrumentationAPIUsage","BytecodeInstrumentationAPIUsage");
 		Qnamemap.put("org.opalj.hermes.queries.SizeOfInheritanceTree","SizeOfInheritanceTree");
 		Qnamemap.put("org.opalj.hermes.queries.ClassFileVersion","ClassFileVersion");
-	}
+	}*/
 	
 	
 	@SuppressWarnings("unused")
@@ -96,6 +96,13 @@ public class HermesAnalyzer implements ProjectAnalyzer {
 		
 	}
 	
+	@SuppressWarnings("unused")
+	private List<FilterDTO> getFilters() throws JsonParseException, JsonMappingException, IOException
+	{
+		ObjectMapper mapper = new ObjectMapper();
+		ConfFilterDTO f = mapper.readValue(FilterPath, ConfFilterDTO.class);
+		return f.registered ;
+	}
 	
 	@SuppressWarnings("unused")
 	private void updateProjectconf(String id , String cp , Optional<String> libcp_defaults) throws JsonParseException, JsonMappingException, IOException

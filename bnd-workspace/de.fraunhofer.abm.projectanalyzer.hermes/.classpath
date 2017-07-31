@@ -14,5 +14,9 @@
 	<classpathentry kind="lib" path="lib/common_2.11.jar"/>
 	<classpathentry kind="lib" path="lib/dependencies-extraction-library_2.11.jar"/>
 	<classpathentry kind="lib" path="lib/opal-developer-tools_2.11.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/Java/jdk1.8.0_131/lib/jackson-all-1.9.9.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/Java/jdk1.8.0_131/lib/com.fasterxml.jackson.core.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/Java/jdk1.8.0_131/lib/com.fasterxml.jackson.databind.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/Java/jdk1.8.0_131/lib/com.fasterxml.jackson.annotations.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
