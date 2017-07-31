@@ -1,7 +1,10 @@
 package de.fraunhofer.abm.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ProjectConfDTO {
-public String id;
-public String cp;
+
+	public List<ProjectDTO> projects = new ArrayList<>();
 
 }
