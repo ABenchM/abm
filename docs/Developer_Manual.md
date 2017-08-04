@@ -86,6 +86,27 @@ when ABM is started. The password for system console is defined in de.fraunhofer
   * `cd abm/docker_files/abm-maven-3-jdk-7`
   * `docker build -t abm/maven:3-jdk-7 .`  
   
+  ## Running Hermes Application on docker
+  * Install docker toolbox on windows or Linux as given above.
+  * Make sure you have configured your docker machine with enough memory as Hermes application requires a good amount of memory.
+  * You can check the limit of your machine using following command - docker-machine inspect
+  * You can create your machine using following command to allocate enough memmory to your machine.
+       docker-machine create -d virtualbox --virtualbox-memory 8192 default (you can choose your machine name)
+  * Command to remove the existing docker-machine 
+       docker-machine rm default (machine name is default)
+  * Pull the Docker Opal Image using following command 
+        docker pull opalj/sbt_scala_javafx (Refer the link :- https://hub.docker.com/r/opalj/sbt_scala_javafx/ in case of any help)
+  * Run the Docker image using following command
+      docker run -it --rm opalj/sbt_scala_javafx
+  * Result of run command will take you to the following prompt 
+             root@743e2cf42ff1:~/OPAL#
+  * run sbt command 
+  * change the project to OPAL-DeveloperTools using following command - project OPAL-DeveloperTools
+  * Run the hermes application using following command 
+    runMain org.opalj.hermes.HermesCLI src/main/resources/hermes.json -csv hermes.csv (You can give any name you want for CSV file)
+  * You will get the csv file in DEVELOPING_OPAL/tools directory or can specify the directory where you want.
+
+  
 ## Updating the Database
 While the database is automatically generated during setup, when a installation of ABM is updated some modifications to the local database may be needed.
 The changes can be made by reinitilizing the database, but that results in the loss of all data stored on the database.
