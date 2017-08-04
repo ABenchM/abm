@@ -178,7 +178,8 @@ JPM-Command:					abm
 	org.scala-lang.modules.scala-parser-combinators;version='[1.0.4,1.0.5)',\
 	org.scala-lang.scala-library;version='[2.11.11,2.11.12)',\
 	org.scala-lang.scala-reflect;version='[2.11.11,2.11.12)',\
-	org.scala-lang.scala-xml;version='[2.11.0,2.11.1)'
+	org.scala-lang.scala-xml;version='[2.11.0,2.11.1)',\
+	javax.mail;version='[1.4.0,1.4.7)'
 -runproperties: \
 	felix.webconsole.password=password,\
 	org.jboss.logging.provider=slf4j,\

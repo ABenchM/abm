@@ -81,3 +81,6 @@ org.scala-lang.modules:scala-java8-compat_2.11:0.8.0
 org.scala-lang.modules:scala-parser-combinators_2.11:1.0.4
 org.scala-stm:scala-stm_2.11:0.8
 net.sf.trove4j:trove4j:3.0.3
+# Used for mailing client
+javax.activation:activation:1.1.1
+javax.mail:mail:1.4.3

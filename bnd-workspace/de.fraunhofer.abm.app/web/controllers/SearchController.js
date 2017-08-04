@@ -1,9 +1,11 @@
 angular.module('de.fraunhofer.abm').controller('searchController', 
-['$rootScope', '$scope', '$http', '$location', 'searchResultService', 'Notification',
-function searchController($rootScope, $scope, $http, $location, searchResultService, Notification) {
+['$rootScope', '$scope', '$http', '$location', 'searchResultService', 'Notification', 'collectionService', 'ngCart',
+function searchController($rootScope, $scope, $http, $location, searchResultService, Notification, collectionService, ngCart) {
 	var self = this;
 
 	self.results = searchResultService.results;
+	self.cart = ngCart;
+	self.searched = false;
 	
 	self.buildsystem = {};
 	self.buildsystems = [
@@ -72,7 +74,37 @@ function searchController($rootScope, $scope, $http, $location, searchResultServ
 				}
 			}
 		)['finally'](function() {
+			self.searched = true;
 			$rootScope.loading = false;
 		});
 	};
+	
+	self.nameSort = function(){
+		searchResultService.results.sort(function(a, b){return a.name > b.name});
+	}
+	
+	self.descSort = function(){
+		searchResultService.results.sort(function(a, b){return a.description > b.description});
+	}
+	
+	self.dateSort = function(){
+		searchResultService.results.sort(function(a, b){return a.creationDate  > b.creationDate });
+	}
+	
+	self.sizeSort = function(){
+		searchResultService.results.sort(function(a, b){return a.size  > b.size });
+	}
+	
+	self.orginSort = function(){
+		searchResultService.results.sort(function(a, b){return a.htmlUrl  > b.htmlUrl });
+	}
+	
+	self.emptyCollection = function() {
+		ngCart.empty();
+	};
+	
+	self.createCollection = function(){
+		collectionService.toCreate = [];
+		$location.path('/createCollection');
+	}
 }]);

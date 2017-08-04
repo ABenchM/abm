@@ -10,6 +10,11 @@ angular.module('de.fraunhofer.abm').controller('buildTabController', function($s
 		$rootScope.hideSidebar = true;
 	};
 	
+	self.hide = function(tabId){
+		targetTab = buildViewerService.builds.findIndex(self.findTab, tabId);
+		buildViewerService.builds[targetTab].hidden = true;
+	}
+	
 	self.initilize = function(){
 		buildViewerService.builds.splice(0, buildViewerService.builds.length);
 		if($scope.user != undefined){
@@ -20,6 +25,7 @@ angular.module('de.fraunhofer.abm').controller('buildTabController', function($s
 				function success(d) {
 					resp = d.data;
 					for(i=0; i<resp.length; i++){
+						resp[i].hidden = false;
 						buildViewerService.builds.push(resp[i]);
 						self.addBuildListener(resp[i].id);
 					}
@@ -43,6 +49,10 @@ angular.module('de.fraunhofer.abm').controller('buildTabController', function($s
 				}, function failure(d) {
 					Notification.error('Failed with ['+ d.status + '] '+ d.statusText);
 				})
+	}
+	
+	self.findTab = function(item){
+		return item.id == this;
 	}
 	
 	$rootScope.$watch('user', function() {

@@ -198,7 +198,18 @@ public class BuildProcess implements Callable<BuildResultDTO> {
             }
         }
         if(status == STATUS.RUNNING) {
-            this.status = STATUS.FINISHED;
+        	this.status = STATUS.FAILED;
+        	for (ProjectBuildDTO projectBuild: buildResult.projectBuilds) {
+        		boolean allGood = true;
+        		for (BuildStepDTO dto : projectBuild.buildSteps) {
+                    if(!dto.status.equals("SUCCESS")) {
+                    	allGood = false;
+                    }
+                }
+        		if(allGood){
+        			this.status = STATUS.FINISHED;
+        		}
+        	}
         }
 
         // create build archive files (zip, tar.xz)

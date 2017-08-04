@@ -9,8 +9,9 @@
 	<col width="*">
 	<col width="*">
 	<col width="10%">
-	<col width="7%">
 	<!--<col width="4%">-->
+	<col width="7%">
+	<col width="7%">
 	<col width="5%">
 	<tr ng-repeat="item in ngCart.getCart().items track by $index" >
   		<td title="'Repository'">{{item.getData().name}}</td>
@@ -18,6 +19,7 @@
   		<td title="'Created'">{{item.getData().creationDate | date:'short'}}</td>
   		<!--<td title="'Language'">{{item.getData().language}}</td>-->
   		<td title="'Total File Size'">{{item.getData().size | fileSize}}</td>
+		<td title="'Repository Orgin'">{{item.getData().htmlUrl | siteName}}</td>
   		<td title="'Remove'">
   			<input type=button class="btn btn-xs btn-danger" role="button" value="Remove" ng-click="ngCart.removeItemById(item.getId())"/>
   		</td>

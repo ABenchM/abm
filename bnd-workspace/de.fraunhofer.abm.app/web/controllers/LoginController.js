@@ -7,8 +7,10 @@ function($rootScope, $scope, $http, $location, $cookies, ngCart, GoogleSignin, N
 		$http.post('/rest/login', $scope.credentials, null).then(
 				function() {
 					$location.path('/');
+					d = new Date();
+					d.setTime(d.getTime() + 43200000)
 					$rootScope.user = $scope.credentials.username;
-					$cookies.put('user', $scope.credentials.username);
+					$cookies.put('user', $scope.credentials.username, {expires: d});
 				}, function(d) {
 					if(d.status == 401) {
 						Notification.error('Wrong username or password');
@@ -26,8 +28,9 @@ function($rootScope, $scope, $http, $location, $cookies, ngCart, GoogleSignin, N
 			function(d) {
 				$location.path('/login');
 				$rootScope.user = undefined;
+				$rootScope.userCollections = undefined;
 				$cookies.remove('user');
-				//ngCart.empty();
+				ngCart.empty();
 			}, function(d) {
 				$location.path('/');
 			});

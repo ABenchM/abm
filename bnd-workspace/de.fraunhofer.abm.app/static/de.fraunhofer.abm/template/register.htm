@@ -1,10 +1,12 @@
-<div class="col-md-6 col-md-offset-3" ng-controller="registrationController">
+<div class="col-md-6 col-md-offset-3" ng-controller="registrationController as rc">
 	<h2>Register</h2>
-    <form name="form" ng-submit="register()" role="form">
-        <div class="form-group" ng-class="{ 'has-error': form.username.$dirty && form.username.$error.required }">
+	<p class='highlight'>Please remember that this connection is not secured. This feature is for currently only for debugging, and any password you enter here could be compromised until this website supports https.</p>
+    <form name="form" ng-submit="rc.register()" role="form">
+        <div class="form-group" ng-class="{ 'has-error': form.username.$dirty && (form.username.$error.required || !rc.available)}">
             <label for="username">Username</label>
-            <input type="text" name="username" id="username" class="form-control" ng-model="request.username" required />
+            <input type="text" name="username" id="username" class="form-control" ng-model="request.username" ng-blur="rc.available = true" required />
             <span ng-show="form.username.$dirty && form.username.$error.required" class="help-block">Username is required</span>
+            <span ng-show="!rc.available" class="help-block">Username is already in use</span>
         </div>
         <div class="form-group" ng-class="{ 'has-error': form.password.$dirty && form.password.$error.required }">
             <label for="password">Password</label>
@@ -28,13 +30,14 @@
             <input type="text" name="affiliation" id="affiliation" class="form-control" ng-model="request.affiliation" required />
             <span ng-show="form.affiliation.$dirty && form.affiliation.$error.required" class="help-block">Your affiliation is required</span>
         </div>
-        <div class="form-group" ng-class="{ 'has-error': form.email.$dirty && form.email.$error.required }">
+        <div class="form-group" ng-class="{ 'has-error': form.email.$dirty && (form.email.$error.required || rc.invalidEmail)}">
             <label for="email">Email Address</label>
-            <input type="text" name="email" id="email" class="form-control" ng-model="request.email" required />
+            <input type="text" name="email" id="email" class="form-control" ng-model="request.email" ng-blur="rc.checkEmail()" required />
             <span ng-show="form.email.$dirty && form.email.$error.required" class="help-block">Your email address is required</span>
+            <span ng-show="form.email.$dirty && !form.email.$error.required && rc.invalidEmail" class="help-block">This is not a valid email address</span>
         </div>
         <div class="form-actions text-right">
-            <button type="submit" ng-disabled="form.$invalid || (request.password != request.confirmPassword)" class="btn btn-primary">Submit</button>
+            <button type="submit" ng-disabled="form.$invalid || (request.password != request.confirmPassword) || loading" class="btn btn-primary">Submit</button>
             <div class="wrapper" ng-show="loading">
 				<span class="cssload-loader"></span>
 			</div>

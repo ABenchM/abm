@@ -8,6 +8,7 @@ function collectionController($rootScope, $scope, $http, $location, $route, ngCa
 	self.version = collectionService.version;
 	self.showCollection = false;
 	self.disableBuild = false;
+	self.repositoryList = collectionService.toCreate;
 	
 	var columnDefinition = [
 		{ name: 'name' },
@@ -35,7 +36,7 @@ function collectionController($rootScope, $scope, $http, $location, $route, ngCa
 			params: {'user': $rootScope.user}
 		}).then(
 			function(resp) {
-				$scope.gridOpts.data = resp.data;
+				$rootScope.userCollections = resp.data;
 			}, function(d) {
 				if(d.status == '403') {
 					$location.path('/login');
@@ -54,12 +55,16 @@ function collectionController($rootScope, $scope, $http, $location, $route, ngCa
 		self.version = collectionService.version;
 		self.showCollection = true;
 	}
-
-	self.save = function() {
+	
+	self.save = function(repositoryList) {
+		if($rootScope.user == undefined){
+			Notification.error('Please login before creating a collection');
+			return;
+		}
 		$rootScope.loading = true;
 		
 		self.collection.creation_date = new Date();
-		self.collection.privateStatus = false;
+		self.collection.privateStatus = true;
 
 		var version = {
 			number: 1,
@@ -69,13 +74,18 @@ function collectionController($rootScope, $scope, $http, $location, $route, ngCa
 		self.collection.versions = [];
 		self.collection.versions.push(version);
 		
+		if(repositoryList.length == 0){
+			for(var i=0; i < ngCart.getTotalItems(); i++){
+				repositoryList.push(ngCart.getCart().items[i].getData());
+			}
+		}
+		
 		version.commits = [];
-		var items = ngCart.getItems();
-		for(var i=0; i<items.length; i++) {
+		for(var i=0; i<repositoryList.length; i++) {
 			var commit = {
 				commitId: 'HEAD'
 			};
-			commit.repository = items[i]._data;
+			commit.repository = repositoryList[i];
 			commit.branchId = commit.repository.defaultBranch;
 			version.commits.push(commit);
 		}
@@ -90,6 +100,7 @@ function collectionController($rootScope, $scope, $http, $location, $route, ngCa
 						Notification.error('Failed with ['+ d.status + '] '+ d.statusText);
 					}
 				})['finally'](function() {
+					collectionService.toCreate = [];
 					$rootScope.loading = false;
 				});
 	}
@@ -117,7 +128,7 @@ function collectionController($rootScope, $scope, $http, $location, $route, ngCa
 			url: '/rest/collection/' + id
 		}).then(
 			function() {
-				var d = $scope.gridOpts.data;
+				var d = $rootScope.userCollections;
 				for(var i=0; i<d.length; i++) {
 					if(d[i].id == id) {
 						d.splice(i,1);
@@ -258,7 +269,7 @@ function collectionController($rootScope, $scope, $http, $location, $route, ngCa
 					var buildId = d.data;
 					//collectionService.version.frozen = true;
 					self.version.frozen = true;
-					buildViewerService.builds.push({"id": self.version.id, "name": self.collection.name, "versionNum": self.version.number, "progress": 0, "buildStatus": 'RUNNING'});
+					buildViewerService.builds.push({"id": self.version.id, "name": self.collection.name, "versionNum": self.version.number, "progress": 0, "buildStatus": 'RUNNING', "hidden": false});
 					targetTab = buildViewerService.builds.length - 1;
 					self.getBuildProgress(self.version.id, targetTab);
 				}, function(d) {
@@ -299,9 +310,11 @@ function collectionController($rootScope, $scope, $http, $location, $route, ngCa
 	self.addBuild = function(version) {
 		targetTab = buildViewerService.builds.findIndex(self.findTab, version);
 		if(targetTab < 0){
-			buildViewerService.builds.push({"id": version.id, "name": self.collection.name, "versionNum": version.number, "progress": 0, "buildStatus": ''});
+			buildViewerService.builds.push({"id": version.id, "name": self.collection.name, "versionNum": version.number, "progress": 0, "buildStatus": '', "hidden": false});
 			targetTab = buildViewerService.builds.length - 1;
 			self.getBuildProgress(version.id, targetTab);
+		} else {
+			buildViewerService.builds[targetTab].hidden = false;
 		}
 		buildViewerService.initialSelection = buildViewerService.builds[targetTab];
 		buildViewerService.launch();
@@ -374,8 +387,25 @@ function collectionController($rootScope, $scope, $http, $location, $route, ngCa
 			})
 	}
 	
+	self.makePublic = function(collection){
+		collection.privateStatus = false;
+		self.update();
+	}
+	
 	self.findTab = function(item){
 		return (item.id == this.id);
+	}
+	
+	self.nameSort = function(){
+		$rootScope.userCollections.sort(function(a, b){return a.name > b.name});
+	}
+	
+	self.descSort = function(){
+		$rootScope.userCollections.sort(function(a, b){return a.description > b.description});
+	}
+	
+	self.dateSort = function(){
+		$rootScope.userCollections.sort(function(a, b){return a.creation_date  > b.creation_date });
 	}
 	
 	self.getBuildProgress = function(versionId, targetTab){
@@ -411,4 +441,6 @@ function collectionController($rootScope, $scope, $http, $location, $route, ngCa
 				buildViewerService.addListener(build.id);
 			});
 	}
+	
+	$scope.loadUserCollections();
 }]);

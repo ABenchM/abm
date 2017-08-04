@@ -1,12 +1,17 @@
 angular.module('de.fraunhofer.abm').controller("cartController", 
-['$rootScope', '$scope', '$http', '$location', 'ngCart', 'searchResultService',
-function cartController($rootScope, $scope, $http, $location, ngCart, searchResultService) {
+['$rootScope', '$scope', '$http', '$location', 'ngCart', 'searchResultService', 'collectionService',
+function cartController($rootScope, $scope, $http, $location, ngCart, searchResultService, collectionService) {
 	var self = this;
 	self.cart = ngCart;
 	
 	self.emptyCollection = function() {
 		ngCart.empty();
 	};
+	
+	self.createCollection = function(){
+		collectionService.toCreate = [];
+		$location.path('/createCollection');
+	}
 	
 	self.selectAll = function() {
 		for (var i = 0; i < searchResultService.results.length; i++) {

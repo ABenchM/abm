@@ -1,4 +1,4 @@
-angular.module('de.fraunhofer.abm').factory("buildViewerService", ['$uibModal', '$http', function($uibModal, $http) {
+angular.module('de.fraunhofer.abm').factory("buildViewerService", ['$uibModal', '$http', '$rootScope', 'Notification', function($uibModal, $http, $rootScope, Notification) {
 	
 	var self = this;
 	self.isOpen = false;
@@ -58,7 +58,14 @@ angular.module('de.fraunhofer.abm').factory("buildViewerService", ['$uibModal', 
 								self.findingStep = false;
 								self.builds[i].progress = (j + 1) / buildResult.projectBuilds.length;
 								if(buildResult.status == 'RUNNING' && self.builds[i].progress == 1){
-									self.builds[i].buildStatus = 'FINISHED';
+									failed = self.checkFailure(buildResult);
+									if(failed){
+										self.builds[i].buildStatus = 'FAILED';
+										Notification.success(self.builds[i].name + " failed to build");
+									} else {
+										self.builds[i].buildStatus = 'FINISHED';
+										Notification.success(self.builds[i].name + " has been built");
+									}
 								} else {
 									self.builds[i].buildStatus = buildResult.status;
 								}
@@ -69,6 +76,20 @@ angular.module('de.fraunhofer.abm').factory("buildViewerService", ['$uibModal', 
 				}, function failure(d){
 					Notification.error('Failed with ['+ d.status + '] '+ d.statusText);
 				})
+	}
+	
+	self.checkFailure = function(buildResult){
+		for(i=0;i<buildResult.projectBuilds.length;i++){
+			projectBuild = buildResult.projectBuilds[i];
+			allGood = true;
+			for(j=0;j<projectBuild.buildSteps.length;j++){
+				if(projectBuild.buildSteps[j].status != "SUCCESS"){
+					allGood = false;
+				}
+			}
+			if(allGood){return false;}
+		}
+		return true;
 	}
 	
 	return {

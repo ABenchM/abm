@@ -23,7 +23,17 @@ angular.module('de.fraunhofer.abm').controller('modalBuildController', function(
 				var resp = JSON.parse(e.data);
 				if(resp.msg == "update") {
 					if(resp.data == 'build_process_finished') {
-						$scope.build.status = 'FINISHED';
+						$scope.build.status = 'FAILED';
+						for(var i=0; i<$scope.build.projectBuilds.length; i++) {
+							var currentBuild = $scope.build.projectBuilds[i];
+							allGood = true;
+							for(j=0;j<projectBuild.buildSteps.length;j++){
+								if(projectBuild.buildSteps[j].status != "SUCCESS"){
+									allGood = false;
+								}
+							}
+							if(allGood){$scope.build.status = 'FINISHED';}
+						}
 						$scope.$apply();
 					}
 				} else if(resp.msg == "buildsteps") {
@@ -124,7 +134,8 @@ angular.module('de.fraunhofer.abm').controller('modalBuildController', function(
 			url: '/rest/build/' + buildResultId
 		}).then(
 				function success(d) {
-					targetTab = buildViewerService.builds.findIndex($ctrl.findTab, buildResultId);
+					$ctrl.unfreeze($ctrl.showing.id);
+					targetTab = buildViewerService.builds.findIndex($ctrl.findTab, $ctrl.showing.id);
 					buildViewerService.builds.splice(targetTab, 1);
 					$ctrl.close();
 				}, function failure(d) {
@@ -136,6 +147,18 @@ angular.module('de.fraunhofer.abm').controller('modalBuildController', function(
 				})['finally'](function() {
 					$rootScope.loading = false;
 				});
+	}
+	
+	$ctrl.unfreeze = function(versionId){
+		for(i=0;i<$rootScope.userCollections.length;i++){
+			collection = $rootScope.userCollections[i];
+			for(j=0;j<collection.versions.length;j++){
+				version = collection.versions[j];
+				if(version.id == versionId){
+					version.frozen = false;
+				}
+			}
+		}
 	}
 	
 	$ctrl.downloadArchive = function(buildResultId) {
@@ -201,8 +224,10 @@ angular.module('de.fraunhofer.abm').controller('modalBuildController', function(
 	
 	$ctrl.dismiss = function(tabId){
 		targetTab = buildViewerService.builds.findIndex($ctrl.findTab, tabId);
-		buildViewerService.builds.splice(targetTab, 1);
-		$ctrl.close();
+		buildViewerService.builds[targetTab].hidden = true;
+		if($ctrl.showing.id == tabId){
+			$ctrl.close();
+		}
 	}
 	
 	$ctrl.close = function(){

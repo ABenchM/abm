@@ -14,12 +14,14 @@ import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.fraunhofer.abm.app.EmailConfiguration;
 import de.fraunhofer.abm.app.auth.Authorizer;
 import de.fraunhofer.abm.app.auth.SecurityContext;
 import de.fraunhofer.abm.collection.dao.BuildResultDao;
 import de.fraunhofer.abm.collection.dao.CollectionDao;
 import de.fraunhofer.abm.collection.dao.CollectionPinDao;
 import de.fraunhofer.abm.collection.dao.FilterPinDao;
+import de.fraunhofer.abm.collection.dao.UserDao;
 import de.fraunhofer.abm.domain.BuildResultDTO;
 import de.fraunhofer.abm.domain.CollectionDTO;
 import de.fraunhofer.abm.domain.CommitDTO;
@@ -42,7 +44,7 @@ public class CollectionController extends AbstractController implements REST {
 
     @Reference
     private BuildResultDao buildResultDao;
-    
+
     @Reference
     private Authorizer authorizer;
 
@@ -60,8 +62,8 @@ public class CollectionController extends AbstractController implements REST {
         } else if(params.get("privateStatus") != null) {
         	if(params.get("id") != null){
         		result = collectionDao.findPublicId(params.get("id")[0]);
-        	} else if(params.get("keyword") != null){
-        		result = collectionDao.findPublic(params.get("keyword")[0]);
+        	} else if(params.get("keywords") != null){
+        		result = collectionDao.findPublic(params.get("keywords")[0]);
         	} else {
         		result = collectionDao.findPublic();
         	}

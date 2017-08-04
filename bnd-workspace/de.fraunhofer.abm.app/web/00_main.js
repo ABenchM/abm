@@ -22,6 +22,7 @@
 		$routeProvider.when('/editCollection/:id', { templateUrl: '/de.fraunhofer.abm/template/editCollection.htm'});
 		$routeProvider.when('/login', { templateUrl: '/de.fraunhofer.abm/template/login.htm'});
 		$routeProvider.when('/register', { templateUrl: '/de.fraunhofer.abm/template/register.htm'});
+		$routeProvider.when('/registered', { templateUrl: '/de.fraunhofer.abm/template/registered.htm'});
 		$routeProvider.when('/createCollection', { templateUrl: '/de.fraunhofer.abm/template/createCollection.htm'});
 		$routeProvider.when('/applyCriteria', { templateUrl: '/de.fraunhofer.abm/template/applyCriteria.htm'});
 		$routeProvider.when('/my', { templateUrl: '/de.fraunhofer.abm/template/my.htm'});

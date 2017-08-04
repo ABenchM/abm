@@ -59,5 +59,7 @@
   "artifactId":"org.osgi.service.prefs","baseline":"1.1.1","bsn":"org.osgi.service.prefs","created":1432153426186,"description":"OSGi Companion Code for org.osgi.service.prefs Version 1.1.1.","groupId":"org.osgi","md5":"8103F0CC3D60E84F14C1503F9231D72E","name":"org.osgi:org.osgi.service.prefs","phase":"MASTER","revision":"8549D2A426DCE907D6B1253742CA8C11095C515B","size":19739,"urls":["http://repo1.maven.org/maven2/org/osgi/org.osgi.service.prefs/1.1.1/org.osgi.service.prefs-1.1.1.jar"],"version":"1.1.1"
  },{
   "artifactId":"slf4j-api","baseline":"1.7.21","bsn":"slf4j.api","created":1459794999000,"description":"The slf4j API","groupId":"org.slf4j","md5":"C9BE56284A92DCB2576679282EFF80BF","name":"slf4j-api","phase":"MASTER","revision":"139535A69A4239DB087DE9BAB0BEE568BF8E0B70","size":41071,"urls":["http://repo1.maven.org/maven2/org/slf4j/slf4j-api/1.7.21/slf4j-api-1.7.21.jar"],"version":"1.7.21"
+ },{
+  "artifactId":"mail","baseline":"1.4.0","bsn":"javax.mail","created":1472230163520,"description":"","groupId":"javax.mail","md5":"2e64a3805d543bdb86e6e5eeca5529f8","name":"JavaMail API (compat)","phase":"MASTER","revision":"9ADD058589D5D85ADEB625859BF2C5EEAAEDF12D","size":388864,"urls":["http://repo1.maven.org/maven2/javax/mail/mail/1.4.7/mail-1.4.7.jar"],"version":"1.4.0"
  }]
 }

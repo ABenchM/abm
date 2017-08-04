@@ -1,78 +1,93 @@
 <section ng-controller="searchController as sc">
-	<div class="jumbotron">
-		<h1></h1>
-		<p class="lead">${Bundle-Description}</p>
-		<p>
-			<form ng-submit="sc.search()">
-				<input type="text" ng-model="query" name="query" placeholder = "use user:ownername for search by Repository Owner" size="48">
-				<input type=submit class="btn btn-success" role="button" value="Search"/>
-			</form>
-		</p>
-		<div style="max-width:1000px;margin:auto;">
-			<div ng-show="showOptions" class="text-left optionMenu"> 	<!-- The animation here breaks if height is set to auto.
-																		Manually set the correct height the .optionMenu class of the css file -->
-			<!--
-				<div class="form-group">
-		        	<label for="buildsystem">Build System</label>
-					<ui-select multiple ng-model="sc.buildsystem.selected" ng-disabled="sc.disabled" title="Choose a build system" form="searchForm">
-					      <ui-select-match placeholder="Select or search a build system in the list...">{{$item.name}}</ui-select-match>
-					      <ui-select-choices repeat="buildsystem in sc.buildsystems | filter: $select.search">
-					      <span ng-bind-html="buildsystem.name | highlight: $select.search"></span>
-				    	  <!-- <small ng-bind-html="language.code | highlight: $select.search"></small>->
-					    </ui-select-choices>
-					</ui-select>
-				</div>
-				<p></p>
-				
-				<div class="form-group">
-			        <label for="language">Language</label>
-					<ui-select multiple ng-model="sc.language.selected" ng-disabled="sc.disabled" title="Choose a language" form="searchForm">
-					      <ui-select-match placeholder="Select or search a language in the list...">{{$item.name}}</ui-select-match>
-				    	  <ui-select-choices repeat="language in sc.languages | filter: $select.search">
-					      <span ng-bind-html="language.name | highlight: $select.search"></span>
-					      <!-- <small ng-bind-html="language.code | highlight: $select.search"></small>->
-					    </ui-select-choices>
-					</ui-select>
-				</div>
-				
-				<p></p>
-				<div class="form-group">
-		    	    <label for="language">License</label>
-					<ui-select multiple ng-model="sc.license.selected" ng-disabled="sc.disabled" title="Choose a license" form="searchForm">
-					      <ui-select-match placeholder="Select or search a license in the list...">{{$item.name}}</ui-select-match>
-					      <ui-select-choices repeat="license in sc.licenses | filter: $select.search">
-					      <span ng-bind-html="license.name | highlight: $select.search"></span>
-					      <!-- <small ng-bind-html="license.code | highlight: $select.search"></small>->
-					    </ui-select-choices>
-					</ui-select>
-				</div>
-				<p></p>
-				<div class="form-group">
-		        	<label for="language">Size (number of files)</label>
-					<ui-select multiple ng-model="sc.size.selected" ng-disabled="sc.disabled" title="Choose a size" form="searchForm">
-				    	  <ui-select-match placeholder="Select or search a size in the list...">{{$item.name}}</ui-select-match>
-				    	  <ui-select-choices repeat="size in sc.sizes | filter: $select.search">
-				    	  <span ng-bind-html="size.name | highlight: $select.search"></span>
-				    	  <!-- <small ng-bind-html="size.code | highlight: $select.search"></small>->
-				    	</ui-select-choices>
-					</ui-select>
-				</div>
-				-->
-				<p>This feature is not currently implemented. Check back soon!</p>
+	
+	<div style="max-height:1000px;overflow:auto">
+		<h3 ng-show="sc.cart.getTotalItems() > 0"><ngcart-summary></ngcart-summary> selected</h3>
+	
+  		<ngcart-cart></ngcart-cart>
+		
+		<div class="col-lg-12 text-right">
+	  	  <a href ng-click="sc.createCollection()" role="button" class="btn btn-success" ng-show="sc.cart.getTotalItems() > 0">Create Collection</a>
+		  <input type=button class="btn btn-danger" role="button" value="Remove all" ng-show="sc.cart.getTotalItems() > 0" ng-click="sc.cart.empty()"/>
+	  	</div>
+  	</div>
+	
+	<hr>
+
+	<!-- <p class="lead">${Bundle-Description}</p> -->
+	<p>	
+		<form ng-submit="sc.search()">
+			<input type="text" ng-model="query" name="query" placeholder="use user:ownername for search by Repository Owner" size="48" style="width:80%">
+			<input type=submit class="btn btn-success" role="button" value="Search" ng-disabled="query === '' || query === undefined" />
+			<span>
+		        <a class="btn btn-success" ng-hide="showOptions" ng-click="showOptions=true;">Show Filtering Options</a>
+	    	    <a class="btn btn-danger" ng-show="showOptions" ng-click="showOptions=false;">Hide Filtering Options</a>
+			</span>
+		</form>
+	</p>
+	<div style="max-width:1000px;margin:auto;">
+		<div ng-show="showOptions" class="text-left optionMenu"> 	<!-- The animation here breaks if height is set to auto.
+																	Manually set the correct height the .optionMenu class of the css file --><!--
+			<div class="form-group">
+	        	<label for="buildsystem">Build System</label>
+				<ui-select multiple ng-model="sc.buildsystem.selected" ng-disabled="sc.disabled" title="Choose a build system" form="searchForm">
+				      <ui-select-match placeholder="Select or search a build system in the list...">{{$item.name}}</ui-select-match>
+				      <ui-select-choices repeat="buildsystem in sc.buildsystems | filter: $select.search">
+				      <span ng-bind-html="buildsystem.name | highlight: $select.search"></span>
+			    	  <!-- <small ng-bind-html="language.code | highlight: $select.search"></small>->
+				    </ui-select-choices>
+				</ui-select>
 			</div>
-			<div class="text-right">
-		        <a class="btn btn-xs btn-success" ng-hide="showOptions" ng-click="showOptions=true;">Show Filtering Options</a>
-	    	    <a class="btn btn-xs btn-danger" ng-show="showOptions" ng-click="showOptions=false;">Hide Filtering Options</a>
+			<p></p>
+			
+			<div class="form-group">
+		        <label for="language">Language</label>
+				<ui-select multiple ng-model="sc.language.selected" ng-disabled="sc.disabled" title="Choose a language" form="searchForm">
+				      <ui-select-match placeholder="Select or search a language in the list...">{{$item.name}}</ui-select-match>
+				   	  <ui-select-choices repeat="language in sc.languages | filter: $select.search">
+				      <span ng-bind-html="language.name | highlight: $select.search"></span>
+				      <!-- <small ng-bind-html="language.code | highlight: $select.search"></small>->
+				    </ui-select-choices>
+				</ui-select>
 			</div>
+				
+			<p></p>
+			<div class="form-group">
+		        <label for="language">License</label>
+				<ui-select multiple ng-model="sc.license.selected" ng-disabled="sc.disabled" title="Choose a license" form="searchForm">
+					  <ui-select-match placeholder="Select or search a license in the list...">{{$item.name}}</ui-select-match>
+				      <ui-select-choices repeat="license in sc.licenses | filter: $select.search">
+				      <span ng-bind-html="license.name | highlight: $select.search"></span>
+				      <!-- <small ng-bind-html="license.code | highlight: $select.search"></small>->
+				    </ui-select-choices>
+				</ui-select>
+			</div>
+			<p></p>
+			<div class="form-group">
+		       	<label for="language">Size (number of files)</label>
+				<ui-select multiple ng-model="sc.size.selected" ng-disabled="sc.disabled" title="Choose a size" form="searchForm">
+				   	  <ui-select-match placeholder="Select or search a size in the list...">{{$item.name}}</ui-select-match>
+				   	  <ui-select-choices repeat="size in sc.sizes | filter: $select.search">
+				   	  <span ng-bind-html="size.name | highlight: $select.search"></span>
+				 	  <!-- <small ng-bind-html="size.code | highlight: $select.search"></small>->
+				    </ui-select-choices>
+				</ui-select>
+			</div>
+			-->
+		
+		<p>This feature is not currently implemented. Check back soon!</p>
 		</div>
 	</div>
 
+
+	<hr>
 	
 	<div class="wrapper" ng-show="loading">
 		<h2>Searching</h2>
 		<span class="cssload-loader"></span>
 	</div>
-
+	
+	<p class="alert alert-warning" ng-show="sc.results.length === 0 && sc.searched && !loading">No results found</p>
+	
 	<div id="results" ng-controller="cartController as cc" ng-show="sc.results.length > 0">
 		
 		<div class="row">
@@ -85,19 +100,21 @@
 		<div class="row">
 			<div class="col-lg-12">
 
-			<table class="table table-bordered table-striped table-hover">
-				<col width="*">
-				<col width="*">
+			<table class="table table-bordered table-striped table-hover" style="table-layout:fixed;">
+				<col width="16%">
+				<col width="54%">
 				<col width="10%">
-				<col width="7%">
 				<!--<col width="4%">-->
-				<col width="5%">
+				<col width="7%">
+				<col width="7%">
+				<col width="6%">
 				<tr>
-					<th>Name</th>
-					<th>Description</th>
-					<th>Creation Date</th>
+					<th ng-click="sc.nameSort()">Name</th>
+					<th ng-click="sc.descSort()">Description</th>
+					<th ng-click="sc.dateSort()">Creation Date</th>
 					<!--<th>Language</th>-->
-					<th>Size</th>
+					<th ng-click="sc.sizeSort()">Size</th>
+					<th ng-click="sc.orginSort()">Orgin</th>
 				</tr>
 				<tr ng-repeat="row in sc.results">
 					<td>{{row.name}}</td>
@@ -105,6 +122,7 @@
 					<td>{{row.creationDate | date:'short'}}</td>
 					<!--<td>{{row.language}}</td>-->
 					<td>{{row.size | fileSize}}</td>
+					<td>{{row.htmlUrl | siteName}}</td>
 					<td><ngcart-addtocart id="{{ row.id }}" name="{{ row.name }}" price="1" quantity="1" quantity-max="30" data="row"></ngcart-addtocart></td>
 				</tr>
 			</table>

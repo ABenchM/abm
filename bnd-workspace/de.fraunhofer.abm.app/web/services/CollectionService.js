@@ -3,6 +3,7 @@ angular.module('de.fraunhofer.abm').factory('collectionService', function() {
 		collection: {},
 		version: {},
 		commit: {},
+		toCreate: [],
 
 		setCollection: function (collection) {
 			this.collection = collection;

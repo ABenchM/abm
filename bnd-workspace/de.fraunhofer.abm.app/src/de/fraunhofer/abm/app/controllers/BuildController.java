@@ -111,6 +111,7 @@ public class BuildController implements REST {
             map.put("versionNum", String.valueOf(version.number));
             map.put("progress", String.valueOf(buildProgress(dto)));
             map.put("buildStatus", dto.status);
+            map.put("hidden", "false");
             results.add(map);
     	}
     	

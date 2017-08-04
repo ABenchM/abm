@@ -1,11 +1,12 @@
-<div>
+<div style="min-height:{{150 + ($ctrl.tabs.length * 30)}}px">
 	<div class="modal-header">
 		<h3 class="modal-title" id="modal-title">Build Progress for {{$ctrl.showing.name}}</h3>
 		<p>Version {{$ctrl.showing.versionNum}}</p>
 	</div>
 	
 	<div class="modal-sidebar sidebar">
-		<div class="sidebarTab" ng-repeat="tab in $ctrl.tabs" ng-class="{'selected': (tab == $ctrl.showing)}">
+		<div class="sidebarTab" ng-repeat="tab in $ctrl.tabs" ng-class="{'selected': (tab == $ctrl.showing)}" ng-hide="tab.hidden">
+			<span class="glyphicon glyphicon-chevron-left" ng-click="$ctrl.dismiss(tab.id)"></span>
 			<a href style="background:linear-gradient(to right, {{tab.buildStatus | statusColour}} {{tab.progress * 100}}%, transparent 0%)" ng-click="$ctrl.select(tab);">
 			{{tab | tabTitle}}
 			</a>
@@ -37,19 +38,18 @@
 				</ul>
 			</div>
 		</uib-accordion>
-	</div>
 	
-	<div class="wrapper" ng-show="loading">
-		<span class="cssload-loader"></span>
+		<div class="wrapper" ng-show="loading">
+			<span class="cssload-loader"></span>
+		</div>
 	</div>
 	
 	<div class="modal-footer">
-		<span style="float: left">
+		<span style="float: left" ng-hide="loading">
 			<button class="btn btn-danger" ng-click="$ctrl.cancelBuild(build.id)" ng-show="build.status == 'RUNNING'" >Cancel build</button>
 			<button class="btn btn-info" ng-click="$ctrl.downloadArchive(build.id)" ng-show="build.status == 'FINISHED'" >Download</button>
-			<button class="btn btn-danger" ng-click="$ctrl.deleteBuild(build.id)" ng-show="build.status == 'FINISHED' || build.status == 'CANCELLED'"" confirm="Removal is irreversible! Continue?">Delete</button>
+			<button class="btn btn-danger" ng-click="$ctrl.deleteBuild(build.id)" ng-show="build.status == 'FINISHED' || build.status == 'CANCELLED' || build.status == 'FAILED'"" confirm="Removal is irreversible! Continue?">Delete</button>
 		</span>
-		<button class="btn btn-warning" type="button" ng-click="$ctrl.dismiss(build.id)">Hide Build</button>
 		<button class="btn btn-warning" type="button" ng-click="$ctrl.close()">Close Panel</button>
 	</div>
 </div>

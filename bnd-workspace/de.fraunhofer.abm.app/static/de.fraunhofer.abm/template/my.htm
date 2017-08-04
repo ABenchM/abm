@@ -1,6 +1,6 @@
 <section ng-controller="collectionController as cc">
 
-	<h2 ng-init="loadUserCollections();">My Collections</h2>
+	<h2>My Collections</h2>
 
 	<div class="wrapper" ng-show="loading">
 		<h2>Loading...</h2>
@@ -10,9 +10,9 @@
 
 <!--	<div id="user-collections-table" ui-grid="gridOpts" ui-grid-resize-columns ui-grid-auto-resize class="grid" ng-hide="loading"></div> -->
 	<div ng-hide="loading">
-		<p ng-show="gridOpts.data[0] === undefined" class="alert alert-warning">You have not created any collections yet. To create a new collection, collect projects using the search feature and create a collection from them in the Projects tab.</p>
+		<p ng-show="userCollections === undefined" class="alert alert-warning">You have not created any collections yet. To create a new collection, collect projects using the search feature and create a collection from them in the Projects tab.</p>
 		
-		<table class="table table-bordered table-striped table-hover" style="max-height:400px;table-layout:fixed;" ng-hide="gridOpts.data[0] === undefined">
+		<table class="table table-bordered table-striped table-hover" style="max-height:400px;table-layout:fixed;" ng-hide="userCollections === undefined">
 			<col width="23%">
 			<col width="39%">
 			<col width="10%">
@@ -20,17 +20,17 @@
 			<col width="23%">
 			<col width="5%">
 			<tr>
-				<th>Name</th>
-				<th>Description</th>
-				<th>Creation Date</th>
+				<th ng-click="cc.nameSort()">Name</th>
+				<th ng-click="cc.descSort()">Description</th>
+				<th ng-click="cc.dateSort()">Creation Date</th>
 				<!-- <th>Size</th> -->
 				<th>ID</th>
 				<th></th>
 			</tr>
-			<tr ng-repeat="row in gridOpts.data" ng-class="{'selected': (row.id == cc.collection.id) && cc.showCollection}" ng-click="cc.edit(row)">
-				<td>{{row.name}}</td>
-				<td>{{row.description}}</td>
-				<td>{{row.creation_date | date:'short'}}</td>
+			<tr ng-repeat="row in userCollections" ng-class="{'selected': (row.id == cc.collection.id) && cc.showCollection}">
+				<td ng-click="cc.edit(row)">{{row.name}}</td>
+				<td ng-click="cc.edit(row)">{{row.description}}</td>
+				<td ng-click="cc.edit(row)">{{row.creation_date | date:'short'}}</td>
 				<!-- <td>{{row.repositories.length | number}}</td> -->
 				<td>{{row.id}}</td>
 				<td style="font-weight:bold">{{row.privateStatus | privateFilter}}</td>
@@ -52,7 +52,7 @@
             	<span ng-show="form.description.$dirty && form.description.$error.required" class="help-block">Description is required</span>
         	</div>
         	<div class="form-actions pull-right">
-            	<button type="submit" ng-disabled="form.$invalid || cc.saving" class="btn btn-primary" ng-click="cc.update()">Save</button>
+            	<button type="submit" ng-disabled="form.$invalid || cc.saving" class="btn btn-primary" ng-hide="!cc.collection.privateStatus" ng-click="cc.update()">Save</button>
 	        	<span class="wrapper" ng-show="cc.saving">
 					<span class="cssload-loader"></span>
 				</span>
@@ -76,8 +76,7 @@
 	            <button ng-disabled="loading || cc.saving || cc.collection.versions.length <= 1" ng-click="cc.removeVersion(cc.version.id)" class="btn btn-sm btn-danger" title="Delete" confirm="Removal is irreversible! Continue?"><i class="glyphicon glyphicon-trash"></i> Delete this version</button>
 	            <button ng-disabled="loading || cc.saving" ng-click="cc.remove(cc.collection.id)" class="btn btn-sm btn-danger" title="Delete" confirm="Removal is irreversible! Continue?"><i class="glyphicon glyphicon-trash"></i> Delete this collection</button>
 	            <span style="float:right;">
-	            	<button ng-disabled="loading || cc.saving || cc.version.frozen" class="btn btn-primary btn-sm" ng-click="cc.collection.privateStatus=true" ng-hide="cc.collection.privateStatus">Make collection private</button>
-	            	<button ng-disabled="loading || cc.saving || cc.version.frozen" class="btn btn-primary btn-sm" ng-click="cc.collection.privateStatus=false" ng-show="cc.collection.privateStatus">Make collection public</button>
+	            	<button ng-disabled="loading || cc.saving || cc.version.frozen" class="btn btn-primary btn-sm" ng-click="cc.makePublic(cc.collection)" ng-show="cc.collection.privateStatus" confirm="Are you sure? This cannot be undone.">Make collection public</button>
 	            </span>
 			</div>
 			<div id="frozen" ng-show="cc.version.frozen">

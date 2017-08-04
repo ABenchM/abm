@@ -1,6 +1,6 @@
 angular.module('de.fraunhofer.abm').controller("viewController", 
-['$rootScope', '$scope', '$http', '$location', '$routeParams', 'Notification', 'ngCart',
-function viewController($rootScope, $scope, $http, $location, $routeParams, Notification, ngCart) {
+['$rootScope', '$scope', '$http', '$location', '$routeParams', 'Notification', 'ngCart', 'collectionService',
+function viewController($rootScope, $scope, $http, $location, $routeParams, Notification, ngCart, collectionService) {
 	var self = this;
 	
 	self.id = $routeParams.id;
@@ -109,6 +109,14 @@ function viewController($rootScope, $scope, $http, $location, $routeParams, Noti
 			var repo = $scope.selectedVersion.commits[i].repository;
 			ngCart.removeItemById(repo.id.toString());
 		}
+	}
+	
+	self.copy = function(){
+		collectionService.toCreate = [];
+		for(i=0;i<$scope.selectedVersion.commits.length; i++){
+			collectionService.toCreate.push($scope.selectedVersion.commits[i].repository);
+		}
+		$location.path('/createCollection');
 	}
 	
 	self.loadCollection(self.id);

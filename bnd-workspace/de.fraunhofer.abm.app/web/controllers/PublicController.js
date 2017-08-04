@@ -3,9 +3,9 @@ angular.module('de.fraunhofer.abm').controller("publicController",
 function publicController($rootScope, $scope, $http, $location, $route, Notification, publicCollectionService, modalLoginService) {
 	var self = this;
 		
-	self.collections = publicCollectionService.collections;
+	$scope.publicData = publicCollectionService.collections;
 	self.disabled = false;
-	$scope.pinned = {};
+	$scope.pinned = publicCollectionService.pinned;
 		
 	self.initilize = function() {
 		self.loading = true;
@@ -16,37 +16,42 @@ function publicController($rootScope, $scope, $http, $location, $route, Notifica
 		}).then(
 			function(resp) {
 				$scope.publicData = resp.data;
+				publicCollectionService.collections = $scope.publicData;
 			}, function(d) {
 				Notification.error('Failed with ['+ d.status + '] '+ d.statusText);
 			})['finally'](function (){
 				if($rootScope.user == undefined){
 					self.loading = false;
 				} else {
-					for(i=0;i<$scope.publicData.length;i++){
-						self.checkPinned($scope.publicData[i]);
-					}
-					$http({
-					    method: 'GET',
-						url: '/rest/pin/',
-						params: {'type': "collection", 'user': $rootScope.user}
-					}).then(
-						function(resp) {
-							$scope.pinned = resp.data;
-						}, function(d) {
-							if(d.status == '403'){
-								Notification.error('You may have been logged out due to unexpected maintenance. Please try logging back in to re-enable all features.');
-								modalLoginService();
-							} else {
-								Notification.error('Failed with ['+ d.status + '] '+ d.statusText);
-							}
-						})['finally'](function (){
-							self.loading = false;
-						});
+					self.loadPinned();
 				}
 			});
 	}
 
-
+	self.loadPinned = function(){
+		self.loading = true;
+		for(i=0;i<$scope.publicData.length;i++){
+			self.checkPinned($scope.publicData[i]);
+		}
+		$http({
+		    method: 'GET',
+			url: '/rest/pin/',
+			params: {'type': "collection", 'user': $rootScope.user}
+		}).then(
+			function(resp) {
+				$scope.pinned = resp.data;
+				publicCollectionService.pinned = $scope.pinned;
+			}, function(d) {
+				if(d.status == '403'){
+					Notification.error('You may have been logged out due to unexpected maintenance. Please try logging back in to re-enable all features.');
+					modalLoginService();
+				} else {
+					Notification.error('Failed with ['+ d.status + '] '+ d.statusText);
+				}
+			})['finally'](function (){
+				self.loading = false;
+			});
+	}
 	
 	self.pin = function(target){
 		self.disabled = true;
@@ -77,7 +82,7 @@ function publicController($rootScope, $scope, $http, $location, $route, Notifica
 				pinnedIndex = $scope.pinned.findIndex(self.checkId, target.id);
 				publicIndex = $scope.publicData.findIndex(self.checkId, target.id);
 				$scope.pinned.splice(pinnedIndex, 1);
-				$scope.publicData[publicIndex].pinned = false;
+				if(publicIndex >= 0){$scope.publicData[publicIndex].pinned = false;}
 			}, function(d){
 				Notification.error('Failed with ['+ d.status + '] '+ d.statusText);
 			})['finally'](function (){
@@ -102,10 +107,14 @@ function publicController($rootScope, $scope, $http, $location, $route, Notifica
 		$http({
 			method: 'GET',
 			url: '/rest/collection/',
-				params: {'privateStatus': false, 'keyword': query}
+				params: {'privateStatus': false, 'keywords': query}
 		}).then(
 			function(d) {
 				$scope.publicData = d.data;
+				publicCollectionService.collections = $scope.publicData;
+				for(i=0;i<$scope.publicData.length;i++){
+					self.checkPinned($scope.publicData[i]);
+				}
 			}, function(d) {
 				Notification.error('Failed with ['+ d.status + '] '+ d.statusText);
 			}
@@ -113,6 +122,18 @@ function publicController($rootScope, $scope, $http, $location, $route, Notifica
 			self.searching = false;
 		});
 	};
+	
+	self.nameSort = function(){
+		$scope.publicData.sort(function(a, b){return a.name > b.name});
+	}
+	
+	self.descSort = function(){
+		$scope.publicData.sort(function(a, b){return a.description > b.description});
+	}
+	
+	self.dateSort = function(){
+		$scope.publicData.sort(function(a, b){return a.creation_date  > b.creation_date });
+	}
 	
 	self.view = function(id) {
 		$location.path('/view/' + id);
@@ -122,6 +143,13 @@ function publicController($rootScope, $scope, $http, $location, $route, Notifica
 		return (item.id == this);
 	}
 	
-	self.initilize();
-
+	self.onLoad = function(){
+		if($scope.publicData.length == 0){
+			self.initilize();
+		} else if ($rootScope.user != undefined){
+			self.loadPinned();
+		}
+	}
+	
+	self.onLoad();
 }]);

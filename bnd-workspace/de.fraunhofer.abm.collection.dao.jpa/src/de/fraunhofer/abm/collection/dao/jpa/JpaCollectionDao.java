@@ -87,11 +87,20 @@ public class JpaCollectionDao extends AbstractJpaDao implements CollectionDao {
         });
     }
     @Override
-    public List<CollectionDTO> findPublic(String keyword){
+    public List<CollectionDTO> findPublic(String keywords){
+    	String[] keywordArray = keywords.split(" ");
+    	String partialQuery = "SELECT c FROM collection c WHERE c.privateStatus = 0 AND (c.name LIKE :keyword0 OR c.description LIKE :keyword0 OR c.id = :id)";
+    	for(int i=1;i<keywordArray.length;i++){
+    		partialQuery = partialQuery + " AND (c.name LIKE :keyword"+i+" OR c.description LIKE :keyword"+i+")";
+    	}
+    	final String generatedQuery = partialQuery;
     	return transactionControl.notSupported(() -> {
-            TypedQuery<JpaCollection> query = em.createQuery("SELECT c FROM collection c WHERE c.privateStatus = 0 AND (c.name LIKE :keyword OR c.description LIKE :keyword)", JpaCollection.class);
+            TypedQuery<JpaCollection> query = em.createQuery(generatedQuery, JpaCollection.class);
             query.setMaxResults(30);
-            query.setParameter("keyword", "%" + keyword + "%");
+            for(int i=0;i<keywordArray.length;i++){
+        		query.setParameter("keyword" + i, "%" + keywordArray[i] + "%");
+        	}
+            query.setParameter("id", keywordArray[0]);
             List<JpaCollection> jpaList = query.getResultList();
             return jpaList.stream().map(JpaCollection::toDTO).collect(Collectors.toList());
         });

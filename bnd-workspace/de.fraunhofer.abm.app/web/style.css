@@ -41,17 +41,28 @@ body {
   left: -1px;
 }
 
+.sidebar span {
+  background-color: #e0e0e0;
+  border-left: black solid 1px;
+  display: block;
+  float: right;
+  padding: 8px 3px 8px 2px;
+}
+
+.sidebar span:focus, .sidebar span:hover {
+  background-color: darkgray;
+}
+
 .sidebar .sidebarTab {
   background-color: #f5f5f5;
   border: solid black;
   border-width: 1px;
   border-radius: 0 5px 5px 0;
-  max-width: 200px;
+  width: 120px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-
 
 .sidebar .sidebarTab.selected{
   background-color: white;
@@ -66,6 +77,7 @@ body {
   display: block;
   color: black;
   padding: 5px;
+  width: 100px;
 }
 
 .sidebar .sidebarTab a:focus, .sidebar .sidebarTab a:hover {
@@ -186,6 +198,10 @@ tr.selected {
 
 tr.deseleted {
 	background-color: white;
+}
+
+th:hover {
+	background-color: #f0f0f0 !important;
 }
 
 td {
