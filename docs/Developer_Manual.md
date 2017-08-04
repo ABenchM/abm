@@ -106,6 +106,8 @@ when ABM is started. The password for system console is defined in de.fraunhofer
     runMain org.opalj.hermes.HermesCLI src/main/resources/hermes.json -csv hermes.csv (You can give any name you want for CSV file)
   * You will get the csv file in DEVELOPING_OPAL/tools directory or can specify the directory where you want.
 
+## Changing Email Notification Settings
+All the settings that control the email notification system are at the top of the file EmailConfiguration.java in the package de.fraunhofer.abm.app. You can change these to control the host the program connects to, the email and credentals it uses, and who it notifies when a new account is registered.
   
 ## Updating the Database
 While the database is automatically generated during setup, when a installation of ABM is updated some modifications to the local database may be needed.
@@ -123,3 +125,8 @@ To avoid this, make the following changes to your local database for each of the
   * Add new table "filterPin" with the following colunms:
     * Column "user" (type varchar(255))
     * Column "id" (type varchar(255))
+* Commit 162dff7 (Aug 4, 2017 / Bugfixes and UI changes)
+  * Add new table "user" with the following colunms:
+    * Column "name" (type varchar(255))
+    * Column "password" (type varchar(255))
+    * Column "approved" (type tinyint)
