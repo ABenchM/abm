@@ -16,5 +16,5 @@ public @interface Configuration {
     long keepAliveTime() default 300;
 
     @AttributeDefinition(name="Workspace Root", description= "Workspace root directory", required=true)
-    String workspaceRoot() default "/var/lib/abm/workspace";
+    String workspaceRoot() default "C:\\Ankur\\shk\\suitebuilder";
 }
