@@ -9,7 +9,7 @@ import de.fraunhofer.abm.projectanalyzer.api.ProjectAnalyzerFactory;
 @Component
 public class HermesAnalyzerFactory implements ProjectAnalyzerFactory {
 
-	private String type = null;
+	private String type = "Hermes";
 	
     @Override
     public ProjectAnalyzer createNewAnalyzer() {
