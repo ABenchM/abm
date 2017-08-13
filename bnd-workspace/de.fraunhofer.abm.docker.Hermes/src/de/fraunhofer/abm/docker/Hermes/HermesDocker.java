@@ -26,7 +26,7 @@ public class HermesDocker extends AbstractProjectBuilder {
     
     private RunDockerHermes runDockerHermes;
     private RunHermesApl   runHermesApl;
-    private ExtractResutls extractResults;
+    private ExtractResults extractResults;
     private StopDockerHermes stopDockerHermes;
    
     private enum STATE {
@@ -43,7 +43,7 @@ public class HermesDocker extends AbstractProjectBuilder {
         //createDockerImage = addBuildStep(new CreateDockerImage(repo, executor, repoDir));
         runDockerHermes = (RunDockerHermes) addBuildStep(new RunDockerHermes());
         runHermesApl = (RunHermesApl) addBuildStep(new RunHermesApl());
-        extractResults = (ExtractResutls) addBuildStep(new ExtractResutls());
+        extractResults = (ExtractResults) addBuildStep(new ExtractResults());
         stopDockerHermes = (StopDockerHermes) addBuildStep(new StopDockerHermes());
         
         //deleteDockerContainer = (DeleteDockerContainer) addBuildStep(new DeleteDockerContainer(repo, executor, repoDir));
