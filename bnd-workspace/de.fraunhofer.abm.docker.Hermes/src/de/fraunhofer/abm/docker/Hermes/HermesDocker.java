@@ -6,112 +6,106 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.fraunhofer.abm.builder.api.BuildUtils;
-import de.fraunhofer.abm.builder.docker.base.AbstractDockerStep.Result;
-import de.fraunhofer.abm.builder.docker.base.StreamRedirectThread;
+import de.fraunhofer.abm.docker.Hermes.RunHermes.STATUS;
+
+
+
+
+
 
 
 public class HermesDocker {
 	
 	private static final transient Logger logger = LoggerFactory.getLogger(HermesDocker.class);
 	
-	private static final String NOT_SET = "NOT_SET";
-	
-	public static enum STATUS {
-        WAITING,
-        IN_PROGRESS,
-        FAILED,
-        SUCCESS,
-        CANCELLED
-    }
+		
 	
 	private enum STATE {
         CONTINUE,
         CLEAN_UP
     }
 	
+	private STATE state = STATE.CONTINUE;
+	
     private ExecutorService executor;
-	protected String output = "";
-	protected String errorOutput = "";
-	protected STATUS status = STATUS.WAITING; 
-	private File confDir;
-	protected String imageName;
-	protected String containerName;
-	protected Throwable throwable;
-			
-	 protected void setStatus(STATUS status) {
-	        this.status = status;
-	        
-	    }
-	 
-	 public void setImageName(String imageName) {
-	        this.imageName = imageName;
-	    }
-	 
-	 public String getImageName()
-	 {
-		 return imageName;
-	 }
-
-	public String getContainerName() {
-		return containerName;
+    
+    RunHermes runDocker;
+    RunHermes runSBT;
+    RunHermes extractCSV;
+    RunHermes stopDocker;
+	
+	
+	
+	
+	public void init()
+	{
+		executor = Executors.newCachedThreadPool();
+		runDocker = new RunHermes("RunDocker");
+		runSBT = new RunHermes("RunSBT");
+		extractCSV = new RunHermes("ExtractCSV");
+		stopDocker = new RunHermes("StopDocker");           
+	
 	}
+	
+	public void run()
+	{
+		 try {
+	            if(state == STATE.CONTINUE) {
+	                runDocker.execute("docker run -i --rm --name "+runDocker.getContainerName()+ " " + "opalj/sbt_scala_javafx bash" );
+	                if(runDocker.getStatus() != STATUS.SUCCESS) {
+	                    state = STATE.CLEAN_UP;
+	                }
+	            }
 
-	public void setContainerName(String containerName) {
-		this.containerName = containerName;
-	}
+	            if(state == STATE.CONTINUE) {
+	                runSBT.execute("docker exec"+ runSBT.getContainerName()+ "sbt" + " " + "\"project OPAL-DeveloperTools\""+" "+ "\"runMain org.opalj.hermes.HermesCLI src/main/resources/hermes.json -csv Hermes.csv\"");
+	                if(runSBT.getStatus() != STATUS.SUCCESS) {
+	                    state = STATE.CLEAN_UP;
+	                }
+	            }
 
-	public STATUS getStatus() {
-		return status;
-	}
+	            if(state == STATE.CONTINUE) {
+	                extractCSV.execute("docker cp hermes:/root/OPAL/DEVELOPING_OPAL/tools/Hermes.csv .");  //This csv file name can be changed to collection name as per the requirement.
+	                
+	                if(extractCSV.getStatus() != STATUS.SUCCESS) {
+	                    state = STATE.CLEAN_UP;
+	                }
+	            }
 
-	public File getConfDir() {
-		return confDir;
-	}
+	            if(state == STATE.CONTINUE) {
+	                stopDocker.execute("docker stop"+" "+stopDocker.getContainerName());
+	                
+	                if(stopDocker.getStatus() != STATUS.SUCCESS) {
+	                    state = STATE.CLEAN_UP;
+	                } 
+	            }
+	        } catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally {
+	                      
 
-	public void setConfDir(File confDir) {
-		this.confDir = confDir;
+	            executor.shutdown();
+	        } 
 	}
 	 
-	 protected Result execHermes(String cmd, File dir) throws IOException, InterruptedException {
-	        logger.debug("Executing command [{}] in directory {}", cmd, dir.getAbsolutePath());
-	        String[] env = 	environmentToArray();;
-	        	        
-	        Process p = Runtime.getRuntime().exec(cmd, env, dir);
-	        ByteArrayOutputStream stdout = new ByteArrayOutputStream();
-	        ByteArrayOutputStream stderr = new ByteArrayOutputStream();
-	        executor.submit(new StreamRedirectThread(p.getInputStream(), stdout));
-	        executor.submit(new StreamRedirectThread(p.getErrorStream(), stderr));
-	        Result result = new Result();
-	        result.exitValue = p.waitFor();
-	        result.stdout = BuildUtils.toString(stdout);
-	        result.stderr = BuildUtils.toString(stderr);
-	        return result;
-	    }	
+	
 	 
-	 protected void setThrowable(Throwable t) {
-	        this.throwable = t;
-	        setStatus(STATUS.FAILED);
-	    }
+	 
+	 
+	 
 
-	 public Throwable getThrowable() {
-	        return throwable;
-	    }
 	 
 	 
-	 public static String[] environmentToArray() {
-	        Map<String,String> env = System.getenv();
-	        String[] envArray = new String[env.size()];
-	        int index = 0;
-	        for (Entry<String,String> entry : env.entrySet()) {
-	            String arrayEntry = entry.getKey() + '=' + entry.getValue();
-	            envArray[index++] = arrayEntry;
-	        }
-	        return envArray;
-	    }
+	 
+	 
+
+	
 	 
 }
