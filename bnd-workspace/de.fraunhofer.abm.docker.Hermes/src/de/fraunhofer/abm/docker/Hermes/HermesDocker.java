@@ -1,109 +1,117 @@
 package de.fraunhofer.abm.docker.Hermes;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.IOException;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import de.fraunhofer.abm.builder.api.AbstractProjectBuilder;
-import de.fraunhofer.abm.builder.api.BuildStep;
-import de.fraunhofer.abm.builder.api.BuildStep.STATUS;
-import de.fraunhofer.abm.builder.docker.base.CreateDockerFile;
-import de.fraunhofer.abm.builder.docker.base.CreateDockerImage;
-import de.fraunhofer.abm.builder.docker.base.DeleteDockerContainer;
-import de.fraunhofer.abm.builder.docker.base.DeleteDockerImage;
-import de.fraunhofer.abm.domain.RepositoryDTO;
+import de.fraunhofer.abm.builder.api.BuildUtils;
+import de.fraunhofer.abm.builder.docker.base.AbstractDockerStep.Result;
+import de.fraunhofer.abm.builder.docker.base.StreamRedirectThread;
 
-public class HermesDocker extends AbstractProjectBuilder {
 
-    private static final String NOT_SET = "NOT_SET";
-    private ExecutorService executor;
-
-    
-    private RunDockerHermes runDockerHermes;
-    private RunHermesApl   runHermesApl;
-    private ExtractResults extractResults;
-    private StopDockerHermes stopDockerHermes;
-   
-    private enum STATE {
+public class HermesDocker {
+	
+	private static final transient Logger logger = LoggerFactory.getLogger(HermesDocker.class);
+	
+	private static final String NOT_SET = "NOT_SET";
+	
+	public static enum STATUS {
+        WAITING,
+        IN_PROGRESS,
+        FAILED,
+        SUCCESS,
+        CANCELLED
+    }
+	
+	private enum STATE {
         CONTINUE,
         CLEAN_UP
     }
-    private STATE state = STATE.CONTINUE;
+	
+    private ExecutorService executor;
+	protected String output = "";
+	protected String errorOutput = "";
+	protected STATUS status = STATUS.WAITING; 
+	private File confDir;
+	protected String imageName;
+	protected String containerName;
+	protected Throwable throwable;
+			
+	 protected void setStatus(STATUS status) {
+	        this.status = status;
+	        
+	    }
+	 
+	 public void setImageName(String imageName) {
+	        this.imageName = imageName;
+	    }
+	 
+	 public String getImageName()
+	 {
+		 return imageName;
+	 }
 
-    @Override
-    public void init(RepositoryDTO repo, File repoDir) {
-        executor = Executors.newCachedThreadPool();
-        Bundle sourceBundle = FrameworkUtil.getBundle(HermesDocker.class);
-        //createDockerFile = addBuildStep(new CreateDockerFile(repo, new File(repoDir, "/Dockerfile"), sourceBundle));
-        //createDockerImage = addBuildStep(new CreateDockerImage(repo, executor, repoDir));
-        runDockerHermes = (RunDockerHermes) addBuildStep(new RunDockerHermes());
-        runHermesApl = (RunHermesApl) addBuildStep(new RunHermesApl());
-        extractResults = (ExtractResults) addBuildStep(new ExtractResults());
-        stopDockerHermes = (StopDockerHermes) addBuildStep(new StopDockerHermes());
-        
-        //deleteDockerContainer = (DeleteDockerContainer) addBuildStep(new DeleteDockerContainer(repo, executor, repoDir));
-        //deleteDockerImage = (DeleteDockerImage) addBuildStep(new DeleteDockerImage(repo, executor, repoDir));
-        fireBuildInitialized(repo, buildSteps);
-    }
+	public String getContainerName() {
+		return containerName;
+	}
 
-    @Override
-    public List<File> build(RepositoryDTO repo, File repoDir) throws Exception {
-        List<File> buildArtifacts = new ArrayList<>();
+	public void setContainerName(String containerName) {
+		this.containerName = containerName;
+	}
 
-        String imageName = NOT_SET;
-        String containerName = NOT_SET;
-        try {
-            if(state == STATE.CONTINUE) {
-                createDockerFile.execute();
-                if(createDockerFile.getStatus() != STATUS.SUCCESS) {
-                    state = STATE.CLEAN_UP;
-                }
-            }
+	public STATUS getStatus() {
+		return status;
+	}
 
-            if(state == STATE.CONTINUE) {
-                imageName = createDockerImage.execute();
-                if(createDockerImage.getStatus() != STATUS.SUCCESS) {
-                    state = STATE.CLEAN_UP;
-                }
-            }
+	public File getConfDir() {
+		return confDir;
+	}
 
-            if(state == STATE.CONTINUE) {
-                runDockerBuild.setImageName(imageName);
-                containerName = runDockerBuild.execute();
-                if(runDockerBuild.getStatus() != STATUS.SUCCESS) {
-                    state = STATE.CLEAN_UP;
-                }
-            }
+	public void setConfDir(File confDir) {
+		this.confDir = confDir;
+	}
+	 
+	 protected Result execHermes(String cmd, File dir) throws IOException, InterruptedException {
+	        logger.debug("Executing command [{}] in directory {}", cmd, dir.getAbsolutePath());
+	        String[] env = 	environmentToArray();;
+	        	        
+	        Process p = Runtime.getRuntime().exec(cmd, env, dir);
+	        ByteArrayOutputStream stdout = new ByteArrayOutputStream();
+	        ByteArrayOutputStream stderr = new ByteArrayOutputStream();
+	        executor.submit(new StreamRedirectThread(p.getInputStream(), stdout));
+	        executor.submit(new StreamRedirectThread(p.getErrorStream(), stderr));
+	        Result result = new Result();
+	        result.exitValue = p.waitFor();
+	        result.stdout = BuildUtils.toString(stdout);
+	        result.stderr = BuildUtils.toString(stderr);
+	        return result;
+	    }	
+	 
+	 protected void setThrowable(Throwable t) {
+	        this.throwable = t;
+	        setStatus(STATUS.FAILED);
+	    }
 
-            if(state == STATE.CONTINUE) {
-                extractBuildResults.setContainerName(containerName);
-                extractBuildResults.execute();
-                if(extractBuildResults.getStatus() != STATUS.SUCCESS) {
-                    state = STATE.CLEAN_UP;
-                } else {
-                    buildArtifacts.add(new File(repoDir, "maven"));
-                }
-            }
-        } finally {
-            // clean up
-            if(!NOT_SET.equals(containerName)) {
-                deleteDockerContainer.setContainerName(containerName);
-                deleteDockerContainer.execute();
-            }
-            if(!NOT_SET.equals(imageName)) {
-                deleteDockerImage.setImageName(imageName);
-                deleteDockerImage.execute();
-            }
-
-            executor.shutdown();
-        }
-
-        fireBuildFinished(repo);
-        return buildArtifacts;
-    }
+	 public Throwable getThrowable() {
+	        return throwable;
+	    }
+	 
+	 
+	 public static String[] environmentToArray() {
+	        Map<String,String> env = System.getenv();
+	        String[] envArray = new String[env.size()];
+	        int index = 0;
+	        for (Entry<String,String> entry : env.entrySet()) {
+	            String arrayEntry = entry.getKey() + '=' + entry.getValue();
+	            envArray[index++] = arrayEntry;
+	        }
+	        return envArray;
+	    }
+	 
 }
