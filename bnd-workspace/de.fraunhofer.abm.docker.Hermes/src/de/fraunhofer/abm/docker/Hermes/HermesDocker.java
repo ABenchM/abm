@@ -1,109 +1,111 @@
 package de.fraunhofer.abm.docker.Hermes;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.IOException;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
 
-import de.fraunhofer.abm.builder.api.AbstractProjectBuilder;
-import de.fraunhofer.abm.builder.api.BuildStep;
-import de.fraunhofer.abm.builder.api.BuildStep.STATUS;
-import de.fraunhofer.abm.builder.docker.base.CreateDockerFile;
-import de.fraunhofer.abm.builder.docker.base.CreateDockerImage;
-import de.fraunhofer.abm.builder.docker.base.DeleteDockerContainer;
-import de.fraunhofer.abm.builder.docker.base.DeleteDockerImage;
-import de.fraunhofer.abm.domain.RepositoryDTO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public class HermesDocker extends AbstractProjectBuilder {
+import de.fraunhofer.abm.docker.Hermes.RunHermes.STATUS;
 
-    private static final String NOT_SET = "NOT_SET";
-    private ExecutorService executor;
 
-    
-    private RunDockerHermes runDockerHermes;
-    private RunHermesApl   runHermesApl;
-    private ExtractResutls extractResults;
-    private StopDockerHermes stopDockerHermes;
-   
-    private enum STATE {
+
+
+
+
+
+public class HermesDocker {
+	
+	private static final transient Logger logger = LoggerFactory.getLogger(HermesDocker.class);
+	
+		
+	
+	private enum STATE {
         CONTINUE,
         CLEAN_UP
     }
-    private STATE state = STATE.CONTINUE;
+	
+	private STATE state = STATE.CONTINUE;
+	
+    private ExecutorService executor;
+    
+    RunHermes runDocker;
+    RunHermes runSBT;
+    RunHermes extractCSV;
+    RunHermes stopDocker;
+	
+	
+	
+	
+	public void init()
+	{
+		executor = Executors.newCachedThreadPool();
+		runDocker = new RunHermes("RunDocker");
+		runSBT = new RunHermes("RunSBT");
+		extractCSV = new RunHermes("ExtractCSV");
+		stopDocker = new RunHermes("StopDocker");           
+	
+	}
+	
+	public void run()
+	{
+		 try {
+	            if(state == STATE.CONTINUE) {
+	                runDocker.execute("docker run -i --rm --name "+runDocker.getContainerName()+ " " + "opalj/sbt_scala_javafx bash" );
+	                if(runDocker.getStatus() != STATUS.SUCCESS) {
+	                    state = STATE.CLEAN_UP;
+	                }
+	            }
 
-    @Override
-    public void init(RepositoryDTO repo, File repoDir) {
-        executor = Executors.newCachedThreadPool();
-        Bundle sourceBundle = FrameworkUtil.getBundle(HermesDocker.class);
-        //createDockerFile = addBuildStep(new CreateDockerFile(repo, new File(repoDir, "/Dockerfile"), sourceBundle));
-        //createDockerImage = addBuildStep(new CreateDockerImage(repo, executor, repoDir));
-        runDockerHermes = (RunDockerHermes) addBuildStep(new RunDockerHermes());
-        runHermesApl = (RunHermesApl) addBuildStep(new RunHermesApl());
-        extractResults = (ExtractResutls) addBuildStep(new ExtractResutls());
-        stopDockerHermes = (StopDockerHermes) addBuildStep(new StopDockerHermes());
-        
-        //deleteDockerContainer = (DeleteDockerContainer) addBuildStep(new DeleteDockerContainer(repo, executor, repoDir));
-        //deleteDockerImage = (DeleteDockerImage) addBuildStep(new DeleteDockerImage(repo, executor, repoDir));
-        fireBuildInitialized(repo, buildSteps);
-    }
+	            if(state == STATE.CONTINUE) {
+	                runSBT.execute("docker exec"+ runSBT.getContainerName()+ "sbt" + " " + "\"project OPAL-DeveloperTools\""+" "+ "\"runMain org.opalj.hermes.HermesCLI src/main/resources/hermes.json -csv Hermes.csv\"");
+	                if(runSBT.getStatus() != STATUS.SUCCESS) {
+	                    state = STATE.CLEAN_UP;
+	                }
+	            }
 
-    @Override
-    public List<File> build(RepositoryDTO repo, File repoDir) throws Exception {
-        List<File> buildArtifacts = new ArrayList<>();
+	            if(state == STATE.CONTINUE) {
+	                extractCSV.execute("docker cp hermes:/root/OPAL/DEVELOPING_OPAL/tools/Hermes.csv .");  //This csv file name can be changed to collection name as per the requirement.
+	                
+	                if(extractCSV.getStatus() != STATUS.SUCCESS) {
+	                    state = STATE.CLEAN_UP;
+	                }
+	            }
 
-        String imageName = NOT_SET;
-        String containerName = NOT_SET;
-        try {
-            if(state == STATE.CONTINUE) {
-                createDockerFile.execute();
-                if(createDockerFile.getStatus() != STATUS.SUCCESS) {
-                    state = STATE.CLEAN_UP;
-                }
-            }
+	            if(state == STATE.CONTINUE) {
+	                stopDocker.execute("docker stop"+" "+stopDocker.getContainerName());
+	                
+	                if(stopDocker.getStatus() != STATUS.SUCCESS) {
+	                    state = STATE.CLEAN_UP;
+	                } 
+	            }
+	        } catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally {
+	                      
 
-            if(state == STATE.CONTINUE) {
-                imageName = createDockerImage.execute();
-                if(createDockerImage.getStatus() != STATUS.SUCCESS) {
-                    state = STATE.CLEAN_UP;
-                }
-            }
+	            executor.shutdown();
+	        } 
+	}
+	 
+	
+	 
+	 
+	 
+	 
 
-            if(state == STATE.CONTINUE) {
-                runDockerBuild.setImageName(imageName);
-                containerName = runDockerBuild.execute();
-                if(runDockerBuild.getStatus() != STATUS.SUCCESS) {
-                    state = STATE.CLEAN_UP;
-                }
-            }
+	 
+	 
+	 
+	 
 
-            if(state == STATE.CONTINUE) {
-                extractBuildResults.setContainerName(containerName);
-                extractBuildResults.execute();
-                if(extractBuildResults.getStatus() != STATUS.SUCCESS) {
-                    state = STATE.CLEAN_UP;
-                } else {
-                    buildArtifacts.add(new File(repoDir, "maven"));
-                }
-            }
-        } finally {
-            // clean up
-            if(!NOT_SET.equals(containerName)) {
-                deleteDockerContainer.setContainerName(containerName);
-                deleteDockerContainer.execute();
-            }
-            if(!NOT_SET.equals(imageName)) {
-                deleteDockerImage.setImageName(imageName);
-                deleteDockerImage.execute();
-            }
-
-            executor.shutdown();
-        }
-
-        fireBuildFinished(repo);
-        return buildArtifacts;
-    }
+	
+	 
 }
