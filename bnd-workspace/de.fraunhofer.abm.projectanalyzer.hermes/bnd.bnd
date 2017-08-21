@@ -2,59 +2,9 @@ Bundle-Version: 0.0.9.${tstamp}
 -includeresource: \
 	{lib=lib}
 -buildpath: \
-	de.fraunhofer.abm.projectanalyzer.api;version=latest,\
 	de.fraunhofer.abm.domain;version=latest,\
 	osgi.enroute.base.api,\
-	org.choco-solver:choco-solver,\
-	net.sf.trove4j:trove4j,\
-	com.typesafe.config,\
-	com.github.cp-profiler:cpprof-java,\
-	dk.brics.automaton:automaton,\
-	org.choco-solver:cutoffseq,\
-	org.jgrapht.core,\
-	joda-time,\
-	com.typesafe.play:play-functional_2.11,\
-	com.typesafe.play:play-json_2.11,\
-	com.typesafe.play:play_2.11,\
-	com.typesafe.akka.stream,\
-	javax.inject:javax.inject,\
-	com.google.inject,\
-	aopalliance:aopalliance,\
-	com.typesafe.play:play-iteratees_2.11,\
-	com.typesafe.play:play-streams_2.11,\
-	org.scala-stm:scala-stm_2.11,\
-	com.google.inject.assistedinject,\
-	org.scala-lang.scala-library,\
-	com.typesafe.akka.actor
+	com.typesafe.config
 Private-Package: de.fraunhofer.abm.projectanalyzer.hermes.impl
-Bundle-ClassPath: .,\
-	lib/abstract-interpretation-framework_2.11.jar,\
-	lib/architecture-validation_2.11.jar,\
-	lib/bugpicker-core_2.11.jar,\
-	lib/bytecode-assembler_2.11.jar,\
-	lib/bytecode-creator_2.11.jar,\
-	lib/bytecode-disassembler_2.11.jar,\
-	lib/bytecode-infrastructure_2.11.jar,\
-	lib/bytecode-representation_2.11.jar,\
-	lib/common_2.11.jar,\
-	lib/dependencies-extraction-library_2.11.jar,\
-	lib/opal-developer-tools_2.11.jar
-Import-Package: \
-	!com.github.rjeschke.*,\
-	!javafx.*,\
-	!scalafx.*,\
-	!com.typesafe.netty.*,\
-	!net.ceedubs.*,\
-	!com.google.protobuf,\
-	!org.controlsfx.*,\
-	!org.jboss.netty.*,\
-	!org.slf4j.bridge,\
-	!play.core.netty.*,\
-	!play.twirl.*,\
-	!sun.*,\
-	!views.*,\
-	*
--runbundles: org.apache.felix.log;version='[1.0.1,1.0.2)'
 Export-Package: de.fraunhofer.abm.projectanalyzer.hermes
-
-
+Bundle-Name: ABM Hermes Filter
