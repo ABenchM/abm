@@ -26,19 +26,7 @@ Bundle-Version: 0.0.9.${tstamp}
 	com.google.inject.assistedinject,\
 	org.scala-lang.scala-library,\
 	com.typesafe.akka.actor
-Private-Package: \
-	de.fraunhofer.abm.projectanalyzer.hermes,\
-	com.google.inject.internal.*,\
-	com.google.inject.assistedinject,\
-	com.github.cpprofiler,\
-	com.typesafe.config.*,\
-	controllers,\
-	dk.brics.automaton,\
-	gnu.trove.*,\
-	org.chocosolver.*,\
-	org.jgrapht.*,\
-	play.*;-split-package:=merge-first,\
-	scala.concurrent.stm.*
+Private-Package: de.fraunhofer.abm.projectanalyzer.hermes.impl
 Bundle-ClassPath: .,\
 	lib/abstract-interpretation-framework_2.11.jar,\
 	lib/architecture-validation_2.11.jar,\
@@ -67,8 +55,6 @@ Import-Package: \
 	!views.*,\
 	*
 -runbundles: org.apache.felix.log;version='[1.0.1,1.0.2)'
-Export-Package: \
-	javax.inject,\
-	org.aopalliance.*
+Export-Package: de.fraunhofer.abm.projectanalyzer.hermes
 
 
