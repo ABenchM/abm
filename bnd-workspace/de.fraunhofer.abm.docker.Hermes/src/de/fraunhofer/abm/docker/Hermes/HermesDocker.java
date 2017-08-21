@@ -57,7 +57,7 @@ public class HermesDocker {
 	{
 		 try {
 	            if(state == STATE.CONTINUE) {
-	                runDocker.execute("docker run -i --rm --name "+runDocker.getContainerName()+ " " + "opalj/sbt_scala_javafx bash" );
+	                runDocker.execute("docker run -i --rm -v "+runDocker.getConfDir()+" --name "+runDocker.getContainerName()+ " " + "opalj/sbt_scala_javafx bash" );
 	                if(runDocker.getStatus() != STATUS.SUCCESS) {
 	                    state = STATE.CLEAN_UP;
 	                }

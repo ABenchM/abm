@@ -1,4 +1,4 @@
-package de.fraunhofer.abm.projectanalyzer.hermes;
+package de.fraunhofer.abm.projectanalyzer.hermes.impl;
 
 import org.osgi.service.metatype.annotations.AttributeDefinition;
 import org.osgi.service.metatype.annotations.ObjectClassDefinition;
@@ -7,8 +7,9 @@ import org.osgi.service.metatype.annotations.ObjectClassDefinition;
 public @interface Configuration {
 
 	@AttributeDefinition(name="FilterPath", description= "Directory to store Hermes Filter configuration file", required=true)
-    String filterpath() default "C:\\Ankur\\shk\\Hermes\\ApplicationConf.json";	
+    String filterpath() default "C:\\Ankur\\shk\\Hermes\\application.conf";	
 	
 	@AttributeDefinition(name="ProjectPath", description= "Directory to store Hermes Projects configuration file", required=true)
     String projectpath() default "C:\\Ankur\\shk\\Hermes\\Hermes.json";	
 }
+
