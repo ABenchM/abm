@@ -5,11 +5,13 @@ import java.util.HashMap;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-public class ConfFilterDTO {
+public class FilterConfDTO {
 
 	public int maxLocations;
-	public List<FilterDTO> registered = new ArrayList<>();
+	
 	public HashMap<String,Integer> FanInFanOut = new HashMap<>();
+	
+	public HashMap<String,Boolean> registered = new HashMap<>();
 	
 	@JsonIgnore
 	public FilterDTO q;

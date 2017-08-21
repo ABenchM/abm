@@ -13,7 +13,7 @@ import org.osgi.service.component.annotations.Deactivate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.fraunhofer.abm.domain.ConfFilterDTO;
+
 import de.fraunhofer.abm.domain.FilterDTO;
 import de.fraunhofer.abm.domain.ProjectConfDTO;
 import de.fraunhofer.abm.domain.ProjectDTO;
@@ -38,71 +38,22 @@ public class HermesAnalyzer implements ProjectAnalyzer {
 
 	
 	private static final transient Logger logger = LoggerFactory.getLogger(HermesAnalyzer.class);
-	private static Map<String, String> Qnamemap = new HashMap<>();
 	
-	int index;
-	ConfFilterDTO f = new ConfFilterDTO();
+	
+	
+	
+	
 	
 	private File FilterPath;
 	private File ProjectPath;
 	
 	
-	/*static{
-		Qnamemap.put("org.opalj.hermes.queries.Metrics","Metrics");
-		Qnamemap.put("org.opalj.hermes.queries.FieldAccessStatistics","FieldAccessStatistics");
-		Qnamemap.put("org.opalj.hermes.queries.TrivialReflectionUsage","TrivialReflectionUsage");
-		Qnamemap.put("org.opalj.hermes.queries.BytecodeInstructions","BytecodeInstructions");
-		Qnamemap.put("org.opalj.hermes.queries.RecursiveDataStructures","RecursiveDataStructures");
-		Qnamemap.put("org.opalj.hermes.queries.MethodsWithoutReturns","MethodsWithoutReturns");
-		Qnamemap.put("org.opalj.hermes.queries.DebugInformation","DebugInformation");
-		Qnamemap.put("org.opalj.hermes.queries.FanInFanOut","FanInFanOut");
-		Qnamemap.put("org.opalj.hermes.queries.GUIAPIUsage","GUIAPIUsage");
-		Qnamemap.put("org.opalj.hermes.queries.ClassLoaderAPIUsage","ClassLoaderAPIUsage");
-		Qnamemap.put("org.opalj.hermes.queries.JavaCryptoArchitectureUsage","JavaCryptoArchitectureUsage");
-		Qnamemap.put("org.opalj.hermes.queries.MethodTypes","MethodTypes");
-		Qnamemap.put("org.opalj.hermes.queries.ReflectionAPIUsage","ReflectionAPIUsage");
-		Qnamemap.put("org.opalj.hermes.queries.SystemAPIUsage","SystemAPIUsage");
-		Qnamemap.put("org.opalj.hermes.queries.ThreadAPIUsage","ThreadAPIUsage");
-		Qnamemap.put("org.opalj.hermes.queries.UnsafeAPIUsage","UnsafeAPIUsage");
-		Qnamemap.put("org.opalj.hermes.queries.JDBCAPIUsage","JDBCAPIUsage");
-		Qnamemap.put("org.opalj.hermes.queries.BytecodeInstrumentationAPIUsage","BytecodeInstrumentationAPIUsage");
-		Qnamemap.put("org.opalj.hermes.queries.SizeOfInheritanceTree","SizeOfInheritanceTree");
-		Qnamemap.put("org.opalj.hermes.queries.ClassFileVersion","ClassFileVersion");
-	}*/
 	
 	
-	@SuppressWarnings("unused")
-	private void UpdateFilter(String query,boolean value) throws IOException
-	{  index = 0;
-       ObjectMapper mapper = new ObjectMapper();
-       ConfFilterDTO f = mapper.readValue(FilterPath, ConfFilterDTO.class);
-       
-       	
-       for(FilterDTO q:f.registered)
-       {
-    	   if(q.query==query)
-    	   { q.activate = value;
-    	       index++;
-    	       f.registered.set(index, q);       
-    	   }
-    	   
-       }
-       
-        mapper.configure(SerializationFeature.INDENT_OUTPUT, true);
-		mapper.setSerializationInclusion(Include.NON_EMPTY);
-		mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
-		mapper.writeValue(FilterPath, f);
-       
-		
-	}
 	
-	@SuppressWarnings("unused")
-	private List<FilterDTO> getFilters() throws JsonParseException, JsonMappingException, IOException
-	{
-		ObjectMapper mapper = new ObjectMapper();
-		ConfFilterDTO f = mapper.readValue(FilterPath, ConfFilterDTO.class);
-		return f.registered ;
-	}
+	
+	
+	
 	
 	@SuppressWarnings("unused")
 	private void updateProjectconf(String id , String cp , Optional<String> libcp_defaults) throws JsonParseException, JsonMappingException, IOException
@@ -133,53 +84,12 @@ public class HermesAnalyzer implements ProjectAnalyzer {
 	
 	
 	
-	@SuppressWarnings("unused")
-	private void createFilter(String query, boolean value) throws JsonGenerationException, JsonMappingException, IOException,ParseException
-	{
-
-		
-	    
-	}
+	
 
 	
-	@SuppressWarnings("unused")
-	private void setMaxLocation(int ml) throws JsonParseException, JsonMappingException, IOException
-	{
-		ObjectMapper mapper = new ObjectMapper();
-		ConfFilterDTO f = mapper.readValue(FilterPath, ConfFilterDTO.class);
-		
-		f.maxLocations = ml;
-		
-		    mapper.configure(SerializationFeature.INDENT_OUTPUT, true);
-	 		mapper.setSerializationInclusion(Include.NON_EMPTY);
-	 		mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
-	 		mapper.writeValue(FilterPath, f);
-		
-	}
 	
 	
-    @SuppressWarnings("unused")
-	private void setFIFO(String name,int value) throws JsonParseException, JsonMappingException, IOException
-    {
-    	ObjectMapper mapper = new ObjectMapper();
-        ConfFilterDTO f = mapper.readValue(FilterPath, ConfFilterDTO.class);
-         	 
-        if(f.FanInFanOut.containsKey(name))
-        {
-        	f.FanInFanOut.put(name, value);
-        }
-        	
-        
-        
-         mapper.configure(SerializationFeature.INDENT_OUTPUT, true);
- 		mapper.setSerializationInclusion(Include.NON_EMPTY);
- 		mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
- 		mapper.writeValue(FilterPath, f);
-    	
-    	
-    	
-    }
-    
+  
     @Activate
     public void activate(Configuration config) {
         initFilterPath(config.filterpath());
