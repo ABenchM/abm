@@ -18,5 +18,31 @@
 	<classpathentry kind="lib" path="C:/Program Files/Java/jdk1.8.0_131/lib/com.fasterxml.jackson.core.jar"/>
 	<classpathentry kind="lib" path="C:/Program Files/Java/jdk1.8.0_131/lib/com.fasterxml.jackson.databind.jar"/>
 	<classpathentry kind="lib" path="C:/Program Files/Java/jdk1.8.0_131/lib/com.fasterxml.jackson.annotations.jar"/>
+	<classpathentry kind="lib" path="/de.fraunhofer.abm.builder.api/generated/de.fraunhofer.abm.builder.api.jar" sourcepath="/de.fraunhofer.abm.builder.api/generated/de.fraunhofer.abm.builder.api.jar">
+		<attributes>
+			<attribute name="bsn" value="de.fraunhofer.abm.builder.api.jar"/>
+			<attribute name="type" value="PROJECT"/>
+			<attribute name="project" value="de.fraunhofer.abm.builder.api"/>
+			<attribute name="version" value="latest"/>
+			<attribute name="index_location" value="platform:/plugin/bndtools.builder/org/bndtools/builder/classpath/empty.index"/>
+		</attributes>
+		<accessrules>
+			<accessrule kind="accessible" pattern="de/fraunhofer/abm/builder/api/*"/>
+			<accessrule ignoreifbetter="true" kind="discouraged" pattern="**"/>
+		</accessrules>
+	</classpathentry>
+	<classpathentry kind="lib" path="/de.fraunhofer.abm.collection.dao/generated/de.fraunhofer.abm.collection.dao.jar" sourcepath="/de.fraunhofer.abm.collection.dao/generated/de.fraunhofer.abm.collection.dao.jar">
+		<attributes>
+			<attribute name="bsn" value="de.fraunhofer.abm.collection.dao.jar"/>
+			<attribute name="type" value="PROJECT"/>
+			<attribute name="project" value="de.fraunhofer.abm.collection.dao"/>
+			<attribute name="version" value="latest"/>
+			<attribute name="index_location" value="platform:/plugin/bndtools.builder/org/bndtools/builder/classpath/empty.index"/>
+		</attributes>
+		<accessrules>
+			<accessrule kind="accessible" pattern="de/fraunhofer/abm/collection/dao/*"/>
+			<accessrule ignoreifbetter="true" kind="discouraged" pattern="**"/>
+		</accessrules>
+	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
