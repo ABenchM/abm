@@ -9,6 +9,7 @@ import java.util.Set;
 import java.util.Map.Entry;
 
 import org.osgi.service.component.annotations.Activate;
+import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +25,8 @@ import com.typesafe.config.ConfigValueFactory;
 //import de.fraunhofer.abm.projectanalyzer.hermes.Configuration;
 import de.fraunhofer.abm.projectanalyzer.hermes.HermesFilter;
 
+
+@Component
 public class HermesFilterImpl implements HermesFilter {
 
 

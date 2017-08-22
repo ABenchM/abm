@@ -41,9 +41,17 @@ public class HermesController implements REST {
 		authorizer.requireRole("RegisteredUser");
 		
 		  return  hermesFilter.getFilters();
-		
-		
-		
-		
+	}
+	
+	public int getMaxLocations()
+	{
+		authorizer.requireRole("RegisteredUser");
+		return hermesFilter.getMaxLocation();
+	}
+	
+	public HashMap<String,HashMap<String,Integer>> getFiFO()
+	{
+		authorizer.requireRole("RegisteredUser");
+		return hermesFilter.getFiFO();
 	}
 }
