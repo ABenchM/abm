@@ -24,12 +24,12 @@ import com.typesafe.config.ConfigRenderOptions;
 import com.typesafe.config.ConfigValue;
 import com.typesafe.config.ConfigValueFactory;
 
-//import de.fraunhofer.abm.projectanalyzer.hermes.Configuration;
+
 import de.fraunhofer.abm.projectanalyzer.hermes.HermesFilter;
 
 
-@Designate(ocd = Configuration.class, factory=false)
-@Component(name = "de.fraunhofer.abm.projectanalyzer.hermes.HermesFilter", configurationPolicy = ConfigurationPolicy.OPTIONAL)
+//@Designate(ocd = Configuration.class, factory=false)
+@Component(name = "de.fraunhofer.abm.projectanalyzer.hermes.HermesFilter"/*, configurationPolicy = ConfigurationPolicy.OPTIONAL*/)
 public class HermesFilterImpl implements HermesFilter {
 
 
@@ -37,7 +37,7 @@ public class HermesFilterImpl implements HermesFilter {
 	
 	
 	HashMap<String,Boolean> registered = new HashMap<>();
-	private File FilterPath;
+	private File FilterPath=  new File("C:\\Ankur\\shk\\application.conf");
 	int maxLocations;
 	HashMap<String,Integer> temp = new HashMap<String,Integer>();
 	HashMap<String,HashMap<String,Integer>> FanInFanOut = new HashMap<String,HashMap<String,Integer>>();
@@ -54,7 +54,7 @@ public class HermesFilterImpl implements HermesFilter {
 	Entry<String, ConfigValue> fld , e;
 	
 	
-	@Activate
+	/*@Activate
     public void activate(Configuration config) {
       initFilterPath(config.filterpath());
         
@@ -70,7 +70,7 @@ public class HermesFilterImpl implements HermesFilter {
 	            FilterPath.mkdirs();
 	        }
 	        logger.info("Using repo archive directory {}", FilterPath.getAbsolutePath());
-	    }
+	    }*/
 	
 	@Override 
 	public void setRegistered()
