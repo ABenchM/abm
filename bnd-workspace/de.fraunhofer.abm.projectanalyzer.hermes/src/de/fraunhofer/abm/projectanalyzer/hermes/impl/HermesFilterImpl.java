@@ -10,7 +10,9 @@ import java.util.Map.Entry;
 
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.ConfigurationPolicy;
 import org.osgi.service.component.annotations.Deactivate;
+import org.osgi.service.metatype.annotations.Designate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,11 +28,14 @@ import com.typesafe.config.ConfigValueFactory;
 import de.fraunhofer.abm.projectanalyzer.hermes.HermesFilter;
 
 
-@Component
+@Designate(ocd = Configuration.class, factory=false)
+@Component(name = "de.fraunhofer.abm.projectanalyzer.hermes.HermesFilter", configurationPolicy = ConfigurationPolicy.OPTIONAL)
 public class HermesFilterImpl implements HermesFilter {
 
 
 	private static final transient Logger logger = LoggerFactory.getLogger(HermesFilter.class);
+	
+	
 	HashMap<String,Boolean> registered = new HashMap<>();
 	private File FilterPath;
 	int maxLocations;
@@ -67,6 +72,7 @@ public class HermesFilterImpl implements HermesFilter {
 	        logger.info("Using repo archive directory {}", FilterPath.getAbsolutePath());
 	    }
 	
+	@Override 
 	public void setRegistered()
 	{
 		config = ConfigFactory.parseFile(FilterPath);
@@ -80,11 +86,13 @@ public class HermesFilterImpl implements HermesFilter {
 	    }
 	}
 	
+	@Override
 	public void setMaxLocations()
 	{
 		maxLocations = config.getInt("org.opalj.hermes.maxLocations");
 	}
 	
+	@Override
 	public void setFIFO()
 	{
 		co = config.getObject("org.opalj.hermes.queries.FanInFanOut");
@@ -107,24 +115,30 @@ public class HermesFilterImpl implements HermesFilter {
           FanInFanOut.put(key, temp);
  		   	   }
 	}
-		
+	
+	@Override
 	public	HashMap<String,Boolean> getFilters()
 		{
 		     setRegistered();
 		     return registered;
 		}
+	
+	@Override
 	public  HashMap<String,HashMap<String,Integer>> getFiFO()
     {
          setFIFO();   
          return FanInFanOut;
 		
     }
-	 public  int getMaxLocation()
+	
+    @Override
+	public  int getMaxLocation()
 	    {
 		    setMaxLocations();
 	    	return maxLocations;
 	    }
 		
+    @Override
 	 public void updateMaxLocations(int ml) throws IOException
 		{
 		
@@ -136,6 +150,7 @@ public class HermesFilterImpl implements HermesFilter {
 			writer.close();
 		}	
 	
+    @Override
 	 public void updateFIFO(String key , String parameter,int value) throws IOException
 	 {
 		 writer = new FileWriter(FilterPath);
@@ -147,6 +162,7 @@ public class HermesFilterImpl implements HermesFilter {
 		 
 	 }
 	 
+    @Override
 	 public void updateFilter() throws IOException
 	 {
 		 config = ConfigFactory.parseFile(FilterPath);
