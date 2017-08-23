@@ -34,7 +34,8 @@ JPM-Command:			abm
 	de.fraunhofer.abm.http.client;version=latest,\
 	javax.activation:activation,\
 	javax.mail:mail,\
-	de.fraunhofer.abm.projectanalyzer.hermes;version=latest
+	de.fraunhofer.abm.projectanalyzer.hermes;version=latest,\
+	de.fraunhofer.abm.hermes;version=latest
 	
 -testpath: \
 	osgi.enroute.junit.wrapper;version=4.12

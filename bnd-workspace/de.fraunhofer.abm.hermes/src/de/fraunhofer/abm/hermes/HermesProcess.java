@@ -1,4 +1,5 @@
-package de.fraunhofer.abm.projectanalyzer.hermes;
+package de.fraunhofer.abm.hermes;
+
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -12,7 +13,10 @@ import java.util.concurrent.Future;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.fraunhofer.abm.builder.api.HermesBuilder;
+import de.fraunhofer.abm.builder.api.HermesBuilderFactory;
 import de.fraunhofer.abm.builder.api.HermesProgressListener;
+import de.fraunhofer.abm.builder.api.ProjectBuilderFactory;
 import de.fraunhofer.abm.collection.dao.HermesResultDao;
 import de.fraunhofer.abm.domain.HermesResultDTO;
 import de.fraunhofer.abm.domain.VersionDTO;
@@ -30,19 +34,23 @@ public class HermesProcess implements Callable<HermesResultDTO> {
 	 private STATUS status = STATUS.WAITING;
 	 private VersionDTO version;
 	 private File workspace;
+	 private List<HermesBuilderFactory> hermesBuilderFactories;
 	 private Future<HermesResultDTO> futureHermesResult;
 	 private HermesResultDTO hermesResult;
 	 private List<HermesProgressListener> listeners = new ArrayList<>();
 	 private String id;
 	 private HermesResultDao hermesResultDao;
+	 private HermesBuilder builder;
 	 
 	 
-	 public HermesProcess(VersionDTO version,File workspace,HermesResultDao hermesResultDao)
+	 public HermesProcess(VersionDTO version,List<HermesBuilderFactory> builderFactories,HermesResultDao hermesResultDao)
 	 {
 		 this.version = version;
-		 this.workspace = workspace;
+		 //this.workspace = workspace;
+		 this.hermesBuilderFactories = builderFactories;
 		 this.hermesResultDao = hermesResultDao;
 		 this.id = UUID.randomUUID().toString();
+		 this.hermesResult = new HermesResultDTO();
 		 this.hermesResult.id = this.id;
 		 this.hermesResult.status = status.toString();
 		 createHermesResultStructure();
@@ -53,6 +61,9 @@ public class HermesProcess implements Callable<HermesResultDTO> {
 	 {
 		 this.hermesResult.versionId = version.id;
 		 this.hermesResult.dir = workspace.getAbsolutePath();
+
+		 //Need to add build steps in HermesBuild 
+		 
 		 hermesResultDao.save(hermesResult);
 	 }
 	 
