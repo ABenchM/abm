@@ -21,10 +21,12 @@ import de.fraunhofer.abm.collection.dao.BuildResultDao;
 import de.fraunhofer.abm.collection.dao.CollectionDao;
 import de.fraunhofer.abm.collection.dao.CollectionPinDao;
 import de.fraunhofer.abm.collection.dao.FilterPinDao;
+import de.fraunhofer.abm.collection.dao.HermesResultDao;
 import de.fraunhofer.abm.collection.dao.UserDao;
 import de.fraunhofer.abm.domain.BuildResultDTO;
 import de.fraunhofer.abm.domain.CollectionDTO;
 import de.fraunhofer.abm.domain.CommitDTO;
+import de.fraunhofer.abm.domain.HermesResultDTO;
 import de.fraunhofer.abm.domain.VersionDTO;
 import de.fraunhofer.abm.util.FileUtil;
 import osgi.enroute.configurer.api.RequireConfigurerExtender;
@@ -44,6 +46,9 @@ public class CollectionController extends AbstractController implements REST {
 
     @Reference
     private BuildResultDao buildResultDao;
+    
+    @Reference
+    private HermesResultDao hermesResultDao;
 
     @Reference
     private Authorizer authorizer;
@@ -124,6 +129,12 @@ public class CollectionController extends AbstractController implements REST {
                 BuildResultDTO buildResult = buildResultDao.findByVersion(version.id);
                 FileUtil.deleteRecursively(new File(buildResult.dir));
                 buildResultDao.delete(buildResult.id);
+                
+                //functionality to delete Hermes results as well by Ankur Gupta on 23.08.2017
+                 HermesResultDTO hermesResult = hermesResultDao.findByVersion(version.id);
+                 hermesResultDao.delete(hermesResult.id);
+                
+                
             }
         }
 
