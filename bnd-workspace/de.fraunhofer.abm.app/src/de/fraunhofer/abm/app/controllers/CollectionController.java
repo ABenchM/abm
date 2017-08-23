@@ -28,6 +28,8 @@ import de.fraunhofer.abm.domain.CollectionDTO;
 import de.fraunhofer.abm.domain.CommitDTO;
 import de.fraunhofer.abm.domain.HermesResultDTO;
 import de.fraunhofer.abm.domain.VersionDTO;
+import de.fraunhofer.abm.hermes.Hermes;
+import de.fraunhofer.abm.projectanalyzer.hermes.HermesFilter;
 import de.fraunhofer.abm.util.FileUtil;
 import osgi.enroute.configurer.api.RequireConfigurerExtender;
 import osgi.enroute.rest.api.REST;
@@ -46,7 +48,7 @@ public class CollectionController extends AbstractController implements REST {
 
     @Reference
     private BuildResultDao buildResultDao;
-    
+
     @Reference
     private HermesResultDao hermesResultDao;
 
@@ -63,7 +65,7 @@ public class CollectionController extends AbstractController implements REST {
         Map<String, String[]> params = rr._request().getParameterMap();
         if(params.isEmpty()) {
             authorizer.requireRole("RegisteredUser");
-            result = collectionDao.select();
+            //result = collectionDao.select();
         } else if(params.get("privateStatus") != null) {
         	if(params.get("id") != null){
         		result = collectionDao.findPublicId(params.get("id")[0]);
@@ -76,8 +78,12 @@ public class CollectionController extends AbstractController implements REST {
         	authorizer.requireRole("RegisteredUser");
             if(params.get("user") != null) {
                 String requestUser = params.get("user")[0];
+                authorizer.requireUser(requestUser);
                 result = collectionDao.findByUser(requestUser);
-            } 
+            } else if(params.get("id") != null){
+            	String user = SecurityContext.getInstance().getUser();
+            	result = collectionDao.findPrivateId(params.get("id")[0], user);
+            }
         }
         return result;
     }

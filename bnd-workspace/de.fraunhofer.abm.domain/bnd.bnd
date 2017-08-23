@@ -3,7 +3,8 @@ Bundle-Description: This bundle contains the main domain classes
 	
 -buildpath: \
 	osgi.enroute.base.api;version=1.0,\
-	osgi.enroute.dto.bndlib.provider
+	osgi.enroute.dto.bndlib.provider,\
+	com.fasterxml.jackson.core.jackson-annotations
 
 -testpath: \
 	osgi.enroute.junit.wrapper;version=4.12

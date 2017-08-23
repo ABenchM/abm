@@ -10,8 +10,8 @@ public interface HermesFilter {
 	public void setRegistered();
 	public void setMaxLocations();
 	public void setFIFO();
-	HashMap<String,Boolean> getFilters();
-	HashMap<String,HashMap<String,Integer>> getFiFO();
+	public HashMap<String,Boolean> getFilters();
+	public HashMap<String,HashMap<String,Integer>> getFiFO();
 	public  int getMaxLocation();
 	public void updateMaxLocations(int ml) throws IOException;
 	public void updateFIFO(String key , String parameter,int value) throws IOException;

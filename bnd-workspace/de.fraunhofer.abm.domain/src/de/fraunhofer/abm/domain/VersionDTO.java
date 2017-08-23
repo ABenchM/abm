@@ -12,4 +12,5 @@ public class VersionDTO {
     public Date creationDate;
     public String comment;
     public boolean frozen = false;
+    public boolean filtered = false;
 }

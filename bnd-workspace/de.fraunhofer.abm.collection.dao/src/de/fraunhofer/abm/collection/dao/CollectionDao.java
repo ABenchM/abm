@@ -11,6 +11,7 @@ public interface CollectionDao {
     public CollectionDTO findByCommit(String id);
     public CollectionDTO findById(String id);
     public List<CollectionDTO> findPublicId(String id);
+    public List<CollectionDTO> findPrivateId(String id, String user);
     public List<CollectionDTO> findPublic();
     public List<CollectionDTO> findPublic(String keywords);
     public void save(CollectionDTO collection);

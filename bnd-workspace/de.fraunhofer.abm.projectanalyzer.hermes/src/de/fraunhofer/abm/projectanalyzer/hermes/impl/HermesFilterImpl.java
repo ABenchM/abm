@@ -37,7 +37,7 @@ public class HermesFilterImpl implements HermesFilter {
 	
 	
 	HashMap<String,Boolean> registered = new HashMap<>();
-	private File FilterPath=  new File("C:\\Ankur\\shk\\application.conf");
+	private File FilterPath = new File("/home/almacken/Desktop/abm/hermes/application.conf");//TODO: Actually get the configuration file to work
 	int maxLocations;
 	HashMap<String,Integer> temp = new HashMap<String,Integer>();
 	HashMap<String,HashMap<String,Integer>> FanInFanOut = new HashMap<String,HashMap<String,Integer>>();

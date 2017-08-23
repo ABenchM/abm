@@ -1,9 +1,11 @@
 angular.module('de.fraunhofer.abm').factory('collectionService', function() {
 	return {
-		collection: {},
+		collection: undefined,
 		version: {},
 		commit: {},
 		toCreate: [],
+		toAdd: [],
+		singleSelect: undefined,
 
 		setCollection: function (collection) {
 			this.collection = collection;
