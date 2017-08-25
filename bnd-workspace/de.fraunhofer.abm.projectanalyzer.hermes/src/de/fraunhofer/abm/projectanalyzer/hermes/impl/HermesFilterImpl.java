@@ -3,9 +3,13 @@ package de.fraunhofer.abm.projectanalyzer.hermes.impl;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
+
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.Map.Entry;
 
 import org.osgi.service.component.annotations.Activate;
@@ -24,7 +28,7 @@ import com.typesafe.config.ConfigRenderOptions;
 import com.typesafe.config.ConfigValue;
 import com.typesafe.config.ConfigValueFactory;
 
-
+import de.fraunhofer.abm.domain.QueriesDTO;
 import de.fraunhofer.abm.projectanalyzer.hermes.HermesFilter;
 
 
@@ -36,22 +40,20 @@ public class HermesFilterImpl implements HermesFilter {
 	private static final transient Logger logger = LoggerFactory.getLogger(HermesFilter.class);
 	
 	
-	HashMap<String,Boolean> registered = new HashMap<>();
-	private File FilterPath = new File("/home/almacken/Desktop/abm/hermes/application.conf");//TODO: Actually get the configuration file to work
-	int maxLocations;
-	HashMap<String,Integer> temp = new HashMap<String,Integer>();
-	HashMap<String,HashMap<String,Integer>> FanInFanOut = new HashMap<String,HashMap<String,Integer>>();
-
+	HashMap<String,Boolean> registered = new HashMap<String,Boolean>();
+	private File FilterPath=  new File("C:\\Ankur\\shk\\application.conf");
 	
-	Config config = ConfigFactory.parseFile(FilterPath);
-	Config newconfig;
+	
+	Map<String,Integer> FanInFanOut = new TreeMap<String,Integer>();
+	
+	QueriesDTO dto = new QueriesDTO();
+	Config config,newconfig;
 	FileWriter writer;
 	ConfigObject co, co2;
 	Set<Entry<String, ConfigValue>> configNode , configNode2;
-	Iterator<Entry<String, ConfigValue>> itr , itr2;
 	String key , k;
-	ConfigValue value ,v;
-	Entry<String, ConfigValue> fld , e;
+	//ConfigValue value ,v;
+		
 	
 	
 	/*@Activate
@@ -77,119 +79,178 @@ public class HermesFilterImpl implements HermesFilter {
 	{
 		config = ConfigFactory.parseFile(FilterPath);
 		  ConfigList co = config.getList("org.opalj.hermes.queries.registered");
-	    for(int i=0;i<co.size();i++)
-	    {
-	    	  co2= (ConfigObject) co.get(i); 	
-	    	  registered.put(co2.get("query").unwrapped().toString(), (Boolean)co2.get("activate").unwrapped());
-              //System.out.println( c.get("activate").unwrapped()); 
-	    	  
-	    }
+  	    for(int i=0;i<co.size();i++)
+  	    {
+  	    	  co2= (ConfigObject) co.get(i); 	
+  	    	  registered.put(co2.get("query").unwrapped().toString(), (Boolean)co2.get("activate").unwrapped());
+                //System.out.println( c.get("activate").unwrapped()); 
+  	    	  
+  	    }
+  	  
+		
 	}
 	
 	@Override
 	public void setMaxLocations()
 	{
-		maxLocations = config.getInt("org.opalj.hermes.maxLocations");
+        config = ConfigFactory.parseFile(FilterPath);
+		
+	    dto.maxlocations = config.getInt("org.opalj.hermes.maxLocations");
 	}
 	
 	@Override
-	public void setFIFO()
-	{
-		co = config.getObject("org.opalj.hermes.queries.FanInFanOut");
-		configNode = co.entrySet();
-		  itr = configNode.iterator();
-		  while(itr.hasNext()){
- 		    fld = itr.next();
- 		    key = fld.getKey();
- 		    co2 = config.getObject("org.opalj.hermes.queries.FanInFanOut."+key);
-          configNode2 = co2.entrySet();
-          itr2 = configNode2.iterator();
-          while(itr2.hasNext())
-           {e=itr2.next();
-            k = e.getKey();
-            v = e.getValue();
-           // System.out.println(k +":"+v.unwrapped()); 	 
-           temp.put(k, (Integer) v.unwrapped()) ;
-           
-           }
-          FanInFanOut.put(key, temp);
- 		   	   }
+	public void setFanInFanOut()
+	{   
+		config = ConfigFactory.parseFile(FilterPath);
+		
+		
+		dto.fanin_categories = config.getInt("org.opalj.hermes.queries.FanInFanOut.fanin.categories");
+		FanInFanOut.put("FanIn_Categories", dto.fanin_categories);
+		dto.fanin_categorySize = config.getInt("org.opalj.hermes.queries.FanInFanOut.fanin.categorySize");
+		FanInFanOut.put("FanIn_Categorysize", dto.fanin_categorySize);
+		dto.fanout_categories = config.getInt("org.opalj.hermes.queries.FanInFanOut.fanout.categories");
+		FanInFanOut.put("FanOut_Categories", dto.fanout_categories);
+		dto.fanout_categorySize = config.getInt("org.opalj.hermes.queries.FanInFanOut.fanout.categorySize");
+		FanInFanOut.put("FanOut_CategorySize", dto.fanout_categorySize);
+		dto.ratio_categories = config.getInt("org.opalj.hermes.queries.FanInFanOut.ratio.categories");
+		FanInFanOut.put("Ratio_Categories", dto.ratio_categories);
+		dto.ratio_categorySize = config.getInt("org.opalj.hermes.queries.FanInFanOut.ratio.categorySize");
+		FanInFanOut.put("Ratio_CategorySize", dto.ratio_categorySize);
+		
+		
 	}
 	
 	@Override
 	public	HashMap<String,Boolean> getFilters()
-		{
-		     setRegistered();
-		     return registered;
-		}
+	{
+	     setRegistered();
+	     return registered;
+	}
 	
 	@Override
-	public  HashMap<String,HashMap<String,Integer>> getFiFO()
+	public  Map<String,Integer> getFanInFanOut()
     {
-         setFIFO();   
+         setFanInFanOut();   
          return FanInFanOut;
 		
     }
 	
     @Override
-	public  int getMaxLocation()
-	    {
-		    setMaxLocations();
-	    	return maxLocations;
-	    }
-		
+    public int getMaxLocation()
+    {
+	    setMaxLocations();
+    	return dto.maxlocations;
+    }
+    
     @Override
-	 public void updateMaxLocations(int ml) throws IOException
-		{
+    public void updateMaxLocations(int ml) throws IOException
+	{
+		config = ConfigFactory.parseFile(FilterPath);
+		writer = new FileWriter(FilterPath);
+		newconfig = config.withValue("org.opalj.hermes.maxLocations", ConfigValueFactory.fromAnyRef(ml));
 		
-			writer = new FileWriter(FilterPath);
-			newconfig = config.withValue("org.opalj.hermes.maxLocations", ConfigValueFactory.fromAnyRef(ml));
-			
-			writer.write(newconfig.root().render(ConfigRenderOptions.concise().
-			           setComments(true).setFormatted(true)).toString());
-			writer.close();
-		}	
-	
-    @Override
-	 public void updateFIFO(String key , String parameter,int value) throws IOException
-	 {
-		 writer = new FileWriter(FilterPath);
-		 newconfig = config.withValue("org.opalj.hermes.queries.FanInFanOut."+key+"."+parameter, ConfigValueFactory.fromAnyRef(value));
-		 
-		 writer.write(newconfig.root().render(ConfigRenderOptions.concise().
+		writer.write(newconfig.root().render(ConfigRenderOptions.concise().
 		           setComments(true).setFormatted(true)).toString());
 		writer.close();
-		 
-	 }
+	}
+	
+    @Override
+    public void updateFanInFanOut(String key,String parameter, int value) throws IOException
+	{
+		config = ConfigFactory.parseFile(FilterPath);
+		writer = new FileWriter(FilterPath);
+		
+		
+		
+		newconfig = config.withValue("org.opalj.hermes.queries.FanInFanOut."+key+"."+parameter, ConfigValueFactory.fromAnyRef(value));
+		
+		writer.write(newconfig.root().render(ConfigRenderOptions.concise().
+		           setComments(true).setFormatted(true)).toString());
+		writer.close();
+		
+	}
 	 
     @Override
-	 public void updateFilter() throws IOException
-	 {
-		 config = ConfigFactory.parseFile(FilterPath);
-			writer = new FileWriter(FilterPath);
-			ConfigList co = config.getList("org.opalj.hermes.queries.registered");
-			co.set(0, ConfigValueFactory.fromAnyRef(value));
-	  	    for(int i=0;i<co.size();i++)
-	  	    {
-	  	    	  co2= (ConfigObject) co.get(i); 
-	  	    	  
-	  	    	//  if(co2.get("query").unwrapped().toString().contentEquals(query))
-	  	    	  {
-	  	    		newconfig = config.withValue("org.opalj.hermes.queries.registered.activate", ConfigValueFactory.fromAnyRef(value));
-	  	    	  }
-	  	    	 
-	              
-	  	    	  
-	  	    }
-	  	  
-			
-			writer.write(newconfig.root().render(ConfigRenderOptions.concise().
-			           setComments(true).setFormatted(true)).toString());
-			writer.close(); 
-			
+    public void updateFilter(String query,boolean value) throws IOException
+	{ 
+		ConfigList registered ;
+		List<ConfigObject> newregistered = new ArrayList<ConfigObject>();
+		config = ConfigFactory.parseFile(FilterPath);
+		ConfigObject co , co2;
+		registered = config.getList("org.opalj.hermes.queries.registered");
 		
-		 
-	 }
+		for (int i=0;i<registered.size();i++)
+		{
+		   co = (ConfigObject) registered.get(i);
+		  
+		   if(co.get("query").unwrapped().toString().contains(query))
+		   {	   
+		   co2 = co.withValue("activate", ConfigValueFactory.fromAnyRef(value));
+		   newregistered.add(co2);
+		   }
+		   else{
+			   newregistered.add(co);
+		   }
+					   
+		}
+		
+		newconfig = config.withValue("org.opalj.hermes.queries.registered", ConfigValueFactory.fromIterable(newregistered));
+		writer.write(newconfig.root().render(ConfigRenderOptions.concise().
+		           setComments(true).setFormatted(true)).toString());
+		writer.close();
+	    
+	} 
+    
+    @Override
+    public void updateFilters(HashMap<String,Boolean> query) throws IOException
+	{ 
+		ConfigList registered ;
+		List<ConfigObject> newregistered = new ArrayList<ConfigObject>();
+		config = ConfigFactory.parseFile(FilterPath);
+		writer = new FileWriter(FilterPath);
+		registered = config.getList("org.opalj.hermes.queries.registered");
+		 boolean match ;
+		for (int i=0;i<registered.size();i++)
+		{
+			   co = (ConfigObject) registered.get(i);
+		       match = false;
+			   for (Map.Entry<String, Boolean> entry : query.entrySet())
+			   { 
+				 if(entry.getKey().equals(co.get("query").unwrapped().toString()))
+				   {	   
+				   co2 = co.withValue("activate", ConfigValueFactory.fromAnyRef(entry.getValue()));
+				   newregistered.add(co2);
+				   match = true;
+				   }
+				 				  		   
+		      }
+			   
+			  if(match==false)
+			  {
+				newregistered.add(co);  
+			  }
+				
+		}
+		
+		
+		
+		
+		newconfig = config.withValue("org.opalj.hermes.queries.registered", ConfigValueFactory.fromIterable(newregistered));
+		writer.write(newconfig.root().render(ConfigRenderOptions.concise().
+		           setComments(true).setFormatted(true)).toString());
+		writer.close();
+	    
+	} 
+      @Override
+      public void addFilter(String filterName , boolean activate) throws IOException
+	  {
+		  config = ConfigFactory.parseFile(FilterPath);
+		  
+		  
+    	  
+	  }
+
+	
 	
 
 }
