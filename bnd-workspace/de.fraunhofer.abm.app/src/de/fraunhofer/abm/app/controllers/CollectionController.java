@@ -11,6 +11,7 @@ import java.util.UUID;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,12 +21,14 @@ import de.fraunhofer.abm.app.auth.SecurityContext;
 import de.fraunhofer.abm.collection.dao.BuildResultDao;
 import de.fraunhofer.abm.collection.dao.CollectionDao;
 import de.fraunhofer.abm.collection.dao.CollectionPinDao;
+import de.fraunhofer.abm.collection.dao.FilterStatusDao;
 import de.fraunhofer.abm.collection.dao.FilterPinDao;
 import de.fraunhofer.abm.collection.dao.HermesResultDao;
 import de.fraunhofer.abm.collection.dao.UserDao;
 import de.fraunhofer.abm.domain.BuildResultDTO;
 import de.fraunhofer.abm.domain.CollectionDTO;
 import de.fraunhofer.abm.domain.CommitDTO;
+import de.fraunhofer.abm.domain.FilterStatusDTO;
 import de.fraunhofer.abm.domain.HermesResultDTO;
 import de.fraunhofer.abm.domain.VersionDTO;
 import de.fraunhofer.abm.util.FileUtil;
@@ -52,6 +55,9 @@ public class CollectionController extends AbstractController implements REST {
 
     @Reference
     private Authorizer authorizer;
+    
+    @Reference
+    private FilterStatusDao filterDao;
 
     public CollectionDTO getCollection(String id) {
         authorizer.requireRole("RegisteredUser");
@@ -134,7 +140,10 @@ public class CollectionController extends AbstractController implements REST {
                  HermesResultDTO hermesResult = hermesResultDao.findByVersion(version.id);
                  hermesResultDao.delete(hermesResult.id);
                 
-                
+                 //functionality to delete filternames against the version of this collection.
+                 FilterStatusDTO filter = filterDao.findFilters(version.id);
+                 filterDao.dropFilters(filter.versionid);
+                 
             }
         }
 
