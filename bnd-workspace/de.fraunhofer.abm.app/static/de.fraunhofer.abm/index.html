@@ -37,10 +37,10 @@
 		<div class="header">
 			<!--<img class="logo pull-right" src="logo.png" alt="Placeholder for logo">-->
 			<ul class="nav nav-pills pull-left" ng-controller="loginController">
-				<li ng-class="{active: page() == '/'}"><a href="#/">Find Collections</a></li>
+				<li ng-class="{active: page() == '/'}"><a href="#/">Collections</a></li>
 				<li ng-class="{active: page() == '/search'}" ng-hide="user === undefined"><a href="#/search">Create Collections</a></li>
 				<!-- <li ng-class="{active: page() == '/collection'}" ng-hide="user === undefined"><a href="#/collection"><ngcart-summary></ngcart-summary></a></li> -->
-				<li ng-class="{active: page() == '/my'}" ng-hide="user === undefined"><a href="#/my">My Collections</a></li>
+				<!-- <li ng-class="{active: page() == '/my'}" ng-hide="user === undefined"><a href="#/my">My Collections</a></li> -->
 				<li ng-class="{active: page() == '/filters'}" ng-hide="user === undefined"><a href="#/filters">Filters</a></li>
 				<li ng-class="{active: page() == '/about'}"><a href="#/about">About</a></li>
 				<li ng-class="{active: page() == '/login'}" ng-show="user === undefined"><a href="#/login">Login</a></li>

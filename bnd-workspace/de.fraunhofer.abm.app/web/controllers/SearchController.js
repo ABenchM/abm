@@ -6,6 +6,7 @@ function searchController($rootScope, $scope, $http, $location, searchResultServ
 	self.results = searchResultService.results;
 	self.cart = ngCart;
 	self.searched = false;
+	self.singleSelection = undefined;
 	
 	self.buildsystem = {};
 	self.buildsystems = [
@@ -101,10 +102,35 @@ function searchController($rootScope, $scope, $http, $location, searchResultServ
 	
 	self.emptyCollection = function() {
 		ngCart.empty();
-	};
+	}
 	
 	self.createCollection = function(){
 		collectionService.toCreate = [];
 		$location.path('/createCollection');
+	}
+	
+	self.addSingle = function(project){
+		collectionService.toAdd = [project];
+		$location.path('/addToCollection');
+	}
+	
+	self.addSingleCart = function(){
+		project = collectionService.singleSelect;
+		if(project == undefined){
+			Notification.error("No Project Selected");
+		} else {
+			collectionService.toAdd = [project];
+			$location.path('/addToCollection');
+		}
+	}
+	
+	self.addAll = function(){
+		projectList = [];
+		var items = ngCart.getItems();
+		for(i=0;i<items.length;i++){
+			projectList.push(items[i].getData());
+		}
+		collectionService.toAdd = projectList;
+		$location.path('/addToCollection');
 	}
 }]);

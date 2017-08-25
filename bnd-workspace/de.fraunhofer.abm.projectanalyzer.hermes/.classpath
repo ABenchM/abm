@@ -1,48 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" output="bin" path="src"/>
+	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 	<classpathentry kind="con" path="aQute.bnd.classpath.container"/>
-	<classpathentry kind="lib" path="lib/abstract-interpretation-framework_2.11.jar"/>
-	<classpathentry kind="lib" path="lib/architecture-validation_2.11.jar"/>
-	<classpathentry kind="lib" path="lib/bugpicker-core_2.11.jar"/>
-	<classpathentry kind="lib" path="lib/bytecode-assembler_2.11.jar"/>
-	<classpathentry kind="lib" path="lib/bytecode-creator_2.11.jar"/>
-	<classpathentry kind="lib" path="lib/bytecode-disassembler_2.11.jar"/>
-	<classpathentry kind="lib" path="lib/bytecode-infrastructure_2.11.jar"/>
-	<classpathentry kind="lib" path="lib/bytecode-representation_2.11.jar"/>
-	<classpathentry kind="lib" path="lib/common_2.11.jar"/>
-	<classpathentry kind="lib" path="lib/dependencies-extraction-library_2.11.jar"/>
-	<classpathentry kind="lib" path="lib/opal-developer-tools_2.11.jar"/>
-	<classpathentry kind="lib" path="C:/Program Files/Java/jdk1.8.0_131/lib/jackson-all-1.9.9.jar"/>
-	<classpathentry kind="lib" path="C:/Program Files/Java/jdk1.8.0_131/lib/com.fasterxml.jackson.core.jar"/>
-	<classpathentry kind="lib" path="C:/Program Files/Java/jdk1.8.0_131/lib/com.fasterxml.jackson.databind.jar"/>
-	<classpathentry kind="lib" path="C:/Program Files/Java/jdk1.8.0_131/lib/com.fasterxml.jackson.annotations.jar"/>
-	<classpathentry kind="lib" path="/de.fraunhofer.abm.builder.api/generated/de.fraunhofer.abm.builder.api.jar" sourcepath="/de.fraunhofer.abm.builder.api/generated/de.fraunhofer.abm.builder.api.jar">
-		<attributes>
-			<attribute name="bsn" value="de.fraunhofer.abm.builder.api.jar"/>
-			<attribute name="type" value="PROJECT"/>
-			<attribute name="project" value="de.fraunhofer.abm.builder.api"/>
-			<attribute name="version" value="latest"/>
-			<attribute name="index_location" value="platform:/plugin/bndtools.builder/org/bndtools/builder/classpath/empty.index"/>
-		</attributes>
-		<accessrules>
-			<accessrule kind="accessible" pattern="de/fraunhofer/abm/builder/api/*"/>
-			<accessrule ignoreifbetter="true" kind="discouraged" pattern="**"/>
-		</accessrules>
-	</classpathentry>
-	<classpathentry kind="lib" path="/de.fraunhofer.abm.collection.dao/generated/de.fraunhofer.abm.collection.dao.jar" sourcepath="/de.fraunhofer.abm.collection.dao/generated/de.fraunhofer.abm.collection.dao.jar">
-		<attributes>
-			<attribute name="bsn" value="de.fraunhofer.abm.collection.dao.jar"/>
-			<attribute name="type" value="PROJECT"/>
-			<attribute name="project" value="de.fraunhofer.abm.collection.dao"/>
-			<attribute name="version" value="latest"/>
-			<attribute name="index_location" value="platform:/plugin/bndtools.builder/org/bndtools/builder/classpath/empty.index"/>
-		</attributes>
-		<accessrules>
-			<accessrule kind="accessible" pattern="de/fraunhofer/abm/collection/dao/*"/>
-			<accessrule ignoreifbetter="true" kind="discouraged" pattern="**"/>
-		</accessrules>
-	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

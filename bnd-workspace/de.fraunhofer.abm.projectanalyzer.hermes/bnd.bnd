@@ -1,4 +1,7 @@
 Bundle-Version: 0.0.9.${tstamp}
+Private-Package: de.fraunhofer.abm.projectanalyzer.hermes.impl
+Export-Package: de.fraunhofer.abm.projectanalyzer.hermes
+Bundle-Name: ABM Hermes Filter
 -includeresource: \
 	{lib=lib}
 -buildpath: \
@@ -7,6 +10,4 @@ Bundle-Version: 0.0.9.${tstamp}
 	com.typesafe.config,\
 	de.fraunhofer.abm.builder.api;version=latest,\
 	de.fraunhofer.abm.collection.dao;version=latest
-Private-Package: de.fraunhofer.abm.projectanalyzer.hermes.impl
-Export-Package: de.fraunhofer.abm.projectanalyzer.hermes
-Bundle-Name: ABM Hermes Filter
+-runbundles: org.apache.felix.log;version='[1.0.1,1.0.2)'

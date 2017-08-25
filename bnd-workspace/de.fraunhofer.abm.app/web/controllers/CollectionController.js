@@ -1,8 +1,8 @@
 angular.module('de.fraunhofer.abm').controller("collectionController", 
-['$rootScope', '$scope', '$http', '$location', '$route', 'ngCart', 'modalLoginService', 
-	'collectionService', 'commitSelectorService', 'buildViewerService','Notification',
-function collectionController($rootScope, $scope, $http, $location, $route, ngCart, modalLoginService, 
-		collectionService, commitSelectorService, buildViewerService, Notification) {
+['$rootScope', '$scope', '$http', '$location', '$route', '$routeParams', 'ngCart', 'modalLoginService', 
+	'collectionService', 'commitSelectorService', 'buildViewerService','Notification', 'modalHermesService',
+function collectionController($rootScope, $scope, $http, $location, $route, $routeParams, ngCart, modalLoginService, 
+		collectionService, commitSelectorService, buildViewerService, Notification, modalHermesService) {
 	var self = this;
 	self.collection = collectionService.collection;
 	self.version = collectionService.version;
@@ -28,6 +28,34 @@ function collectionController($rootScope, $scope, $http, $location, $route, ngCa
 	    data: data
 	};
 	
+	self.initilize = function(){
+		if($rootScope.user == undefined){return;}
+		else if($routeParams.id != undefined){self.loadCollection($routeParams.id);}
+		else{$scope.loadUserCollections();}
+	}
+	
+	self.loadCollection = function(collectionId){
+		$rootScope.loading = true;
+		$http({
+		    method: 'GET',
+			url: '/rest/collection',
+			params: {'id': collectionId}
+		}).then(
+			function(resp) {
+				if(resp.data[0] != undefined){
+					self.edit(resp.data[0]);
+				} else {
+					Notification.error('Collection not found, collection cannot be edited or does not exist.');
+					$location.path('/');
+				}
+			}, function(d) {
+				Notification.error('Failed with ['+ d.status + '] '+ d.statusText);
+				$location.path('/');
+			})['finally'](function() {
+				$rootScope.loading = false;
+			});
+	};
+	
 	$scope.loadUserCollections = function() {
 		$rootScope.loading = true;
 		$http({
@@ -45,6 +73,11 @@ function collectionController($rootScope, $scope, $http, $location, $route, ngCa
 					$location.path('/');
 				}
 			})['finally'](function() {
+				if(self.collection == undefined){
+					if($rootScope.userCollections[0] != undefined){
+						self.edit($rootScope.userCollections[0]);
+					}
+				}
 				$rootScope.loading = false;
 			});
 	}
@@ -54,6 +87,11 @@ function collectionController($rootScope, $scope, $http, $location, $route, ngCa
 		self.collection = collectionService.getCollection();
 		self.version = collectionService.version;
 		self.showCollection = true;
+	}
+	
+	self.open = function(collection){
+		self.edit(collection);
+		$location.path('/editCollection/' + collection.id);
 	}
 	
 	self.save = function(repositoryList) {
@@ -223,16 +261,16 @@ function collectionController($rootScope, $scope, $http, $location, $route, ngCa
 		});
 	}
 
-	self.addCart = function(version) {
-		self.saving=true;
+	self.addProjects = function(version) {
+		$rootScope.loading = true;
 
 		var updatedVersion = JSON.parse(JSON.stringify(version));
-		var items = ngCart.getItems();
-		for(var i=0; i<items.length; i++) {
+		var projects = collectionService.toAdd;
+		for(var i=0; i<projects.length; i++) {
 			var commit = {
 				commitId: 'HEAD'
 			};
-			commit.repository = items[i]._data;
+			commit.repository = projects[i];
 			commit.branchId = commit.repository.defaultBranch;
 			updatedVersion.commits.push(commit);
 		}
@@ -259,7 +297,8 @@ function collectionController($rootScope, $scope, $http, $location, $route, ngCa
 				}
 			}
 		)['finally'](function() {
-			self.saving=false;
+			$location.path('/my');
+			$rootScope.loading = false;
 		});
 	}
 	
@@ -442,5 +481,24 @@ function collectionController($rootScope, $scope, $http, $location, $route, ngCa
 			});
 	}
 	
-	$scope.loadUserCollections();
+	self.runFilter = function(version){
+		modalHermesService.version = version;
+		modalHermesService.collection = self.collection;
+		modalHermesService.launch();
+	}
+	
+	self.showFilter = function(version){
+		$location.path('/filterResult/' + version.id);
+	}
+	
+	self.removeFilter = function(version){
+		//TODO: Define this method
+		version.filtered = false;
+	}
+	
+	self.back = function(){
+		$location.path('/');
+	}
+	
+	self.initilize();
 }]);

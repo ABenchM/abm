@@ -1,0 +1,18 @@
+<div>
+	<div class="modal-header">
+	    <h3 class="modal-title" id="modal-title">Select Filters to Run</h3>
+	</div>
+	<div class="modal-body" id="modal-body">
+		<div ng-repeat="filter in filterList" class="filterBox">
+			<input type="checkbox" id={{filter.name}} ng-model="filter.status"/><label for={{filter.name}}> {{filter.name | hermesName}}</label>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button class="btn btn-info" type="button" ng-click="$ctrl.run()">Run Selected Filters</button>
+		<button class="btn btn-warning float-left" type="button" ng-click="$ctrl.cancel()">Cancel</button>
+	</div>
+	<div class="wrapper" ng-show="$ctrl.loading">
+		<span class="cssload-loader"></span>
+	</div>
+	<br/>
+</div>

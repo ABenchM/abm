@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<repository increment="1503434458846" name="de.fraunhofer.abm.docker.Hermes" xmlns="http://www.osgi.org/xmlns/repository/v1.0.0">
+  <resource>
+    <capability namespace="osgi.identity">
+      <attribute name="osgi.identity" value="de.fraunhofer.abm.docker.Hermes"/>
+      <attribute name="type" value="osgi.bundle"/>
+      <attribute name="version" type="Version" value="0.0.0"/>
+    </capability>
+    <capability namespace="osgi.content">
+      <attribute name="osgi.content" value="89d4bd7b8a5c98b4fffb4d3f119adddf0bd08f310c469545d94aa935ba05ff0d"/>
+      <attribute name="url" value="generated/de.fraunhofer.abm.docker.Hermes.jar"/>
+      <attribute name="size" type="Long" value="11005"/>
+      <attribute name="mime" value="application/vnd.osgi.bundle"/>
+    </capability>
+    <capability namespace="osgi.wiring.bundle">
+      <attribute name="osgi.wiring.bundle" value="de.fraunhofer.abm.docker.Hermes"/>
+      <attribute name="bundle-version" type="Version" value="0.0.0"/>
+    </capability>
+    <capability namespace="osgi.wiring.host">
+      <attribute name="osgi.wiring.host" value="de.fraunhofer.abm.docker.Hermes"/>
+      <attribute name="bundle-version" type="Version" value="0.0.0"/>
+    </capability>
+    <capability namespace="bndtools.workspace">
+      <attribute name="bndtools.workspace" value="file:/home/almacken/Desktop/abm/eclipse-workspace"/>
+      <attribute name="project.path" value="/de.fraunhofer.abm.docker.Hermes"/>
+    </capability>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=de.fraunhofer.abm.builder.api)(version&gt;=1.0.0)(!(version&gt;=2.0.0)))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=de.fraunhofer.abm.builder.docker.base)(version&gt;=1.0.0)(!(version&gt;=2.0.0)))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.slf4j)(version&gt;=1.7.0)(!(version&gt;=2.0.0)))"/>
+    </requirement>
+    <requirement namespace="osgi.ee">
+      <directive name="filter" value="(&amp;(osgi.ee=JavaSE)(version=1.8))"/>
+    </requirement>
+  </resource>
+</repository>

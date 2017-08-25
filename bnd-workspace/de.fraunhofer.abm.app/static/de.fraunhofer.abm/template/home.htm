@@ -1,17 +1,52 @@
+	<!-- <div ng-show="user === undefined">
+		<h2>Automated Benchmark Management</h2>
+		<p>This section will be the first thing new users see.</p>
+		<p>A short description of the ABM system should go here, along with a few graphics.</p>
+		<br>
+	</div> -->
+	
+<div ng-hide="user == undefined">
+	<section ng-controller="collectionController as cc">
+		<h2>Private Collections</h2>
+		<hr>
+			<div ng-hide="loading">
+				<p ng-show="userCollections[0] == undefined" class="alert alert-warning">You have no private collections. To create a new collection, collect projects using the search feature and create a collection from them in the Projects tab or clone an existing collection.</p>
+				
+				<table class="table table-bordered table-striped table-hover" style="max-height:400px;table-layout:fixed;" ng-hide="userCollections[0] == undefined">
+					<col width="23%">
+					<col width="39%">
+					<col width="10%">
+					<!-- <col width="5%"> -->
+					<col width="28%">
+					<tr>
+						<th ng-click="cc.nameSort()">Name</th>
+						<th ng-click="cc.descSort()">Description</th>
+						<th ng-click="cc.dateSort()">Creation Date</th>
+						<!-- <th>Size</th> -->
+						<th>ID</th>
+					</tr>
+					<tr ng-repeat="row in userCollections">
+						<td ng-click="cc.open(row)">{{row.name}}</td>
+						<td ng-click="cc.open(row)">{{row.description}}</td>
+						<td ng-click="cc.open(row)">{{row.creation_date | date:'short'}}</td>
+						<!-- <td>{{row.repositories.length | number}}</td> -->
+						<td>{{row.id}}</td>
+					</tr>
+				</table>
+			</div>
+		<hr>
+	</section>
+</div>
+	
+	
 <section ng-controller="publicController as pc">
-
-	<h2>Find Collections</h2>
+	<h2>Public Collections</h2>
 	<hr>
 	
 	<div ng-hide="user === undefined">
-		<!-- <div ng-show="user === undefined">
-			<h2>Automated Benchmark Management</h2>
-			<p>This section will be the first thing new users see.</p>
-			<p>A short description of the ABM system should go here, along with a few graphics.</p>
-		</div> -->
 		
 		<div ng-hide="pc.loading">
-			<h2>Pinned Collections</h2>
+			<h3>Pinned Collections</h3>
 			<p ng-show="pinned[0] === undefined" class="alert alert-warning">You have not pinned any collections yet. To pin a collection, click the button next to it in the table below.</p>
 			
 			<table class="table table-bordered table-striped table-hover" style="max-height:300px;table-layout:fixed;" ng-hide="pinned[0] === undefined || pc.loading">
@@ -49,7 +84,7 @@
 	</div>
 	
 	<form ng-submit="wordSearch" name="searchForm">
-		<input type="text" name="query" id="query" size="36" ng-model="searchQuery" style="width:80%" placeholder="Enter keywords or an ID...">
+		<input type="text" name="query" id="query" size="36" ng-model="searchQuery" style="width:80%" placeholder="Search for Collections...">
 		<button class="btn btn-success" type="submit" ng-click="pc.search(searchQuery)" ng-disabled="searchQuery === '' || searchQuery === undefined">Search</button>
 	</form>
 	<!-- <form name="idSearch" role="form">

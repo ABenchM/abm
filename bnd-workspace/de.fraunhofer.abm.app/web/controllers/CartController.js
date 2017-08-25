@@ -3,6 +3,7 @@ angular.module('de.fraunhofer.abm').controller("cartController",
 function cartController($rootScope, $scope, $http, $location, ngCart, searchResultService, collectionService) {
 	var self = this;
 	self.cart = ngCart;
+	self.singleSelect = collectionService.singleSelect;
 	
 	self.emptyCollection = function() {
 		ngCart.empty();
@@ -26,5 +27,10 @@ function cartController($rootScope, $scope, $http, $location, ngCart, searchResu
 		for (i=0; i<self.cart.getTotalItems(); i++) {
 			repoList.push({"id": items[i].getData().name, "cp": '?'});
 		}
+	}
+	
+	self.select = function(item){
+		collectionService.singleSelect = item;
+		self.singleSelect = collectionService.singleSelect;
 	}
 }]);

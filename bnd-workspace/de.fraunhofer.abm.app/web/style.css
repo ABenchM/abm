@@ -112,6 +112,13 @@ body {
   border-radius:15px;
 }
 
+/* Formats the checkboxes for selecting Hermes filters */
+.filterBox {
+	width: 48%;
+	padding: 3px 1%;
+	display: inline-block;
+}
+
 /* Custom page footer */
 .footer {
   padding-top: 19px;

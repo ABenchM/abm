@@ -1,78 +1,86 @@
 <div class="wrapper" ng-show="loading">
 	<span class="cssload-loader"></span>
 </div>
-<div class="col-md-6 col-md-offset-3" ng-controller="collectionController as cc" ng-hide="loading">
-    <h2 style="display: inline">Edit {{cc.collection.name}}</h2>
-    <form name="form" role="form">
+<div ng-controller="collectionController as cc" ng-hide="loading">
+    <hr>
+	<form name="form" role="form">
         <div class="form-group" ng-class="{ 'has-error': form.name.$dirty && form.name.$error.required }">
-            <label for="name">Name</label>
-            <input type="text" name="name" id="name" class="form-control" ng-model="cc.collection.name" required ng-disabled="cc.saving"/>
-            <span ng-show="form.name.$dirty && form.name.$error.required" class="help-block">Name is required</span>
+   	        <label for="name">Name</label>
+       	    <input type="text" name="name" id="name" class="form-control" ng-model="cc.collection.name" required ng-disabled="cc.saving"/>
+           	<span ng-show="form.name.$dirty && form.name.$error.required" class="help-block">Name is required</span>
         </div>
-        <div class="form-group" ng-class="{ 'has-error': form.description.$dirty && form.description.$error.required }">
-            <label for="description">Description</label>
-            <input type="description" name="description" id="description" class="form-control" ng-model="cc.collection.description" required ng-disabled="cc.saving"/>
-            <span ng-show="form.description.$dirty && form.description.$error.required" class="help-block">Description is required</span>
-        </div>
-        <div class="form-actions">
-            <button type="submit" ng-disabled="form.$invalid || cc.saving" class="btn btn-primary" ng-click="cc.update()">Save</button>
-	        <span class="wrapper" ng-show="cc.saving">
+   	    <div class="form-group" ng-class="{ 'has-error': form.description.$dirty && form.description.$error.required }">
+       	    <label for="description">Description</label>
+       	    <textarea rows='3' style="width:100%;" type="description" name="description" id="description" class="form-control" ng-model="cc.collection.description" required ng-disabled="cc.saving"></textarea>
+           	<span ng-show="form.description.$dirty && form.description.$error.required" class="help-block">Description is required</span>
+       	</div>
+       	<div class="form-actions pull-right">
+           	<button type="submit" ng-disabled="form.$invalid || cc.saving" class="btn btn-primary btn-sm" ng-hide="!cc.collection.privateStatus" ng-click="cc.update()">Save Changes</button>
+            <button ng-disabled="loading || cc.saving" class="btn btn-primary btn-sm" ng-click="cc.makePublic(cc.collection)" ng-show="cc.collection.privateStatus" confirm="Are you sure? This cannot be undone.">Make collection public</button>
+        	<span class="wrapper" ng-show="cc.saving">
 				<span class="cssload-loader"></span>
 			</span>
-        </div>
-    </form>
-    <br><br>
-    <div class="panel panel-primary">
-    	<div class="panel-heading"> 
-	    	<span ng-controller="versionDropdownController">
-		    	<span uib-dropdown on-toggle="toggled(open)">
-		    		<button id="single-button" type="button" class="btn btn-success btn-xs" uib-dropdown-toggle ng-disabled="disabled || cc.saving">
-		        		Version {{cc.version.number}} &nbsp;&nbsp;&dash;&nbsp;&nbsp;  {{cc.version.creationDate | date:'short'}}&nbsp;&nbsp;<span class="caret"></span>
-		      		</button>
-					<ul class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown">
-						<li ng-repeat="version in items"><a href ng-click="selectVersion(version)">{{version.number}} &nbsp;&nbsp;&dash;&nbsp;&nbsp;  {{version.creationDate | date:'short'}}</a></li>
-						<li class="divider"></li>
-		        		<li role="menuitem"><a href ng-click="deriveVersion()">Derive new version from current version ({{cc.version.number}})</a></li>
-					</ul>
-				</span>
-			</span>
+       	</div>
+   	</form>
+	<span uib-dropdown>
+   		<button id="single-button" type="button" class="btn btn-success btn-xs" uib-dropdown-toggle ng-disabled="cc.disabled || cc.saving">
+       		Version {{cc.version.number}} &nbsp;&nbsp;&dash;&nbsp;&nbsp;  {{cc.version.creationDate | date:'short'}}&nbsp;&nbsp;<span class="caret"></span>
+   		</button>
+		<ul class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown">
+			<li ng-repeat="version in cc.collection.versions"><a href ng-click="cc.version = version">{{version.number}} &nbsp;&nbsp;&dash;&nbsp;&nbsp;  {{version.creationDate | date:'short'}}</a></li>
+			<li class="divider"></li>
+       		<li role="menuitem"><a href ng-click="cc.deriveVersion()">Derive new version from current version ({{cc.version.number}})</a></li>
+		</ul>
+	</span>
+	<div class="panel-body">
+   		{{cc.version.comment}}
+		<br><br>
+		<div id="not_frozen" ng-hide="cc.version.frozen || cc.version.filtered" style="height:28px">
+            <button ng-disabled="loading || cc.saving || cc.version.frozen" class="btn btn-primary btn-sm" ng-click="cc.build()">Build this version</button>
+            <button ng-disabled="loading || cc.saving || cc.collection.versions.length <= 1" ng-click="cc.removeVersion(cc.version.id)" class="btn btn-sm btn-danger" title="Delete" confirm="Removal is irreversible! Continue?"><i class="glyphicon glyphicon-trash"></i> Delete this version</button>
+            <button ng-disabled="loading || cc.saving" ng-click="cc.remove(cc.collection.id)" class="btn btn-sm btn-danger" title="Delete" confirm="Removal is irreversible! Continue?"><i class="glyphicon glyphicon-trash"></i> Delete this collection</button>
+            <span style="float:right;">
+            	<!-- <button ng-disabled="loading || cc.saving || cc.version.frozen" class="btn btn-primary btn-sm" ng-click="cc.runFilter(cc.version)" ng-show="cc.collection.privateStatus">Run Hermes Filter</button> -->
+            </span>
 		</div>
-		<div class="panel-body">
-	   		{{cc.version.comment}}
-			<br><br>
-			<div id="not_frozen" ng-hide="cc.version.frozen">
-		   		<button ng-disabled="loading || cc.saving || cc.version.frozen" class="btn btn-primary btn-sm" ng-click="cc.addCart(cc.version)">Add current selection to this version</button>
-	            <button ng-disabled="loading || cc.saving || cc.version.frozen" class="btn btn-primary btn-sm" ng-click="cc.build()">Build this version</button>
-	            <button ng-disabled="loading || cc.saving || cc.collection.versions.length <= 1" ng-click="cc.removeVersion(cc.version.id)" class="btn btn-sm btn-danger" title="Delete" confirm="Removal is irreversible! Continue?"><i class="glyphicon glyphicon-trash"></i> Delete this version</button>
-			</div>
-			<div id="frozen" ng-show="cc.version.frozen">
-				This version is frozen, because it has been built. You can make it editable again by clicking unfreeze.
-				<strong>!!! Be aware, that the previous build result will be deleted !!!</strong>
-				<br/><br/>
-				<button ng-disabled="loading || cc.saving" class="btn btn-primary btn-sm" ng-click="showBuild(cc.version)">Show build</button>
-	            <button ng-disabled="loading || cc.saving" class="btn btn-danger btn-sm" ng-click="unfreeze(cc.version)">Unfreeze</button>
-			</div>
-    	</div>
-   		<table class="table table-bordered table-striped">
-   			<tr>
-   				<th>Name</th>
-   				<th>Commit</th>
-   				<th ng-hide="cc.version.frozen"><button ng-disabled="loading || cc.saving || cc.selection.length == 0" ng-click="cc.removeSelectedCommits()" class="btn btn-xs btn-danger" title="Delete selected" confirm="Removal is irreversible! Continue?"><i class="glyphicon glyphicon-trash"></i></button></th>
-   			</tr>
-   			<tr ng-repeat="commit in cc.version.commits">
-				<td>{{commit.repository.name}}</td>
-				<td>
-					<div class="dropdown" ng-hide="cc.version.frozen">
-					  <button class="btn btn-default btn-xs dropdown-toggle" ng-click="cc.selectCommit(commit)" type="button" id="commitSelect" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-					    <span style="font-family:monospace">{{commit.commitId}}</span>
-					    <span class="caret" ng-hide="loading"></span>
-					  </button>
-					</div>
-					<span style="font-family:monospace" ng-show="cc.version.frozen">{{commit.commitId}}</span>
-				</td>
-				<!-- <td>{{commit.commitId}}</td>-->
-				<td ng-hide="cc.version.frozen"><input type="checkbox" name="selectedCommits[]" value="{{commit.id}}" ng-checked="cc.selection.indexOf(commit.id) > -1" ng-click="cc.toggleSelection(commit.id)"></td>
-   			</tr>
-   		</table>
+		<div id="frozen" ng-show="cc.version.frozen">
+			This version is frozen, because it has been built. You can make it editable again by clicking unfreeze.
+			<strong>!!! Be aware, that the previous build result will be deleted !!!</strong>
+			<br/><br/>
+			<button ng-disabled="loading || cc.saving || cc.disableBuild" class="btn btn-primary btn-sm" ng-click="cc.addBuild(cc.version)">Show build</button>
+            <button ng-disabled="loading || cc.saving || cc.disableBuild" class="btn btn-danger btn-sm" ng-click="cc.unfreeze(cc.version)">Unfreeze</button>
+		</div>
+		<div id="filter" ng-show="cc.version.filtered">
+			This version is frozen, because a Hermes filter has been run on it. You can make it editable again by clicking unfreeze.
+			<strong>!!! Be aware, that the results of the filter will be deleted !!!</strong>
+			<br/><br/>
+			<button ng-disabled="loading || cc.saving || cc.disableBuild" class="btn btn-primary btn-sm" ng-click="cc.showFilter(cc.version)">Show filter results</button>
+            <button ng-disabled="loading || cc.saving || cc.disableBuild" class="btn btn-danger btn-sm" ng-click="cc.removeFilter(cc.version)">Unfreeze</button>
+		</div>
    	</div>
+   	
+  		<table class="table table-bordered table-striped">
+		<col width="*">
+		<col width="*">
+		<col width="5%">
+  			<tr>
+  				<th>Name</th>
+  				<th>Commit</th>
+  				<th></th>
+  			</tr>
+  			<tr ng-repeat="commit in cc.version.commits">
+			<td>{{commit.repository.name}}</td>
+			<td>
+				<div class="dropdown" ng-hide="cc.version.frozen">
+				  <button class="btn btn-default btn-xs dropdown-toggle" ng-click="cc.selectCommit(commit)" type="button" id="commitSelect" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+				    <span style="font-family:monospace">{{commit.commitId}}</span>
+				    <span class="caret" ng-hide="loading"></span>
+				  </button>
+				</div>
+				<span style="font-family:monospace" ng-show="cc.version.frozen">{{commit.commitId}}</span>
+			</td>
+		<td><ngcart-addtocart id="{{ commit.repository.id }}" name="{{ commit.repository.name }}" price="1" quantity="1" quantity-max="30" data="commit.repository"></ngcart-addtocart></td>
+  			</tr>
+  		</table>
+  		<button ng-disabled="loading || cc.saving" class="btn btn-warning btn-sm" ng-click="cc.back()">Back to Collections</button>
 </div>
