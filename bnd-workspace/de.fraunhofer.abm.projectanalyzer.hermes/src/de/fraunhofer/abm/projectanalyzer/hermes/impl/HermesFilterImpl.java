@@ -41,11 +41,11 @@ public class HermesFilterImpl implements HermesFilter {
 	
 	
 	HashMap<String,Boolean> registered = new HashMap<String,Boolean>();
-<<<<<<< HEAD
-	private File FilterPath = new File("/home/almacken/Desktop/abm/hermes/application.conf");//TODO: Actually get the configuration file to work
-=======
+
+	//private File FilterPath = new File("/home/almacken/Desktop/abm/hermes/application.conf");//TODO: Actually get the configuration file to work
+
 	private File FilterPath=  new File("C:\\Ankur\\shk\\application.conf");
->>>>>>> branch 'master' of https://github.com/nguyenLisa/abm.git
+
 	
 	
 	Map<String,Integer> FanInFanOut = new TreeMap<String,Integer>();
@@ -103,11 +103,8 @@ public class HermesFilterImpl implements HermesFilter {
 	}
 	
 	@Override
-<<<<<<< HEAD
-	public void setFIFO()
-=======
 	public void setFanInFanOut()
->>>>>>> branch 'master' of https://github.com/nguyenLisa/abm.git
+
 	{   
 		config = ConfigFactory.parseFile(FilterPath);
 		
@@ -136,11 +133,8 @@ public class HermesFilterImpl implements HermesFilter {
 	}
 	
 	@Override
-<<<<<<< HEAD
-	public  Map<String,Integer> getFiFO()
-=======
 	public  Map<String,Integer> getFanInFanOut()
->>>>>>> branch 'master' of https://github.com/nguyenLisa/abm.git
+
     {
          setFanInFanOut();   
          return FanInFanOut;
@@ -167,11 +161,8 @@ public class HermesFilterImpl implements HermesFilter {
 	}
 	
     @Override
-<<<<<<< HEAD
-    public void updateFIFO(String key,String parameter, int value) throws IOException
-=======
     public void updateFanInFanOut(String key,String parameter, int value) throws IOException
->>>>>>> branch 'master' of https://github.com/nguyenLisa/abm.git
+
 	{
 		config = ConfigFactory.parseFile(FilterPath);
 		writer = new FileWriter(FilterPath);

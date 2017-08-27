@@ -203,6 +203,7 @@ public class HermesController implements REST {
 
 	        logger.info("Unfreezing version {}", version.id);
 	        version.frozen = false;
+	        version.filtered = false;
 	        versionDao.update(version);
 	        return version.id;
 	    }
@@ -232,24 +233,7 @@ public class HermesController implements REST {
 	public void postFanIn(QueryRequest qr) throws IOException
 	{ authorizer.requireRole("RegisteredUser");
 	  QueriesDTO dto = qr._body();
-<<<<<<< HEAD
-	  hermesFilter.updateFIFO("fanin","categories",dto.fanin_categories);
-	  hermesFilter.updateFIFO("fanin","categorySize", dto.fanin_categorySize);	
-	}
-	
-	public void postFanOut(QueryRequest qr) throws IOException
-	{ authorizer.requireRole("RegisteredUser");
-	  QueriesDTO dto = qr._body();
-	  hermesFilter.updateFIFO("fanout","categories",dto.fanout_categories);
-	  hermesFilter.updateFIFO("fanout","categorySize", dto.fanout_categorySize);	
-	}
-	
-	public void postFaRatio(QueryRequest qr) throws IOException
-	{ authorizer.requireRole("RegisteredUser");
-	  QueriesDTO dto = qr._body();
-	  hermesFilter.updateFIFO("ratio","categories",dto.ratio_categories);
-	  hermesFilter.updateFIFO("ratio","categorySize", dto.ratio_categorySize);	
-=======
+
 	  hermesFilter.updateFanInFanOut("fanin","categories",dto.fanin_categories);
 	  hermesFilter.updateFanInFanOut("fanin","categorySize", dto.fanin_categorySize);	
 	}
@@ -261,12 +245,13 @@ public class HermesController implements REST {
 	  hermesFilter.updateFanInFanOut("fanout","categorySize", dto.fanout_categorySize);	
 	}
 	
-	public void postFaRatio(QueryRequest qr) throws IOException
+
+	public void postRatio(QueryRequest qr) throws IOException
 	{ authorizer.requireRole("RegisteredUser");
 	  QueriesDTO dto = qr._body();
 	  hermesFilter.updateFanInFanOut("ratio","categories",dto.ratio_categories);
 	  hermesFilter.updateFanInFanOut("ratio","categorySize", dto.ratio_categorySize);	
->>>>>>> branch 'master' of https://github.com/nguyenLisa/abm.git
+
 	}
 	
 	//Function to get the MaxLocation
@@ -278,11 +263,11 @@ public class HermesController implements REST {
 	}
 	
 	//Function to get the FanInFanout 
-<<<<<<< HEAD
-	public Map<String,Integer> getFiFO()
-=======
+
+	
+
 	public Map<String,Integer> getFanInFanOut()
->>>>>>> branch 'master' of https://github.com/nguyenLisa/abm.git
+
 	{
 		authorizer.requireRole("RegisteredUser");
 		return hermesFilter.getFanInFanOut();
