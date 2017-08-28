@@ -1,4 +1,4 @@
-package de.fraunhofer.abm.projectanalyzer.hermes;
+package de.fraunhofer.abm.hermes;
 
 
 import java.io.IOException;

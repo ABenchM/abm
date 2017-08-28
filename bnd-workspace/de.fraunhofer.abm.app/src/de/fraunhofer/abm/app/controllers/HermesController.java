@@ -31,8 +31,9 @@ import de.fraunhofer.abm.domain.HermesStepDTO;
 import de.fraunhofer.abm.domain.QueriesDTO;
 import de.fraunhofer.abm.domain.VersionDTO;
 import de.fraunhofer.abm.hermes.Hermes;
+import de.fraunhofer.abm.hermes.HermesFilter;
 import de.fraunhofer.abm.hermes.HermesProcess;
-import de.fraunhofer.abm.projectanalyzer.hermes.HermesFilter;
+
 import de.fraunhofer.abm.util.FileUtil;
 import osgi.enroute.configurer.api.RequireConfigurerExtender;
 import osgi.enroute.rest.api.REST;
@@ -91,10 +92,13 @@ public class HermesController implements REST {
 	 }
 	 
 	 //Function to get the list of Hermes instances running for the user.
-	 public List<Map<String,String>> getHermesInstances(String user)
+	 public List<Map<String, String>> getHermesInstances(String user)
 	 {
 		 authorizer.requireUser(user);
 		 List<HermesResultDTO> hermesInstances = hermesResultDao.findRunning(user);
+		
+		 
+		 
 		 List<Map<String,String>> results = new ArrayList<>();
 		 
 		 for (HermesResultDTO dto:hermesInstances)
@@ -110,10 +114,8 @@ public class HermesController implements REST {
 	            map.put("hermesStatus", dto.status);
 	            results.add(map);
 	               
-		 }
-		 
+	 }
 		 return results;
-		 
 	 }
 	 
 	 interface FilterVersionRequest extends RESTRequest {
@@ -128,38 +130,17 @@ public class HermesController implements REST {
 	 }
 	 
 	 //Function to post the list of filters against version
-	 public void postFilterVersion(FilterVersionRequest fv) throws IOException {
+	 public String postHermes(FilterVersionRequest fv) throws Exception {
 	        authorizer.requireRole("RegisteredUser");
 
+	        
+	        
 	        FilterStatusDTO filter = fv._body();
+	        VersionDTO version = versionDao.findById(filter.versionid);
+	        	        
 	        filter.id = UUID.randomUUID().toString();
 	        hermesFilter.updateFilter(filter.filtername, filter.activate);
 	        filterDao.addFilter(filter);
-	    }
-	
-	 //Function to get the List of Hermes Instances as per given parameter.It will be removed if not required.
-	 public HermesResultDTO getHermesInstance(RESTRequest rr) throws Exception {
-	    	Map<String, String[]> params = rr._request().getParameterMap();
-	    	
-	        // make sure the collection is public
-	        VersionDTO version = versionDao.findById(params.get("id")[0]);
-	        CollectionDTO databaseCollection = collectionDao.findById(version.collectionId);
-	        if (databaseCollection.privateStatus) {
-	            authorizer.requireRole("Admin");
-	        }
-
-	        HermesResultDTO dto = hermesResultDao.findByVersion(params.get("id")[0]);
-	            
-	        return dto;
-	    }
-	 
-	 //Function to insert the Hermes Instance Entry for selected version
-	 public String postHermesInstance(VersionRequest cr) throws Exception {
-	        authorizer.requireRole("RegisteredUser");
-
-	        VersionDTO version = cr._body();
-
-	        // make sure the session user is the owner
 	        String sessionUser = SecurityContext.getInstance().getUser();
 	        CollectionDTO databaseCollection = collectionDao.findById(version.collectionId);
 	        String owner = databaseCollection.user;
@@ -167,20 +148,23 @@ public class HermesController implements REST {
 	            authorizer.requireRole("Admin");
 	        }
 	        
+	        
 	        try{
-	        	HermesResultDTO oldInstance = getHermesInstance(version.id);
-	            logger.info("Deleting outdated Instance for version {}", version.id);
+	        	HermesResultDTO oldInstance = getHermesInstance(filter.versionid);
+	            logger.info("Deleting outdated Instance for version {}", filter.versionid);
 	            deleteHermesInstance(oldInstance.id);
 	        } catch(NullPointerException e){
-	            logger.info("No outdated Hermes Instance found for version {}", version.id);
+	            logger.info("No outdated Hermes Instance found for version {}", filter.versionid);
 	        }
-
-	        logger.info("Starting Instance version {}", version.id);
+	        
+	        logger.info("Starting Instance version {}", filter.versionid);
 	        HermesProcess process = hermes.initialize(version);
 	         hermes.start(process);
 	        return process.getId();
 	        
-	 }
+	    }
+	
+	 
 	 
 	 //Function to delete the Hermes Instance entry for selected version.
 	 public String deleteHermesInstance(String hermesResultId) throws Exception {

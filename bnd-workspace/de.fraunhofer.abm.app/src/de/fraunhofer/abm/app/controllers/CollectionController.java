@@ -31,8 +31,7 @@ import de.fraunhofer.abm.domain.CommitDTO;
 import de.fraunhofer.abm.domain.FilterStatusDTO;
 import de.fraunhofer.abm.domain.HermesResultDTO;
 import de.fraunhofer.abm.domain.VersionDTO;
-import de.fraunhofer.abm.hermes.Hermes;
-import de.fraunhofer.abm.projectanalyzer.hermes.HermesFilter;
+
 import de.fraunhofer.abm.util.FileUtil;
 import osgi.enroute.configurer.api.RequireConfigurerExtender;
 import osgi.enroute.rest.api.REST;

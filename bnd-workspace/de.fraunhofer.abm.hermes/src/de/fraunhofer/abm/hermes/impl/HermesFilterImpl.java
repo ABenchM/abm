@@ -1,4 +1,6 @@
-package de.fraunhofer.abm.projectanalyzer.hermes.impl;
+package de.fraunhofer.abm.hermes.impl;
+
+
 
 import java.io.File;
 import java.io.FileWriter;
@@ -29,11 +31,12 @@ import com.typesafe.config.ConfigValue;
 import com.typesafe.config.ConfigValueFactory;
 
 import de.fraunhofer.abm.domain.QueriesDTO;
-import de.fraunhofer.abm.projectanalyzer.hermes.HermesFilter;
+import de.fraunhofer.abm.hermes.HermesFilter;
+
 
 
 //@Designate(ocd = Configuration.class, factory=false)
-@Component(name = "de.fraunhofer.abm.projectanalyzer.hermes.HermesFilter"/*, configurationPolicy = ConfigurationPolicy.OPTIONAL*/)
+@Component(name = "de.fraunhofer.abm.hermes.HermesFilter"/*, configurationPolicy = ConfigurationPolicy.OPTIONAL*/)
 public class HermesFilterImpl implements HermesFilter {
 
 
@@ -261,3 +264,4 @@ public class HermesFilterImpl implements HermesFilter {
 	
 
 }
+

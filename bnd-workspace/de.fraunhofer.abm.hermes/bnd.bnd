@@ -9,4 +9,5 @@ Bundle-Name: ABM Hermes
 	de.fraunhofer.abm.collection.dao;version=latest,\
 	com.fasterxml.jackson.core.jackson-annotations,\
 	com.fasterxml.jackson.core.jackson-core,\
-	com.fasterxml.jackson.core.jackson-databind
+	com.fasterxml.jackson.core.jackson-databind,\
+	com.typesafe.config
