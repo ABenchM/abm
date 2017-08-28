@@ -130,17 +130,23 @@ public class HermesController implements REST {
 	 }
 	 
 	 //Function to post the list of filters against version
-	 public String postHermes(FilterVersionRequest fv) throws Exception {
+	 public String postHermes(HashMap<String,Boolean> filters,String versionid) throws Exception {
 	        authorizer.requireRole("RegisteredUser");
 
 	        
 	        
-	        FilterStatusDTO filter = fv._body();
-	        VersionDTO version = versionDao.findById(filter.versionid);
-	        	        
-	        filter.id = UUID.randomUUID().toString();
-	        hermesFilter.updateFilter(filter.filtername, filter.activate);
-	        filterDao.addFilter(filter);
+	       // FilterStatusDTO filter = fv._body();
+	          FilterStatusDTO filter = new FilterStatusDTO();
+	        VersionDTO version = versionDao.findById(versionid);
+	        for(Map.Entry<String,Boolean> entry : filters.entrySet() ){
+	        	filter.id = UUID.randomUUID().toString();
+	        	filter.filtername = entry.getKey();
+	        	filter.activate = entry.getValue();
+	        	filter.versionid = versionid;
+		        hermesFilter.updateFilter(filter.filtername, filter.activate);
+		        filterDao.addFilter(filter);
+	        }	        
+	        
 	        String sessionUser = SecurityContext.getInstance().getUser();
 	        CollectionDTO databaseCollection = collectionDao.findById(version.collectionId);
 	        String owner = databaseCollection.user;
