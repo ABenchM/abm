@@ -5,10 +5,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+
+
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -119,7 +122,7 @@ public class HermesController implements REST {
 	 }
 	 
 	 interface FilterVersionRequest extends RESTRequest {
-	        FilterStatusDTO _body();
+	        List<FilterStatusDTO> _body();
 	    }
 	 
 	 //Function to get the list of active Filters for the selected version.
@@ -130,18 +133,19 @@ public class HermesController implements REST {
 	 }
 	 
 	 //Function to post the list of filters against version
-	 public String postHermes(HashMap<String,Boolean> filters,String versionid) throws Exception {
+	 public String postHermes(FilterVersionRequest fv,String versionid) throws Exception {
 	        authorizer.requireRole("RegisteredUser");
 
 	        
 	        
-	       // FilterStatusDTO filter = fv._body();
+	          List<FilterStatusDTO> filters = fv._body();
 	          FilterStatusDTO filter = new FilterStatusDTO();
 	        VersionDTO version = versionDao.findById(versionid);
-	        for(Map.Entry<String,Boolean> entry : filters.entrySet() ){
+	        Iterator<FilterStatusDTO> iterator = filters.iterator();
+	        while(iterator.hasNext()){
+	        	
 	        	filter.id = UUID.randomUUID().toString();
-	        	filter.filtername = entry.getKey();
-	        	filter.activate = entry.getValue();
+	        	filter = iterator.next();
 	        	filter.versionid = versionid;
 		        hermesFilter.updateFilter(filter.filtername, filter.activate);
 		        filterDao.addFilter(filter);
@@ -167,6 +171,7 @@ public class HermesController implements REST {
 	        HermesProcess process = hermes.initialize(version);
 	         hermes.start(process);
 	        return process.getId();
+	         
 	        
 	    }
 	
