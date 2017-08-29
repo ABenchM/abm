@@ -129,7 +129,24 @@ public class HermesController implements REST {
 	 public List<FilterStatusDTO> getActiveFilters(String versionid)
 	 { 
 		 authorizer.requireRole("RegisteredUser");
+		 List<FilterStatusDTO> dto = new ArrayList<FilterStatusDTO>();
+		 if(filterDao.findFilters(versionid)!=null)
 		 return filterDao.findFilters(versionid);
+		 else
+		 {
+			 HashMap<String,Boolean> activeFilters = new HashMap<String,Boolean>();
+			 activeFilters = hermesFilter.getFilters();
+			 for(Map.Entry<String, Boolean> entry : activeFilters.entrySet())
+			 {
+				 FilterStatusDTO fs = new FilterStatusDTO();
+				 fs.filtername = entry.getKey();
+				 fs.activate = entry.getValue();
+				 fs.versionid = versionid;
+				 dto.add(fs);
+				 
+			 }
+			 return dto;
+		 }
 	 }
 	 
 	 
