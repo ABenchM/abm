@@ -160,8 +160,9 @@ public class HermesController implements REST {
 	        Iterator<FilterStatusDTO> iterator = filters.iterator();
 	        while(iterator.hasNext()){
 	        	
-	        	filter.id = UUID.randomUUID().toString();
+	        	
 	        	filter = iterator.next();
+			filter.id = UUID.randomUUID().toString();
 	        	filter.versionid = versionid;
 		        hermesFilter.updateFilter(filter.filtername, filter.activate);
 		        filterDao.addFilter(filter);
