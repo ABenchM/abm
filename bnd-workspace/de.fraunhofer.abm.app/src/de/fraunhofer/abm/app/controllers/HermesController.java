@@ -129,10 +129,8 @@ public class HermesController implements REST {
 	 public List<FilterStatusDTO> getActiveFilters(String versionid)
 	 { 
 		 authorizer.requireRole("RegisteredUser");
-		 List<FilterStatusDTO> dto = new ArrayList<FilterStatusDTO>();
-		 if(filterDao.findFilters(versionid)!=null)
-		 return filterDao.findFilters(versionid);
-		 else
+		 List<FilterStatusDTO> dto = filterDao.findFilters(versionid);
+		 if(dto.size() == 0)
 		 {
 			 HashMap<String,Boolean> activeFilters = new HashMap<String,Boolean>();
 			 activeFilters = hermesFilter.getFilters();
@@ -145,8 +143,8 @@ public class HermesController implements REST {
 				 dto.add(fs);
 				 
 			 }
-			 return dto;
 		 }
+		 return dto;
 	 }
 	 
 	 
@@ -154,7 +152,6 @@ public class HermesController implements REST {
 	 //Function to post the list of filters against version
 	 public String postHermes(FilterVersionRequest fv,String versionid) throws Exception {
 	        authorizer.requireRole("RegisteredUser");
-	        logger.info("Test");
 	        
 	        
 	          List<FilterStatusDTO> filters = fv._body();
