@@ -178,6 +178,7 @@ public class HermesFilterImpl implements HermesFilter {
 		ConfigList registered ;
 		List<ConfigObject> newregistered = new ArrayList<ConfigObject>();
 		config = ConfigFactory.parseFile(FilterPath);
+	        writer = new FileWriter(FilterPath);
 		ConfigObject co , co2;
 		registered = config.getList("org.opalj.hermes.queries.registered");
 		
