@@ -146,8 +146,8 @@ public class CollectionController extends AbstractController implements REST {
                  hermesResultDao.delete(hermesResult.id);
                 
                  //functionality to delete filternames against the version of this collection.
-                 FilterStatusDTO filter = filterDao.findFilters(version.id);
-                 filterDao.dropFilters(filter.versionid);
+                 
+                   filterDao.dropFilters(version.id);
                  
             }
         }

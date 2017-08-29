@@ -126,11 +126,13 @@ public class HermesController implements REST {
 	    }
 	 
 	 //Function to get the list of active Filters for the selected version.
-	 public FilterStatusDTO getactiveFiltersByVersion(String versionid)
+	 public List<FilterStatusDTO> getactiveFiltersByVersion(String versionid)
 	 { 
 		 authorizer.requireRole("RegisteredUser");
 		 return filterDao.findFilters(versionid);
 	 }
+	 
+	 
 	 
 	 //Function to post the list of filters against version
 	 public String postHermes(FilterVersionRequest fv,String versionid) throws Exception {

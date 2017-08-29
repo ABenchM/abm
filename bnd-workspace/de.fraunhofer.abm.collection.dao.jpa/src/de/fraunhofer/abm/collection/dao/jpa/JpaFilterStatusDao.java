@@ -1,7 +1,9 @@
 package de.fraunhofer.abm.collection.dao.jpa;
 
 
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -38,14 +40,14 @@ public class JpaFilterStatusDao implements FilterStatusDao {
     }
     
     @Override
-    public FilterStatusDTO findFilters(String versionId)
+    public List<FilterStatusDTO> findFilters(String versionId)
     {
     	return transactionControl.notSupported(() -> {
-            TypedQuery<JpaFilterStatus> query = em.createQuery("SELECT b FROM filter b WHERE b.versionid = :versionId", JpaFilterStatus.class);
+            TypedQuery<JpaFilterStatus> query = em.createQuery("SELECT b FROM filter_status b WHERE b.versionid = :versionId", JpaFilterStatus.class);
             query.setParameter("versionid", versionId);
             try {
-            	JpaFilterStatus result = query.getSingleResult();
-                return result.toDTO();
+            	List<JpaFilterStatus> resultList = query.getResultList();
+                return resultList.stream().map(JpaFilterStatus::toDTO).collect(Collectors.toList());
             } catch(NoResultException e) {
                 return null;
             }
