@@ -4,7 +4,7 @@
 	</div>
 	<div class="modal-body" id="modal-body">
 		<div ng-repeat="filter in filterList" class="filterBox">
-			<input type="checkbox" id={{filter.name}} ng-model="filter.status"/><label for={{filter.name}}> {{filter.name | hermesName}}</label>
+			<input type="checkbox" id={{filter.filtername}} ng-model="filter.activate"/><label for={{filter.filtername}}> {{filter.filtername | hermesName}}</label>
 		</div>
 	</div>
 	<div class="modal-footer">

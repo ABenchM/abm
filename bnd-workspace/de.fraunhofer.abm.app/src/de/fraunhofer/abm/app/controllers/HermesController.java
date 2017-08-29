@@ -126,7 +126,7 @@ public class HermesController implements REST {
 	    }
 	 
 	 //Function to get the list of active Filters for the selected version.
-	 public List<FilterStatusDTO> getactiveFiltersByVersion(String versionid)
+	 public List<FilterStatusDTO> getActiveFilters(String versionid)
 	 { 
 		 authorizer.requireRole("RegisteredUser");
 		 return filterDao.findFilters(versionid);
@@ -137,7 +137,7 @@ public class HermesController implements REST {
 	 //Function to post the list of filters against version
 	 public String postHermes(FilterVersionRequest fv,String versionid) throws Exception {
 	        authorizer.requireRole("RegisteredUser");
-
+	        logger.info("Test");
 	        
 	        
 	          List<FilterStatusDTO> filters = fv._body();
@@ -230,7 +230,6 @@ public class HermesController implements REST {
 	public void postFanIn(QueryRequest qr) throws IOException
 	{ authorizer.requireRole("RegisteredUser");
 	  QueriesDTO dto = qr._body();
-
 	  hermesFilter.updateFanInFanOut("fanin","categories",dto.fanin_categories);
 	  hermesFilter.updateFanInFanOut("fanin","categorySize", dto.fanin_categorySize);	
 	}
@@ -247,8 +246,7 @@ public class HermesController implements REST {
 	{ authorizer.requireRole("RegisteredUser");
 	  QueriesDTO dto = qr._body();
 	  hermesFilter.updateFanInFanOut("ratio","categories",dto.ratio_categories);
-	  hermesFilter.updateFanInFanOut("ratio","categorySize", dto.ratio_categorySize);	
-
+	  hermesFilter.updateFanInFanOut("ratio","categorySize", dto.ratio_categorySize);
 	}
 	
 	//Function to get the MaxLocation
@@ -260,11 +258,7 @@ public class HermesController implements REST {
 	}
 	
 	//Function to get the FanInFanout 
-
-	
-
 	public Map<String,Integer> getFanInFanOut()
-
 	{
 		authorizer.requireRole("RegisteredUser");
 		return hermesFilter.getFanInFanOut();

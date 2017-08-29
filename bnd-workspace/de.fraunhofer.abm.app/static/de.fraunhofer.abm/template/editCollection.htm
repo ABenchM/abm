@@ -40,7 +40,7 @@
             <button ng-disabled="loading || cc.saving || cc.collection.versions.length <= 1" ng-click="cc.removeVersion(cc.version.id)" class="btn btn-sm btn-danger" title="Delete" confirm="Removal is irreversible! Continue?"><i class="glyphicon glyphicon-trash"></i> Delete this version</button>
             <button ng-disabled="loading || cc.saving" ng-click="cc.remove(cc.collection.id)" class="btn btn-sm btn-danger" title="Delete" confirm="Removal is irreversible! Continue?"><i class="glyphicon glyphicon-trash"></i> Delete this collection</button>
             <span style="float:right;">
-            	<!-- <button ng-disabled="loading || cc.saving || cc.version.frozen" class="btn btn-primary btn-sm" ng-click="cc.runFilter(cc.version)" ng-show="cc.collection.privateStatus">Run Hermes Filter</button> -->
+            	<button ng-disabled="loading || cc.saving || cc.version.frozen" class="btn btn-primary btn-sm" ng-click="cc.runFilter(cc.version)" ng-show="cc.collection.privateStatus">Run Hermes Filter</button>
             </span>
 		</div>
 		<div id="frozen" ng-show="cc.version.frozen">
