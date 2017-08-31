@@ -11,13 +11,14 @@ import org.osgi.service.component.annotations.Component;
 @Component
 public class EmailConfiguration implements EmailConfigInterface{
 	
-	private String userAddress = "noreply@abm.cs.upb.de";
-	private String userName = "noreply";
-	private String userPassword = "noreplyPass(TBD)";
+	/* No authentication is needed to send these messages from within UPB, but we cannot use this address when sending messages from outside it. */
+	private String userAddress = "abm-notifications@lists.upb.de";
+	private String userName = "abm-notifications";
+	private String userPassword = "Unused";
 	private String[] adminAddresses = {"lisa.nguyen@uni-paderborn.de"};
 	private boolean userAuth = false;
 	
-	private String serverHost = "localhost";
+	private String serverHost = "mail.uni-paderborn.de";
 	private String serverPort = "25";
 	
 	@Override

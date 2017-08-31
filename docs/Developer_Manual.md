@@ -38,6 +38,7 @@ To be able to use the full application, ensure the following before launching:
 Launching the application:
 * Open de.fraunhofer.abm.app/de.fraunhofer.abm.bndrun
 * Click on Run OSGi in the top right corner
+* The website can then be accessed at http://localhost:8080/de.fraunhofer.abm/index.html#/
 
 ## Launching or bouncing the application on production server
 * Go to the following path /opt/abm
