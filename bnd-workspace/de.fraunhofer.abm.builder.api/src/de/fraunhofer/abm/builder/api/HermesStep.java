@@ -19,7 +19,7 @@ public interface HermesStep<T> {
 	    public String getErrorOutput();
 	    public Throwable getThrowable();
 	    public T execute();
-	  //  public RepositoryDTO getRepository();
+	  
 	    
 	    public void addHermesStepListener(HermesStepListener hsl);
 	    public void removeHermesStepListener(HermesStepListener hsl);

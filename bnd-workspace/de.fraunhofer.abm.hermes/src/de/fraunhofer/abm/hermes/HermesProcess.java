@@ -43,11 +43,11 @@ public class HermesProcess implements Callable<HermesResultDTO> {
 	 private HermesBuilder builder;
 	 
 	 
-	 public HermesProcess(VersionDTO version,List<HermesBuilderFactory> builderFactories,HermesResultDao hermesResultDao)
+	 public HermesProcess(VersionDTO version,List<HermesBuilderFactory> hermesFactories,HermesResultDao hermesResultDao)
 	 {
 		 this.version = version;
 		 //this.workspace = workspace;
-		 this.hermesBuilderFactories = builderFactories;
+		 this.hermesBuilderFactories = hermesFactories;
 		 this.hermesResultDao = hermesResultDao;
 		 this.id = UUID.randomUUID().toString();
 		 this.hermesResult = new HermesResultDTO();
@@ -60,7 +60,7 @@ public class HermesProcess implements Callable<HermesResultDTO> {
 	 private void createHermesResultStructure()
 	 {
 		 this.hermesResult.versionId = version.id;
-		 this.hermesResult.dir = workspace.getAbsolutePath();
+		 //this.hermesResult.dir = workspace.getAbsolutePath();
 
 		 //Need to add build steps in HermesBuild 
 		 
@@ -75,7 +75,8 @@ public class HermesProcess implements Callable<HermesResultDTO> {
 		 hermesResult.date = new Date();
 		 hermesResultDao.update(hermesResult);
 		 String date = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(hermesResult.date);
-		 File archive = new File(workspace,"abm-"+date);
+		 
+		
 		 return hermesResult;
 		 
 	 }

@@ -1,8 +1,10 @@
 package de.fraunhofer.abm.builder.api;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.ExecutorService;
 
 import de.fraunhofer.abm.builder.api.BuildStep.STATUS;
 
@@ -16,11 +18,11 @@ public abstract class AbstractHermesStep<T> implements HermesStep<T> {
     protected String output = "";
     protected String errorOutput = "";
     protected Throwable throwable;
-    
+    File repoDir;
     private List<HermesStepListener> listeners = new ArrayList<>();
     
-    public AbstractHermesStep(){
-    	
+    public AbstractHermesStep(File repoDir ){
+    	this.repoDir = repoDir;
     }
     
     @Override
