@@ -15,15 +15,19 @@ import de.fraunhofer.abm.hermes.HermesProjects;
 
 
 @Component
-public class HermesProjectsImpl implements HermesProjects {
+public class HermesProjectsImpl implements HermesProjects  {
 
-	File file = new File("C:\\Users\\ankur\\workspace\\Hermes\\hermes.json");
+	File projectPath = new File("C:\\Ankur\\shk\\suitebuilder\\hermes.json");
+	
+	
+	
+	
 	
 	@Override
 	public void addProjects(String id,String cp,String libcp_defaults) throws IOException
 	{
 	     JsonFactory jf = new JsonFactory();
-		 JsonGenerator jg = jf.createGenerator(file,JsonEncoding.UTF8);
+		 JsonGenerator jg = jf.createGenerator(projectPath,JsonEncoding.UTF8);
 		
 		
 				jg.writeStartObject();
@@ -56,7 +60,7 @@ public class HermesProjectsImpl implements HermesProjects {
 	public void addProjects(String id,String cp) throws IOException
 	{
 		JsonFactory jf = new JsonFactory();
-		 JsonGenerator jg = jf.createGenerator(file,JsonEncoding.UTF8);
+		 JsonGenerator jg = jf.createGenerator(projectPath,JsonEncoding.UTF8);
 		
 		
 				jg.writeStartObject();

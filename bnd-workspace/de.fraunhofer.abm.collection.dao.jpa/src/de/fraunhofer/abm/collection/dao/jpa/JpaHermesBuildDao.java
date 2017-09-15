@@ -12,7 +12,7 @@ import org.osgi.service.transaction.control.jpa.JPAEntityManagerProvider;
 
 import de.fraunhofer.abm.collection.dao.HermesBuildDao;
 import de.fraunhofer.abm.domain.HermesBuildDTO;
-import de.fraunhofer.abm.domain.ProjectBuildDTO;
+
 
 @Component
 public class JpaHermesBuildDao implements HermesBuildDao {

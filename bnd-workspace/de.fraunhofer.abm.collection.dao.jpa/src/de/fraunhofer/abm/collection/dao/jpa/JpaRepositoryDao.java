@@ -69,6 +69,20 @@ public class JpaRepositoryDao implements RepositoryDao {
             return result.toDTO();
         });
     }
+    
+    @Override
+    public RepositoryDTO findByVersion(String versionId)
+    {
+    	return transactionControl.notSupported(() -> {
+        TypedQuery<JpaRepository> query = em.createQuery("select c from repository c join c.commits as cmt join cmt.version as v where v.id = :versionId", JpaRepository.class);
+        query.setParameter("versionId", versionId);
+        JpaRepository result = query.getSingleResult();
+        return result.toDTO();
+    });
+		
+    	
+    	
+    }
 
     @Override
     public void save(RepositoryDTO repository) {

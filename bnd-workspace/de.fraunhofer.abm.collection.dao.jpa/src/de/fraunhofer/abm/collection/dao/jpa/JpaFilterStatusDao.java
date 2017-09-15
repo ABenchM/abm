@@ -44,7 +44,7 @@ public class JpaFilterStatusDao implements FilterStatusDao {
     {
     	return transactionControl.notSupported(() -> {
             TypedQuery<JpaFilterStatus> query = em.createQuery("SELECT b FROM filter_status b WHERE b.versionid = :versionId", JpaFilterStatus.class);
-            query.setParameter("versionid", versionId);
+            query.setParameter("versionId", versionId);
             try {
             	List<JpaFilterStatus> resultList = query.getResultList();
                 return resultList.stream().map(JpaFilterStatus::toDTO).collect(Collectors.toList());

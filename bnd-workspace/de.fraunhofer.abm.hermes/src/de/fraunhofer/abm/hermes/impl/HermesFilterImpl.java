@@ -44,12 +44,7 @@ public class HermesFilterImpl implements HermesFilter {
 	
 	
 	HashMap<String,Boolean> registered = new HashMap<String,Boolean>();
-
-	//private File FilterPath = new File("/home/almacken/Desktop/abm/hermes/application.conf");//TODO: Actually get the configuration file to work
-
-	private File FilterPath=  new File("C:\\Ankur\\shk\\application.conf");
-
-	
+	private File FilterPath = new File("C:\\Ankur\\shk\\Hermes_Development\\Hermes_workdev\\application.conf");//TODO: Actually get the configuration file to work
 	
 	Map<String,Integer> FanInFanOut = new TreeMap<String,Integer>();
 	
@@ -107,7 +102,6 @@ public class HermesFilterImpl implements HermesFilter {
 	
 	@Override
 	public void setFanInFanOut()
-
 	{   
 		config = ConfigFactory.parseFile(FilterPath);
 		
@@ -137,7 +131,6 @@ public class HermesFilterImpl implements HermesFilter {
 	
 	@Override
 	public  Map<String,Integer> getFanInFanOut()
-
     {
          setFanInFanOut();   
          return FanInFanOut;
@@ -165,7 +158,6 @@ public class HermesFilterImpl implements HermesFilter {
 	
     @Override
     public void updateFanInFanOut(String key,String parameter, int value) throws IOException
-
 	{
 		config = ConfigFactory.parseFile(FilterPath);
 		writer = new FileWriter(FilterPath);

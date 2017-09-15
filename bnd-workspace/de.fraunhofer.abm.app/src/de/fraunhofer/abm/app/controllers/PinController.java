@@ -1,23 +1,18 @@
 package de.fraunhofer.abm.app.controllers;
 
 import java.io.Console;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 import java.util.ArrayList;
-
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import de.fraunhofer.abm.app.auth.Authorizer;
 import de.fraunhofer.abm.collection.dao.CollectionDao;
 import de.fraunhofer.abm.collection.dao.CollectionPinDao;
 import de.fraunhofer.abm.collection.dao.FilterPinDao;
 import de.fraunhofer.abm.domain.CollectionDTO;
-import de.fraunhofer.abm.domain.CollectionPinDTO;
 import osgi.enroute.configurer.api.RequireConfigurerExtender;
 import osgi.enroute.rest.api.REST;
 import osgi.enroute.rest.api.RESTRequest;

@@ -18,7 +18,7 @@ public interface HermesStep<T> {
 	    public String getOutput();
 	    public String getErrorOutput();
 	    public Throwable getThrowable();
-	    public T execute();
+	    public T execute() throws Exception;
 	  
 	    
 	    public void addHermesStepListener(HermesStepListener hsl);

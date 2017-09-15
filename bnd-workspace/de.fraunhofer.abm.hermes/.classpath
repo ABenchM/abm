@@ -7,19 +7,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/de.fraunhofer.abm.collection.dao"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/de.fraunhofer.abm.collection.dao.jpa"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/de.fraunhofer.abm.domain"/>
-	<classpathentry kind="lib" path="C:/Program Files/Java/jdk1.8.0_131/lib/com.fasterxml.jackson.core.jar"/>
-	<classpathentry kind="lib" path="/de.fraunhofer.abm.builder.docker.base/generated/de.fraunhofer.abm.builder.docker.base.jar" sourcepath="/de.fraunhofer.abm.builder.docker.base/generated/de.fraunhofer.abm.builder.docker.base.jar">
-		<attributes>
-			<attribute name="bsn" value="de.fraunhofer.abm.builder.docker.base.jar"/>
-			<attribute name="type" value="PROJECT"/>
-			<attribute name="project" value="de.fraunhofer.abm.builder.docker.base"/>
-			<attribute name="version" value="latest"/>
-			<attribute name="index_location" value="platform:/plugin/bndtools.builder/org/bndtools/builder/classpath/empty.index"/>
-		</attributes>
-		<accessrules>
-			<accessrule kind="accessible" pattern="de/fraunhofer/abm/builder/docker/base/*"/>
-			<accessrule ignoreifbetter="true" kind="discouraged" pattern="**"/>
-		</accessrules>
-	</classpathentry>
+	<classpathentry kind="src" path="/de.fraunhofer.abm.builder.docker.base"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

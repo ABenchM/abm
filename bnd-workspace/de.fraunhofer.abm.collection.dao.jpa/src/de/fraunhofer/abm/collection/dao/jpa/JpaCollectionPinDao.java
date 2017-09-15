@@ -14,7 +14,7 @@ import org.osgi.service.transaction.control.TransactionControl;
 import org.osgi.service.transaction.control.jpa.JPAEntityManagerProvider;
 
 import de.fraunhofer.abm.collection.dao.CollectionPinDao;
-import de.fraunhofer.abm.domain.CollectionPinDTO;
+
 
 @Component
 public class JpaCollectionPinDao extends AbstractJpaDao implements CollectionPinDao {

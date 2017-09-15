@@ -44,7 +44,15 @@ public class JpaCommitDao implements CommitDao {
             return result.toDTO();
         });
     }
+    
+    
+    	
+    	
+    	
+    
 
+  
+    
     @Override
     public void delete(String id) {
         transactionControl.required(() -> {

@@ -48,8 +48,8 @@ public class JpaBuildResultDao implements BuildResultDao {
     @Override
     public BuildResultDTO findByVersion(String id) {
         return transactionControl.notSupported(() -> {
-            TypedQuery<JpaBuildResult> query = em.createQuery("SELECT b FROM build_result b WHERE b.versionId = :version", JpaBuildResult.class);
-            query.setParameter("version", id);
+            TypedQuery<JpaBuildResult> query = em.createQuery("SELECT b FROM build_result b WHERE b.versionId = :id", JpaBuildResult.class);
+            query.setParameter("id", id);
             try {
                 JpaBuildResult result = query.getSingleResult();
                 return result.toDTO();

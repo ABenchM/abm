@@ -8,7 +8,7 @@ import javax.persistence.Id;
 
 import de.fraunhofer.abm.domain.FilterStatusDTO;
 
-@Entity(name="filter")
+@Entity(name="filter_status")
 public class JpaFilterStatus {
 	
 	

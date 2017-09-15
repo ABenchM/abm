@@ -1,6 +1,6 @@
 package de.fraunhofer.abm.domain;
 
-import java.util.UUID;
+
 
 public class FilterStatusDTO {
 

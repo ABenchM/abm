@@ -4,7 +4,12 @@ import java.util.NoSuchElementException;
 
 public class NoBuilderFoundException extends NoSuchElementException {
 
-    public NoBuilderFoundException(String msg) {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public NoBuilderFoundException(String msg) {
         super(msg);
     }
 

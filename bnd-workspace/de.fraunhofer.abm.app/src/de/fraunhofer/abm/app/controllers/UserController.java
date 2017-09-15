@@ -2,21 +2,17 @@ package de.fraunhofer.abm.app.controllers;
 
 import java.util.Map;
 
-import javax.activation.*;
+
 import javax.mail.*;  
 import javax.mail.internet.*;  
-import javax.servlet.http.HttpServletResponse;
-
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import de.fraunhofer.abm.app.EmailConfigInterface;
 import de.fraunhofer.abm.app.auth.Authorizer;
 import de.fraunhofer.abm.app.auth.Password;
 import de.fraunhofer.abm.collection.dao.UserDao;
-import de.fraunhofer.abm.domain.CollectionDTO;
 import osgi.enroute.configurer.api.RequireConfigurerExtender;
 import osgi.enroute.rest.api.REST;
 import osgi.enroute.rest.api.RESTRequest;

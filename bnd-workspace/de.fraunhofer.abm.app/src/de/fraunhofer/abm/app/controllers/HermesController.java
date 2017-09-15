@@ -1,14 +1,12 @@
 package de.fraunhofer.abm.app.controllers;
 
-import java.io.File;
+
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.UUID;
 
 
@@ -17,27 +15,28 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import de.fraunhofer.abm.app.auth.Authorizer;
 import de.fraunhofer.abm.app.auth.SecurityContext;
-import de.fraunhofer.abm.app.controllers.CollectionController.CollectionRequest;
+import de.fraunhofer.abm.collection.dao.BuildResultDao;
 import de.fraunhofer.abm.collection.dao.CollectionDao;
+import de.fraunhofer.abm.collection.dao.CommitDao;
 import de.fraunhofer.abm.collection.dao.FilterStatusDao;
 import de.fraunhofer.abm.collection.dao.HermesResultDao;
+import de.fraunhofer.abm.collection.dao.RepositoryDao;
 import de.fraunhofer.abm.collection.dao.VersionDao;
+import de.fraunhofer.abm.domain.BuildResultDTO;
 import de.fraunhofer.abm.domain.CollectionDTO;
-import de.fraunhofer.abm.domain.CommitDTO;
 import de.fraunhofer.abm.domain.FilterStatusDTO;
 import de.fraunhofer.abm.domain.HermesBuildDTO;
 import de.fraunhofer.abm.domain.HermesResultDTO;
 import de.fraunhofer.abm.domain.HermesStepDTO;
 import de.fraunhofer.abm.domain.QueriesDTO;
+import de.fraunhofer.abm.domain.RepositoryDTO;
+//import de.fraunhofer.abm.domain.RepositoryDTO;
 import de.fraunhofer.abm.domain.VersionDTO;
 import de.fraunhofer.abm.hermes.Hermes;
 import de.fraunhofer.abm.hermes.HermesFilter;
 import de.fraunhofer.abm.hermes.HermesProcess;
-
-import de.fraunhofer.abm.util.FileUtil;
 import osgi.enroute.configurer.api.RequireConfigurerExtender;
 import osgi.enroute.rest.api.REST;
 import osgi.enroute.rest.api.RESTRequest;
@@ -67,6 +66,12 @@ public class HermesController implements REST {
 	 
 	 @Reference
 	 private HermesResultDao hermesResultDao;
+	 
+	 @Reference
+	 private RepositoryDao repositoryDao;
+	 
+	 @Reference
+	 private BuildResultDao buildResultDao;
 	 
 	 @Reference
 	 private VersionDao versionDao;
@@ -131,9 +136,24 @@ public class HermesController implements REST {
 		 authorizer.requireRole("RegisteredUser");
 		 List<FilterStatusDTO> dto = new ArrayList<FilterStatusDTO>();
 		 if(filterDao.findFilters(versionid)!=null)
-		 return filterDao.findFilters(versionid);
-		 else
+		// List<FilterStatusDTO> dto = filterDao.findFilters(versionid);
+		 if(dto.size() == 0)
 		 {
+			 HashMap<String,Boolean> activeFilters = new HashMap<String,Boolean>();
+			 activeFilters = hermesFilter.getFilters();
+			 for(Map.Entry<String, Boolean> entry : activeFilters.entrySet())
+			 {
+				 FilterStatusDTO fs = new FilterStatusDTO();
+				 fs.filtername = entry.getKey();
+				 fs.activate = entry.getValue();
+				 fs.versionid = versionid;
+				 dto.add(fs);
+				 
+			 }
+		 }
+		 return dto;
+		// else
+		/* {
 			 HashMap<String,Boolean> activeFilters = new HashMap<String,Boolean>();
 			 activeFilters = hermesFilter.getFilters();
 			 for(Map.Entry<String, Boolean> entry : activeFilters.entrySet())
@@ -145,7 +165,7 @@ public class HermesController implements REST {
 				 
 			 }
 			 return dto;
-		 }
+		 }*/
 	 }
 	 
 	 
@@ -153,7 +173,6 @@ public class HermesController implements REST {
 	 //Function to post the list of filters against version
 	 public String postHermes(FilterVersionRequest fv,String versionid) throws Exception {
 	        authorizer.requireRole("RegisteredUser");
-
 	        
 	        
 	          List<FilterStatusDTO> filters = fv._body();
@@ -161,8 +180,6 @@ public class HermesController implements REST {
 	        VersionDTO version = versionDao.findById(versionid);
 	        Iterator<FilterStatusDTO> iterator = filters.iterator();
 	        while(iterator.hasNext()){
-	        	
-	        	
 	        	filter = iterator.next();
 	        	filter.id = UUID.randomUUID().toString();
 	        	filter.versionid = versionid;
@@ -187,8 +204,18 @@ public class HermesController implements REST {
 	        }
 	        
 	        logger.info("Starting Instance version {}", filter.versionid);
-	        HermesProcess process = hermes.initialize(version);
-	         hermes.start(process);
+	        
+	        String   repoDir;
+	        RepositoryDTO repo;
+	        BuildResultDTO resultDTO;
+	        repo = repositoryDao.findByVersion(versionid);
+	        
+	        resultDTO = buildResultDao.findByVersion(versionid);
+	        repoDir = resultDTO.dir;
+	        
+	        
+	        HermesProcess process = hermes.initialize(version,repoDir,repo);
+	        hermes.start(process);
 	        return process.getId();
 	         
 	        
@@ -215,8 +242,8 @@ public class HermesController implements REST {
 	        //FileUtil.deleteRecursively(buildDir);
 	        hermesResultDao.delete(hermesResultId);
 
-	        logger.info("Unfreezing version {}", version.id);
-	        version.frozen = false;
+	        //logger.info("Unfreezing version {}", version.id);
+	        //version.frozen = false;
 	        version.filtered = false;
 	        versionDao.update(version);
 	        return version.id;
@@ -247,7 +274,6 @@ public class HermesController implements REST {
 	public void postFanIn(QueryRequest qr) throws IOException
 	{ authorizer.requireRole("RegisteredUser");
 	  QueriesDTO dto = qr._body();
-
 	  hermesFilter.updateFanInFanOut("fanin","categories",dto.fanin_categories);
 	  hermesFilter.updateFanInFanOut("fanin","categorySize", dto.fanin_categorySize);	
 	}
@@ -264,8 +290,7 @@ public class HermesController implements REST {
 	{ authorizer.requireRole("RegisteredUser");
 	  QueriesDTO dto = qr._body();
 	  hermesFilter.updateFanInFanOut("ratio","categories",dto.ratio_categories);
-	  hermesFilter.updateFanInFanOut("ratio","categorySize", dto.ratio_categorySize);	
-
+	  hermesFilter.updateFanInFanOut("ratio","categorySize", dto.ratio_categorySize);
 	}
 	
 	//Function to get the MaxLocation
@@ -277,11 +302,7 @@ public class HermesController implements REST {
 	}
 	
 	//Function to get the FanInFanout 
-
-	
-
 	public Map<String,Integer> getFanInFanOut()
-
 	{
 		authorizer.requireRole("RegisteredUser");
 		return hermesFilter.getFanInFanOut();

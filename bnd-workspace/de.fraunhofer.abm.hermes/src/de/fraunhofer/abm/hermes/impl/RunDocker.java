@@ -3,31 +3,28 @@ package de.fraunhofer.abm.hermes.impl;
 import java.io.File;
 import java.util.UUID;
 import java.util.concurrent.ExecutorService;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-
-import de.fraunhofer.abm.builder.api.AbstractHermesStep;
 import de.fraunhofer.abm.builder.api.BuildUtils;
-import de.fraunhofer.abm.builder.api.BuildStep.STATUS;
-import de.fraunhofer.abm.builder.docker.base.AbstractDockerStep.Result;
+import de.fraunhofer.abm.builder.docker.base.AbstractHermesStep;
 import de.fraunhofer.abm.domain.HermesStepDTO;
-import de.fraunhofer.abm.hermes.HermesDocker;
 
 
-public class RunDocker extends HermesDocker<String> {
+
+public class RunDocker extends AbstractHermesStep<String> {
 	
 	private static final transient Logger logger = LoggerFactory.getLogger(RunDocker.class);
 	
 	private String imageName;
-	private File repoDir;
+	private String repoDir;
+	private String dir;
 	
-	public RunDocker(File repoDir , ExecutorService executor)
+	public RunDocker(String repoDir /*, ExecutorService executor*/)
 	{
-		super(repoDir,executor);
+		super(repoDir/*,executor*/);
 		this.repoDir = repoDir;
 		this.name = "Run Docker for Hermes";
+		dir = repoDir.substring(repoDir.lastIndexOf('\\')+1);
 	}
 	
     
@@ -36,24 +33,28 @@ public class RunDocker extends HermesDocker<String> {
 		this.imageName = imageName;
 	}
 	
+	
+	
 	@Override
-	public String execute()
-	{
+	public String execute() throws Exception
+	{ setStatus(STATUS.IN_PROGRESS);
+	
 		  String containerName = UUID.randomUUID().toString();
 	        try {
 	            logger.debug("Running Hermes docker container:{}", containerName);
-	            Result result = exec("docker run -v M2_REPO:/usr/share/maven/ref/repository --name " + containerName + " " + imageName + " mvn verify deploy:deploy -DaltDeploymentRepository=snapshots::default::file:///tmp/maven", repoDir);
+	            /*Result result = exec("docker run -v /c/Ankur/shk/suitebuilder/"+dir+ ":/root/OPAL/repoDir --name "+containerName+" "+imageName+" bash" , new File(repoDir));
 	            output = result.stdout;
 	            errorOutput = result.stderr;
 	            setStatus(result.exitValue == 0 ? STATUS.SUCCESS : STATUS.FAILED);
-	        } catch(InterruptedException ie) {
-	            logger.info("Interrupted build at {}", getName());
-	            setStatus(STATUS.CANCELLED);
+	            System.out.println(getStatus() );
+	            System.out.println(errorOutput);*/
+	        	Runtime.getRuntime().exec("docker run -v /c/Ankur/shk/suitebuilder"+dir+":/root/OPAL/repoDir -i --name "+containerName+" opalj/sbt_scala_javafx  bash");
 	        } catch (Throwable t) {
-	            logger.error("Couldn't run docker build container:" + containerName, t);
-	            errorOutput = BuildUtils.createErrorString("Couldn't run docker build container:" + containerName, t);
+	            logger.error("Couldn't run Hermes Docker: " + containerName, t);
+	            errorOutput = BuildUtils.createErrorString("Couldn't run Hermes docker container:" + containerName, t);
 	            setThrowable(t);
 	        }
+	       
 
 	        return containerName;
 	}
@@ -64,8 +65,5 @@ public class RunDocker extends HermesDocker<String> {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
-	
-	
 
 }

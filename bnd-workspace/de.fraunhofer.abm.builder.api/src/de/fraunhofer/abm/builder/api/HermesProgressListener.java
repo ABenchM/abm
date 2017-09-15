@@ -1,14 +1,15 @@
 package de.fraunhofer.abm.builder.api;
 
+import java.io.File;
 import java.util.List;
 
-import de.fraunhofer.abm.domain.RepositoryDTO;
+
 
 public interface HermesProgressListener {
 	
-	public void hermesInitialized(RepositoryDTO repository,List<HermesStep<?>> steps);
+	public void hermesInitialized(File repoDir,List<HermesStep<?>> steps);
 	public void hermesStepChanged(HermesStep<?> step);
-	public void hermesFinished(RepositoryDTO repository);
+	public void hermesFinished();
 	public void hermesProcessComplete();
 
 }

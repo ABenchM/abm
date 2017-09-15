@@ -14,7 +14,11 @@ import de.fraunhofer.abm.projectanalyzer.license.LicenseAnalyzer.LICENSE;
 
 public class LicenseStore extends HashMap<LICENSE, Set<String>> {
 
-    private static final transient Logger logger = LoggerFactory.getLogger(LicenseStore.class);
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private static final transient Logger logger = LoggerFactory.getLogger(LicenseStore.class);
     private static final LicenseStore instance = new LicenseStore();
 
     // disallow object creation, this is a singleton

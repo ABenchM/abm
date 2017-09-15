@@ -492,8 +492,29 @@ function collectionController($rootScope, $scope, $http, $location, $route, $rou
 	}
 	
 	self.removeFilter = function(version){
-		//TODO: Define this method
-		version.filtered = false;
+		$rootScope.loading = true;
+		$http({
+			method: 'GET',
+			url: '/rest/hermesInstance/',
+			params: {'id': version.id}
+		}).then(
+			function success(d) {
+				$http.delete('/rest/hermesInstance/' + d.data.id).then(
+					function success(d){
+						version.filtered = false;
+					}, function failure(d){
+						Notification.error('Failed with ['+ d.status + '] '+ d.statusText);
+					})
+			}, function failure(d) {
+				if(d.status == 403) {
+					modalLoginService();
+				} else {
+					Notification.error('Failed with ['+ d.status + '] '+ d.statusText);
+				}
+				progress =  0;
+			})['finally']( function (){
+				$rootScope.loading = false;
+			});
 	}
 	
 	self.back = function(){

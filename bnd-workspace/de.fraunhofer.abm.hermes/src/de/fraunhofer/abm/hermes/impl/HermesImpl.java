@@ -2,11 +2,14 @@ package de.fraunhofer.abm.hermes.impl;
 
 
 
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -28,9 +31,11 @@ import de.fraunhofer.abm.collection.dao.HermesResultDao;
 import de.fraunhofer.abm.collection.dao.VersionDao;
 import de.fraunhofer.abm.domain.HermesResultDTO;
 import de.fraunhofer.abm.domain.HermesStepDTO;
+import de.fraunhofer.abm.domain.RepositoryDTO;
 import de.fraunhofer.abm.domain.VersionDTO;
 import de.fraunhofer.abm.hermes.Hermes;
 import de.fraunhofer.abm.hermes.HermesProcess;
+
 
 
 
@@ -44,7 +49,9 @@ public class HermesImpl implements Hermes {
 	
 	private static final transient Logger logger = LoggerFactory.getLogger(HermesImpl.class);
 	
-	private ThreadPoolExecutor executor;
+	//private ThreadPoolExecutor executor;
+	
+	ExecutorService executor = Executors.newCachedThreadPool();
 	
 	private BlockingQueue<Runnable> queue = new LinkedBlockingQueue<>();
 	
@@ -59,12 +66,13 @@ public class HermesImpl implements Hermes {
 	
 	private Map<String,HermesProcess> hermesProcesses = new HashMap<>();
 	
-	    @Override
-	    public HermesProcess initialize(VersionDTO version) throws Exception {
-	        //File ws = createWorkspace();
-	       HermesProcess hermesProcess = new HermesProcess(version,hermesFactories,hermesResultDao);
-	        hermesProcesses.put(hermesProcess.getId(), hermesProcess);
-	        return hermesProcess;
+	    
+		@Override
+	    public HermesProcess initialize(VersionDTO version , String repoDir , RepositoryDTO repo) throws Exception {
+	        
+	       HermesProcess hermesProcess = new HermesProcess(version,repoDir,repo,hermesResultDao);
+	       hermesProcesses.put(hermesProcess.getId(), hermesProcess);
+	       return hermesProcess;
 	    	
 	    }
 	
@@ -72,11 +80,12 @@ public class HermesImpl implements Hermes {
 	    public void start(HermesProcess hermesProcess) throws Exception {
 	        Future<HermesResultDTO> futureHermesResult = executor.submit(hermesProcess);
 	        hermesProcess.setFutureHermesResult(futureHermesResult);
-
-	        
+        
 	        VersionDTO version = hermesProcess.getVersion();
-	        version.frozen = true;
+	        version.filtered = true;
 	        versionDao.update(version);
+       
+        
 	    }
 	
 	    
