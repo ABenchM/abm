@@ -44,7 +44,7 @@ public class HermesFilterImpl implements HermesFilter {
 	
 	
 	HashMap<String,Boolean> registered = new HashMap<String,Boolean>();
-	private File FilterPath = new File("C:\\Ankur\\shk\\Hermes_Development\\Hermes_workdev\\application.conf");//TODO: Actually get the configuration file to work
+	private File FilterPath = new File("/opt/abm/application.conf");//TODO: Actually get the configuration file to work
 	
 	Map<String,Integer> FanInFanOut = new TreeMap<String,Integer>();
 	

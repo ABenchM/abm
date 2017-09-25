@@ -2,7 +2,7 @@ package de.fraunhofer.abm.hermes;
 
 
 
-import java.io.File;
+
 //import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -15,7 +15,6 @@ import org.slf4j.LoggerFactory;
 
 
 import de.fraunhofer.abm.builder.api.HermesProgressListener;
-import de.fraunhofer.abm.builder.api.HermesStep;
 import de.fraunhofer.abm.collection.dao.HermesResultDao;
 import de.fraunhofer.abm.domain.HermesResultDTO;
 import de.fraunhofer.abm.domain.RepositoryDTO;
@@ -79,9 +78,9 @@ public class HermesProcess implements Callable<HermesResultDTO> {
 		 
 		 try{
 			 HermesProjects hermesProject = new HermesProjectsImpl();
-			 cp = hermesResult.dir.concat("\\archive.zip");
+			// cp = hermesResult.dir.concat("/archive.zip");
 			 logger.info("Adding Project into Hermes.json file with ProjectId:{} and ProjectPath:{}",projectId,cp);
-			 hermesProject.addProjects(projectId, cp);
+			 hermesProject.addProjects(projectId, "/repodir/archive.zip");
 			 hermesDocker = new HermesDocker(repoDir);
 			 //hermesDocker.init(repoDir);
 			 

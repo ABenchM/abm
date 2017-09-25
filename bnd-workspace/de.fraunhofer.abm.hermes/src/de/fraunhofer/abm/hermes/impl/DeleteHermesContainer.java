@@ -1,16 +1,12 @@
 package de.fraunhofer.abm.hermes.impl;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.InputStreamReader;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.fraunhofer.abm.builder.api.BuildUtils;
-import de.fraunhofer.abm.builder.api.HermesStep.STATUS;
 import de.fraunhofer.abm.builder.docker.base.AbstractHermesStep;
-import de.fraunhofer.abm.builder.docker.base.AbstractHermesStep.Result;
 import de.fraunhofer.abm.domain.HermesStepDTO;
 
 public class DeleteHermesContainer extends AbstractHermesStep<Void> {

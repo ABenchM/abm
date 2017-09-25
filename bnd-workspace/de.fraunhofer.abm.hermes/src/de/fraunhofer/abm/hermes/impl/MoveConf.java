@@ -1,6 +1,7 @@
 package de.fraunhofer.abm.hermes.impl;
 
 import java.io.File;
+import java.util.concurrent.TimeUnit;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +25,7 @@ public class MoveConf extends AbstractHermesStep<Boolean> {
 		super(repoDir);
 		this.repoDir = repoDir;
 		this.name = "Transfer Config files to Docker";
-		this.fileName = fileName;
+		
 	}
 	
 	public void setContainerName(String containerName) {
@@ -59,7 +60,8 @@ public class MoveConf extends AbstractHermesStep<Boolean> {
 	        output = result.stdout;
 	        errorOutput = result.stderr;
 	        setStatus(result.exitValue == 0 ? STATUS.SUCCESS : STATUS.FAILED);
-			 
+			TimeUnit.SECONDS.sleep(3); 
+	        
 		}catch(Throwable t){
 			
 			logger.error("Couldn't extract results; container:" + containerName, t);

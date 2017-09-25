@@ -17,7 +17,7 @@ import de.fraunhofer.abm.hermes.HermesProjects;
 @Component
 public class HermesProjectsImpl implements HermesProjects  {
 
-	File projectPath = new File("C:\\Ankur\\shk\\suitebuilder\\hermes.json");
+	File projectPath = new File("/opt/abm/hermes.json");
 	
 	
 	

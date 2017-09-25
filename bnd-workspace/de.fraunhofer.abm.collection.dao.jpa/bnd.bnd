@@ -16,6 +16,7 @@ Meta-Persistence: persistence.xml
 -buildpath: \
 	de.fraunhofer.abm.domain;version=latest,\
 	de.fraunhofer.abm.collection.dao;version=latest,\
-	osgi.enroute.base.api,\
 	tx-control-service-local;version=latest,\
-	tx-control-provider-jpa-local;version=latest
+    tx-control-provider-jpa-local;version=latest,\
+	osgi.enroute.base.api
+	

@@ -180,7 +180,7 @@ JPM-Command:					abm
 	org.scala-lang.scala-xml;version='[2.11.0,2.11.1)',\
 	javax.mail;version='[1.4.0,1.4.7)'
 -runproperties: \
-	felix.webconsole.password=password,\
+	felix.webconsole.password=F+9:j9Cy9ea5x+A.,\
 	org.jboss.logging.provider=slf4j,\
 	org.apache.felix.http.host=127.0.0.1,\
 	felix.webconsole.username=root

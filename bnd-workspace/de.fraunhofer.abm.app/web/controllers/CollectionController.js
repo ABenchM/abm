@@ -8,6 +8,7 @@ function collectionController($rootScope, $scope, $http, $location, $route, $rou
 	self.version = collectionService.version;
 	self.showCollection = false;
 	self.disableBuild = false;
+	self.disableHermes = false;
 	self.repositoryList = collectionService.toCreate;
 	
 	var columnDefinition = [
@@ -482,9 +483,16 @@ function collectionController($rootScope, $scope, $http, $location, $route, $rou
 	}
 	
 	self.runFilter = function(version){
+	    if(self.version.frozen == true)
+	    {
 		modalHermesService.version = version;
 		modalHermesService.collection = self.collection;
 		modalHermesService.launch();
+		}
+		else
+		{
+		Notification.error('Build the collection first');
+		}
 	}
 	
 	self.showFilter = function(version){
@@ -492,14 +500,15 @@ function collectionController($rootScope, $scope, $http, $location, $route, $rou
 	}
 	
 	self.removeFilter = function(version){
+	    self.disableHermes = true;
 		$rootScope.loading = true;
 		$http({
 			method: 'GET',
-			url: '/rest/hermesInstance/',
-			params: {'id': version.id}
+			url: '/rest/instance/' + version.id			
 		}).then(
 			function success(d) {
-				$http.delete('/rest/hermesInstance/' + d.data.id).then(
+			    console.log(d);
+				$http.delete('/rest/instance/' + d.data.id).then(
 					function success(d){
 						version.filtered = false;
 					}, function failure(d){

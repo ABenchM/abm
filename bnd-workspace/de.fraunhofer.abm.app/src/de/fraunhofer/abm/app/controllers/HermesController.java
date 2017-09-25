@@ -82,7 +82,7 @@ public class HermesController implements REST {
 	    }
 	 
 	 //Function to get the Hermes Instance details for the version.
-	 public HermesResultDTO getHermesInstance(String versionId) throws Exception{
+	 public HermesResultDTO getInstance(String versionId) throws Exception{
 		 
 		 authorizer.requireRole("RegisteredUser");
 		 String sessionUser = SecurityContext.getInstance().getUser();
@@ -100,7 +100,7 @@ public class HermesController implements REST {
 	 }
 	 
 	 //Function to get the list of Hermes instances running for the user.
-	 public List<Map<String, String>> getHermesInstances(String user)
+	 public List<Map<String, String>> getInstances(String user)
 	 {
 		 authorizer.requireUser(user);
 		 List<HermesResultDTO> hermesInstances = hermesResultDao.findRunning(user);
@@ -196,9 +196,9 @@ public class HermesController implements REST {
 	        
 	        
 	        try{
-	        	HermesResultDTO oldInstance = getHermesInstance(filter.versionid);
+	        	HermesResultDTO oldInstance = getInstance(filter.versionid);
 	            logger.info("Deleting outdated Instance for version {}", filter.versionid);
-	            deleteHermesInstance(oldInstance.id);
+	            deleteInstance(oldInstance.id);
 	        } catch(NullPointerException e){
 	            logger.info("No outdated Hermes Instance found for version {}", filter.versionid);
 	        }
@@ -224,7 +224,7 @@ public class HermesController implements REST {
 	 
 	 
 	 //Function to delete the Hermes Instance entry for selected version.
-	 public String deleteHermesInstance(String hermesResultId) throws Exception {
+	 public String deleteInstance(String hermesResultId) throws Exception {
 	        authorizer.requireRole("RegisteredUser");
 
 	        // make sure the session user is the owner
