@@ -12,31 +12,36 @@ import org.osgi.service.http.HttpContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.fraunhofer.abm.collection.dao.BuildResultDao;
-import de.fraunhofer.abm.domain.BuildResultDTO;
 
-public class FileHttpContext implements HttpContext {
+import de.fraunhofer.abm.collection.dao.HermesResultDao;
+import de.fraunhofer.abm.domain.HermesResultDTO;
 
-    private static final transient Logger logger = LoggerFactory.getLogger(FileHttpContext.class);
 
-    private BuildResultDao dao;
+public class HermesHttpContext implements HttpContext {
+
+    private static final transient Logger logger = LoggerFactory.getLogger(HermesHttpContext.class);
+
+    private HermesResultDao dao;
     private File archive;
     private String result;
     
-    public FileHttpContext(BuildResultDao buildResultDao,String result) {
-        this.dao = buildResultDao;
+    public HermesHttpContext(HermesResultDao hermesResultDao,String result) {
+        this.dao = hermesResultDao;
         this.result = result;
     }
 
     @Override
     public boolean handleSecurity(HttpServletRequest request, HttpServletResponse response) throws IOException {
         // abusing this call to set response headers
-        String buildResultId = request.getRequestURI().replaceAll(result+"/", "");
-        BuildResultDTO buildResult = dao.findById(buildResultId);
-        if(result=="/download") {
-        archive = new File(buildResult.dir, "archive.zip");
+        
+        if(result=="/downloadHermes") {
+        String hermesResultID = request.getRequestURI().replaceAll(result+"/", "");
+        
+        HermesResultDTO hermesResult = dao.findById(hermesResultID);	
+        archive = new File(hermesResult.dir, "hermesResults.csv");	
         response.setContentLengthLong(archive.length());
-        response.setHeader("Content-Disposition", "attachment; filename=archive.zip;");}
+        response.setHeader("Content-Disposition", "attachment; filename=hermesResults.csv;");
+        }
         return true; // allow all requests
     }
 

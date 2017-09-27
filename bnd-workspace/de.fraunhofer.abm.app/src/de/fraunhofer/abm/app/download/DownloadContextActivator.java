@@ -14,6 +14,7 @@ import org.osgi.service.http.NamespaceException;
 
 import de.fraunhofer.abm.app.websocket.BuildStatusServlet;
 import de.fraunhofer.abm.collection.dao.BuildResultDao;
+import de.fraunhofer.abm.collection.dao.HermesResultDao;
 
 @Component
 public class DownloadContextActivator {
@@ -22,6 +23,9 @@ public class DownloadContextActivator {
 
     @Reference
     private BuildResultDao buildResultDao;
+    
+    @Reference
+    private HermesResultDao hermesResultDao;
 
     @Activate
     public void start()  {
@@ -36,7 +40,7 @@ public class DownloadContextActivator {
 
             //httpService.registerServlet("/download", this, null, null);
             httpService.registerResources("/download", "", new FileHttpContext(buildResultDao,"/download"));
-            httpService.registerResources("/downloadHermes", "", new FileHttpContext(buildResultDao,"/downloadHermes"));
+            httpService.registerResources("/downloadHermes", "", new HermesHttpContext(hermesResultDao,"/downloadHermes"));
 
             //Restore the CCL
             Thread.currentThread().setContextClassLoader(ccl);

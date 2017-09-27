@@ -59,9 +59,11 @@ angular.module('de.fraunhofer.abm').controller('modalHermesController', function
 		}).then(
 			function(d) {
 			
-			$rootScope.hermesStatus = d.data.status;
+			
 			if(d.data.status=='FINISHED'){
-			     $timeout.cancel($ctrl.poller);}
+				$rootScope.running = false;  
+				$timeout.cancel($ctrl.poller);
+			     }
 			else{     
 			$timeout($ctrl.poller,8000);
 			}

@@ -1,8 +1,8 @@
 angular.module('de.fraunhofer.abm').controller("collectionController", 
 ['$rootScope', '$scope', '$http', '$location', '$route', '$routeParams', 'ngCart', 'modalLoginService', 
-	'collectionService', 'commitSelectorService', 'buildViewerService','Notification', 'modalHermesService', 'hermesResultService',
+	'collectionService', 'commitSelectorService', 'buildViewerService','Notification', 'modalHermesService', 
 function collectionController($rootScope, $scope, $http, $location, $route, $routeParams, ngCart, modalLoginService, 
-		collectionService, commitSelectorService, buildViewerService, Notification, modalHermesService, hermesResultService ) {
+		collectionService, commitSelectorService, buildViewerService, Notification, modalHermesService ) {
 	var self = this;
 	self.collection = collectionService.collection;
 	self.version = collectionService.version;
@@ -10,10 +10,11 @@ function collectionController($rootScope, $scope, $http, $location, $route, $rou
 	self.disableBuild = false;
 	self.disableHermes = false;
 	self.repositoryList = collectionService.toCreate;
+	$rootScope.running = false;
+	self.running = $rootScope.running;
 	
 	
 	
-	//console.log("filtered value"+self.version.filtered);
 	
 	var columnDefinition = [
 		{ name: 'name' },
@@ -32,6 +33,8 @@ function collectionController($rootScope, $scope, $http, $location, $route, $rou
 	    columnDefs: columnDefinition,
 	    data: data
 	};
+	
+	
 	
 	self.initilize = function(){
 		if($rootScope.user == undefined){return;}
@@ -87,11 +90,8 @@ function collectionController($rootScope, $scope, $http, $location, $route, $rou
 			});
 	}
 	
-	/*self.hermesStatus = function(versionId){
+	
              
-           return hermesResultService.getHermesStatus(versionId);
-
-	}*/
 	
 	self.edit = function(collection) {
 		collectionService.setCollection(collection);
@@ -504,6 +504,7 @@ function collectionController($rootScope, $scope, $http, $location, $route, $rou
 					} else {
 						
 						self.version.filtered = true;
+						self.running = true;
 		                modalHermesService.version = version;
 		                modalHermesService.collection = self.collection;
 		                modalHermesService.launch();
@@ -529,12 +530,14 @@ function collectionController($rootScope, $scope, $http, $location, $route, $rou
 	self.downloading = true;
 	$http({
 			method: 'GET',
-			url: '/rest/build/'+ versionId
+			url: '/rest/instance/'+ versionId
 			}).then(
 				function success(d) {
-					self.buildResult = d.data;
-					
-					location.href = '/downloadHermes/' + self.buildResult.id;
+					self.hermesResult = d.data;
+					if(self.hermesResult.status == 'RUNNING'){
+						Notification.error('Hermes is in progress, try again later');
+					} else {
+					location.href = '/downloadHermes/' + self.hermesResult.id;}
 				}, function failure(d){
 					Notification.error('Failed with ['+ d.status + '] '+ d.statusText);
 				})['finally'](function (){
@@ -556,12 +559,15 @@ function collectionController($rootScope, $scope, $http, $location, $route, $rou
 		}).then(
 			function success(d) {
 			    console.log(d);
+			    if( d.data.status == 'RUNNING'){
+					Notification.error('Hermes is in progress, try again later');
+				} else {
 				$http.delete('/rest/instance/' + d.data.id).then(
 					function success(d){
-						$rootScope.filtered = false;
+						
 					}, function failure(d){
 						Notification.error('Failed with ['+ d.status + '] '+ d.statusText);
-					})
+					}) }
 			}, function failure(d) {
 				if(d.status == 403) {
 					modalLoginService();
