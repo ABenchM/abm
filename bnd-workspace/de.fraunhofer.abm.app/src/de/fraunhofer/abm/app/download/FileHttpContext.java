@@ -21,20 +21,27 @@ public class FileHttpContext implements HttpContext {
 
     private BuildResultDao dao;
     private File archive;
-
-    public FileHttpContext(BuildResultDao buildResultDao) {
+    private String result;
+    
+    public FileHttpContext(BuildResultDao buildResultDao,String result) {
         this.dao = buildResultDao;
+        this.result = result;
     }
 
     @Override
     public boolean handleSecurity(HttpServletRequest request, HttpServletResponse response) throws IOException {
         // abusing this call to set response headers
-        String buildResultId = request.getRequestURI().replaceAll("/download/", "");
-        BuildResultDTO result = dao.findById(buildResultId);
-        archive = new File(result.dir, "archive.zip");
+        String buildResultId = request.getRequestURI().replaceAll(result+"/", "");
+        BuildResultDTO buildResult = dao.findById(buildResultId);
+        if(result=="/download") {
+        archive = new File(buildResult.dir, "archive.zip");
         response.setContentLengthLong(archive.length());
-        response.setHeader("Content-Disposition", "attachment; filename=archive.zip;");
-
+        response.setHeader("Content-Disposition", "attachment; filename=archive.zip;");}
+        else if(result=="/downloadHermes") {
+        archive = new File(buildResult.dir, "hermesResults.csv");	
+        response.setContentLengthLong(archive.length());
+        response.setHeader("Content-Disposition", "attachment; filename=hermesResults.csv;");
+        }
         return true; // allow all requests
     }
 

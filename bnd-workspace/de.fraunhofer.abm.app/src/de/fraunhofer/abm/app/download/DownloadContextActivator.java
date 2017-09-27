@@ -35,7 +35,8 @@ public class DownloadContextActivator {
             Thread.currentThread().setContextClassLoader(classLoader);
 
             //httpService.registerServlet("/download", this, null, null);
-            httpService.registerResources("/download", "", new FileHttpContext(buildResultDao));
+            httpService.registerResources("/download", "", new FileHttpContext(buildResultDao,"/download"));
+            httpService.registerResources("/downloadHermes", "", new FileHttpContext(buildResultDao,"/downloadHermes"));
 
             //Restore the CCL
             Thread.currentThread().setContextClassLoader(ccl);

@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.Map.Entry;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -105,6 +106,7 @@ public abstract class AbstractHermesStep<T> implements HermesStep<T> {
 	       // executor.submit(new StreamRedirectThread(p.getInputStream(), stdout));
 	       // executor.submit(new StreamRedirectThread(p.getErrorStream(), stderr));
 	        Result result = new Result();
+	        TimeUnit.SECONDS.sleep(3);
 	        result.exitValue = p.waitFor();
 	        result.stdout = BuildUtils.toString(stdout);
 	        System.out.println(stdout);

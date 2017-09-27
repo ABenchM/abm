@@ -44,6 +44,7 @@
 				<button class="btn btn-xs btn-primary" ng-click="vc.unpin()" ng-show="pinned;">Unpin</button>
 		</span>
 		<button class="btn btn-xs btn-primary" ng-hide="user === undefined" ng-click="vc.copy()">Copy this collection</button>
+		<button ng-disabled="vc.downloading" class="btn btn-success btn-xs" ng-show="selectedVersion.filtered" ng-click="vc.downloadHermes(selectedVersion.id)">Download Hermes Result</button>
    		<span class="pull-right">
    			<p ng-hide="selectedVersion.frozen">This version is not currently built</p>
    			<button ng-click="vc.downloadBuild(selectedVersion.id)" ng-show="selectedVersion.frozen" ng-disabled="vc.downloading" class="btn btn-success btn-xs">Download this version</a>

@@ -44,7 +44,7 @@ public class HermesProcess implements Callable<HermesResultDTO> {
 	 private List<HermesProgressListener> listeners = new ArrayList<>();
 	 private String id;
 	 private HermesResultDao hermesResultDao;
-	
+	 private String result;
 	 
 	 
 	 public HermesProcess(VersionDTO version, String repoDir,RepositoryDTO repo,HermesResultDao hermesResultDao)
@@ -85,7 +85,7 @@ public class HermesProcess implements Callable<HermesResultDTO> {
 			 //hermesDocker.init(repoDir);
 			 
 			 logger.debug("Running hermes steps");
-			 hermesDocker.hermesRun();
+			 result =  hermesDocker.hermesRun();
 			 
 			/* hermesDocker.addHermesProgressListener(new HermesProgressListener(){
 					
@@ -139,17 +139,21 @@ public class HermesProcess implements Callable<HermesResultDTO> {
 			 
 		 }catch (Exception e) {
              
-             logger.error("Couldn't start hermes for the version " + version.id + "and repository [" + repo.name + "]", e);
+             logger.error("Couldn't complete hermes for the version " + version.id + "and repository [" + repo.name + "]", e);
              this.status = STATUS.FAILED;
          }     
 		
-		 if(status == STATUS.RUNNING){
+		 if(result == "CONTINUE") {
+			 this.status = STATUS.FINISHED;
+			 hermesResult.status = this.status.name();
+			 hermesResultDao.update(hermesResult);
+		 }
+		 else {
 			 this.status = STATUS.FAILED;
-			 
+			 hermesResult.status = this.status.name();
+			 hermesResultDao.update(hermesResult);
 		 }
 		 
-		 hermesResult.status = this.status.name();
-		 hermesResultDao.update(hermesResult);
 		 
 		 for (HermesProgressListener hermesProgressListener : listeners) {
 	            hermesProgressListener.hermesProcessComplete();

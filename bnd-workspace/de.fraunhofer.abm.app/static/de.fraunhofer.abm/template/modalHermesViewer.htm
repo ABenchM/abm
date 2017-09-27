@@ -1,0 +1,55 @@
+<div style="min-height:{{150 + ($ctrl.tabs.length * 30)}}px">
+	<div class="modal-header">
+		<h3 class="modal-title" id="modal-title">Hermes Progress for {{$ctrl.collection.name}}</h3>
+		<p>Version {{$ctrl.showing.versionNum}}</p>
+	</div>
+	
+	<div class="modal-sidebar sidebar">
+		<div class="sidebarTab" ng-repeat="tab in $ctrl.tabs" ng-class="{'selected': (tab == $ctrl.showing)}" ng-hide="tab.hidden">
+			<span class="glyphicon glyphicon-chevron-left" ng-click="$ctrl.dismiss(tab.id)"></span>
+			<a href style="background:linear-gradient(to right, {{tab.buildStatus | statusColour}} {{tab.progress * 100}}%, transparent 0%)" ng-click="$ctrl.select(tab);">
+			{{tab | tabTitle}}
+			</a>
+		</div>
+	</div>
+	
+	<div class="modal-body" ng-hide="loading">
+		<p class="highlight" ng-show="build.status == 'WAITING'">This build is currently pending, and will start when other builds are finished.</p>
+		<uib-accordion ng-repeat="projectBuild in build.projectBuilds">
+			<div uib-accordion-group ng-class="projectBuild.cssClass" is-open="status.open">
+				<uib-accordion-heading>
+					{{projectBuild.repository.name}} <span class="cssload-loader" ng-show="projectBuild.cssClass == 'panel-warning'" style="width: 16px; height: 16px"></span>
+			        <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+	            </uib-accordion-heading> 
+				<uib-accordion ng-repeat="step in projectBuild.buildSteps">
+				    <div uib-accordion-group ng-class="step.cssClass" is-open="inner_status.open">
+				      <uib-accordion-heading>
+				        {{step.name}} - {{step.status}} <span class="cssload-loader" ng-show="step.status == 'IN_PROGRESS'" style="width: 16px; height: 16px"></span>
+				        <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': inner_status.open, 'glyphicon-chevron-right': !inner_status.open}"></i>
+				      </uib-accordion-heading>
+				      <uib-tabset active="active">
+	    			      <uib-tab index="0" heading="STDOUT"><pre>{{step.stdout}}</pre></uib-tab>
+	    			      <uib-tab index="1" heading="STDERR"><pre>{{step.stderr}}</pre></uib-tab>
+				      </uib-tabset>
+				    </div>
+				</uib-accordion>
+				<ul ng-repeat="artifact in projectBuild.buildArtifacts">
+					<li>{{artifact}}</li>
+				</ul>
+			</div>
+		</uib-accordion>
+	
+		<div class="wrapper" ng-show="loading">
+			<span class="cssload-loader"></span>
+		</div>
+	</div>
+	
+	<div class="modal-footer">
+		<span style="float: left" ng-hide="loading">
+			<button class="btn btn-danger" ng-click="$ctrl.cancelBuild(build.id)" ng-show="build.status == 'RUNNING'" >Cancel build</button>
+			<button class="btn btn-info" ng-click="$ctrl.downloadArchive(build.id)" ng-show="build.status == 'FINISHED'" >Download</button>
+			<button class="btn btn-danger" ng-click="$ctrl.deleteBuild(build.id)" ng-show="build.status == 'FINISHED' || build.status == 'CANCELLED' || build.status == 'FAILED'"" confirm="Removal is irreversible! Continue?">Delete</button>
+		</span>
+		<button class="btn btn-warning" type="button" ng-click="$ctrl.close()">Close Panel</button>
+	</div>
+</div>

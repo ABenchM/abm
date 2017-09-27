@@ -61,6 +61,25 @@ function viewController($rootScope, $scope, $http, $location, $routeParams, Noti
 				});
 	};
 	
+	self.downloadHermes = function(versionId){
+	self.downloading = true;
+	$http({
+			method: 'GET',
+			url: '/rest/build/',
+			params: {'id': versionId, 'privateStatus': false}
+		}).then(
+				function success(d) {
+					self.buildResult = d.data;
+					location.href = '/downloadHermes/' + self.buildResult.id;
+					
+				}, function failure(d){
+					Notification.error('Failed with ['+ d.status + '] '+ d.statusText);
+				})['finally'](function (){
+					self.downloading = false;
+				});
+	
+	};
+	
 	self.selectVersion = function(version){
 		$scope.selectedVersion = version;
 	}

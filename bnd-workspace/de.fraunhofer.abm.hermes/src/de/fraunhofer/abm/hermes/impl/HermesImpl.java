@@ -130,7 +130,7 @@ public class HermesImpl implements Hermes {
 	    public static List<HermesStepDTO> toHermesStepDTOs(List<HermesStep<?>> steps) {
 	        List<HermesStepDTO> hermesStepDTOs = new ArrayList<>();
 	        for (int i = 0; i < steps.size(); i++) {
-	        	hermesStepDTOs.add(steps.get(i).toDTO(i));
+	        	//hermesStepDTOs.add(steps.get(i).toDTO(i));
 	        }
 	        return hermesStepDTOs;
 	    }

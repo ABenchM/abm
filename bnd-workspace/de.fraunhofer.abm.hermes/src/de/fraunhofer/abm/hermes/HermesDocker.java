@@ -1,14 +1,11 @@
 package de.fraunhofer.abm.hermes;
 
-import java.io.BufferedReader;
+
 import java.io.File;
-import java.io.InputStreamReader;
-import java.lang.ProcessBuilder.Redirect;
+
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import org.slf4j.Logger;
@@ -29,7 +26,7 @@ public class HermesDocker implements HermesStepListener {
 	private static final transient Logger logger = LoggerFactory.getLogger(HermesDocker.class);
 
 	private static final String NOT_SET = "NOT_SET";
-	private ExecutorService executor;
+	
 
 	private List<HermesProgressListener> listeners = new ArrayList<>();
 	protected List<HermesStep<?>> hermesSteps = new ArrayList<>();
@@ -42,6 +39,7 @@ public class HermesDocker implements HermesStepListener {
 	private ExtractResults extractResults;
 	private StopDocker stopDocker;
 	private DeleteHermesContainer deleteHermesContainer;
+	
 
 	private enum STATE {
 		CONTINUE, CLEAN_UP
@@ -150,105 +148,81 @@ public class HermesDocker implements HermesStepListener {
 		// fireHermesInitialized(repoDir,hermesSteps);
 	}
 
-	public void hermesRun() throws Exception {
+	public String hermesRun() throws Exception {
 
 		String containerName = NOT_SET;
 		String csvName = NOT_SET;
 
 		try {
-			/*UUID uuid = UUID.randomUUID();
-			File f = new File("/home/ankur/scripts/docker.sh");
-			ProcessBuilder pb = new ProcessBuilder("sh", "/home/ankur/scripts/docker.sh", uuid.toString());
-			
-			pb.redirectOutput(Redirect.to(new File("/home/ankur/scripts/out.txt")));
-			Process p = pb.start();
-			
-			p.wait()*/;
-			
-			runDocker.setImageName("opalj/sbt_scala_javafx ");
-			containerName = runDocker.execute();
-			System.out.println("in hermes docker container name " + containerName);
-			Process runCheck = Runtime.getRuntime().exec("docker ps");
-			BufferedReader r = new BufferedReader(new InputStreamReader(runCheck.getInputStream()));
-			BufferedReader e = new BufferedReader(new InputStreamReader(runCheck.getErrorStream()));
-			String line;
-			while (true) {
-				line = r.readLine();
-				if (line == null) {
-					break;
+						
+			if (state == STATE.CONTINUE) {
+				runDocker.setImageName("opalj/sbt_scala_javafx ");
+				containerName = runDocker.execute();
+				System.out.println("in hermes docker container name " + containerName);
+				if (runDocker.getStatus() != STATUS.SUCCESS) {
+					logger.debug("Running docker failed");
+					state = STATE.CLEAN_UP;
+
 				}
-				System.out.println(line);
 			}
 
-			while (true) {
-				line = e.readLine();
-				if (line == null) {
-					break;
-				}
-				System.out.println(line);
+			if (state == STATE.CONTINUE) {
+				moveConf.setWorkSpace("/opt/abm/");
+				moveConf.setContainerName(containerName);
+				moveConf.setFileName("hermes.json");
+			    moveConf.execute();
+			    if(moveConf.getStatus()!=STATUS.SUCCESS) {
+			    	state = STATE.CLEAN_UP;
+			    }
 			}
-			moveConf.setWorkSpace("/opt/abm/");
-			moveConf.setContainerName(containerName);
-			moveConf.setFileName("hermes.json");
-			System.out.println("Executing moveconf Hermes.json");
-			boolean result = moveConf.execute();
-			moveConf.setFileName("application.conf");
-			System.out.println("Executing moveconf application.conf");
-			result = moveConf.execute();
-
 			
-			csvName = UUID.randomUUID().toString();
-			runHermes.setContainerName(containerName);
-			runHermes.setCsvName(csvName);
-			runHermes.execute();
-            extractResults.setContainerName(containerName);
-			extractResults.setCsvName(csvName);
-			extractResults.execute();
-			stopDocker.setContainerName(containerName);
-			stopDocker.execute();
-			deleteHermesContainer.setContainerName(containerName);
-			deleteHermesContainer.execute();
+			if (state == STATE.CONTINUE) {
+				moveConf.setWorkSpace("/opt/abm/");
+				moveConf.setContainerName(containerName);
+				moveConf.setFileName("application.conf");
+			    moveConf.execute();
+			    if(moveConf.getStatus()!=STATUS.SUCCESS) {
+			    	state = STATE.CLEAN_UP;
+			    }
+			}
+			
 
-			/*
-			 * if(state == STATE.CONTINUE) {
-			 * runDocker.setImageName("opalj/sbt_scala_javafx "); containerName =
-			 * runDocker.execute(); System.out.println("in hermes docker container name "+
-			 * containerName); if(runDocker.getStatus()!=STATUS.SUCCESS) { state =
-			 * STATE.CLEAN_UP; } }
-			 * 
-			 * 
-			 * if(state == STATE.CONTINUE) {
-			 * moveConf.setWorkSpace("c:\\Ankur\\shk\\suitebuilder");
-			 * moveConf.setFileName("hermes.json"); boolean result = moveConf.execute();
-			 * moveConf.setFileName("application.conf"); result = moveConf.execute();
-			 * if(moveConf.getStatus()!=STATUS.SUCCESS) { state = STATE.CLEAN_UP; } }
-			 */
-
-			/*
-			 * if(state == STATE.CONTINUE){ runHermes.setContainerName(containerName);
-			 * csvName = runHermes.execute(); if(runHermes.getStatus()!= STATUS.SUCCESS){
-			 * state = STATE.CLEAN_UP; } } if(state == STATE.CONTINUE){
-			 * extractResults.setContainerName(containerName);
-			 * extractResults.setCsvName(csvName); extractResults.execute();
-			 * if(extractResults.getStatus()!= STATUS.SUCCESS){ state = STATE.CLEAN_UP; } }
-			 * if(state == STATE.CONTINUE){ stopDocker.setContainerName(containerName);
-			 * stopDocker.execute(); if(stopDocker.getStatus()!=STATUS.SUCCESS) { state =
-			 * STATE.CLEAN_UP; } }
-			 */
+			if (state == STATE.CONTINUE) {
+				runHermes.setContainerName(containerName);
+				
+				csvName = runHermes.execute();
+				if (runHermes.getStatus() != STATUS.SUCCESS) {
+					state = STATE.CLEAN_UP;
+				}
+			}
+			if (state == STATE.CONTINUE) {
+				extractResults.setContainerName(containerName);
+				extractResults.setCsvName(csvName);
+				extractResults.execute();
+				if (extractResults.getStatus() != STATUS.SUCCESS) {
+					state = STATE.CLEAN_UP;
+				}
+			}
+			
+			 
 
 		} finally {
 
 			if (!NOT_SET.equals(containerName)) {
-				// stopDocker.setContainerName(containerName);
-				// stopDocker.execute();
-				// deleteHermesContainer.setContainerName(containerName);
-				// deleteHermesContainer.execute();
+				stopDocker.setContainerName(containerName);
+				stopDocker.execute();
+				deleteHermesContainer.setContainerName(containerName);
+				deleteHermesContainer.execute();
 			}
-
+           
+		
+			 
+			
 			// executor.shutdown();
 		}
 
 		fireHermesFinished();
+		return state.toString();
 
 	}
 

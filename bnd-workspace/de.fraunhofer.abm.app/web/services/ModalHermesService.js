@@ -11,6 +11,6 @@ angular.module('de.fraunhofer.abm').factory("modalHermesService", ['$uibModal', 
 			});
 		},
 		version: undefined,
-		collection: undefined
+		collection : undefined
 	};
 }]);

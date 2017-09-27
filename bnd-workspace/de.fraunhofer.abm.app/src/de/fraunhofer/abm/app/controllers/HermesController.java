@@ -1,6 +1,7 @@
 package de.fraunhofer.abm.app.controllers;
 
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,6 +38,7 @@ import de.fraunhofer.abm.domain.VersionDTO;
 import de.fraunhofer.abm.hermes.Hermes;
 import de.fraunhofer.abm.hermes.HermesFilter;
 import de.fraunhofer.abm.hermes.HermesProcess;
+import de.fraunhofer.abm.util.FileUtil;
 import osgi.enroute.configurer.api.RequireConfigurerExtender;
 import osgi.enroute.rest.api.REST;
 import osgi.enroute.rest.api.RESTRequest;
@@ -98,6 +100,14 @@ public class HermesController implements REST {
 	        
 		 return dto;
 	 }
+	 
+	 public File getCsv(String versionId) {
+		 
+		 BuildResultDTO buildResultDTO = buildResultDao.findByVersion(versionId) ;
+		 
+		 return new File(buildResultDTO.dir+"/hermesResults.csv");
+				 
+	 }			 
 	 
 	 //Function to get the list of Hermes instances running for the user.
 	 public List<Map<String, String>> getInstances(String user)
@@ -238,10 +248,10 @@ public class HermesController implements REST {
 	        }
 
 	        logger.info("Deleting Hermes result {}", hermesResultId);
-	        //File hermesDir = new File(hermesResultDto.dir);
-	        //FileUtil.deleteRecursively(buildDir);
+	        File hermesDir = new File(hermesResultDto.dir,"hermesResults.csv");
+	        FileUtil.deleteRecursively(hermesDir);
 	        hermesResultDao.delete(hermesResultId);
-
+            
 	        //logger.info("Unfreezing version {}", version.id);
 	        //version.frozen = false;
 	        version.filtered = false;
