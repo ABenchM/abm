@@ -15,6 +15,7 @@ public @interface Configuration {
     @AttributeDefinition(name="Thread Pool Keep Alive", description = "Nr of seconds an idle free thread should survive before being destroyed", required=true)
     long keepAliveTime() default 300;
 
+    /* TODO: Clean this up --> Configuration file */
     @AttributeDefinition(name="Workspace Root", description= "Workspace root directory", required=true)
     String workspaceRoot() default "/var/lib/abm/workspace";
 }
