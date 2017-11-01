@@ -1,8 +1,8 @@
-org.apache.aries.tx-control:tx-control-provider-jdbc-local:0.0.3-SNAPSHOT
+org.apache.aries.tx-control:tx-control-provider-jdbc-local:0.0.3
 org.apache.aries.tx-control:tx-control-provider-jdbc-xa:0.0.3-SNAPSHOT
-org.apache.aries.tx-control:tx-control-provider-jpa-local:0.0.3-SNAPSHOT
+org.apache.aries.tx-control:tx-control-provider-jpa-local:0.0.3
 org.apache.aries.tx-control:tx-control-service-common:0.0.3-SNAPSHOT
-org.apache.aries.tx-control:tx-control-service-local:0.0.3-SNAPSHOT
+org.apache.aries.tx-control:tx-control-service-local:0.0.3
 org.apache.aries.tx-control:tx-control-api:0.0.3-SNAPSHOT
 org.apache.aries.tx-control:tx-control-service-xa:0.0.3-SNAPSHOT
 org.apache.aries.tx-control:tx-control-provider-jdbc-common:0.0.3-SNAPSHOT
