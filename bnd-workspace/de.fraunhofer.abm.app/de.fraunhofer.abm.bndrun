@@ -91,6 +91,7 @@ JPM-Command:					abm
 	de.fraunhofer.abm.collection.dao;version=snapshot,\
 	de.fraunhofer.abm.collection.dao.jpa;version=snapshot,\
 	de.fraunhofer.abm.crawler.github;version=snapshot,\
+	de.fraunhofer.abm.crawler.api;version=snapshot,\
 	de.fraunhofer.abm.domain;version=snapshot,\
 	de.fraunhofer.abm.logging.configuration;version=snapshot,\
 	de.fraunhofer.abm.scm.api;version=snapshot,\

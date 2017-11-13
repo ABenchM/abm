@@ -12,8 +12,6 @@ Export-Package: \
 	de.fraunhofer.abm.domain
 
 
-Require-Capability: \
-	compile-only
 
 -buildpath: \
 	osgi.enroute.base.api;version=1.0,\
