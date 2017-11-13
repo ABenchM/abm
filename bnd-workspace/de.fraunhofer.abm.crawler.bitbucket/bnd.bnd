@@ -1,0 +1,8 @@
+-buildpath: \
+	osgi.enroute.base.api,\
+	de.fraunhofer.abm.crawler.api;version=latest,\
+	de.fraunhofer.abm.domain;version=latest,\
+	json,\
+	de.fraunhofer.abm.http.client;version=latest,\
+	org.jsoup
+Bundle-Version: 1.0.0.${tstamp}
