@@ -16,7 +16,7 @@ public class EmailConfiguration implements EmailConfigInterface{
 	private String userName = "abm-notifications";
 	private String userPassword = "Unused";
 	//{"lisa.nguyen@uni-paderborn.de"}
-	private String[] adminAddresses = {"rhari@uni-paderborn.de"};
+	private String[] adminAddresses = {"rhari@campus.uni-paderborn.de"};
 	private boolean userAuth = false;
 	
 	private String serverHost = "mail.uni-paderborn.de";
