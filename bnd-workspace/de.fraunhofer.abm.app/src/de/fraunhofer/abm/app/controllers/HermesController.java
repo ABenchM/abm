@@ -101,6 +101,8 @@ public class HermesController implements REST {
 		 return dto;
 	 }
 	 
+	 
+	 
 	 public File getCsv(String versionId) {
 		 
 		 BuildResultDTO buildResultDTO = buildResultDao.findByVersion(versionId) ;
@@ -258,7 +260,9 @@ public class HermesController implements REST {
             
 	        //logger.info("Unfreezing version {}", version.id);
 	        //version.frozen = false;
+	        
 	        version.filtered = false;
+	        filterDao.dropFilters(hermesResultDto.versionId);
 	        versionDao.update(version);
 	        return version.id;
 	    }

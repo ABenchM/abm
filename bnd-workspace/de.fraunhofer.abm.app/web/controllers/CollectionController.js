@@ -1,8 +1,8 @@
 angular.module('de.fraunhofer.abm').controller("collectionController", 
 ['$rootScope', '$scope', '$http', '$location', '$route', '$routeParams', 'ngCart', 'modalLoginService', 
-	'collectionService', 'commitSelectorService', 'buildViewerService','Notification', 'modalHermesService', 
+	'collectionService', 'commitSelectorService', 'buildViewerService','Notification', 'hermesViewerService','modalHermesService', 
 function collectionController($rootScope, $scope, $http, $location, $route, $routeParams, ngCart, modalLoginService, 
-		collectionService, commitSelectorService, buildViewerService, Notification, modalHermesService ) {
+		collectionService, commitSelectorService, buildViewerService, Notification,hermesViewerService,modalHermesService ) {
 	var self = this;
 	self.collection = collectionService.collection;
 	self.version = collectionService.version;
@@ -371,6 +371,9 @@ function collectionController($rootScope, $scope, $http, $location, $route, $rou
 		$rootScope.hideSidebar = true;
 	}
 	
+	
+	
+	
 	self.unfreeze = function(version) {
 		self.disableBuild=true;
 		$http({
@@ -513,6 +516,18 @@ function collectionController($rootScope, $scope, $http, $location, $route, $rou
         }
 	
 
+   self.showHermesResults = function(version){
+		
+		self.version.filtered = true;
+		self.running = true;
+		 /* modalHermesService.version = version;
+          modalHermesService.collection = self.collection;
+          modalHermesService.launch();*/
+		hermesViewerService.version = version;
+		hermesViewerService.collection = self.collection;
+		hermesViewerService.launch();
+		
+	}
 	
 	self.cancelFilter = function(){
 	
@@ -547,14 +562,7 @@ function collectionController($rootScope, $scope, $http, $location, $route, $rou
 	};
 	
 	
-	self.showHermesResults = function(versionid){
-		$http({
-			method:'GET',
-			url:'/rest/instance'+versionid
-		}).then(
-				) 
-		
-	}
+	
 	
 	
 	self.removeFilter = function(version){
