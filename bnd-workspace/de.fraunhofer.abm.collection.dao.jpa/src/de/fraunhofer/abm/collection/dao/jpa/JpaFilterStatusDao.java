@@ -75,4 +75,24 @@ public class JpaFilterStatusDao implements FilterStatusDao {
 
 	}
     
+    @Override
+    public int findThreshold(String versionId,String filterName) {
+    	
+    	return transactionControl.notSupported(() -> {
+            TypedQuery<JpaFilterStatus> query = em.createQuery("SELECT b FROM filter_status b WHERE b.versionid = :versionId and b.filtername = :filterName", JpaFilterStatus.class);
+            query.setParameter("versionId", versionId);
+            query.setParameter("filterName", filterName);
+                        try {
+            	JpaFilterStatus result = query.getSingleResult();
+                return result.threshold;
+            	 } catch(NoResultException e) {
+                return null;
+            }
+            catch(Exception e) {
+            	return null;
+            }
+        });
+    	
+    }
+    
 }

@@ -68,6 +68,7 @@ dk.brics.automaton:automaton:1.11-8
 javax.inject:javax.inject:1
 joda-time:joda-time:2.9.9
 org.apache.commons:commons-lang3:3.5
+org.apache.commons:commons-csv:1.4
 org.choco-solver:choco-solver:4.0.3
 org.choco-solver:cutoffseq:1.0.2
 org.jgrapht:jgrapht-core:1.0.1

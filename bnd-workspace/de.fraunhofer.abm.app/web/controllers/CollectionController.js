@@ -547,6 +547,14 @@ function collectionController($rootScope, $scope, $http, $location, $route, $rou
 	};
 	
 	
+	self.showHermesResults = function(versionid){
+		$http({
+			method:'GET',
+			url:'/rest/instance'+versionid
+		}).then(
+				) 
+		
+	}
 	
 	
 	self.removeFilter = function(version){

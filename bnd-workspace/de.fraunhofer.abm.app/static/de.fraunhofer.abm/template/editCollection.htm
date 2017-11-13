@@ -59,6 +59,7 @@
 		<div id="filter" ng-show="cc.version.filtered">
 			<span style="float:right;">
 			<button ng-disabled="cc.downloading || cc.running"  class="btn btn-success btn-sm" ng-click="cc.downloadCsv(cc.version.id)">Download Hermes Results</button>
+			<button ng-disabled="cc.running" class="btn btn-success btn-sm" ng-click="cc.showHermesResults(cc.version.id)">Show Hermes Results</button>
             <button ng-disabled="cc.running"  class="btn btn-danger btn-sm" ng-click="cc.removeFilter(cc.version)">Unfilter</button>
             </span>
 		</div>

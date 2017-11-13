@@ -23,13 +23,19 @@ public class JpaFilterStatus {
 	public boolean activate;
 	
 	@Column
+	public int threshold;
+	
+	@Column
     public	String versionid;
+	
+	
 
 	public static JpaFilterStatus fromDTO(FilterStatusDTO dto) {
         JpaFilterStatus jpa = new JpaFilterStatus();
         jpa.id = dto.id;
         jpa.filtername = dto.filtername;
         jpa.activate = dto.activate;
+        jpa.threshold = dto.threshold;
         jpa.versionid = dto.versionid;
         return jpa;
     }
@@ -40,6 +46,7 @@ public class JpaFilterStatus {
 		dto.id = this.id;
 		dto.filtername = this.filtername;
 		dto.activate = this.activate;
+		dto.threshold = this.threshold;
 		dto.versionid = this.versionid;
 		
 		return dto;

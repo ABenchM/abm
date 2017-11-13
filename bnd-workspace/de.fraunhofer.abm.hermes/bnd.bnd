@@ -11,4 +11,6 @@ Bundle-Name: ABM Hermes
 	com.fasterxml.jackson.core.jackson-core,\
 	com.fasterxml.jackson.core.jackson-databind,\
 	de.fraunhofer.abm.builder.docker.base;version=latest,\
-	com.typesafe.config
+	com.typesafe.config,\
+	org.apache.commons.io,\
+	org.apache.commons.csv

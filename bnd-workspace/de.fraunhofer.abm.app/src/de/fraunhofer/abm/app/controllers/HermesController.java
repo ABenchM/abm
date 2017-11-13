@@ -224,8 +224,12 @@ public class HermesController implements REST {
 	        repoDir = resultDTO.dir;
 	        
 	        
+	        
 	        HermesProcess process = hermes.initialize(version,repoDir,repo);
 	        hermes.start(process);
+	        
+	        
+	        
 	        return process.getId();
 	         
 	        
