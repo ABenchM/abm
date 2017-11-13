@@ -40,6 +40,7 @@ JPM-Command:					abm
 	osgi.identity;filter:='(osgi.identity=de.fraunhofer.abm.app)',\
 	osgi.identity;filter:='(osgi.identity=de.fraunhofer.abm.collection.dao.jpa)',\
 	osgi.identity;filter:='(osgi.identity=de.fraunhofer.abm.crawler.github)',\
+	osgi.identity;filter:='(osgi.identity=de.fraunhofer.abm.crawler.api)',\
 	osgi.identity;filter:='(osgi.identity=de.fraunhofer.abm.domain)',\
 	osgi.identity;filter:='(osgi.identity=de.fraunhofer.abm.logging.configuration)',\
 	osgi.identity;filter:='(osgi.identity=json)',\
