@@ -22,7 +22,7 @@ function($rootScope, $scope, $http, Notification, $location){
 	}
 	
 	self.register = function(){
-/*		$rootScope.loading = true;
+		$rootScope.loading = true;
 		$http.post('/rest/username', $scope.request, null).then(
 			function(d){
 				if(d.data){
@@ -35,7 +35,6 @@ function($rootScope, $scope, $http, Notification, $location){
 				Notification.error('Failed with ['+ d.status + '] '+ d.statusText);
 			})['finally'](function() {
 				$rootScope.loading = false
-			});	*/
-		Notification.info("Registration is currently closed. Please check back soon!");
+			});	
 	};
 }]);
