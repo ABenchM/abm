@@ -37,7 +37,12 @@ public class UserController extends AbstractController implements REST {
     interface AccountRequest extends RESTRequest {
         Map<String, String> _body();
     }
-    
+    /**
+     * Account registration
+     * @param ar
+     * @return
+     * @throws Exception
+     */
     public boolean postUsername(AccountRequest ar) throws Exception{
     	//TODO: Add more security here, such as a delay, if possible.
         Map<String, String> params = ar._body();
@@ -68,6 +73,14 @@ public class UserController extends AbstractController implements REST {
     	} else {
     		return false;
     	}
+    }
+    
+    /**
+     * Approval of a user by the admin using jwt token
+     * @param jwt JSON web token for authentication using url.
+     */
+    public void getUserApproval(String jwt) {
+    	
     }
     
 	@Override

@@ -84,3 +84,8 @@ net.sf.trove4j:trove4j:3.0.3
 # Used for mailing client
 javax.activation:activation:1.1.1
 javax.mail:mail:1.4.3
+#JSON web tokens
+io.jsonwebtoken:jjwt:0.6.0
+#JUnit
+junit:junit:4.12
+org.hamcrest:hamcrest-core:1.3

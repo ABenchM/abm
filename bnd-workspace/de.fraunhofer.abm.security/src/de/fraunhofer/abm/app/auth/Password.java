@@ -44,9 +44,4 @@ public class Password {
         SecretKey key = f.generateSecret(new PBEKeySpec(password.toCharArray(), salt, iterations, desiredKeyLen));
         return Base64.getEncoder().encodeToString(key.getEncoded());
     }
-
-    public static void main(String[] args) throws Exception {
-        System.out.println(Password.getSaltedHash("password"));
-        System.out.println(Password.check("password", "bbaeZ04ng6gF/uNKsRAgAIb5Y63PJdyjUzJe3hJqvzo=$m2gkXPNDpgoN6b+jVQpREIJAoh9BZO2uWh5fOk0A4vc="));
-    }
 }
