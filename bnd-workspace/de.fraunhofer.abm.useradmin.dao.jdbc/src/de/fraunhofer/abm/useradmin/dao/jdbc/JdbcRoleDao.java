@@ -279,7 +279,9 @@ public class JdbcRoleDao implements RoleDao {
 
     private Object getByteArray(ResultSet rs, String column) throws SQLException {
         String bytes = rs.getString(column);
-        return Base64.getDecoder().decode(bytes);
+        //Decode encoded salt
+        String salt=bytes.split("\\$")[0];
+        return Base64.getDecoder().decode(salt);
     }
 
     private Object getString(ResultSet rs, String column) throws SQLException {
