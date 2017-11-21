@@ -3,9 +3,6 @@ Bundle-Version: 1.0.0.${tstamp}
 	osgi.enroute.base.api,\
 	junit:junit,\
 	org.hamcrest:hamcrest-core,\
-	io.jsonwebtoken.jjwt,\
-	com.fasterxml.jackson.core.jackson-annotations,\
-	com.fasterxml.jackson.core.jackson-core,\
-	com.fasterxml.jackson.core.jackson-databind
+	io.jsonwebtoken.jjwt
 Export-Package: de.fraunhofer.abm.app.auth
 Private-Package: de.fraunhofer.abm.app.auth.impl
