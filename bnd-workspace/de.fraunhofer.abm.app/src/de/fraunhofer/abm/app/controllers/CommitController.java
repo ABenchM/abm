@@ -5,6 +5,7 @@ import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.fraunhofer.abm.app.RoleConstants;
 import de.fraunhofer.abm.app.auth.Authorizer;
 import de.fraunhofer.abm.collection.dao.CollectionDao;
 import de.fraunhofer.abm.collection.dao.CommitDao;
@@ -81,7 +82,7 @@ public class CommitController extends AbstractController implements REST {
     }
 
     private boolean isUserOwnerOfCommit(String id) {
-        authorizer.requireRole("RegisteredUser");
+        authorizer.requireRole(RoleConstants.REGISTERED_USER);
         CollectionDTO collection = collectionDao.findByCommit(id);
         ensureUserIsOwner(authorizer, collection);
         return true;

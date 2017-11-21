@@ -1,6 +1,7 @@
 package de.fraunhofer.abm.app.controllers;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -9,6 +10,7 @@ import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.fraunhofer.abm.app.RoleConstants;
 import de.fraunhofer.abm.app.auth.Authorizer;
 import de.fraunhofer.abm.collection.dao.CollectionDao;
 import de.fraunhofer.abm.collection.dao.CollectionPinDao;
@@ -38,8 +40,8 @@ public class PinController extends AbstractController implements REST {
     @Reference
     private Authorizer authorizer;
     
-    public List getPin(RESTRequest rr) {
-        authorizer.requireRole("RegisteredUser");
+    public List<CollectionDTO> getPin(RESTRequest rr) {
+        authorizer.requireRole(RoleConstants.REGISTERED_USER);
         Map<String, String[]> params = rr._request().getParameterMap();
         authorizer.requireUser(params.get("user")[0]);
     	if(params.get("type")[0].equals("collection")){
@@ -52,7 +54,7 @@ public class PinController extends AbstractController implements REST {
     		return collections;
     	} else {
     		//Put filter retrieval here
-    		return null;
+    		return Collections.emptyList();
     	}
     }
     
@@ -73,7 +75,7 @@ public class PinController extends AbstractController implements REST {
     }
     
     public void postPin(PinRequest pr) {
-        authorizer.requireRole("RegisteredUser");
+        authorizer.requireRole(RoleConstants.REGISTERED_USER);
         PinRequestDTO req = pr._body();
         authorizer.requireUser(req.user);
     	if(req.type.equals("collection")){
@@ -84,7 +86,7 @@ public class PinController extends AbstractController implements REST {
     }
 
     public void deletePin(PinRequest pr) {
-        authorizer.requireRole("RegisteredUser");
+        authorizer.requireRole(RoleConstants.REGISTERED_USER);
         PinRequestDTO req = pr._body();
         authorizer.requireUser(req.user);
     	if(req.type.equals("collection")){

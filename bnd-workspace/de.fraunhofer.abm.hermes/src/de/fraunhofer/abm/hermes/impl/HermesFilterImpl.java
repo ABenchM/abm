@@ -14,8 +14,6 @@ import java.util.Set;
 import java.util.TreeMap;
 
 import org.osgi.service.component.annotations.Component;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
@@ -35,7 +33,6 @@ import de.fraunhofer.abm.hermes.HermesFilter;
 public class HermesFilterImpl implements HermesFilter {
 
 
-	private static final transient Logger logger = LoggerFactory.getLogger(HermesFilter.class);
 	
 	
 	HashMap<String,Boolean> registered = new HashMap<String,Boolean>();
@@ -202,7 +199,6 @@ public class HermesFilterImpl implements HermesFilter {
     @Override
     public void updateFilters(HashMap<String,Boolean> query) throws IOException
 	{ 
-    	logger.info("updating filters in the file");
 		ConfigList registered ;
 		List<ConfigObject> newregistered = new ArrayList<ConfigObject>();
 		config = ConfigFactory.parseFile(FilterPath);

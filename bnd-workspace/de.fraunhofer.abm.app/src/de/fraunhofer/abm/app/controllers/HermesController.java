@@ -10,11 +10,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+
+
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.fraunhofer.abm.app.RoleConstants;
 import de.fraunhofer.abm.app.auth.Authorizer;
 import de.fraunhofer.abm.app.auth.SecurityContext;
 import de.fraunhofer.abm.collection.dao.BuildResultDao;
@@ -25,7 +28,6 @@ import de.fraunhofer.abm.collection.dao.RepositoryDao;
 import de.fraunhofer.abm.collection.dao.VersionDao;
 import de.fraunhofer.abm.domain.BuildResultDTO;
 import de.fraunhofer.abm.domain.CollectionDTO;
-import de.fraunhofer.abm.domain.FilterResultsDTO;
 import de.fraunhofer.abm.domain.FilterStatusDTO;
 import de.fraunhofer.abm.domain.HermesBuildDTO;
 import de.fraunhofer.abm.domain.HermesResultDTO;
@@ -34,7 +36,6 @@ import de.fraunhofer.abm.domain.QueriesDTO;
 import de.fraunhofer.abm.domain.RepositoryDTO;
 //import de.fraunhofer.abm.domain.RepositoryDTO;
 import de.fraunhofer.abm.domain.VersionDTO;
-import de.fraunhofer.abm.hermes.FilterResults;
 import de.fraunhofer.abm.hermes.Hermes;
 import de.fraunhofer.abm.hermes.HermesFilter;
 import de.fraunhofer.abm.hermes.HermesProcess;
@@ -78,9 +79,6 @@ public class HermesController implements REST {
 	 @Reference
 	 private VersionDao versionDao;
 	 
-	 @Reference
-	 private FilterResults filterResults;
-	 
 	 
 	 interface VersionRequest extends RESTRequest {
 	        VersionDTO _body();
@@ -89,7 +87,7 @@ public class HermesController implements REST {
 	 //Function to get the Hermes Instance details for the version.
 	 public HermesResultDTO getInstance(String versionId) throws Exception{
 		 
-		 authorizer.requireRole("RegisteredUser");
+		 authorizer.requireRole(RoleConstants.REGISTERED_USER);
 		 String sessionUser = SecurityContext.getInstance().getUser();
 	        VersionDTO version = versionDao.findById(versionId);
 	        CollectionDTO databaseCollection = collectionDao.findById(version.collectionId);
@@ -141,48 +139,6 @@ public class HermesController implements REST {
 		 return results;
 	 }
 	 
-	 public List<String> getResultHeader(String versionid) throws IOException {
-			
-		 authorizer.requireRole("RegisteredUser");
-		 List<String> headers = new ArrayList<String>();
-				   
-	        
-	        headers = filterResults.getHeaders(versionid);
-	       
-	        
-		 return headers;
-		 
-	 }
-	 
-public List<FilterResultsDTO> getHermesResults(String versionid) throws IOException{
-		 
-		 authorizer.requireRole("RegisteredUser");
-		  List<FilterResultsDTO> dto = new ArrayList<FilterResultsDTO>();
-		    HermesResultDTO hermesDto ; 
-		    String repoDir;		  
-	        hermesDto = hermesResultDao.findByVersion(versionid);
-	        repoDir =  hermesDto.dir;
-		    		    
-		 // Map<String,Map<String,Integer>> results = new HashMap<String,Map<String,Integer>>();
-		 Map<String,Map<String,Integer>> results = new HashMap<String,Map<String,Integer>>();
-		 
-		  results = filterResults.getFilterResults(repoDir,versionid,filterDao.findFilters(versionid));
-		   for(Map.Entry<String,Map<String,Integer>> entry:results.entrySet()) {
-			   
-			   FilterResultsDTO fr = new FilterResultsDTO();
-			   fr.projectName = entry.getKey();
-			   fr.queries = entry.getValue();
-			   dto.add(fr);
-			   		   
-		   }
-		 			 
-		 return dto;
-	 
-	 }
-	 
-	 
-	 
-	 
 	 interface FilterVersionRequest extends RESTRequest {
 	        List<FilterStatusDTO> _body();
 	    }
@@ -190,7 +146,7 @@ public List<FilterResultsDTO> getHermesResults(String versionid) throws IOExcept
 	 //Function to get the list of active Filters for the selected version.
 	 public List<FilterStatusDTO> getActiveFilters(String versionid)
 	 { 
-		 authorizer.requireRole("RegisteredUser");
+		 authorizer.requireRole(RoleConstants.REGISTERED_USER);
 		 List<FilterStatusDTO> dto = new ArrayList<FilterStatusDTO>();
 		 if(filterDao.findFilters(versionid)!=null)
 		// List<FilterStatusDTO> dto = filterDao.findFilters(versionid);
@@ -229,7 +185,7 @@ public List<FilterResultsDTO> getHermesResults(String versionid) throws IOExcept
 	 
 	 //Function to post the list of filters against version
 	 public String postHermes(FilterVersionRequest fv,String versionid) throws Exception {
-	        authorizer.requireRole("RegisteredUser");
+	        authorizer.requireRole(RoleConstants.REGISTERED_USER);
 	        
 	        
 	          List<FilterStatusDTO> filters = fv._body();
@@ -263,7 +219,7 @@ public List<FilterResultsDTO> getHermesResults(String versionid) throws IOExcept
 	        logger.info("Starting Instance version {}", filter.versionid);
 	        
 	        String   repoDir;
-	        List<RepositoryDTO> repo;
+	        RepositoryDTO repo;
 	        BuildResultDTO resultDTO;
 	        repo = repositoryDao.findByVersion(versionid);
 	        
@@ -286,7 +242,7 @@ public List<FilterResultsDTO> getHermesResults(String versionid) throws IOExcept
 	 
 	 //Function to delete the Hermes Instance entry for selected version.
 	 public String deleteInstance(String hermesResultId) throws Exception {
-	        authorizer.requireRole("RegisteredUser");
+	        authorizer.requireRole(RoleConstants.REGISTERED_USER);
 
 	        // make sure the session user is the owner
 	        HermesResultDTO hermesResultDto = hermesResultDao.findById(hermesResultId);
@@ -316,7 +272,7 @@ public List<FilterResultsDTO> getHermesResults(String versionid) throws IOExcept
 	//Function to get the list of Filters  
 	public HashMap<String,Boolean> getFilters()
 	{
-		authorizer.requireRole("RegisteredUser");
+		authorizer.requireRole(RoleConstants.REGISTERED_USER);
 		
 		  return  hermesFilter.getFilters();
 	}
@@ -328,21 +284,21 @@ public List<FilterResultsDTO> getHermesResults(String versionid) throws IOExcept
 	
 	public void postMaxLocation(QueryRequest qr) throws IOException
 	{  
-		authorizer.requireRole("RegisteredUser");
+		authorizer.requireRole(RoleConstants.REGISTERED_USER);
 	    QueriesDTO dto = qr._body();
 	    hermesFilter.updateMaxLocations(dto.maxlocations);
 		
 	}
 	
 	public void postFanIn(QueryRequest qr) throws IOException
-	{ authorizer.requireRole("RegisteredUser");
+	{ authorizer.requireRole(RoleConstants.REGISTERED_USER);
 	  QueriesDTO dto = qr._body();
 	  hermesFilter.updateFanInFanOut("fanin","categories",dto.fanin_categories);
 	  hermesFilter.updateFanInFanOut("fanin","categorySize", dto.fanin_categorySize);	
 	}
 	
 	public void postFanOut(QueryRequest qr) throws IOException
-	{ authorizer.requireRole("RegisteredUser");
+	{ authorizer.requireRole(RoleConstants.REGISTERED_USER);
 	  QueriesDTO dto = qr._body();
 	  hermesFilter.updateFanInFanOut("fanout","categories",dto.fanout_categories);
 	  hermesFilter.updateFanInFanOut("fanout","categorySize", dto.fanout_categorySize);	
@@ -350,7 +306,7 @@ public List<FilterResultsDTO> getHermesResults(String versionid) throws IOExcept
 	
 
 	public void postRatio(QueryRequest qr) throws IOException
-	{ authorizer.requireRole("RegisteredUser");
+	{ authorizer.requireRole(RoleConstants.REGISTERED_USER);
 	  QueriesDTO dto = qr._body();
 	  hermesFilter.updateFanInFanOut("ratio","categories",dto.ratio_categories);
 	  hermesFilter.updateFanInFanOut("ratio","categorySize", dto.ratio_categorySize);
@@ -359,7 +315,7 @@ public List<FilterResultsDTO> getHermesResults(String versionid) throws IOExcept
 	//Function to get the MaxLocation
 	public int getMaxLocations()
 	{
-		authorizer.requireRole("RegisteredUser");
+		authorizer.requireRole(RoleConstants.REGISTERED_USER);
 		
 		return hermesFilter.getMaxLocation();
 	}
@@ -367,7 +323,7 @@ public List<FilterResultsDTO> getHermesResults(String versionid) throws IOExcept
 	//Function to get the FanInFanout 
 	public Map<String,Integer> getFanInFanOut()
 	{
-		authorizer.requireRole("RegisteredUser");
+		authorizer.requireRole(RoleConstants.REGISTERED_USER);
 		return hermesFilter.getFanInFanOut();
 	}
 	

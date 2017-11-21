@@ -5,7 +5,6 @@ package de.fraunhofer.abm.hermes.impl;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,33 +14,33 @@ import java.util.Map;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.io.IOUtils;
-import org.osgi.service.component.annotations.Component;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
+import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import de.fraunhofer.abm.domain.FilterStatusDTO;
+import de.fraunhofer.abm.collection.dao.FilterStatusDao;
 import de.fraunhofer.abm.hermes.FilterResults;
 
-@Component(name = "de.fraunhofer.abm.hermes.FilterResults")
 public class FilterResultsImpl implements FilterResults {
 
-	private static final transient Logger logger = LoggerFactory.getLogger(FilterResultsImpl.class);
 	
-	
+	private String repoDir;
+	private String versionId;
 	int noOfProjects;
     Map<String,List<String>> queryFeatureMap = new HashMap<String,List<String>>();
-
-    Map<String,Map<String,Integer>> projects =  new HashMap<String,Map<String,Integer>>();
-
     Map<String,Map<String,Integer>> results =  new HashMap<String,Map<String,Integer>>();
-    
-    List<List<String>> rows = new ArrayList<List<String>>();
-    
+    Map<String,Integer> project_result = new HashMap<String,Integer>();
+    List<List<String>> projects = new ArrayList<List<String>>();
+    FilterStatusDao filterStatusDao;
 	
-	 
+	 public void FilterResults(String repoDir , String versionId) {
+	    	
+	    	this.repoDir = repoDir;
+	    	this.versionId = versionId;
+	    	//this.name = "Filtering Results as per threshold value";
+	    }
 	
 	  public String getKeyByValue(Map<String, List<String>> map, String value) {
 			for (Map.Entry<String, List<String>> entry : map.entrySet()) {
@@ -52,139 +51,70 @@ public class FilterResultsImpl implements FilterResults {
 			return null;
 		}
 	 
-	  
-	  public List<String> getHeaders(String versionid) throws MalformedURLException, IOException{
-		  
-		  List<String> headers = new ArrayList<String>();
-		  
-		  ObjectMapper mapper = new ObjectMapper();
-			
-			String url = "file:///opt/abm/queryfeaturemap.json";
-			
-			String genrejson = IOUtils.toString(new URL(url));
-
-			queryFeatureMap = mapper.readValue(genrejson, new TypeReference<HashMap<String, List<String>>>() {
-			});
-			
-			  for(Map.Entry<String,List<String>> entry : queryFeatureMap.entrySet() ) {
-	    		   
-	    		   headers.add(entry.getKey());
-	    	   }
-			
-			return headers; 
-	  }
-	  
-	  public int getThreshold(String filtername,List<FilterStatusDTO> filters) {
-		
-		  int filter_threshold = 0;
-		  
-		  for(int it = 0 ;it < filters.size() ;it++) {
-			  
-			  if(filtername==filters.get(it).filtername)
-			  filter_threshold = filters.get(it).threshold;
-			  
-		  }
-		  
-		  return filter_threshold;
-		  
-	  }
-	
-	  
-	  public Map<String,Map<String,Integer>> getFilterResults(String repoDir, String versionid , List<FilterStatusDTO> filters) throws  IOException{
+	  public Map<String,Map<String,Integer>> getFilterResults() throws JsonParseException, JsonMappingException, IOException{
 	    	
 	    	BufferedReader readCsv = new BufferedReader(new FileReader(repoDir+"/hermesResults.csv"));
-	    	//System.out.println(repoDir+"/hermesResults.csv");
 	    	Iterable<CSVRecord> records = CSVFormat.EXCEL.parse(readCsv);
 	    	
-	    	projects.clear();
-	    	rows.clear();
-	    	
 	    	for (CSVRecord record : records) {
-	    		
-	    	    List<String> row = new ArrayList<String>();
-	    	    
-	    	    
-	    		
+				List<String> row = new ArrayList<String>();
 				for (int i = 0; i < record.size(); i++) {
-					
-	                        row.add(record.get(i));
-			         
+					row.add(record.get(i));
+
 				}
-	             						
-	             rows.add(row);
-			        
-	             
+				projects.add(row);
+
 			}
-	    	
-            ObjectMapper mapper = new ObjectMapper();
+
+			noOfProjects = projects.size() - 1;
+			
+			ObjectMapper mapper = new ObjectMapper();
 			
 			String url = "file:///opt/abm/queryfeaturemap.json";
-			
 			String genrejson = IOUtils.toString(new URL(url));
 
 			queryFeatureMap = mapper.readValue(genrejson, new TypeReference<HashMap<String, List<String>>>() {
 			});
 
-			noOfProjects = rows.size() - 1;
-			int value = 0 , threshold = 0;
-			  for(int n=1;n<=noOfProjects;n++) {
-		    	   
-		    	   Map<String,Integer> project = new HashMap<String,Integer>();
-		    	   value = 0;
-		    	   
-		    	   for(Map.Entry<String,List<String>> entry : queryFeatureMap.entrySet() ) {
-		    		   
-		    		   project.put(entry.getKey(), 0);
-		    	   }
-		    	   
-		    	   
-		    	   for (int i=11;i<rows.get(0).size();i++)
-		           {
-		    		   for(Map.Entry<String,Integer> entry: project.entrySet()) {
-		        		   
-		        		   if(getKeyByValue(queryFeatureMap, rows.get(0).get(i))==entry.getKey()) {
-		        			   
-		        			   value = entry.getValue();
-		        		  
-		        			   
-		        			   
-		        			  project.replace(entry.getKey(), value , value+Integer.parseInt(rows.get(n).get(i)));
-		        		   }
-		        		   
-		        	   }  
-		        	   
-		           }
-		    	   logger.info("Adding projects as per threshold value");
-		    	   projects.put(rows.get(n).get(0), project);
-		       }
-		      
-			  
-					  
-			  
-						
-               for(Map.Entry<String,Map<String,Integer>> entry : projects.entrySet()) {
-            	   
-            	   Map<String,Integer> result = new HashMap<String,Integer>();
-            	   
-            	   for(Map.Entry<String,Integer> inner_entry : entry.getValue().entrySet()) {
-            		   
-            		   
-            		       threshold = getThreshold("org.opalj.hermes.queries."+inner_entry.getKey(), filters);
-            		   
-            		   
-            		         if(inner_entry.getValue()>=threshold) {
-            		        	 result.put(inner_entry.getKey(), inner_entry.getValue());
-            		         }
-            	  
-            	   }
-            	   
-            	   results.put(entry.getKey(), result);
-               }
-			  
-			  
-			  
-			  
-			  return results;
+			
+			//Initializing results with zero value l
+			List<String> row = projects.get(0);
+			int value , threshold =0;
+			for(int i=1;i<=noOfProjects;i++) {
+				
+				project_result.clear();
+				
+				for (Map.Entry<String, List<String>> entry : queryFeatureMap.entrySet()) {
+
+					project_result.put(entry.getKey(), 0);
+	         }
+				List<String> project = projects.get(i);
+				
+				for (int j = 12; j < row.size(); j++) {
+
+					for (Map.Entry<String, Integer> entry : project_result.entrySet()) {
+
+						if (getKeyByValue(queryFeatureMap, row.get(j)) == entry.getKey()) {
+
+							value = entry.getValue();
+							threshold = threshold + filterStatusDao.findThreshold(versionId, "org.opalj.hermes.queries."+entry.getKey());
+							project_result.replace(entry.getKey(), value, value+Integer.parseInt(project.get(j)));
+							
+
+						}
+
+					}
+
+				}
+
+				results.put(projects.get(i).get(0), project_result);
+				
+			}
+			
+			
+	    	
+	    	
+	    	return results;
 	    	
 	    }
 	 
