@@ -131,3 +131,6 @@ To avoid this, make the following changes to your local database for each of the
     * Column "name" (type varchar(255))
     * Column "password" (type varchar(255))
     * Column "approved" (type tinyint)
+* Commit 7364e14 (Nov 27, 2017/ Registration activation)
+  * To table "user":
+    * Column "token" (type varchar(50))
