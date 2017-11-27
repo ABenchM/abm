@@ -76,10 +76,10 @@ public class UserController extends AbstractController implements REST {
     }
     
     /**
-     * Approval of a user by the admin using jwt token
-     * @param jwt JSON web token for authentication using url.
+     * Approval of a user by the admin using token
+     * @param token Web token for authentication using url.
      */
-    public void getUserApproval(String jwt) {
+    public void getUserApproval(String token) {
     	
     }
     

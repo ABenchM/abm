@@ -181,8 +181,7 @@ JPM-Command:					abm
 	org.scala-lang.scala-library;version='[2.11.11,2.11.12)',\
 	org.scala-lang.scala-reflect;version='[2.11.11,2.11.12)',\
 	org.scala-lang.scala-xml;version='[2.11.0,2.11.1)',\
-	javax.mail;version='[1.4.0,1.4.7)',\
-	io.jsonwebtoken.jjwt
+	javax.mail;version='[1.4.0,1.4.7)'
 -runproperties: \
 	felix.webconsole.password=F+9:j9Cy9ea5x+A.,\
 	org.jboss.logging.provider=slf4j,\
