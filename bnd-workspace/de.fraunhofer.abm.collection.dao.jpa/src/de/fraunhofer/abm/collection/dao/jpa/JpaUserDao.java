@@ -56,12 +56,13 @@ public class JpaUserDao extends AbstractJpaDao implements UserDao {
 	}
 
 	@Override
-	public void addUser(String name, String password) {
+	public void addUser(String name, String password,String approvalToken) {
 		transactionControl.required(() -> {
             JpaUser jpaUser = new JpaUser();
             jpaUser.name = name;
             jpaUser.password = password;
             jpaUser.approved = 0;
+            jpaUser.token=approvalToken;
             em.persist(jpaUser);
             return null;
         });

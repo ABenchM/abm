@@ -56,7 +56,6 @@ public class UserAdminController implements REST {
 
     public void postUser(UserRequest ur) {
         authorizer.requireRole("UserAdmin");
-
         AbmUser subject = ur._body();
         logger.debug("Creating user {}", subject.name);
         userAdmin.createRole(subject.name, Role.USER);

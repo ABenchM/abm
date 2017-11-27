@@ -61,7 +61,7 @@ public class AbmApplication implements REST {
         if(credentials.username.equals("google-oauth")) {
             doGoogleLogin(lr, credentials);
         } else {
-            boolean authenticated = authenticator.authenticate(credentials.username, credentials.password);
+        	boolean authenticated = authenticator.authenticate(credentials.username, credentials.password);
             if(authenticated) {
                 lr._response().setStatus(HttpServletResponse.SC_OK);
                 lr._request().getSession().setAttribute("user", credentials.username);

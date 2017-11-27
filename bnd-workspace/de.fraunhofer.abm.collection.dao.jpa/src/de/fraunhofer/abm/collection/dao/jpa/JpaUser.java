@@ -19,8 +19,8 @@ public class JpaUser {
 	@Column
 	public int approved;
 
-	@Column
-	private String token;
+	@Column(name="approval_token")
+	public String token;
 
 	public static JpaUser fromDTO(UserDTO dto) {
 		JpaUser user = new JpaUser();
