@@ -69,20 +69,19 @@ public class JpaUserDao extends AbstractJpaDao implements UserDao {
 	}
 
 	@Override
-	public boolean approveToken(String name, String token) {
-		boolean validToken = transactionControl.required(() -> {
+	public String approveToken(String name, String token) {
+		String password = transactionControl.required(() -> {
 			TypedQuery<JpaUser> query = em.createQuery("SELECT u FROM user u WHERE u.name = :name", JpaUser.class);
 			query.setParameter("name", name);
 			JpaUser result = query.getSingleResult();
 			if (result.token.equals(token)) {
 				result.approved = 1;
 				em.persist(result);
-				return true;
-			} else {
-				return false;
+				return result.password;
 			}
+			throw new RuntimeException("Invalid token");
 		});
-		return validToken;
+		return password;
 	}
 
 	@Override

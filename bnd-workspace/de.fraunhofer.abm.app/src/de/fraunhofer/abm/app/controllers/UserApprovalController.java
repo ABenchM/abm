@@ -6,6 +6,7 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.useradmin.Group;
 import org.osgi.service.useradmin.Role;
+import org.osgi.service.useradmin.User;
 import org.osgi.service.useradmin.UserAdmin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,19 +35,18 @@ public class UserApprovalController extends AbstractController implements REST {
 	 * @param token
 	 *            Web token for authentication using url.
 	 */
+	@SuppressWarnings("unchecked")
 	public String getApproval(RESTRequest rr) {
 		Map<String, String[]> params = rr._request().getParameterMap();
 		String name = getIfValid(params.get("name"));
 		String token = getIfValid(params.get("token"));
-		if (userDao.approveToken(name, token)) {
-			logger.debug("Creating user {}", name);
-			Role user = userAdmin.createRole(name, Role.USER);
-			Group registeredUserGroup = (Group) userAdmin.getRole(RoleConstants.REGISTERED_USER);
-			registeredUserGroup.addMember(user);
-			return "User has been approved";
-		} else {
-			return "Invalid token";
-		}
+		String password = userDao.approveToken(name, token);
+		logger.debug("Creating user {}", name);
+		User user = (User)userAdmin.createRole(name, Role.USER);
+		user.getCredentials().put("password", password);
+		Group registeredUserGroup = (Group) userAdmin.getRole(RoleConstants.REGISTERED_USER);
+		registeredUserGroup.addMember(user);
+		return "User has been approved";
 	}
 
 	private String getIfValid(String[] data) {

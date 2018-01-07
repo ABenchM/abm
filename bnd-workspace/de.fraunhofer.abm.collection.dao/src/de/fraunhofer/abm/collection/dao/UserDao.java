@@ -8,5 +8,5 @@ public interface UserDao {
 
 	public void addUser(String name, String password, String token);
 
-	public boolean approveToken(String name, String token);
+	public String approveToken(String name, String token);
 }
