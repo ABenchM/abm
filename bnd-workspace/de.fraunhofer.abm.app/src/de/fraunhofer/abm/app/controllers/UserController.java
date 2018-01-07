@@ -4,6 +4,7 @@ import java.text.MessageFormat;
 import java.util.Map;
 
 import javax.mail.Message;
+import javax.mail.Transport;
 import javax.mail.internet.MimeMessage;
 
 import org.osgi.service.component.annotations.Component;
@@ -50,13 +51,12 @@ public class UserController extends AbstractController implements REST {
 	 */
 	public boolean postUsername(AccountRequest ar) throws Exception {
 		// TODO: Add more security here, such as a delay, if possible.
-		// http://abm.cs.upb.de/
-		String endpoint = "http://localhost:8080/rest/approval";
+		String approvalEndpoint = "https://abm.cs.upb.de/rest/approval";
 		Map<String, String> params = ar._body();
 		String name = params.get("username");
 		String password = params.get("password");
 		String approvalToken = TokenGenerator.generateToken();
-		String token = MessageFormat.format("Activation Link:{0}?name={1}&?token={2}\n", endpoint, name,
+		String token = MessageFormat.format("Activation Link:{0}?name={1}&token={2}\n", approvalEndpoint, name,
 				approvalToken);
 		if (!userDao.checkExists(name)) {
 			String sbj = params.get("username") + " Registered on ABM";
@@ -70,8 +70,7 @@ public class UserController extends AbstractController implements REST {
 			message.addRecipients(Message.RecipientType.TO, config.getTo());
 			message.setSubject(sbj);
 			message.setText(msg);
-			// Transport.send(message);
-			System.out.println(token);
+			Transport.send(message);
 			String saltAndHash = Password.getSaltedHash(password);
 			userDao.addUser(name, saltAndHash, approvalToken);
 			return true;
