@@ -32,21 +32,25 @@ public class UserApprovalController extends AbstractController implements REST {
 	/**
 	 * Approval of a user by the admin using token
 	 * 
-	 * @param token
-	 *            Web token for authentication using url.
+	 * @params name,token
+	 * 
 	 */
 	@SuppressWarnings("unchecked")
 	public String getApproval(RESTRequest rr) {
-		Map<String, String[]> params = rr._request().getParameterMap();
-		String name = getIfValid(params.get("name"));
-		String token = getIfValid(params.get("token"));
-		String password = userDao.approveToken(name, token);
-		logger.debug("Creating user {}", name);
-		User user = (User)userAdmin.createRole(name, Role.USER);
-		user.getCredentials().put("password", password);
-		Group registeredUserGroup = (Group) userAdmin.getRole(RoleConstants.REGISTERED_USER);
-		registeredUserGroup.addMember(user);
-		return "User has been approved";
+		try {
+			Map<String, String[]> params = rr._request().getParameterMap();
+			String name = getIfValid(params.get("name"));
+			String token = getIfValid(params.get("token"));
+			String password = userDao.approveToken(name, token);
+			logger.debug("Creating user {}", name);
+			User user = (User) userAdmin.createRole(name, Role.USER);
+			user.getCredentials().put("password", password);
+			Group registeredUserGroup = (Group) userAdmin.getRole(RoleConstants.REGISTERED_USER);
+			registeredUserGroup.addMember(user);
+			return "User has been approved";
+		} catch (Exception e) {
+			return e.getCause() != null ? e.getCause().getMessage() : e.getMessage();
+		}
 	}
 
 	private String getIfValid(String[] data) {

@@ -74,12 +74,15 @@ public class JpaUserDao extends AbstractJpaDao implements UserDao {
 			TypedQuery<JpaUser> query = em.createQuery("SELECT u FROM user u WHERE u.name = :name", JpaUser.class);
 			query.setParameter("name", name);
 			JpaUser result = query.getSingleResult();
+			if (result.approved == 1) {
+				throw new ApprovalException("User already approved");
+			}
 			if (result.token.equals(token)) {
 				result.approved = 1;
 				em.persist(result);
 				return result.password;
 			}
-			throw new RuntimeException("Invalid token");
+			throw new ApprovalException("Invalid token");
 		});
 		return password;
 	}
