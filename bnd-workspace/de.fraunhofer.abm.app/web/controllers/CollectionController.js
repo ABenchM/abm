@@ -520,9 +520,6 @@ function collectionController($rootScope, $scope, $http, $location, $route, $rou
 		
 		self.version.filtered = true;
 		self.running = true;
-		 /* modalHermesService.version = version;
-          modalHermesService.collection = self.collection;
-          modalHermesService.launch();*/
 		hermesViewerService.version = version;
 		hermesViewerService.collection = self.collection;
 		hermesViewerService.launch();
@@ -541,7 +538,7 @@ function collectionController($rootScope, $scope, $http, $location, $route, $rou
 	}
 	
 	
-	self.downloadCsv = function(versionId){
+	/*self.downloadCsv = function(versionId){
 	self.downloading = true;
 	$http({
 			method: 'GET',
@@ -559,7 +556,7 @@ function collectionController($rootScope, $scope, $http, $location, $route, $rou
 					self.downloading = false;
 				});
 	
-	};
+	};*/
 	
 	
 	

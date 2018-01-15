@@ -8,17 +8,14 @@ import org.eclipse.jetty.websocket.api.annotations.WebSocket;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.fraunhofer.abm.suitebuilder.BuildProcess;
-import de.fraunhofer.abm.suitebuilder.SuiteBuilder;
-
 @WebSocket
 public class HermesStatusSocket  {
 	
 	private static final transient Logger logger = LoggerFactory.getLogger(HermesStatusSocket.class);
 	
-	private Session session;
+	//private Session session;
 	private RemoteEndpoint remote;
-	private String hermesId;
+	//private String hermesId;
 	
 	
 	 public RemoteEndpoint getRemote() {
@@ -27,13 +24,13 @@ public class HermesStatusSocket  {
 	
 	 @OnWebSocketConnect
 	    public void onConnect(Session session) {
-	        this.session = session;
+	       // this.session = session;
 	        this.remote = session.getRemote();
 	    }
 	 
 	   @OnWebSocketClose
 	    public void onClose(int statusCode, String reason) {
-	        this.session = null;
+	        //this.session = null;
 	        logger.debug("WebSocket closed. Removing progress listener and closing service tracker");
 	       // SuiteBuilder builder = suiteBuilderTracker.getService();
 	       // BuildProcess process = builder.getBuildProcess(buildId);

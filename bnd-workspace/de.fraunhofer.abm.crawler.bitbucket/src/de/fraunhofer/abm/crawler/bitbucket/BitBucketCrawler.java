@@ -12,16 +12,14 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.osgi.annotation.versioning.ProviderType;
 import org.osgi.service.component.annotations.Component;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.fraunhofer.abm.crawler.api.Crawler;
 import de.fraunhofer.abm.crawler.api.Criteria;
@@ -29,7 +27,6 @@ import de.fraunhofer.abm.domain.BranchDTO;
 import de.fraunhofer.abm.domain.CommitDTO;
 import de.fraunhofer.abm.domain.RepositoryDTO;
 import de.fraunhofer.abm.domain.TagDTO;
-import de.fraunhofer.abm.http.client.Base64;
 import de.fraunhofer.abm.http.client.HttpUtils;
 
 @Component

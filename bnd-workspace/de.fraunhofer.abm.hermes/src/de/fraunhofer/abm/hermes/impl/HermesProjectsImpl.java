@@ -4,6 +4,8 @@ package de.fraunhofer.abm.hermes.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.osgi.service.component.annotations.Component;
 
@@ -57,7 +59,7 @@ public class HermesProjectsImpl implements HermesProjects  {
 	}
 	
 	@Override
-	public void addProjects(String id,String cp) throws IOException
+	public void addProjects(HashMap<String,String> projects) throws IOException
 	{
 		JsonFactory jf = new JsonFactory();
 		 JsonGenerator jg = jf.createGenerator(projectPath,JsonEncoding.UTF8);
@@ -72,12 +74,16 @@ public class HermesProjectsImpl implements HermesProjects  {
 				jg.writeStartObject();
 				jg.writeFieldName("projects");
 				jg.writeStartArray();
-				jg.writeStartObject();
-				jg.writeFieldName("id");
-				jg.writeString(id);
-				jg.writeFieldName("cp");
-				jg.writeString(cp);
-				jg.writeEndObject();
+				for(Map.Entry<String, String> entry : projects.entrySet()) {
+					
+					jg.writeStartObject();
+					jg.writeFieldName("id");
+					jg.writeString(entry.getKey());
+					jg.writeFieldName("cp");
+					jg.writeString(entry.getValue());
+					jg.writeEndObject();
+				}
+				
 				jg.writeEndArray();
 				jg.writeEndObject();
 				jg.writeEndObject();

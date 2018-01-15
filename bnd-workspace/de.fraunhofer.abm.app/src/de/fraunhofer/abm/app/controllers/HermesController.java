@@ -10,17 +10,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-
-
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import de.fraunhofer.abm.app.auth.Authorizer;
 import de.fraunhofer.abm.app.auth.SecurityContext;
 import de.fraunhofer.abm.collection.dao.BuildResultDao;
 import de.fraunhofer.abm.collection.dao.CollectionDao;
-import de.fraunhofer.abm.collection.dao.CommitDao;
 import de.fraunhofer.abm.collection.dao.FilterStatusDao;
 import de.fraunhofer.abm.collection.dao.HermesResultDao;
 import de.fraunhofer.abm.collection.dao.RepositoryDao;
@@ -218,7 +216,7 @@ public class HermesController implements REST {
 	        logger.info("Starting Instance version {}", filter.versionid);
 	        
 	        String   repoDir;
-	        RepositoryDTO repo;
+	        List<RepositoryDTO> repo;
 	        BuildResultDTO resultDTO;
 	        repo = repositoryDao.findByVersion(versionid);
 	        

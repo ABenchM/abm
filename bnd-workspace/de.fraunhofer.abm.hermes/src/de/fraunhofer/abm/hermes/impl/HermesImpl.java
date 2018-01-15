@@ -68,7 +68,7 @@ public class HermesImpl implements Hermes {
 	
 	    
 		@Override
-	    public HermesProcess initialize(VersionDTO version , String repoDir , RepositoryDTO repo) throws Exception {
+	    public HermesProcess initialize(VersionDTO version , String repoDir , List<RepositoryDTO> repo) throws Exception {
 	        
 	       HermesProcess hermesProcess = new HermesProcess(version,repoDir,repo,hermesResultDao);
 	       hermesProcesses.put(hermesProcess.getId(), hermesProcess);

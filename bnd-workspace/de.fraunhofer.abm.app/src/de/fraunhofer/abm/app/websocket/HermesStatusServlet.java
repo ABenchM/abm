@@ -20,6 +20,10 @@ import org.osgi.service.http.NamespaceException;
 @Component
 public class HermesStatusServlet extends WebSocketServlet {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	@Reference
 	private volatile HttpService m_httpService;
 	

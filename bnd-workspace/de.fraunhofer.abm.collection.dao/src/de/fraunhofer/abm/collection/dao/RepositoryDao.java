@@ -9,7 +9,7 @@ public interface RepositoryDao {
     public List<RepositoryDTO> select();
     public List<RepositoryDTO> findByCollection(String collectionId);
     public RepositoryDTO findById(String id);
-    public RepositoryDTO findByVersion(String versionId);
+    public List<RepositoryDTO> findByVersion(String versionId);
     public void save(RepositoryDTO repo);
     public void update(RepositoryDTO repo);
     public void delete(String id);

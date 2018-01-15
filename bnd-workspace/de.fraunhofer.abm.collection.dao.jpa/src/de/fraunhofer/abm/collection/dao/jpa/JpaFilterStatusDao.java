@@ -66,8 +66,8 @@ public class JpaFilterStatusDao implements FilterStatusDao {
     @Override
 	public void dropFilters(String versionId) {
 		transactionControl.required(() -> {
-			Query oldFilters = em.createNativeQuery("DELETE FROM filter WHERE versionid = :versionId");
-			oldFilters.setParameter("versionid", versionId);
+			Query oldFilters = em.createNativeQuery("DELETE FROM filter_status WHERE versionid = :versionId");
+			oldFilters.setParameter("versionId", versionId);
 			//oldFilters.setMaxResults(1);
 			oldFilters.executeUpdate();
             return null;

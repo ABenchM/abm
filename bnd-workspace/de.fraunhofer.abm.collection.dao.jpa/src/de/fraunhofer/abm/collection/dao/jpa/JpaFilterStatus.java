@@ -22,8 +22,8 @@ public class JpaFilterStatus {
 	@Column
 	public boolean activate;
 	
-	@Column
-	public int threshold;
+	@Column(nullable=true)
+	public Integer threshold;
 	
 	@Column
     public	String versionid;

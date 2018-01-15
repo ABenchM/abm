@@ -3,9 +3,13 @@ package de.fraunhofer.abm.hermes;
 
 
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.InputStreamReader;
 //import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.Callable;
@@ -34,9 +38,8 @@ public class HermesProcess implements Callable<HermesResultDTO> {
 	 
 	 private STATUS status = STATUS.WAITING;
 	 private VersionDTO version;
-	 private RepositoryDTO repo;
-	 private String cp;
-	 private String projectId;
+	 private List<RepositoryDTO> repo;
+	 HashMap<String,String> projects = new HashMap<String,String>();
 	 private String repoDir;
 	 private Future<HermesResultDTO> futureHermesResult;
 	 private HermesResultDTO hermesResult;
@@ -47,7 +50,7 @@ public class HermesProcess implements Callable<HermesResultDTO> {
 	 private String result;
 	 
 	 
-	 public HermesProcess(VersionDTO version, String repoDir,RepositoryDTO repo,HermesResultDao hermesResultDao)
+	 public HermesProcess(VersionDTO version, String repoDir,List<RepositoryDTO> repo,HermesResultDao hermesResultDao)
 	 {
 		 this.version = version;
 		 //this.workspace = workspace;
@@ -60,7 +63,6 @@ public class HermesProcess implements Callable<HermesResultDTO> {
 		 this.hermesResult.dir = repoDir;
 		 hermesResultDao.save(hermesResult);
 		 this.repoDir = repoDir;
-		 this.projectId = repo.id;
 		 this.repo = repo;
 		 
 	 }
@@ -74,16 +76,31 @@ public class HermesProcess implements Callable<HermesResultDTO> {
 		 hermesResult.status = this.status.toString();
 		 hermesResult.date = new Date();
 		 hermesResultDao.update(hermesResult);
-		// String date = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(hermesResult.date);
+		
 		 
 		 try{
 			 HermesProjects hermesProject = new HermesProjectsImpl();
-			// cp = hermesResult.dir.concat("/archive.zip");
-			 logger.info("Adding Project into Hermes.json file with ProjectId:{} and ProjectPath:{}",projectId,cp);
-			 hermesProject.addProjects(projectId, "/repodir/archive.zip");
-			 hermesDocker = new HermesDocker(repoDir);
-			 //hermesDocker.init(repoDir);
+			 for(int i=0;i<repo.size();i++) {
+				 
+				   String cmd[] = {"/bin/sh","-c","ls | grep \""+repo.get(i).id+"*"+"\""};
+				 
+				 
+				    Process p = Runtime.getRuntime().exec(cmd,null,new File(repoDir));
+					BufferedReader s  = new BufferedReader(new InputStreamReader(p.getInputStream()));
+					//BufferedReader e = new BufferedReader(new InputStreamReader(p.getErrorStream()));
+					String line;
+					line = s.readLine();
+				    logger.info("Adding Project into Hermes.json file with ProjectId:{} and ProjectPath:{}",repo.get(i).name,"repodir/"+line);
+					projects.put(repo.get(i).name, "/repodir/"+line);
+					
+				
+				 hermesProject.addProjects(projects);
+			    hermesDocker = new HermesDocker(repoDir);
+				 
+			 }
 			 
+			 
+					 
 			 logger.debug("Running hermes steps");
 			 result =  hermesDocker.hermesRun();
 			 
@@ -139,7 +156,7 @@ public class HermesProcess implements Callable<HermesResultDTO> {
 			 
 		 }catch (Exception e) {
              
-             logger.error("Couldn't complete hermes for the version " + version.id + "and repository [" + repo.name + "]", e);
+             logger.error("Couldn't complete hermes for the version " + version.id , e);
              this.status = STATUS.FAILED;
          }     
 		

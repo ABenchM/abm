@@ -7,18 +7,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
-import java.util.Map.Entry;
 
-import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.ConfigurationPolicy;
-import org.osgi.service.component.annotations.Deactivate;
-import org.osgi.service.metatype.annotations.Designate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -207,6 +202,7 @@ public class HermesFilterImpl implements HermesFilter {
     @Override
     public void updateFilters(HashMap<String,Boolean> query) throws IOException
 	{ 
+    	logger.info("updating filters in the file");
 		ConfigList registered ;
 		List<ConfigObject> newregistered = new ArrayList<ConfigObject>();
 		config = ConfigFactory.parseFile(FilterPath);
