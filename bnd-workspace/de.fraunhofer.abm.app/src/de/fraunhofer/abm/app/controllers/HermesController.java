@@ -25,6 +25,7 @@ import de.fraunhofer.abm.collection.dao.RepositoryDao;
 import de.fraunhofer.abm.collection.dao.VersionDao;
 import de.fraunhofer.abm.domain.BuildResultDTO;
 import de.fraunhofer.abm.domain.CollectionDTO;
+import de.fraunhofer.abm.domain.FilterResultsDTO;
 import de.fraunhofer.abm.domain.FilterStatusDTO;
 import de.fraunhofer.abm.domain.HermesBuildDTO;
 import de.fraunhofer.abm.domain.HermesResultDTO;
@@ -33,6 +34,7 @@ import de.fraunhofer.abm.domain.QueriesDTO;
 import de.fraunhofer.abm.domain.RepositoryDTO;
 //import de.fraunhofer.abm.domain.RepositoryDTO;
 import de.fraunhofer.abm.domain.VersionDTO;
+import de.fraunhofer.abm.hermes.FilterResults;
 import de.fraunhofer.abm.hermes.Hermes;
 import de.fraunhofer.abm.hermes.HermesFilter;
 import de.fraunhofer.abm.hermes.HermesProcess;
@@ -75,6 +77,9 @@ public class HermesController implements REST {
 	 
 	 @Reference
 	 private VersionDao versionDao;
+	 
+	 @Reference
+	 private FilterResults filterResults;
 	 
 	 
 	 interface VersionRequest extends RESTRequest {
@@ -135,6 +140,48 @@ public class HermesController implements REST {
 	 }
 		 return results;
 	 }
+	 
+	 public List<String> getResultHeader(String versionid) throws IOException {
+			
+		 authorizer.requireRole("RegisteredUser");
+		 List<String> headers = new ArrayList<String>();
+				   
+	        
+	        headers = filterResults.getHeaders(versionid);
+	       
+	        
+		 return headers;
+		 
+	 }
+	 
+public List<FilterResultsDTO> getHermesResults(String versionid) throws IOException{
+		 
+		 authorizer.requireRole("RegisteredUser");
+		  List<FilterResultsDTO> dto = new ArrayList<FilterResultsDTO>();
+		    HermesResultDTO hermesDto ; 
+		    String repoDir;		  
+	        hermesDto = hermesResultDao.findByVersion(versionid);
+	        repoDir =  hermesDto.dir;
+		    		    
+		 // Map<String,Map<String,Integer>> results = new HashMap<String,Map<String,Integer>>();
+		 Map<String,Map<String,Integer>> results = new HashMap<String,Map<String,Integer>>();
+		 
+		  results = filterResults.getFilterResults(repoDir,versionid,filterDao.findFilters(versionid));
+		   for(Map.Entry<String,Map<String,Integer>> entry:results.entrySet()) {
+			   
+			   FilterResultsDTO fr = new FilterResultsDTO();
+			   fr.projectName = entry.getKey();
+			   fr.queries = entry.getValue();
+			   dto.add(fr);
+			   		   
+		   }
+		 			 
+		 return dto;
+	 
+	 }
+	 
+	 
+	 
 	 
 	 interface FilterVersionRequest extends RESTRequest {
 	        List<FilterStatusDTO> _body();

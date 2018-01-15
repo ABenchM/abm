@@ -1,14 +1,35 @@
-<div>
+<div style="min-height:{{150 + (22 * 30)}}px>
 	<div class="modal-header">
-	    <h3 class="modal-title" id="modal-title">Hermes Results</h3>
+	    <h3 class="modal-title" id="modal-title"> Hermes Results</h3>
 	</div>
 	<div class="modal-body" id="modal-body">
 		<!--  <div ng-repeat="filter in filterList" class="filterBox">
 			<input type="checkbox" id={{filter.filtername}} ng-model="filter.activate"/><label for={{filter.filtername}}> {{filter.filtername | hermesName}}</label> <input type="text"  ng-model="filter.threshold" style="width:50px;"/> <br/>
 		</div> -->
+		<div class="row">
+			<div class="col-lg-12">
+
+			<table class="table table-bordered table-striped table-hover" style="table-layout:flexible;">
+				
+				<thead>
+				<tr>
+				<th>Project Name</th>	
+				<!-- <th ng-repeat = "row in queriesList"> {{row}}</th> -->
+				</tr>
+	            </thead>
+			    <tbody>
+				 <tr ng-repeat="row in resultList">
+					<td ng-click="$ctrl.singleSelection = row">{{row.projectName}}</td>
+					<!-- <td ng-click="$ctrl.singleSelection = row">{{row.queries}}</td> -->
+				</tr> 
+				</tbody>
+			</table>
+
+			</div>
+		</div>
 	</div>
 	<div class="modal-footer">
-		<button class="btn btn-info" type="button" ng-click="$ctrl.download()">Download Hermes Results</button>
+		<button class="btn btn-success btn-sm" type="button" ng-click="$ctrl.download()">Download Hermes Results</button>
 		<button class="btn btn-warning float-left" type="button" ng-click="$ctrl.close()">Close</button>
 	</div>
 	<div class="wrapper" ng-show="$ctrl.loading">

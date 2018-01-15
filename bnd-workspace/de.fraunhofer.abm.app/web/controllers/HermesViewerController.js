@@ -5,13 +5,37 @@ angular.module('de.fraunhofer.abm').controller('hermesViewerController', functio
 	$ctrl.collection = hermesViewerService.collection;
 	$scope.loading = false;
 	$scope.resultList = [];
+	$scope.queriesList = [];
+	
+	
 	
 	$ctrl.loadResults = function(){
+		$rootScope.loading = true;
+		$http.get('/rest/hermesResults/'+ hermesViewerService.version.id).then(
+		  function success(d){
+			  $scope.resultList = d.data;
+			    		     
+		  }, function failure(d){
+				 Notification.error('Failed with ['+d.status+ '] '+ d.statusText);
+			 })['finally'](function(){
+				 $rootScope.loading = false;
+			 })	;	
+		}
+	
+$ctrl.loadHeaders = function(){
 		
 		$rootScope.loading = true;
-		
-		
+		$http.get('/rest/resultHeader/'+ hermesViewerService.version.id).then(
+		  function success(d){
+			  $scope.queriesList = d.data;		  
+			  		    
+		  }, function failure(d){
+				 Notification.error('Failed with ['+d.status+ '] '+ d.statusText);
+			 })['finally'](function(){
+				 $rootScope.loading = false;
+			 })	;	
 	}
+	
 	
 	$ctrl.download = function(){
 		$http({
@@ -36,6 +60,7 @@ angular.module('de.fraunhofer.abm').controller('hermesViewerController', functio
 		$uibModalInstance.close();
 	};
 	
-	
+	$ctrl.loadHeaders();
+	$ctrl.loadResults();	
 	
 });
