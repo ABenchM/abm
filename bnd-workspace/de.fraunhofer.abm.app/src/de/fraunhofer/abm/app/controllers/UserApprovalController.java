@@ -11,7 +11,6 @@ import org.osgi.service.useradmin.UserAdmin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.fraunhofer.abm.app.RoleConstants;
 import de.fraunhofer.abm.collection.dao.UserDao;
 import osgi.enroute.configurer.api.RequireConfigurerExtender;
 import osgi.enroute.rest.api.REST;
@@ -45,7 +44,7 @@ public class UserApprovalController extends AbstractController implements REST {
 			logger.debug("Creating user {}", name);
 			User user = (User) userAdmin.createRole(name, Role.USER);
 			user.getCredentials().put("password", password);
-			Group registeredUserGroup = (Group) userAdmin.getRole(RoleConstants.REGISTERED_USER);
+			Group registeredUserGroup = (Group) userAdmin.getRole("RegisteredUser");
 			registeredUserGroup.addMember(user);
 			return "User has been approved";
 		} catch (Exception e) {
