@@ -13,7 +13,6 @@ import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.fraunhofer.abm.app.RoleConstants;
 import de.fraunhofer.abm.app.auth.Authorizer;
 import de.fraunhofer.abm.collection.dao.BuildResultDao;
 import de.fraunhofer.abm.collection.dao.CollectionDao;
@@ -59,7 +58,7 @@ public class VersionController extends AbstractController implements REST {
      * @param derive
      */
     public VersionDTO postVersion(VersionRequest vr, String action) {
-        authorizer.requireRole(RoleConstants.REGISTERED_USER);
+        authorizer.requireRole("RegisteredUser");
 
         VersionDTO version = vr._body();
         if("derive".equals(action)) {
@@ -119,7 +118,7 @@ public class VersionController extends AbstractController implements REST {
     }
 
     public VersionDTO putVersion(VersionRequest vr) {
-        authorizer.requireRole(RoleConstants.REGISTERED_USER);
+        authorizer.requireRole("RegisteredUser");
         VersionDTO version = vr._body();
 
         ensureUserIsOwner(authorizer, collectionDao, version);
@@ -135,7 +134,7 @@ public class VersionController extends AbstractController implements REST {
     }
 
     public void deleteVersion(RESTRequest rr, String id) {
-        authorizer.requireRole(RoleConstants.REGISTERED_USER);
+        authorizer.requireRole("RegisteredUser");
         VersionDTO version = versionDao.findById(id);
         ensureUserIsOwner(authorizer, collectionDao, version);
 

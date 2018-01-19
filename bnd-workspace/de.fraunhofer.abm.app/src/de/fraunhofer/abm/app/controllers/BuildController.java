@@ -12,7 +12,6 @@ import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.fraunhofer.abm.app.RoleConstants;
 import de.fraunhofer.abm.app.auth.Authorizer;
 import de.fraunhofer.abm.app.auth.SecurityContext;
 import de.fraunhofer.abm.collection.dao.BuildResultDao;
@@ -62,7 +61,7 @@ public class BuildController implements REST {
     }
 
     public BuildResultDTO getBuild(String versionId) throws Exception {
-        authorizer.requireRole(RoleConstants.REGISTERED_USER);
+        authorizer.requireRole("RegisteredUser");
 
         // make sure the session user is the owner
         String sessionUser = SecurityContext.getInstance().getUser();
@@ -143,7 +142,7 @@ public class BuildController implements REST {
     }
 
     public String postBuild(VersionRequest cr) throws Exception {
-        authorizer.requireRole(RoleConstants.REGISTERED_USER);
+        authorizer.requireRole("RegisteredUser");
 
         VersionDTO version = cr._body();
 
@@ -170,7 +169,7 @@ public class BuildController implements REST {
     }
 
     public String deleteBuild(String buildResultId) throws Exception {
-        authorizer.requireRole(RoleConstants.REGISTERED_USER);
+        authorizer.requireRole("RegisteredUser");
 
         // make sure the session user is the owner
         BuildResultDTO buildResultDto = buildResultDao.findById(buildResultId);
