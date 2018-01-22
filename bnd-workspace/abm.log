@@ -1,0 +1,718 @@
+2018-01-21 11:13:43,701 INFO [main] o.a.a.j.c.i.PersistenceBundleTracker [PersistenceBundleTracker.java:225] Found persistence unit collection-unit in bundle de.fraunhofer.abm.collection.dao.jpa with provider null.
+2018-01-21 11:13:43,728 INFO [main] o.a.a.j.c.i.PersistenceBundleTracker [PersistenceBundleTracker.java:216] Persistence units added for bundle de.fraunhofer.abm.collection.dao.jpa event null
+2018-01-21 11:13:43,850 INFO [main] o.e.j.u.log [Log.java:186] Logging initialized @1793ms
+2018-01-21 11:13:43,896 INFO [main] o.e.j.s.Server [Server.java:327] jetty-9.2.12.v20150709
+2018-01-21 11:13:43,978 INFO [main] o.e.j.s.h.ContextHandler [ContextHandler.java:744] Started o.e.j.s.ServletContextHandler@4ce1d6d0{/,null,AVAILABLE}
+2018-01-21 11:13:43,979 INFO [main] o.e.j.s.Server [Server.java:379] Started @1923ms
+2018-01-21 11:13:44,030 INFO [main] o.e.j.s.ServerConnector [AbstractConnector.java:266] Started ServerConnector@413d108c{HTTP/1.1}{127.0.0.1:8080}
+2018-01-21 11:13:44,377 INFO [Thread-11] o.e.o.l.s.1.0.0 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:44,377 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:44,378 INFO [Thread-11] o.h.c.h.5.0.1.Final [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:44,379 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:44,384 INFO [Thread-11] o.h.c.5.2.1.Final [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:44,384 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:44,415 INFO [Thread-11] o.h.o.5.2.1.Final [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:44,416 INFO [main] o.a.a.j.c.i.PersistenceProviderTracker [PersistenceProviderTracker.java:82] Found provider for collection-unit org.hibernate.jpa.HibernatePersistenceProvider
+2018-01-21 11:13:44,432 INFO [main] o.h.j.i.u.LogHelper [LogHelper.java:31] HHH000204: Processing PersistenceUnitInfo [
+	name: collection-unit
+	...]
+2018-01-21 11:13:44,521 INFO [main] o.h.Version [Version.java:45] HHH000412: Hibernate Core {5.2.1.Final}
+2018-01-21 11:13:44,523 INFO [main] o.h.c.Environment [Environment.java:213] HHH000206: hibernate.properties not found
+2018-01-21 11:13:44,525 INFO [main] o.h.c.Environment [Environment.java:318] HHH000021: Bytecode provider name : javassist
+2018-01-21 11:13:44,581 INFO [main] o.h.a.c.Version [JavaReflectionManager.java:66] HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2018-01-21 11:13:44,867 INFO [main] o.h.d.Dialect [Dialect.java:153] HHH000400: Using dialect: org.hibernate.dialect.MySQLDialect
+2018-01-21 11:13:44,877 WARN [main] o.h.e.j.e.i.JdbcEnvironmentInitiator [JdbcEnvironmentInitiator.java:132] HHH000342: Could not obtain connection to query metadata : null
+2018-01-21 11:13:44,878 INFO [main] o.h.d.Dialect [Dialect.java:153] HHH000400: Using dialect: org.hibernate.dialect.MySQLDialect
+2018-01-21 11:13:44,886 INFO [main] o.h.e.j.e.i.LobCreatorBuilderImpl [LobCreatorBuilderImpl.java:63] HHH000422: Disabling contextual LOB creation as connection was null
+2018-01-21 11:13:46,416 INFO [Thread-11] d.f.a.c.d.j.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:46,417 INFO [Thread-11] d.f.a.c.d.j.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:46,418 INFO [Thread-11] d.f.a.c.d.j.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:46,419 INFO [Thread-11] d.f.a.c.d.j.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:46,420 INFO [Thread-11] o.h.o.5.2.1.Final [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:46,422 INFO [Thread-11] o.h.o.5.2.1.Final [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:46,423 INFO [Thread-11] o.h.o.5.2.1.Final [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:46,424 INFO [Thread-11] o.h.o.5.2.1.Final [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,425 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,427 INFO [Thread-11] o.j.j.2.0.2.Final [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,428 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,429 INFO [Thread-11] o.j.l.j.3.3.0.Final [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,430 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,457 INFO [Thread-11] o.k.b.u.4.1.1 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:46,459 INFO [Thread-11] o.k.b.u.4.1.1 [Slf4jLogListener.java:58] Service initialized
+2018-01-21 11:13:46,465 INFO [Thread-11] o.k.b.u.4.1.1 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:46,468 INFO [Thread-11] o.k.b.u.4.1.1 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,473 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,482 INFO [Thread-11] o.o.p.j.m.0.6.0 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:46,484 INFO [Thread-11] o.o.p.j.m.0.6.0 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:46,487 INFO [Thread-11] o.o.p.j.m.0.6.0 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,488 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,488 INFO [Thread-11] o.o.s.e.1.3.1.201505202024 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,489 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,509 INFO [Thread-11] o.o.s.j.1.0.0.201505202024 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,510 INFO [Thread-11] o.o.s.m.1.3.0.201505202024 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,511 INFO [Thread-11] o.e.b.d.p.1.1.0.201509161450 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,511 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,512 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,512 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,512 INFO [Thread-11] o.e.c.s.p.1.2.2.201509211431 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:46,513 INFO [Thread-11] o.e.c.s.p.1.2.2.201509211431 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:46,547 INFO [Thread-11] o.e.c.s.p.1.2.2.201509211431 [Slf4jLogListener.java:58] Profile is debug
+2018-01-21 11:13:46,558 INFO [Thread-11] o.e.c.s.p.1.2.2.201509211431 [Slf4jLogListener.java:58] Profile is debug
+2018-01-21 11:13:46,561 INFO [Thread-11] o.e.c.s.p.1.2.2.201509211431 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,562 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,564 INFO [Thread-11] o.e.d.b.p.1.0.0.201508270928 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:46,564 INFO [Thread-11] o.e.d.b.p.1.0.0.201508270928 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:46,565 INFO [Thread-11] o.e.d.b.p.1.0.0.201508270928 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,567 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,567 INFO [Thread-11] o.e.e.s.p.1.0.0.201509211431 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:46,568 INFO [Thread-11] o.e.e.s.p.1.0.0.201509211431 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:46,568 INFO [Thread-11] o.e.e.s.p.1.0.0.201509211431 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,568 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,569 INFO [Thread-11] o.e.g.a.w.1.4.4.201509161450 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,569 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,573 INFO [Thread-11] o.e.l.s.p.1.1.1.201509211431 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:46,574 INFO [Thread-11] o.e.l.s.p.1.1.1.201509211431 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:46,583 INFO [Thread-11] o.e.l.s.p.1.1.1.201509211431 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:46,584 INFO [Thread-11] o.e.l.s.p.1.1.1.201509211431 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,584 INFO [Thread-11] o.e.l.s.p.1.1.1.201509211431 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:46,584 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,586 INFO [Thread-11] o.e.r.s.p.2.0.2.201509211431 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:46,614 INFO [Thread-11] o.e.r.s.p.2.0.2.201509211431 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:46,614 INFO [Thread-11] o.e.r.s.p.2.0.2.201509211431 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,615 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,617 INFO [Thread-11] o.e.w.s.p.1.3.3.201509211431 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:46,660 INFO [Thread-11] o.e.w.s.p.1.3.3.201509211431 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:46,661 INFO [Thread-11] o.e.w.s.p.1.3.3.201509211431 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:46,662 INFO [Thread-11] o.e.w.s.p.1.3.3.201509211431 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:46,662 INFO [Thread-11] o.e.w.s.p.1.3.3.201509211431 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,662 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,662 INFO [Thread-11] s.a.1.7.21 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,662 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,663 INFO [Thread-11] d.f.a.r.a.1.0.0.201801201303 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,663 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,665 INFO [Thread-11] d.f.a.r.l.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:46,665 INFO [Thread-11] d.f.a.r.l.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:46,683 INFO [main] d.f.a.r.l.LocalRepoArchive [LocalRepoArchive.java:63] Using repo archive directory /var/lib/abm/repo
+2018-01-21 11:13:46,684 INFO [Thread-11] d.f.a.r.l.1.0.0.201801192344 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,685 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,685 INFO [Thread-11] d.f.a.u.1.0.0.201801201303 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,685 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,702 INFO [Thread-11] d.f.a.p.1.0.0.201801201303 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,702 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,703 INFO [Thread-11] d.f.a.p.a.1.0.0.201801201303 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,703 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,705 INFO [Thread-11] d.f.a.p.b.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:46,709 INFO [Thread-11] d.f.a.p.b.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:46,709 INFO [Thread-11] d.f.a.p.b.1.0.0.201801192344 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,710 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,712 INFO [Thread-11] d.f.a.p.l.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:46,713 INFO [Thread-11] d.f.a.p.l.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:46,714 INFO [Thread-11] d.f.a.p.l.1.0.0.201801192344 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,714 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,715 INFO [Thread-11] d.f.a.h.c.1.0.0.201801201303 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,716 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,718 INFO [Thread-11] d.f.a.p.s.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:46,719 INFO [Thread-11] d.f.a.p.s.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:46,719 INFO [Thread-11] d.f.a.p.s.1.0.0.201801192344 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,719 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,721 INFO [Thread-11] d.f.a.p.l.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:46,723 INFO [Thread-11] d.f.a.p.l.1.0.0.201801192344 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,723 INFO [Thread-11] d.f.a.p.l.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:46,723 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,724 INFO [Thread-11] d.f.a.b.d.b.1.0.0.201801201303 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,724 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,725 INFO [Thread-11] d.f.a.b.d.s.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:46,726 INFO [Thread-11] d.f.a.b.d.s.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:46,726 INFO [Thread-11] d.f.a.b.d.s.1.0.0.201801192344 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,727 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,730 INFO [Thread-11] t.0.0.3 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:46,731 INFO [Thread-11] t.0.0.3 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:46,732 INFO [Thread-11] t.0.0.3 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:46,733 INFO [Thread-11] t.0.0.3 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:46,733 INFO [Thread-11] t.0.0.3 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,733 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,746 INFO [Thread-11] t.0.0.3 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:46,747 INFO [Thread-11] t.0.0.3 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:46,750 INFO [Thread-11] t.0.0.3 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:46,751 INFO [Thread-11] t.0.0.3 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:46,752 INFO [Thread-11] t.0.0.3 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,752 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,753 INFO [main] o.a.a.t.c.s.l.i.Activator [Activator.java:41] Registering a new Local TransactionControl service with properties {service.vendor=Apache Aries, service.description=The Apache Aries Transaction Control Service for Local Transactions, osgi.local.enabled=true}
+2018-01-21 11:13:46,756 INFO [Thread-11] t.0.0.3 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:46,757 INFO [Thread-11] t.0.0.3 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:46,758 INFO [Thread-11] t.0.0.3 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,758 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,761 INFO [Thread-11] d.f.a.h.1.0.0.201801201303 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:46,762 INFO [Thread-11] d.f.a.h.1.0.0.201801201303 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:46,762 INFO [Thread-11] d.f.a.h.1.0.0.201801201303 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:46,762 INFO [Thread-11] d.f.a.h.1.0.0.201801201303 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:46,763 INFO [Thread-11] d.f.a.h.1.0.0.201801201303 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:46,764 INFO [Thread-11] d.f.a.h.1.0.0.201801201303 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:46,771 INFO [Thread-11] d.f.a.h.1.0.0.201801201303 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,771 INFO [Thread-11] c.f.j.c.j.2.8.0 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,771 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,771 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,772 INFO [Thread-11] c.f.j.c.j.2.8.8 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,772 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,774 INFO [Thread-11] c.f.j.c.j.2.8.8 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,774 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,775 INFO [Thread-11] c.f.j.d.j.2.8.8 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,776 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,776 INFO [Thread-11] c.f.j.d.j.2.8.8 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,777 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,777 INFO [Thread-11] c.f.j.d.j.2.8.8 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,778 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,778 INFO [CM Configuration Updater (ManagedServiceFactory Update: factoryPid=[org.apache.aries.tx.control.jdbc.local])] c.z.h.HikariDataSource [HikariDataSource.java:70] HikariPool-0 - is starting.
+2018-01-21 11:13:46,782 INFO [Thread-11] c.g.g.2.0.0 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,782 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,786 INFO [Thread-11] c.t.a.a.2.4.17 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,787 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,792 INFO [Thread-11] c.t.a.s.2.4.17 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,792 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,793 INFO [Thread-11] c.t.c.1.3.0 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,793 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,796 INFO [Thread-11] c.t.s.0.2.2 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,797 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,802 INFO [Thread-11] j.2.9.9 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,803 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,808 INFO [Thread-11] o.a.c.c.1.9.0 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,808 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,810 INFO [Thread-11] o.a.c.l.3.5.0 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,810 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,812 INFO [Thread-11] o.a.c.c.1.4.0 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,813 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,813 INFO [Thread-11] o.r.r.1.0.0.release [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,814 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,817 INFO [Thread-11] o.s.m.s.0.8.0 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,818 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,819 INFO [Thread-11] o.s.m.s.1.0.4 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,820 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,829 INFO [Thread-11] o.s.s.2.1.1.v20170413-090219-8a413ba7cc [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,830 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,839 INFO [Thread-11] o.s.s.2.1.1.v20170413-090219-8a413ba7cc [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,839 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,840 INFO [Thread-11] o.s.s.2.1.0.v20130710-171554-M4-8b41240f3d [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,841 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,842 INFO [Thread-11] j.m.1.4.3 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,842 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:13:46,843 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:46,844 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:47,264 INFO [Thread-11] t.0.0.3 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:47,264 INFO [Thread-11] t.0.0.3 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:47,264 INFO [Thread-11] d.f.a.u.d.j.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:47,265 INFO [Thread-11] d.f.a.u.s.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:47,270 INFO [Thread-11] d.f.a.u.s.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:47,271 INFO [Thread-11] d.f.a.u.d.j.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:47,368 INFO [CM Configuration Updater (ManagedServiceFactory Update: factoryPid=[org.apache.aries.tx.control.jpa.local])] c.z.h.HikariDataSource [HikariDataSource.java:70] HikariPool-0 - is starting.
+2018-01-21 11:13:47,414 INFO [CM Configuration Updater (ManagedServiceFactory Update: factoryPid=[org.apache.aries.tx.control.jpa.local])] o.h.j.i.u.LogHelper [LogHelper.java:31] HHH000204: Processing PersistenceUnitInfo [
+	name: collection-unit
+	...]
+2018-01-21 11:13:47,493 INFO [CM Configuration Updater (ManagedServiceFactory Update: factoryPid=[org.apache.aries.tx.control.jpa.local])] o.h.d.Dialect [Dialect.java:153] HHH000400: Using dialect: org.hibernate.dialect.MySQLDialect
+2018-01-21 11:13:48,629 INFO [Thread-11] d.f.a.c.d.j.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:48,631 INFO [Thread-11] d.f.a.c.d.j.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:48,639 INFO [Thread-11] t.0.0.3 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:48,642 INFO [Thread-11] d.f.a.c.d.j.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:48,643 INFO [Thread-11] d.f.a.c.d.j.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:48,645 INFO [Thread-11] d.f.a.c.d.j.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:48,646 INFO [Thread-11] d.f.a.c.d.j.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:48,647 INFO [Thread-11] d.f.a.c.d.j.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:48,648 INFO [Thread-11] d.f.a.c.d.j.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:48,650 INFO [Thread-11] d.f.a.c.d.j.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:48,652 INFO [Thread-11] d.f.a.c.d.j.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:48,653 INFO [Thread-11] d.f.a.c.d.j.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:48,655 INFO [Thread-11] d.f.a.a.1.0.0.201801201303 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:48,687 INFO [Thread-11] d.f.a.a.1.0.0.201801201303 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:48,688 INFO [Thread-11] d.f.a.c.d.j.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:48,689 INFO [Thread-11] d.f.a.c.d.j.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:48,690 INFO [Thread-11] d.f.a.a.1.0.0.201801201303 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:48,704 INFO [Thread-11] d.f.a.a.1.0.0.201801201303 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:48,705 INFO [Thread-11] d.f.a.c.d.j.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:48,706 INFO [Thread-11] d.f.a.c.d.j.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:48,708 INFO [Thread-11] d.f.a.c.d.j.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:48,708 INFO [Thread-11] d.f.a.c.d.j.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:48,709 INFO [Thread-11] d.f.a.c.d.j.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:48,712 INFO [Thread-11] d.f.a.c.d.j.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:48,713 INFO [Thread-11] d.f.a.a.1.0.0.201801201303 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:48,734 INFO [Thread-11] d.f.a.a.1.0.0.201801201303 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:48,740 INFO [Thread-11] d.f.a.c.d.j.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:48,743 INFO [Thread-11] d.f.a.c.d.j.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:48,744 INFO [Thread-11] d.f.a.c.d.j.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:48,744 INFO [Thread-11] d.f.a.c.d.j.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:48,744 INFO [Thread-11] d.f.a.c.d.j.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:48,745 INFO [Thread-11] d.f.a.c.d.j.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:48,745 INFO [Thread-11] d.f.a.c.d.j.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:48,746 INFO [Thread-11] d.f.a.c.d.j.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:48,746 INFO [Thread-11] d.f.a.p.1.0.0.201801201303 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:48,747 INFO [Thread-11] d.f.a.a.1.0.0.201801201303 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:48,764 INFO [Thread-11] d.f.a.a.1.0.0.201801201303 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:48,765 INFO [Thread-11] d.f.a.p.1.0.0.201801201303 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:48,765 INFO [Thread-11] d.f.a.c.d.j.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:48,765 INFO [Thread-11] d.f.a.c.d.j.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:48,766 INFO [Thread-11] d.f.a.a.1.0.0.201801201303 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:48,769 INFO [Thread-11] d.f.a.a.1.0.0.201801201303 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:48,770 INFO [Thread-11] d.f.a.a.1.0.0.201801201303 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:48,778 INFO [Thread-11] d.f.a.a.1.0.0.201801201303 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:48,778 INFO [Thread-11] d.f.a.c.d.j.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:48,778 INFO [Thread-11] d.f.a.s.1.0.0.201801201303 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:48,779 INFO [Thread-11] d.f.a.s.1.0.0.201801201303 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:48,780 INFO [Thread-11] d.f.a.h.1.0.0.201801201303 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:48,781 INFO [Thread-11] d.f.a.c.d.j.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:48,781 INFO [Thread-11] d.f.a.h.1.0.0.201801201303 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:48,781 INFO [Thread-11] d.f.a.a.1.0.0.201801201303 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:48,789 INFO [CM Configuration Updater (ManagedServiceFactory Update: factoryPid=[org.apache.aries.tx.control.jpa.local])] d.f.a.s.i.SuiteBuilderImpl [SuiteBuilderImpl.java:117] Creating suite builder thread pool with coreSize:1, maxPoolSize:1, keepAlive:300
+2018-01-21 11:13:48,790 INFO [CM Configuration Updater (ManagedServiceFactory Update: factoryPid=[org.apache.aries.tx.control.jpa.local])] d.f.a.s.i.SuiteBuilderImpl [SuiteBuilderImpl.java:121] Creating workspace root: /var/lib/abm/workspace
+2018-01-21 11:13:48,791 INFO [Thread-11] d.f.a.a.1.0.0.201801201303 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:48,791 INFO [Thread-11] d.f.a.a.1.0.0.201801201303 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:48,797 INFO [CM Configuration Updater (ManagedServiceFactory Update: factoryPid=[org.apache.aries.tx.control.jpa.local])] d.f.a.h.i.HermesImpl [HermesImpl.java:98] Creating hermes builder thread pool with coreSize:1, maxPoolSize:1, keepAlive:300
+2018-01-21 11:13:48,802 INFO [Thread-11] d.f.a.a.1.0.0.201801201303 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:48,802 INFO [Thread-11] d.f.a.a.1.0.0.201801201303 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:48,804 INFO [Thread-11] d.f.a.a.1.0.0.201801201303 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:48,805 INFO [Thread-11] d.f.a.c.d.j.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:48,805 INFO [Thread-11] t.0.0.3 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-21 11:13:58,425 INFO [Thread-11] o.e.w.s.p.1.3.3.201509211431 [Slf4jLogListener.java:58] 404 index.html
+2018-01-21 11:13:58,440 INFO [Thread-11] o.e.w.s.p.1.3.3.201509211431 [Slf4jLogListener.java:58] 404 osgi/enroute/web/index.html
+2018-01-21 11:13:58,574 INFO [Thread-11] o.e.w.s.p.1.3.3.201509211431 [Slf4jLogListener.java:58] 404 favicon.ico
+2018-01-21 11:14:01,407 INFO [qtp238564722-25] o.h.h.i.QueryTranslatorFactoryInitiator [QueryTranslatorFactoryInitiator.java:47] HHH000397: Using ASTQueryTranslatorFactory
+2018-01-21 11:14:20,648 INFO [qtp238564722-25] d.f.a.h.i.FilterResultsImpl [FilterResultsImpl.java:157] Adding projects as per threshold value
+2018-01-21 11:14:58,060 INFO [qtp238564722-28] d.f.a.a.c.BuildController [BuildController.java:162] No outdated build found for version d35c53b7-2f98-4ad8-b144-efd23fbf384c
+2018-01-21 11:14:58,060 INFO [qtp238564722-28] d.f.a.a.c.BuildController [BuildController.java:165] Start building version d35c53b7-2f98-4ad8-b144-efd23fbf384c
+2018-01-21 11:18:29,729 INFO [qtp238564722-25] d.f.a.h.i.FilterResultsImpl [FilterResultsImpl.java:157] Adding projects as per threshold value
+2018-01-21 11:18:41,042 INFO [qtp238564722-29] d.f.a.h.i.FilterResultsImpl [FilterResultsImpl.java:157] Adding projects as per threshold value
+2018-01-21 11:18:41,139 INFO [qtp238564722-29] d.f.a.h.i.FilterResultsImpl [FilterResultsImpl.java:157] Adding projects as per threshold value
+2018-01-21 11:19:09,432 INFO [qtp238564722-54] d.f.a.a.c.BuildController [BuildController.java:162] No outdated build found for version 617929f1-5df0-43a1-90d2-66da00061c60
+2018-01-21 11:19:09,432 INFO [qtp238564722-54] d.f.a.a.c.BuildController [BuildController.java:165] Start building version 617929f1-5df0-43a1-90d2-66da00061c60
+2018-01-21 11:19:09,554 INFO [pool-2-thread-1] d.f.a.s.i.CheckoutRepo [CheckoutRepo.java:38] Cloning repo f0a916d0-f244-3eb0-8f28-915f5e80f86d at https://github.com/apache/maven.git with de.fraunhofer.abm.scm.git.Git
+2018-01-21 11:19:09,632 INFO [pool-2-thread-1] d.f.a.s.i.CheckoutRepo [CheckoutRepo.java:42] Using repo from archive
+2018-01-21 11:19:09,633 INFO [pool-2-thread-1] d.f.a.r.l.LocalRepoArchive [LocalRepoArchive.java:45] Copying /var/lib/abm/repo/f0a916d0-f244-3eb0-8f28-915f5e80f86d to /var/lib/abm/workspace/5077af7f-2776-4f86-98cf-6bd861ed1ea1/f0a916d0-f244-3eb0-8f28-915f5e80f86d_1516529949553
+2018-01-21 11:19:11,245 INFO [Thread-11] o.e.j.4.4.0.201606070830-r [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:19:11,245 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-21 11:19:11,353 INFO [pool-2-thread-1] d.f.a.s.i.CheckoutRepo [CheckoutRepo.java:60] Checking out commit 542a7a89156263b34d1472e9d9c1a2795afccd2d
+2018-01-21 11:19:12,205 INFO [pool-2-thread-1] d.f.a.s.BuildProcess [BuildProcess.java:123] Building maven with de.fraunhofer.abm.builder.docker.maven.MavenDockerBuilder
+2018-01-21 11:19:12,209 INFO [pool-2-thread-1] d.f.a.s.BuildProcess [BuildProcess.java:151] Builder has been initialized
+2018-01-21 11:19:12,210 INFO [pool-2-thread-1] d.f.a.s.BuildProcess [BuildProcess.java:153] maven: Step: Checkout repository from VCS
+2018-01-21 11:19:12,210 INFO [pool-2-thread-1] d.f.a.s.BuildProcess [BuildProcess.java:153] maven: Step: Create Docker file
+2018-01-21 11:19:12,210 INFO [pool-2-thread-1] d.f.a.s.BuildProcess [BuildProcess.java:153] maven: Step: Create Docker image
+2018-01-21 11:19:12,210 INFO [pool-2-thread-1] d.f.a.s.BuildProcess [BuildProcess.java:153] maven: Step: Run docker maven build
+2018-01-21 11:19:12,210 INFO [pool-2-thread-1] d.f.a.s.BuildProcess [BuildProcess.java:153] maven: Step: Extract built artifacts
+2018-01-21 11:19:12,210 INFO [pool-2-thread-1] d.f.a.s.BuildProcess [BuildProcess.java:153] maven: Step: Delete Docker container
+2018-01-21 11:19:12,210 INFO [pool-2-thread-1] d.f.a.s.BuildProcess [BuildProcess.java:153] maven: Step: Delete Docker image
+2018-01-21 11:19:12,372 INFO [pool-2-thread-1] d.f.a.s.BuildProcess [BuildProcess.java:136] maven: Build step status changed: Checkout repository from VCS - IN_PROGRESS
+2018-01-21 11:19:12,432 INFO [pool-2-thread-1] d.f.a.s.i.CheckoutRepo [CheckoutRepo.java:38] Cloning repo f0a916d0-f244-3eb0-8f28-915f5e80f86d at https://github.com/apache/maven.git with de.fraunhofer.abm.scm.git.Git
+2018-01-21 11:19:12,432 INFO [pool-2-thread-1] d.f.a.s.i.CheckoutRepo [CheckoutRepo.java:42] Using repo from archive
+2018-01-21 11:19:12,432 INFO [pool-2-thread-1] d.f.a.r.l.LocalRepoArchive [LocalRepoArchive.java:45] Copying /var/lib/abm/repo/f0a916d0-f244-3eb0-8f28-915f5e80f86d to /var/lib/abm/workspace/5077af7f-2776-4f86-98cf-6bd861ed1ea1/f0a916d0-f244-3eb0-8f28-915f5e80f86d_1516529949553
+2018-01-21 11:19:12,693 INFO [pool-2-thread-1] d.f.a.s.i.CheckoutRepo [CheckoutRepo.java:60] Checking out commit 542a7a89156263b34d1472e9d9c1a2795afccd2d
+2018-01-21 11:19:13,051 INFO [pool-2-thread-1] d.f.a.s.BuildProcess [BuildProcess.java:129] maven: Build step finished with success: Checkout repository from VCS
+
+2018-01-21 11:19:13,213 INFO [pool-2-thread-1] d.f.a.s.BuildProcess [BuildProcess.java:136] maven: Build step status changed: Create Docker file - IN_PROGRESS
+2018-01-21 11:19:13,302 INFO [pool-2-thread-1] d.f.a.b.d.b.CreateDockerFile [CreateDockerFile.java:32] Creating docker file /var/lib/abm/workspace/5077af7f-2776-4f86-98cf-6bd861ed1ea1/f0a916d0-f244-3eb0-8f28-915f5e80f86d_1516529949553/Dockerfile
+2018-01-21 11:19:13,306 INFO [pool-2-thread-1] d.f.a.s.BuildProcess [BuildProcess.java:129] maven: Build step finished with success: Create Docker file
+Dockerfile has been created
+2018-01-21 11:19:13,397 INFO [pool-2-thread-1] d.f.a.s.BuildProcess [BuildProcess.java:136] maven: Build step status changed: Create Docker image - IN_PROGRESS
+2018-01-21 11:19:13,468 INFO [pool-2-thread-1] d.f.a.b.d.b.CreateDockerImage [CreateDockerImage.java:29] Building docker image 70c0944c-6496-492f-be7c-b9ae4d9292d7
+2018-01-21 11:19:42,796 INFO [pool-2-thread-1] d.f.a.s.BuildProcess [BuildProcess.java:129] maven: Build step finished with success: Create Docker image
+Sending build context to Docker daemon 59.45 MB
+Step 1/4 : FROM abm/maven:3-jdk-7
+ ---> a8e5c1c071f3
+Step 2/4 : RUN mkdir -p /usr/src/app
+ ---> Using cache
+ ---> a334ea974cec
+Step 3/4 : WORKDIR /usr/src/app
+ ---> Using cache
+ ---> 6d837ee505fc
+Step 4/4 : COPY . /usr/src/app
+ ---> f6118d43d7c3
+Removing intermediate container cd586af9f05b
+Successfully built f6118d43d7c3
+
+2018-01-21 11:19:42,923 INFO [pool-2-thread-1] d.f.a.s.BuildProcess [BuildProcess.java:136] maven: Build step status changed: Run docker maven build - IN_PROGRESS
+2018-01-21 11:21:28,133 INFO [pool-2-thread-1] d.f.a.s.BuildProcess [BuildProcess.java:132] maven: Build step finished with error: Run docker maven build
+STDOUT:[INFO] Scanning for projects...
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Build Order:
+[INFO] 
+[INFO] Apache Maven
+[INFO] Maven Model
+[INFO] Maven Artifact
+[INFO] Maven Plugin API
+[INFO] Maven Builder Support
+[INFO] Maven Model Builder
+[INFO] Maven Settings
+[INFO] Maven Settings Builder
+[INFO] Maven Repository Metadata Model
+[INFO] Maven Artifact Resolver Provider
+[INFO] Maven Core
+[INFO] Maven SLF4J Simple Provider
+[INFO] Maven Embedder
+[INFO] Maven Compat
+[INFO] Apache Maven Distribution
+[INFO]                                                                         
+[INFO] ------------------------------------------------------------------------
+[INFO] Building Apache Maven 3.5.2-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+[INFO] --- maven-enforcer-plugin:1.3.1:enforce (enforce-bytecode-version) @ maven ---
+[INFO] 
+[INFO] --- maven-enforcer-plugin:1.3.1:enforce (ban-known-bad-maven-versions) @ maven ---
+[INFO] 
+[INFO] --- maven-enforcer-plugin:1.3.1:enforce (enforce-maven) @ maven ---
+[INFO] 
+[INFO] --- apache-rat-plugin:0.11:check (rat-check) @ maven ---
+[INFO] 65 implicit excludes (use -debug for more details).
+[INFO] Exclude: src/test/resources*/**
+[INFO] Exclude: src/test/projects/**
+[INFO] Exclude: src/test/remote-repo/**
+[INFO] Exclude: **/*.odg
+[INFO] Exclude: bootstrap/**
+[INFO] Exclude: README.bootstrap.txt
+[INFO] Exclude: .repository/**
+[INFO] Exclude: .maven/spy.log
+[INFO] Exclude: .java-version
+[INFO] Exclude: README.md
+[INFO] Exclude: DEPENDENCIES
+[INFO] 10 resources included (use -debug for more details)
+[INFO] Rat check: Summary of files. Unapproved: 1 unknown: 1 generated: 0 approved: 6 licence.
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Summary:
+[INFO] 
+[INFO] Apache Maven ....................................... FAILURE [  3.136 s]
+[INFO] Maven Model ........................................ SKIPPED
+[INFO] Maven Artifact ..................................... SKIPPED
+[INFO] Maven Plugin API ................................... SKIPPED
+[INFO] Maven Builder Support .............................. SKIPPED
+[INFO] Maven Model Builder ................................ SKIPPED
+[INFO] Maven Settings ..................................... SKIPPED
+[INFO] Maven Settings Builder ............................. SKIPPED
+[INFO] Maven Repository Metadata Model .................... SKIPPED
+[INFO] Maven Artifact Resolver Provider ................... SKIPPED
+[INFO] Maven Core ......................................... SKIPPED
+[INFO] Maven SLF4J Simple Provider ........................ SKIPPED
+[INFO] Maven Embedder ..................................... SKIPPED
+[INFO] Maven Compat ....................................... SKIPPED
+[INFO] Apache Maven Distribution .......................... SKIPPED
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 4.089 s
+[INFO] Finished at: 2018-01-21T10:21:27+00:00
+[INFO] Final Memory: 16M/239M
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.rat:apache-rat-plugin:0.11:check (rat-check) on project maven: Too many files with unapproved license: 1 See RAT report in: /usr/src/app/target/rat.txt -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
+
+STDERR:
+2018-01-21 11:21:28,243 INFO [pool-2-thread-1] d.f.a.s.BuildProcess [BuildProcess.java:136] maven: Build step status changed: Delete Docker container - IN_PROGRESS
+2018-01-21 11:21:28,327 INFO [pool-2-thread-1] d.f.a.b.d.b.DeleteDockerContainer [DeleteDockerContainer.java:28] Deleting docker container 51fb34f1-7333-4fcd-9fb4-312f8a9fb275
+2018-01-21 11:21:31,864 INFO [pool-2-thread-1] d.f.a.s.BuildProcess [BuildProcess.java:129] maven: Build step finished with success: Delete Docker container
+51fb34f1-7333-4fcd-9fb4-312f8a9fb275
+
+2018-01-21 11:21:32,005 INFO [pool-2-thread-1] d.f.a.s.BuildProcess [BuildProcess.java:136] maven: Build step status changed: Delete Docker image - IN_PROGRESS
+2018-01-21 11:21:32,061 INFO [pool-2-thread-1] d.f.a.b.d.b.DeleteDockerImage [DeleteDockerImage.java:28] Deleting docker image 70c0944c-6496-492f-be7c-b9ae4d9292d7
+2018-01-21 11:21:32,305 INFO [pool-2-thread-1] d.f.a.s.BuildProcess [BuildProcess.java:129] maven: Build step finished with success: Delete Docker image
+Untagged: 70c0944c-6496-492f-be7c-b9ae4d9292d7:latest
+Deleted: sha256:f6118d43d7c32cf644b4efe96a47e7f134aebb1d5c4e6ec003859db5e051e0eb
+Deleted: sha256:274d446272ff174bcf3b035c61cf3590c5b97a01789f024d48d8414dcc3044ee
+
+2018-01-21 11:21:32,395 INFO [pool-2-thread-1] d.f.a.s.BuildProcess [BuildProcess.java:161] Build 82070700-734a-4113-9b2b-41ca3ecfb8fa is finished for maven
+2018-01-22 13:23:54,818 INFO [main] o.a.a.j.c.i.PersistenceBundleTracker [PersistenceBundleTracker.java:225] Found persistence unit collection-unit in bundle de.fraunhofer.abm.collection.dao.jpa with provider null.
+2018-01-22 13:23:54,822 INFO [main] o.a.a.j.c.i.PersistenceBundleTracker [PersistenceBundleTracker.java:216] Persistence units added for bundle de.fraunhofer.abm.collection.dao.jpa event null
+2018-01-22 13:23:54,946 INFO [main] o.e.j.u.log [Log.java:186] Logging initialized @1716ms
+2018-01-22 13:23:55,000 INFO [main] o.e.j.s.Server [Server.java:327] jetty-9.2.12.v20150709
+2018-01-22 13:23:55,081 INFO [main] o.e.j.s.h.ContextHandler [ContextHandler.java:744] Started o.e.j.s.ServletContextHandler@4ce1d6d0{/,null,AVAILABLE}
+2018-01-22 13:23:55,082 INFO [main] o.e.j.s.Server [Server.java:379] Started @1854ms
+2018-01-22 13:23:55,111 INFO [main] o.e.j.s.ServerConnector [AbstractConnector.java:266] Started ServerConnector@687ef2e0{HTTP/1.1}{127.0.0.1:8080}
+2018-01-22 13:23:55,382 INFO [Thread-11] o.e.o.l.s.1.0.0 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:55,383 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:55,384 INFO [Thread-11] o.h.c.h.5.0.1.Final [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:55,385 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:55,388 INFO [Thread-11] o.h.c.5.2.1.Final [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:55,389 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:55,424 INFO [Thread-11] o.h.o.5.2.1.Final [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:55,425 INFO [main] o.a.a.j.c.i.PersistenceProviderTracker [PersistenceProviderTracker.java:82] Found provider for collection-unit org.hibernate.jpa.HibernatePersistenceProvider
+2018-01-22 13:23:55,455 INFO [main] o.h.j.i.u.LogHelper [LogHelper.java:31] HHH000204: Processing PersistenceUnitInfo [
+	name: collection-unit
+	...]
+2018-01-22 13:23:55,562 INFO [main] o.h.Version [Version.java:45] HHH000412: Hibernate Core {5.2.1.Final}
+2018-01-22 13:23:55,565 INFO [main] o.h.c.Environment [Environment.java:213] HHH000206: hibernate.properties not found
+2018-01-22 13:23:55,567 INFO [main] o.h.c.Environment [Environment.java:318] HHH000021: Bytecode provider name : javassist
+2018-01-22 13:23:55,618 INFO [main] o.h.a.c.Version [JavaReflectionManager.java:66] HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2018-01-22 13:23:55,920 INFO [main] o.h.d.Dialect [Dialect.java:153] HHH000400: Using dialect: org.hibernate.dialect.MySQLDialect
+2018-01-22 13:23:55,930 WARN [main] o.h.e.j.e.i.JdbcEnvironmentInitiator [JdbcEnvironmentInitiator.java:132] HHH000342: Could not obtain connection to query metadata : null
+2018-01-22 13:23:55,933 INFO [main] o.h.d.Dialect [Dialect.java:153] HHH000400: Using dialect: org.hibernate.dialect.MySQLDialect
+2018-01-22 13:23:55,959 INFO [main] o.h.e.j.e.i.LobCreatorBuilderImpl [LobCreatorBuilderImpl.java:63] HHH000422: Disabling contextual LOB creation as connection was null
+2018-01-22 13:23:57,487 INFO [Thread-11] d.f.a.c.d.j.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:57,489 INFO [Thread-11] d.f.a.c.d.j.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:57,491 INFO [Thread-11] d.f.a.c.d.j.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:57,493 INFO [Thread-11] d.f.a.c.d.j.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:57,494 INFO [Thread-11] o.h.o.5.2.1.Final [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:57,495 INFO [Thread-11] o.h.o.5.2.1.Final [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:57,497 INFO [Thread-11] o.h.o.5.2.1.Final [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:57,514 INFO [Thread-11] o.h.o.5.2.1.Final [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,515 INFO [Thread-11] o.j.j.2.0.2.Final [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,515 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,517 INFO [Thread-11] o.j.l.j.3.3.0.Final [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,518 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,518 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,525 INFO [Thread-11] o.k.b.u.4.1.1 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:57,526 INFO [Thread-11] o.k.b.u.4.1.1 [Slf4jLogListener.java:58] Service initialized
+2018-01-22 13:23:57,528 INFO [Thread-11] o.k.b.u.4.1.1 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:57,529 INFO [Thread-11] o.k.b.u.4.1.1 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,529 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,539 INFO [Thread-11] o.o.p.j.m.0.6.0 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:57,539 INFO [Thread-11] o.o.p.j.m.0.6.0 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:57,540 INFO [Thread-11] o.o.p.j.m.0.6.0 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,540 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,541 INFO [Thread-11] o.o.s.e.1.3.1.201505202024 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,541 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,541 INFO [Thread-11] o.o.s.j.1.0.0.201505202024 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,542 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,542 INFO [Thread-11] o.o.s.m.1.3.0.201505202024 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,542 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,542 INFO [Thread-11] o.e.b.d.p.1.1.0.201509161450 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,543 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,546 INFO [Thread-11] o.e.c.s.p.1.2.2.201509211431 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:57,548 INFO [Thread-11] o.e.c.s.p.1.2.2.201509211431 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:57,576 INFO [Thread-11] o.e.c.s.p.1.2.2.201509211431 [Slf4jLogListener.java:58] Profile is debug
+2018-01-22 13:23:57,586 INFO [Thread-11] o.e.c.s.p.1.2.2.201509211431 [Slf4jLogListener.java:58] Profile is debug
+2018-01-22 13:23:57,590 INFO [Thread-11] o.e.c.s.p.1.2.2.201509211431 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,591 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,593 INFO [Thread-11] o.e.d.b.p.1.0.0.201508270928 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:57,594 INFO [Thread-11] o.e.d.b.p.1.0.0.201508270928 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,597 INFO [Thread-11] o.e.d.b.p.1.0.0.201508270928 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:57,597 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,602 INFO [Thread-11] o.e.e.s.p.1.0.0.201509211431 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:57,603 INFO [Thread-11] o.e.e.s.p.1.0.0.201509211431 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:57,603 INFO [Thread-11] o.e.e.s.p.1.0.0.201509211431 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,604 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,605 INFO [Thread-11] o.e.g.a.w.1.4.4.201509161450 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,605 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,611 INFO [Thread-11] o.e.l.s.p.1.1.1.201509211431 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:57,613 INFO [Thread-11] o.e.l.s.p.1.1.1.201509211431 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:57,621 INFO [Thread-11] o.e.l.s.p.1.1.1.201509211431 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:57,622 INFO [Thread-11] o.e.l.s.p.1.1.1.201509211431 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:57,622 INFO [Thread-11] o.e.l.s.p.1.1.1.201509211431 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,622 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,624 INFO [Thread-11] o.e.r.s.p.2.0.2.201509211431 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:57,664 INFO [Thread-11] o.e.r.s.p.2.0.2.201509211431 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,665 INFO [Thread-11] o.e.r.s.p.2.0.2.201509211431 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:57,665 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,668 INFO [Thread-11] o.e.w.s.p.1.3.3.201509211431 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:57,724 INFO [Thread-11] o.e.w.s.p.1.3.3.201509211431 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:57,725 INFO [Thread-11] o.e.w.s.p.1.3.3.201509211431 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:57,735 INFO [Thread-11] o.e.w.s.p.1.3.3.201509211431 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:57,735 INFO [Thread-11] o.e.w.s.p.1.3.3.201509211431 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,735 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,736 INFO [Thread-11] s.a.1.7.21 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,736 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,736 INFO [Thread-11] d.f.a.r.a.1.0.0.201801201303 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,736 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,740 INFO [Thread-11] d.f.a.r.l.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:57,742 INFO [Thread-11] d.f.a.r.l.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:57,748 INFO [main] d.f.a.r.l.LocalRepoArchive [LocalRepoArchive.java:63] Using repo archive directory /var/lib/abm/repo
+2018-01-22 13:23:57,749 INFO [Thread-11] d.f.a.r.l.1.0.0.201801192344 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,750 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,751 INFO [Thread-11] d.f.a.u.1.0.0.201801201303 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,752 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,777 INFO [Thread-11] d.f.a.p.1.0.0.201801201303 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,778 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,778 INFO [Thread-11] d.f.a.p.a.1.0.0.201801201303 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,778 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,780 INFO [Thread-11] d.f.a.p.b.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:57,781 INFO [Thread-11] d.f.a.p.b.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:57,782 INFO [Thread-11] d.f.a.p.b.1.0.0.201801192344 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,783 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,787 INFO [Thread-11] d.f.a.p.l.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:57,788 INFO [Thread-11] d.f.a.p.l.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:57,789 INFO [Thread-11] d.f.a.p.l.1.0.0.201801192344 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,789 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,790 INFO [Thread-11] d.f.a.h.c.1.0.0.201801201303 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,791 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,793 INFO [Thread-11] d.f.a.p.s.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:57,794 INFO [Thread-11] d.f.a.p.s.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:57,794 INFO [Thread-11] d.f.a.p.s.1.0.0.201801192344 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,794 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,796 INFO [Thread-11] d.f.a.p.l.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:57,797 INFO [Thread-11] d.f.a.p.l.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:57,797 INFO [Thread-11] d.f.a.p.l.1.0.0.201801192344 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,797 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,798 INFO [Thread-11] d.f.a.b.d.b.1.0.0.201801201303 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,799 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,801 INFO [Thread-11] d.f.a.b.d.s.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:57,802 INFO [Thread-11] d.f.a.b.d.s.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:57,802 INFO [Thread-11] d.f.a.b.d.s.1.0.0.201801192344 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,802 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,806 INFO [Thread-11] t.0.0.3 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:57,807 INFO [Thread-11] t.0.0.3 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:57,813 INFO [Thread-11] t.0.0.3 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:57,820 INFO [Thread-11] t.0.0.3 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:57,821 INFO [Thread-11] t.0.0.3 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,822 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,832 INFO [Thread-11] t.0.0.3 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:57,833 INFO [Thread-11] t.0.0.3 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:57,835 INFO [Thread-11] t.0.0.3 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:57,836 INFO [Thread-11] t.0.0.3 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:57,837 INFO [Thread-11] t.0.0.3 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,837 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,840 INFO [main] o.a.a.t.c.s.l.i.Activator [Activator.java:41] Registering a new Local TransactionControl service with properties {service.vendor=Apache Aries, service.description=The Apache Aries Transaction Control Service for Local Transactions, osgi.local.enabled=true}
+2018-01-22 13:23:57,854 INFO [Thread-11] t.0.0.3 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:57,855 INFO [Thread-11] t.0.0.3 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:57,857 INFO [Thread-11] t.0.0.3 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,858 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,864 INFO [Thread-11] d.f.a.h.1.0.0.201801201303 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:57,865 INFO [Thread-11] d.f.a.h.1.0.0.201801201303 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:57,868 INFO [Thread-11] d.f.a.h.1.0.0.201801201303 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:57,868 INFO [Thread-11] d.f.a.h.1.0.0.201801201303 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:57,869 INFO [Thread-11] d.f.a.h.1.0.0.201801201303 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:57,870 INFO [Thread-11] d.f.a.h.1.0.0.201801201303 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:57,870 INFO [Thread-11] d.f.a.h.1.0.0.201801201303 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,870 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,871 INFO [Thread-11] c.f.j.c.j.2.8.0 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,871 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,871 INFO [Thread-11] c.f.j.c.j.2.8.8 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,872 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,873 INFO [Thread-11] c.f.j.c.j.2.8.8 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,874 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,874 INFO [Thread-11] c.f.j.d.j.2.8.8 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,874 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,875 INFO [Thread-11] c.f.j.d.j.2.8.8 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,876 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,876 INFO [Thread-11] c.f.j.d.j.2.8.8 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,879 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,883 INFO [Thread-11] c.g.g.2.0.0 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,884 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,885 INFO [CM Configuration Updater (ManagedServiceFactory Update: factoryPid=[org.apache.aries.tx.control.jdbc.local])] c.z.h.HikariDataSource [HikariDataSource.java:70] HikariPool-0 - is starting.
+2018-01-22 13:23:57,889 INFO [Thread-11] c.t.a.a.2.4.17 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,890 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,897 INFO [Thread-11] c.t.a.s.2.4.17 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,898 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,898 INFO [Thread-11] c.t.c.1.3.0 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,899 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,901 INFO [Thread-11] c.t.s.0.2.2 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,901 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,904 INFO [Thread-11] j.2.9.9 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,904 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,906 INFO [Thread-11] o.a.c.c.1.9.0 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,906 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,915 INFO [Thread-11] o.a.c.l.3.5.0 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,916 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,916 INFO [Thread-11] o.a.c.c.1.4.0 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,916 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,917 INFO [Thread-11] o.r.r.1.0.0.release [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,917 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,928 INFO [Thread-11] o.s.m.s.0.8.0 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,928 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,935 INFO [Thread-11] o.s.m.s.1.0.4 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,936 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,945 INFO [Thread-11] o.s.s.2.1.1.v20170413-090219-8a413ba7cc [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,946 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,954 INFO [Thread-11] o.s.s.2.1.1.v20170413-090219-8a413ba7cc [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,955 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,957 INFO [Thread-11] o.s.s.2.1.0.v20130710-171554-M4-8b41240f3d [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,958 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,958 INFO [Thread-11] j.m.1.4.3 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,958 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:57,958 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:23:57,964 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:58,154 INFO [Thread-11] d.f.a.u.d.j.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:58,155 INFO [Thread-11] d.f.a.u.s.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:58,166 INFO [Thread-11] d.f.a.u.s.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:58,173 INFO [Thread-11] t.0.0.3 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:58,173 INFO [Thread-11] d.f.a.u.d.j.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:58,174 INFO [Thread-11] t.0.0.3 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:58,299 INFO [CM Configuration Updater (ManagedServiceFactory Update: factoryPid=[org.apache.aries.tx.control.jpa.local])] c.z.h.HikariDataSource [HikariDataSource.java:70] HikariPool-0 - is starting.
+2018-01-22 13:23:58,336 INFO [CM Configuration Updater (ManagedServiceFactory Update: factoryPid=[org.apache.aries.tx.control.jpa.local])] o.h.j.i.u.LogHelper [LogHelper.java:31] HHH000204: Processing PersistenceUnitInfo [
+	name: collection-unit
+	...]
+2018-01-22 13:23:58,424 INFO [CM Configuration Updater (ManagedServiceFactory Update: factoryPid=[org.apache.aries.tx.control.jpa.local])] o.h.d.Dialect [Dialect.java:153] HHH000400: Using dialect: org.hibernate.dialect.MySQLDialect
+2018-01-22 13:23:59,562 INFO [Thread-11] d.f.a.c.d.j.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:59,562 INFO [Thread-11] d.f.a.c.d.j.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:59,564 INFO [Thread-11] t.0.0.3 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:59,565 INFO [Thread-11] d.f.a.c.d.j.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:59,565 INFO [Thread-11] d.f.a.c.d.j.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:59,565 INFO [Thread-11] d.f.a.c.d.j.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:59,566 INFO [Thread-11] d.f.a.c.d.j.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:59,566 INFO [Thread-11] d.f.a.c.d.j.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:59,566 INFO [Thread-11] d.f.a.c.d.j.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:59,566 INFO [Thread-11] d.f.a.c.d.j.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:59,567 INFO [Thread-11] d.f.a.c.d.j.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:59,567 INFO [Thread-11] d.f.a.c.d.j.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:59,567 INFO [Thread-11] d.f.a.a.1.0.0.201801201303 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:59,576 INFO [Thread-11] d.f.a.a.1.0.0.201801201303 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:59,577 INFO [Thread-11] d.f.a.c.d.j.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:59,577 INFO [Thread-11] d.f.a.c.d.j.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:59,577 INFO [Thread-11] d.f.a.a.1.0.0.201801201303 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:59,583 INFO [Thread-11] d.f.a.a.1.0.0.201801201303 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:59,583 INFO [Thread-11] d.f.a.c.d.j.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:59,583 INFO [Thread-11] d.f.a.c.d.j.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:59,583 INFO [Thread-11] d.f.a.c.d.j.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:59,584 INFO [Thread-11] d.f.a.c.d.j.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:59,584 INFO [Thread-11] d.f.a.c.d.j.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:59,584 INFO [Thread-11] d.f.a.c.d.j.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:59,584 INFO [Thread-11] d.f.a.a.1.0.0.201801201303 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:59,589 INFO [Thread-11] d.f.a.a.1.0.0.201801201303 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:59,593 INFO [Thread-11] d.f.a.c.d.j.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:59,594 INFO [Thread-11] d.f.a.c.d.j.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:59,594 INFO [Thread-11] d.f.a.c.d.j.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:59,595 INFO [Thread-11] d.f.a.c.d.j.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:59,597 INFO [Thread-11] d.f.a.c.d.j.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:59,598 INFO [Thread-11] d.f.a.c.d.j.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:59,598 INFO [Thread-11] d.f.a.c.d.j.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:59,600 INFO [Thread-11] d.f.a.c.d.j.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:59,601 INFO [Thread-11] d.f.a.p.1.0.0.201801201303 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:59,601 INFO [Thread-11] d.f.a.a.1.0.0.201801201303 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:59,617 INFO [Thread-11] d.f.a.a.1.0.0.201801201303 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:59,618 INFO [Thread-11] d.f.a.p.1.0.0.201801201303 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:59,618 INFO [Thread-11] d.f.a.c.d.j.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:59,618 INFO [Thread-11] d.f.a.c.d.j.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:59,618 INFO [Thread-11] d.f.a.a.1.0.0.201801201303 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:59,620 INFO [Thread-11] d.f.a.a.1.0.0.201801201303 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:59,620 INFO [Thread-11] d.f.a.a.1.0.0.201801201303 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:59,627 INFO [Thread-11] d.f.a.a.1.0.0.201801201303 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:59,627 INFO [Thread-11] d.f.a.c.d.j.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:59,628 INFO [Thread-11] d.f.a.c.d.j.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:59,628 INFO [Thread-11] d.f.a.a.1.0.0.201801201303 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:59,633 INFO [Thread-11] d.f.a.a.1.0.0.201801201303 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:59,634 INFO [Thread-11] d.f.a.h.1.0.0.201801201303 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:59,634 INFO [Thread-11] d.f.a.a.1.0.0.201801201303 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:59,645 INFO [CM Configuration Updater (ManagedServiceFactory Update: factoryPid=[org.apache.aries.tx.control.jpa.local])] d.f.a.h.i.HermesImpl [HermesImpl.java:98] Creating hermes builder thread pool with coreSize:1, maxPoolSize:1, keepAlive:300
+2018-01-22 13:23:59,648 INFO [Thread-11] d.f.a.a.1.0.0.201801201303 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:59,649 INFO [Thread-11] d.f.a.h.1.0.0.201801201303 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:59,649 INFO [Thread-11] d.f.a.s.1.0.0.201801201303 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:59,649 INFO [Thread-11] d.f.a.a.1.0.0.201801201303 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:59,657 INFO [CM Configuration Updater (ManagedServiceFactory Update: factoryPid=[org.apache.aries.tx.control.jpa.local])] d.f.a.s.i.SuiteBuilderImpl [SuiteBuilderImpl.java:117] Creating suite builder thread pool with coreSize:1, maxPoolSize:1, keepAlive:300
+2018-01-22 13:23:59,658 INFO [CM Configuration Updater (ManagedServiceFactory Update: factoryPid=[org.apache.aries.tx.control.jpa.local])] d.f.a.s.i.SuiteBuilderImpl [SuiteBuilderImpl.java:121] Creating workspace root: /var/lib/abm/workspace
+2018-01-22 13:23:59,659 INFO [Thread-11] d.f.a.a.1.0.0.201801201303 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:59,660 INFO [Thread-11] d.f.a.s.1.0.0.201801201303 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:59,660 INFO [Thread-11] d.f.a.c.d.j.1.0.0.201801192344 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:23:59,660 INFO [Thread-11] t.0.0.3 [Slf4jLogListener.java:58] ServiceEvent REGISTERED
+2018-01-22 13:24:15,401 INFO [Thread-11] o.e.w.s.p.1.3.3.201509211431 [Slf4jLogListener.java:58] 404 index.html
+2018-01-22 13:24:15,407 INFO [Thread-11] o.e.w.s.p.1.3.3.201509211431 [Slf4jLogListener.java:58] 404 osgi/enroute/web/index.html
+2018-01-22 13:24:18,639 INFO [qtp238564722-29] o.h.h.i.QueryTranslatorFactoryInitiator [QueryTranslatorFactoryInitiator.java:47] HHH000397: Using ASTQueryTranslatorFactory
+2018-01-22 13:27:58,656 INFO [qtp238564722-30] d.f.a.a.c.BuildController [BuildController.java:162] No outdated build found for version fb0c2bed-ee35-4d43-9759-5324710b9018
+2018-01-22 13:27:58,656 INFO [qtp238564722-30] d.f.a.a.c.BuildController [BuildController.java:165] Start building version fb0c2bed-ee35-4d43-9759-5324710b9018
+2018-01-22 13:27:58,841 INFO [pool-4-thread-1] d.f.a.s.i.CheckoutRepo [CheckoutRepo.java:38] Cloning repo 29629a72-72e4-36dd-ae34-f5cb09a0d014 at https://github.com/gradle/gradle.git with de.fraunhofer.abm.scm.git.Git
+2018-01-22 13:27:58,842 INFO [pool-4-thread-1] d.f.a.s.i.CheckoutRepo [CheckoutRepo.java:46] RepoArchive not available or repo not archived
+2018-01-22 13:27:58,860 INFO [Thread-11] o.e.j.4.4.0.201606070830-r [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:27:58,861 INFO [Thread-11] o.e.o.3.1.1.v20150529-1857 [Slf4jLogListener.java:58] BundleEvent STARTED
+2018-01-22 13:28:39,324 INFO [pool-4-thread-1] d.f.a.r.l.LocalRepoArchive [LocalRepoArchive.java:45] Copying /var/lib/abm/workspace/5b64206d-7b83-4408-9785-40d88a3e5f3a/29629a72-72e4-36dd-ae34-f5cb09a0d014_1516624078834 to /var/lib/abm/repo/29629a72-72e4-36dd-ae34-f5cb09a0d014
+2018-01-22 13:28:42,031 INFO [pool-4-thread-1] d.f.a.s.BuildProcess [BuildProcess.java:123] Building gradle with de.fraunhofer.abm.suitebuilder.impl.NoopBuilder
+2018-01-22 13:28:42,032 INFO [pool-4-thread-1] d.f.a.s.BuildProcess [BuildProcess.java:151] Builder has been initialized
+2018-01-22 13:28:42,032 INFO [pool-4-thread-1] d.f.a.s.BuildProcess [BuildProcess.java:153] gradle: Step: Initialize building process
+2018-01-22 13:28:42,032 INFO [pool-4-thread-1] d.f.a.s.BuildProcess [BuildProcess.java:153] gradle: Step: Checkout repository from VCS
+2018-01-22 13:28:42,280 INFO [pool-4-thread-1] d.f.a.s.BuildProcess [BuildProcess.java:136] gradle: Build step status changed: Checkout repository from VCS - IN_PROGRESS
+2018-01-22 13:28:42,349 INFO [pool-4-thread-1] d.f.a.s.i.CheckoutRepo [CheckoutRepo.java:38] Cloning repo 29629a72-72e4-36dd-ae34-f5cb09a0d014 at https://github.com/gradle/gradle.git with de.fraunhofer.abm.scm.git.Git
+2018-01-22 13:28:42,349 INFO [pool-4-thread-1] d.f.a.s.i.CheckoutRepo [CheckoutRepo.java:42] Using repo from archive
+2018-01-22 13:28:42,350 INFO [pool-4-thread-1] d.f.a.r.l.LocalRepoArchive [LocalRepoArchive.java:45] Copying /var/lib/abm/repo/29629a72-72e4-36dd-ae34-f5cb09a0d014 to /var/lib/abm/workspace/5b64206d-7b83-4408-9785-40d88a3e5f3a/29629a72-72e4-36dd-ae34-f5cb09a0d014_1516624078834
+2018-01-22 13:28:44,572 INFO [pool-4-thread-1] d.f.a.s.i.CheckoutRepo [CheckoutRepo.java:60] Checking out commit 5533dc22f30b5b72c526c1cb8b2c0ba66984706d
+2018-01-22 13:28:46,845 INFO [pool-4-thread-1] d.f.a.s.BuildProcess [BuildProcess.java:129] gradle: Build step finished with success: Checkout repository from VCS
+
+2018-01-22 13:28:47,077 INFO [pool-4-thread-1] d.f.a.s.BuildProcess [BuildProcess.java:132] gradle: Build step finished with error: Initialize building process
+STDOUT:
+STDERR:
+2018-01-22 13:28:47,176 INFO [pool-4-thread-1] d.f.a.s.BuildProcess [BuildProcess.java:132] gradle: Build step finished with error: Initialize building process
+STDOUT:No builder for repo 29629a72-72e4-36dd-ae34-f5cb09a0d014 found
+STDERR:
