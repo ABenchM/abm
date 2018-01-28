@@ -150,3 +150,15 @@ CREATE TABLE `commit` (
   CONSTRAINT `FKgqmkfk1wovdbkmbanfrrxc9pp` FOREIGN KEY (`repository_id`) REFERENCES `repository` (`id`),
   CONSTRAINT `FKo8og62f41bsf9c1xxyltofj61` FOREIGN KEY (`version_id`) REFERENCES `version` (`id`)
 );
+
+CREATE TABLE `query_feature_map` (
+  `id` varchar(255) DEFAULT NULL,
+  `query_name` varchar(255) DEFAULT NULL,
+  `feature` varchar(255) DEFAULT NULL
+);
+
+CREATE TABLE `user` (
+  `name` varchar(255) DEFAULT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  `approved` tinyint(4) DEFAULT NULL
+);
