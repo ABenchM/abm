@@ -7,4 +7,4 @@ csv=$2
 
 #docker cp /opt/abm/application.conf $id:/root/OPAL/DEVELOPING_OPAL/tools/src/main/resources
 
-docker exec $id sbt "project OPAL-DeveloperTools"  "runMain org.opalj.hermes.HermesCLI src/main/resources/hermes.json -csv $csv.csv"		
+docker exec $id sbt "project OPAL-DeveloperTools"  "runMain org.opalj.hermes.HermesCLI  -config src/main/resources/hermes.json -statistics $csv.csv"
