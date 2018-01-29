@@ -1,3 +1,19 @@
+# Quick access
+* [Install ABM](#install-abm)
+  * [Installation scripts (Linux only)](#installation-scripts-linux-only)
+  * [From the source code (Linux and MacOS)](#from-the-source-code-linux-and-macos)
+    * [Set up the ABM workspace](#set-up-the-abm-workspace)
+    * [Set up Docker](#set-up-docker)
+    * [Set up the database](#set-up-the-database)
+    * [Set up Eclipse](#set-up-eclipse)
+    * [Launch ABM](#launch-abm)
+    * [Create the demo user](#create-the-demo-user)
+* [Configuration files](#configuration-files)
+* [Launching or bouncing the application on production server](#launching-or-bouncing-the-application-on-production-server)
+* [Running Hermes manually](#running-hermes-manually)
+* [Updating the database](#updating-the-database)
+* [Changing email notification settings](#changing-email-notification-settings)
+
 # Install ABM
 
 ## Installation scripts (Linux only)
@@ -101,7 +117,7 @@ The installation of ABM is not recommended on Windows. We advise Windows users t
 * Create the useradmin datatables
   ```
   $ cd ${DIRECTORY}/abm/bnd-workspace
-  * mysql -u root -p -D abm < de.fraunhofer.abm.useradmin.dao.jdbc/useradmin_ddl.sql
+  $ mysql -u root -p -D abm < de.fraunhofer.abm.useradmin.dao.jdbc/useradmin_ddl.sql
   ```
   
 ### Set up Eclipse 
@@ -119,16 +135,16 @@ The installation of ABM is not recommended on Windows. We advise Windows users t
   * Select all projects except de.fraunhofer.abm.collection.dao.jdbc
   * Uncheck "Copy projects into workspace"
 * Wait for the workspace to finish building. If compilation errors appear in the code (except for the test project), they should be solved before continuing.
-* Open the file abm/bnd-workspace/de.fraunhofer.abm.collection.dao.jpa/configuration/configuration.json and modify the database configurations: replace the user and password by the mysql user and password that you have created when installing the database. If you haven't created a user, you can use "root" as the user and the root password as the configuration password.
+* Open the file abm/bnd-workspace/de.fraunhofer.abm.collection.dao.jpa/configuration/configuration.json and modify the database configurations: replace the user and password by the mysql user and password that you have created when [installing the database](#set-up-the-database). If you haven't created a user, you can use "root" as the user and the root password as the configuration password.
 * Open the file abm/bnd-workspace/de.fraunhofer.abm.app/de.fraunhofer.abm.bndrun and modify the felix.webconsole.username and the felix.webconsole.password
 * Generate the rest of the database:
   * Open the file de.fraunhofer.abm.collection.dao.jpa/persistence.xml
   * Uncomment <property name="javax.persistence.schema-generation.database.action" value="drop-and-create" /> (this line enables the database generation from the JPA entities. this has to be done only when the JPA entities change or for the setup)
-  * Launch ABM (see "Launch ABM")
+  * Launch ABM (see [Launch ABM](#launch-abm))
   * Close ABM by clicking on the red square in the Eclipse Console.
   * Comment <property name="javax.persistence.schema-generation.database.action" value="drop-and-create" /> back.
 
-### Launching ABM
+### Launch ABM
 * Before launching, make sure that:
   * mysql should be running `service mysql status`
     * If it is not the case, start mysql: `service mysql start` 
@@ -143,9 +159,9 @@ The installation of ABM is not recommended on Windows. We advise Windows users t
 
 ### Create the demo user
 All users are managed by the OSGi UserAdmin service, which can be accessed through the system console.
-* Launch ABM (see "Launch ABM")
+* Launch ABM (see [Launch ABM](#launch-abm))
 * Open your browser and access the system console http://localhost:8080/system/console
-* The username and password to access the user console are defined in de.fraunhofer.abm.app/de.fraunhofer.abm.bndrun under "Runtime Properties". You have modified them when setting up Eclipse (felix.webconsole.password)
+* The username and password to access the user console are defined in de.fraunhofer.abm.app/de.fraunhofer.abm.bndrun under "Runtime Properties". You have modified them when [setting up Eclipse](#set-up-eclipse) (felix.webconsole.password)
 * Go to OSGi -> Users
 * Create a group Admin
 * Create a group RegisteredUser
@@ -157,21 +173,23 @@ All users are managed by the OSGi UserAdmin service, which can be accessed throu
     * Key `password`
     * Type `String`
     * Value `K25eHhV5v/qByG8oTP2VySQ4iPv4ZPFr0Bkf3uTnTwA=$lSghSVxaYoDynPR7B3LChprsbvvYP2M8lEKI9SWH52g=` This is a salted password hash containing the password "demo" if you want to create your own password, you can use the main method of the class Password in de.fraunhofer.abm.security. 
+    
+* **You are done with the installation. Congratulations!** 
 
-## Configuration files
+# Configuration files
 * The file Configuration.java in de.fraunhofer.abm.suitebuilder contains "Workspace Root" which you can adjust to fit your development machine. Make sure that your ${USER} has read, write, and execute accesses to this directory and its sub-directories.
 * The file Configuration.java in de.fraunhofer.abm.repoarchive.local contains "Directory" which you can adjust to fit your development machine. Make sure that your ${USER} has read, write, and execute accesses to this directory and its sub-directories.
 * These changes can also be made in the system console under OSGi -> Configuration , but it is not permanent, i.e. they are rest after a restart.
 * The file configuration.json in de.fraunhofer.abm.collection.dao.jpa contains the sql credentials that ABM uses to access the tables. Make sure that they match existing mysql credentials.
 * The username and password of the web console can be modified in the file de.fraunhofer.abm.bndrun in de.fraunhofer.abm.app (felix.webconsole.username=root and felix.webconsole.password).
 
-## Launching or bouncing the application on production server
+# Launching or bouncing the application on production server
 * Install ABM as shown in the installation section
 * Go to the /opt/abm
 * Run the command in start file residing at that location
 * Check the process is running or not through the following command -> ps -ef | grep abm
 
-## Running Hermes manually
+# Running Hermes manually
 * Install docker toolbox on windows or Linux as given above.
 * Make sure you have configured your docker machine with enough memory as Hermes application requires a good amount of memory.
 * You can check the limit of your machine using following command - docker-machine inspect
@@ -191,7 +209,7 @@ docker run -it --rm opalj/sbt_scala_javafx
 runMain org.opalj.hermes.HermesCLI  -config src/main/resources/hermes.json -statistics $csv.csv (You can give any name you want for CSV file)
 * You will get the csv file in DEVELOPING_OPAL/tools directory or can specify the directory where you want.
   
-## Updating the Database
+# Updating the Database
 While the database is automatically generated during setup, when a installation of ABM is updated some modifications to the local database may be needed.
 The changes can be made by reinitilizing the database, but that results in the loss of all data stored on the database.
 To avoid this, make the following changes to your local database for each of the new commits you are applying.
@@ -216,5 +234,5 @@ To avoid this, make the following changes to your local database for each of the
   * To table "user":
     * Column "token" (type varchar(50))
 
-## Changing Email Notification Settings
+# Changing email notification settings
 All the settings that control the email notification system are at the top of the file EmailConfiguration.java in the package de.fraunhofer.abm.app. You can change these to control the host the program connects to, the email and credentals it uses, and who it notifies when a new account is registered.
