@@ -17,11 +17,16 @@
 # Install ABM
 
 ## Installation scripts (Linux only)
-On Linux, you can run the script found at abm/docs/abm_install.sh to install ABM.
+* Run the script found at abm/docs/abm_install.sh to install ABM.
   ```
   $ sudo chmod 755 abm_install.sh
   $ sudo ./abm_install.sh
   ```
+* You will be prompted for the mysql root password. It is "password". You can modify it afterwards.
+* Once the installation finishes, log out and log in again.
+* Run the script again to finish the installation.
+* Make sure that the [configuration files](#configuration-files) of ABM contain the correct information.
+* You can [launch ABM](#launch-abm).
   
 ## From the source code (Linux and MacOS)
 The installation of ABM is not recommended on Windows. We advise Windows users to dual boot their installation with Linux or to use a VM. Note that ABM tends to be a bit slow on a VM, depending on the capabilities of the host machine.
