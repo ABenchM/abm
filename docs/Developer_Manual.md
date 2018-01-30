@@ -181,7 +181,7 @@ All users are managed by the OSGi UserAdmin service, which can be accessed throu
 * The file Configuration.java in de.fraunhofer.abm.repoarchive.local contains "Directory" which you can adjust to fit your development machine. Make sure that your ${USER} has read, write, and execute accesses to this directory and its sub-directories.
 * These changes can also be made in the system console under OSGi -> Configuration , but it is not permanent, i.e. they are rest after a restart.
 * The file configuration.json in de.fraunhofer.abm.collection.dao.jpa contains the sql credentials that ABM uses to access the tables. Make sure that they match existing mysql credentials.
-* The username and password of the web console can be modified in the file de.fraunhofer.abm.bndrun in de.fraunhofer.abm.app (felix.webconsole.username=root and felix.webconsole.password).
+* The username and password of the web console can be modified in the file de.fraunhofer.abm.bndrun in de.fraunhofer.abm.app (felix.webconsole.username and felix.webconsole.password).
 
 # Launching or bouncing the application on production server
 * Install ABM as shown in the installation section
