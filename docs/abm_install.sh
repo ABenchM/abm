@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+$HERMES_CONFIG_DIR=/opt/abm
+
 echo ABM INSTALLATION >> log.txt
 
 echo Cloning git ABM repository >> log.txt
@@ -89,8 +91,6 @@ id -nG
 
 EOSU
 
-echo pwd >> log.txt
-
 echo Adding ABM Docker volumes >> log.txt
 
 docker volume create --name IVY_REPO -d local &&
@@ -112,14 +112,19 @@ echo Installing sbt docker image >> log.txt
 
 cd ../abm-sbt-0.13.13-jdk-8 ; docker build -t abm/sbt:01313-jdk-8 . &&
 
-
 echo Installing Java 8 >> log.txt
 
 cd ../../../ ; sudo apt-get install default-jdk &&
 
+echo creating Hermes configuration directory >> log.txt
+
+sudo mkdir $HERMES_CONFIG_DIR &&
+
+sudo mv abm/hermes_config/*  $HERMES_CONFIG_DIR/  &&
+
 echo Installing Eclipse >> log.txt
 
-wget -O eclipse.tar.gz https://www.eclipse.org/downloads/download.php?file=/technology/epp/downloads/release/oxygen/2/eclipse-jee-oxygen-2-linux-gtk-x86_64.tar.gz\&r=1 &
+wget -O eclipse.tar.gz https://www.eclipse.org/downloads/download.php?file=/technology/epp/downloads/release/oxygen/2/eclipse-jee-oxygen-2-linux-gtk-x86_64.tar.gz\&r=1 &&
 
 tar -xvf eclipse.tar.gz &&
 
