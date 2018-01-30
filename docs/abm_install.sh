@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-$HERMES_CONFIG_DIR=/opt/abm
+$HERMES_CONFIG_DIR=${HERMES_CONFIG_DIR:-/opt/abm}
+
 
 echo ABM INSTALLATION >> log.txt
 
