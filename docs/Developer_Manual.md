@@ -194,6 +194,13 @@ All users are managed by the OSGi UserAdmin service, which can be accessed throu
 * Run the command in start file residing at that location
 * Check the process is running or not through the following command -> ps -ef | grep abm
 
+* Note: In order to avoid the details of the REST APIs to be displayed on the server when an error is created, the Apache configurations (/etc/apache2/sites-enabled/default-ssl.conf) can be modified to add the following lines:
+  ```
+  ProxyErrorOverride On
+  ErrorDocument 500 "Error 500"
+  ErrorDocument 404 "Error 404"
+  ```
+
 # Running Hermes manually
 * Install docker toolbox on windows or Linux as given above.
 * Make sure you have configured your docker machine with enough memory as Hermes application requires a good amount of memory.
