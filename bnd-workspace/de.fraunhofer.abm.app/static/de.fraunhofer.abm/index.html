@@ -51,8 +51,8 @@
 		
   		<div style="margin-top:89px;position:relative" ng-view></div>  	
 		
-		<div class="sidebar" ng-controller="buildTabController as btc" ng-hide="hideSidebar">
-			<div ng-repeat="tab in btc.tabs" class="sidebarTab" ng-hide="tab.hidden">
+		<div class="sidebar" ng-controller="buildTabController as btc" ng-hide="hideSidebar" >
+			<div ng-repeat="tab in btc.tabs" class="sidebarTab" ng-hide="tab.hidden" title="{{tab.name}}">
 				<span class="glyphicon glyphicon-chevron-left" ng-click="btc.hide(tab.id)")></span>
 				<a href style="background:linear-gradient(to right, {{tab.buildStatus | statusColour}} {{tab.progress * 100}}%, transparent 0%)" ng-click="btc.open(tab);">{{tab | tabTitle}}</a>
 			</div>
