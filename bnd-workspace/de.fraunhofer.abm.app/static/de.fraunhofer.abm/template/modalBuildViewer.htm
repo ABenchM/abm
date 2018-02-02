@@ -5,9 +5,9 @@
 	</div>
 	
 	<div class="modal-sidebar sidebar">
-		<div class="sidebarTab" ng-repeat="tab in $ctrl.tabs" ng-class="{'selected': (tab == $ctrl.showing)}" ng-hide="tab.hidden">
+		<div class="sidebarTab" title="{{tab.name}}" ng-repeat="tab in $ctrl.tabs" ng-class="{'selected': (tab == $ctrl.showing)}" ng-hide="tab.hidden" >
 			<span class="glyphicon glyphicon-chevron-left" ng-click="$ctrl.dismiss(tab.id)"></span>
-			<a href style="background:linear-gradient(to right, {{tab.buildStatus | statusColour}} {{tab.progress * 100}}%, transparent 0%)" ng-click="$ctrl.select(tab);">
+			<a href style="background:linear-gradient(to right, {{tab.buildStatus | statusColour}} {{tab.progress * 100}}%, transparent 0%)" ng-click="$ctrl.select(tab);" >
 			{{tab | tabTitle}}
 			</a>
 		</div>
