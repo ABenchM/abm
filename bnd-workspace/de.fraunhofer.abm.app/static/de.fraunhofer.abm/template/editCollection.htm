@@ -40,22 +40,22 @@
             <button ng-disabled="loading || cc.saving || cc.collection.versions.length <= 1" ng-click="cc.removeVersion(cc.version.id)" class="btn btn-sm btn-danger" title="Delete" confirm="Removal is irreversible! Continue?"><i class="glyphicon glyphicon-trash"></i> Delete this version</button>
             <button ng-disabled="loading || cc.saving" ng-click="cc.remove(cc.collection.id)" class="btn btn-sm btn-danger" title="Delete" confirm="Removal is irreversible! Continue?"><i class="glyphicon glyphicon-trash"></i> Delete this collection</button>
         </div>
-        
+
 		<div id="frozen" ng-show="cc.version.frozen">
 			This version is frozen, because it has been built. You can make it editable again by clicking unfreeze.
-			<strong>!!! Be aware, that the previous build result will be deleted !!!</strong>
+			<strong>Be aware, that the previous build result will be deleted!</strong>
 			<br/><br/>
 			<button ng-disabled="loading || cc.saving || cc.disableBuild" class="btn btn-primary btn-sm" ng-click="cc.addBuild(cc.version)">Show build</button>
             <button ng-disabled="loading || cc.saving || cc.disableBuild" class="btn btn-danger btn-sm" ng-click="cc.unfreeze(cc.version)">Unfreeze</button>
          </div>
-         
+
          <div id="not_filter" ng-show="cc.version.frozen">
 			<span style="float:right;">
               <button ng-hide="cc.version.filtered" ng-disabled="loading || cc.saving || cc.disableBuild" class="btn btn-primary btn-sm" ng-click="cc.runFilter(cc.version)">Run Hermes Filter</button>
          </span>
          </div>
-         
-          
+
+
 		<div id="filter" ng-show="cc.version.filtered">
 			<span style="float:right;">
 			<!-- <button ng-disabled="cc.downloading || cc.running"  class="btn btn-success btn-sm" ng-click="cc.downloadCsv(cc.version.id)">Download Hermes Results</button> -->
@@ -64,7 +64,7 @@
             </span>
 		</div>
    	</div>
-   	
+
   		<table class="table table-bordered table-striped">
 		<col width="*">
 		<col width="*">
