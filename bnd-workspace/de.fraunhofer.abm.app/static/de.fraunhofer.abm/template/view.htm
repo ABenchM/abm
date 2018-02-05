@@ -8,7 +8,7 @@
 	<hr>
 	<div class="row col-lg-12">
 		<span uib-dropdown>
-	  		<button id="single-button" type="button" class="btn btn-success btn-xs" uib-dropdown-toggle ng-disabled="cc.disabled || cc.saving">
+	  		<button id="single-button" type="button" class="btn btn-success" uib-dropdown-toggle ng-disabled="cc.disabled || cc.saving">
 	     		Version {{selectedVersion.number}} &nbsp;&nbsp;&dash;&nbsp;&nbsp;  {{selectedVersion.creationDate | date:'short'}}&nbsp;&nbsp;<span class="caret"></span>
     		</button>
 			<ul class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown">
@@ -38,16 +38,16 @@
    		</tr>
    	</table>
    	<div>
-   		<a href="#/" class="btn btn-primary btn-xs">Return to Collection Search</a>
+   		<a href="#/" class="btn btn-primary">Return to Collection Search</a>
    		<span ng-hide="user === undefined" ng-disabled="vc.disabled">
-				<button class="btn btn-xs btn-primary" ng-click="vc.pin()" ng-hide="pinned;">Pin</button>
-				<button class="btn btn-xs btn-primary" ng-click="vc.unpin()" ng-show="pinned;">Unpin</button>
+				<button class="btn btn-primary" ng-click="vc.pin()" ng-hide="pinned;">Pin</button>
+				<button class="btn btn-primary" ng-click="vc.unpin()" ng-show="pinned;">Unpin</button>
 		</span>
-		<button class="btn btn-xs btn-primary" ng-hide="user === undefined" ng-click="vc.copy()">Copy this collection</button>
-		<button ng-disabled="vc.downloading" class="btn btn-success btn-xs" ng-show="selectedVersion.filtered" ng-click="vc.downloadHermes(selectedVersion.id)">Download Hermes Result</button>
+		<button class="btn btn-primary" ng-hide="user === undefined" ng-click="vc.copy()">Copy this collection</button>
+		<button ng-disabled="vc.downloading" class="btn btn-success" ng-show="selectedVersion.filtered" ng-click="vc.downloadHermes(selectedVersion.id)">Download Hermes Result</button>
    		<span class="pull-right">
    			<p ng-hide="selectedVersion.frozen">This version is not currently built</p>
-   			<button ng-click="vc.downloadBuild(selectedVersion.id)" ng-show="selectedVersion.frozen" ng-disabled="vc.downloading" class="btn btn-success btn-xs">Download this version</a>
+   			<button ng-click="vc.downloadBuild(selectedVersion.id)" ng-show="selectedVersion.frozen" ng-disabled="vc.downloading" class="btn btn-success">Download this version</a>
    		</span>
    	</div>
 </div>
