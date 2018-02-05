@@ -119,6 +119,7 @@ angular.module('de.fraunhofer.abm').controller('modalBuildController', function(
 	};
 	
 	$ctrl.cancelBuild = function(buildId) {
+		//$scope.build.status = 'CANCELLED'; 
 		if ($ctrl.isopen) {
 			console.log('Cancel build', buildId);
 			$ctrl.socket.send(JSON.stringify({msg: 'cancel', id: buildId}));

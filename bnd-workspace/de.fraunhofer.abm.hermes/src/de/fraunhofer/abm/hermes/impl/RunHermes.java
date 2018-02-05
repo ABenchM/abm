@@ -19,10 +19,12 @@ public class RunHermes extends AbstractHermesStep<String> {
 	private String csvName;
 	BufferedReader r, e;
 	String line;
+	String hermesConfigDir;
 
-	public RunHermes(String repoDir/* , ExecutorService executor */) {
+	public RunHermes(String repoDir,File hermesConfigDir/* , ExecutorService executor */) {
 		super(repoDir/* , executor */);
 		this.repoDir = repoDir;
+		this.hermesConfigDir = hermesConfigDir.toString();
 		this.name = "Run Hermes application through sbt";
 
 	}
@@ -36,7 +38,7 @@ public class RunHermes extends AbstractHermesStep<String> {
 		try {
 			logger.info("Running Hermes Application");
 			csvName = "hermesResults";
-			Result result = exec("sh /opt/abm/docker.sh"+" "+containerName+" "+csvName, new File(repoDir));
+			Result result = exec("sh "+hermesConfigDir+"/docker.sh"+" "+containerName+" "+csvName, new File(repoDir));
 			output = result.stdout;
 			errorOutput = result.stderr;
 			setStatus(result.exitValue == 0 ? STATUS.SUCCESS : STATUS.FAILED);

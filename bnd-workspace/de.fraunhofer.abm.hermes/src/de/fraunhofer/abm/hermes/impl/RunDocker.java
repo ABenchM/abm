@@ -9,19 +9,22 @@ import de.fraunhofer.abm.builder.api.BuildUtils;
 import de.fraunhofer.abm.builder.docker.base.AbstractHermesStep;
 
 
+
+
 public class RunDocker extends AbstractHermesStep<String> {
 
 	private static final transient Logger logger = LoggerFactory.getLogger(RunDocker.class);
 
 	private String imageName;
 	private String repoDir;
-	//private String dir;
+	private File hermesConfigDir;
 
-	public RunDocker(String repoDir /* , ExecutorService executor */) {
+	public RunDocker(String repoDir,File hermesConfigDir /* , ExecutorService executor */) {
 		super(repoDir/* ,executor */);
 		this.repoDir = repoDir;
+		this.hermesConfigDir = hermesConfigDir;
 		this.name = "Run Docker for Hermes";
-		//dir = repoDir.substring(repoDir.lastIndexOf('/') + 1);
+		
 	}
 
 	public void setImageName(String imageName) {
@@ -36,7 +39,7 @@ public class RunDocker extends AbstractHermesStep<String> {
 		try {
 			logger.debug("Running Hermes docker container:{}", containerName);
 			
-			Process result = Runtime.getRuntime().exec("docker run -d -v " +repoDir+":/repodir -i --name "+containerName+" "+imageName+" bash",null, new File("/opt/abm"));
+			Process result = Runtime.getRuntime().exec("docker run -d -v " +repoDir+":/repodir -i --name "+containerName+" "+imageName+" bash",null, hermesConfigDir);
 			
 			TimeUnit.SECONDS.sleep(3);
 			int exitValue = result.waitFor();

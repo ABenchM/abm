@@ -48,6 +48,7 @@ public class HermesDocker implements HermesStepListener {
 	private STATE state = STATE.CONTINUE;
 
 	private final String repoDir;
+	private final File hermesConfigDir;
 
 	public void addHermesProgressListener(HermesProgressListener hpl) {
 		try {
@@ -134,14 +135,15 @@ public class HermesDocker implements HermesStepListener {
 
 	
 	
-	public HermesDocker(String repoDir) {
+	public HermesDocker(String repoDir , File hermesConfigDir) {
 		this.repoDir = repoDir;
+		this.hermesConfigDir = hermesConfigDir;
 		// executor = Executors.newCachedThreadPool();
 		logger.info("Adding Hermes Process steps");
 
-		runDocker = (RunDocker) addHermesStep(new RunDocker(repoDir/* ,executor */));
-		moveConf = (MoveConf) addHermesStep(new MoveConf(repoDir/* ,executor */));
-		runHermes = (RunHermes) addHermesStep(new RunHermes(repoDir/* ,executor */));
+		runDocker = (RunDocker) addHermesStep(new RunDocker(repoDir,hermesConfigDir/* ,executor */));
+		moveConf = (MoveConf) addHermesStep(new MoveConf(repoDir,hermesConfigDir/* ,executor */));
+		runHermes = (RunHermes) addHermesStep(new RunHermes(repoDir,hermesConfigDir/* ,executor */));
 		extractResults = (ExtractResults) addHermesStep(new ExtractResults(repoDir/* ,executor */));
 		stopDocker = (StopDocker) addHermesStep(new StopDocker(repoDir/* ,executor */));
 		deleteHermesContainer = (DeleteHermesContainer) addHermesStep(new DeleteHermesContainer(repoDir));
@@ -154,8 +156,9 @@ public class HermesDocker implements HermesStepListener {
 		String csvName = NOT_SET;
 
 		try {
-						
-			if (state == STATE.CONTINUE) {
+		      logger.info("Hermes Docker Config Dir {}", hermesConfigDir);				
+			
+		      if (state == STATE.CONTINUE) {
 				runDocker.setImageName("opalj/sbt_scala_javafx ");
 				containerName = runDocker.execute();
 				System.out.println("in hermes docker container name " + containerName);
@@ -167,7 +170,7 @@ public class HermesDocker implements HermesStepListener {
 			}
 
 			if (state == STATE.CONTINUE) {
-				moveConf.setWorkSpace("/opt/abm/");
+				
 				moveConf.setContainerName(containerName);
 				moveConf.setFileName("hermes.json");
 			    moveConf.execute();
@@ -177,7 +180,7 @@ public class HermesDocker implements HermesStepListener {
 			}
 			
 			if (state == STATE.CONTINUE) {
-				moveConf.setWorkSpace("/opt/abm/");
+				
 				moveConf.setContainerName(containerName);
 				moveConf.setFileName("application.conf");
 			    moveConf.execute();

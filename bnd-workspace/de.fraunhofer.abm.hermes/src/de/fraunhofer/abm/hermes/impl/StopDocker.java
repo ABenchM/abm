@@ -14,7 +14,8 @@ public class StopDocker extends AbstractHermesStep<Void> {
 
 	private String containerName;
 	private String repoDir;
-
+    
+	
 	public StopDocker(String repoDir/* , ExecutorService executor */) {
 		super(repoDir/* , executor */);
 		this.repoDir = repoDir;

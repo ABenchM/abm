@@ -23,6 +23,7 @@ import de.fraunhofer.abm.collection.dao.HermesResultDao;
 import de.fraunhofer.abm.domain.HermesResultDTO;
 import de.fraunhofer.abm.domain.RepositoryDTO;
 import de.fraunhofer.abm.domain.VersionDTO;
+import de.fraunhofer.abm.hermes.impl.HermesConfiguration;
 import de.fraunhofer.abm.hermes.impl.HermesProjectsImpl;
 
 
@@ -48,12 +49,13 @@ public class HermesProcess implements Callable<HermesResultDTO> {
 	 private String id;
 	 private HermesResultDao hermesResultDao;
 	 private String result;
+	 private File hermesWS;
 	 
 	 
-	 public HermesProcess(VersionDTO version, String repoDir,List<RepositoryDTO> repo,HermesResultDao hermesResultDao)
+	 public HermesProcess(VersionDTO version, File hermesWS , String repoDir,List<RepositoryDTO> repo,HermesResultDao hermesResultDao)
 	 {
 		 this.version = version;
-		 //this.workspace = workspace;
+		 this.hermesWS = hermesWS;
 		 this.hermesResultDao = hermesResultDao;
 		 this.id = UUID.randomUUID().toString();
 		 this.hermesResult = new HermesResultDTO();
@@ -79,7 +81,7 @@ public class HermesProcess implements Callable<HermesResultDTO> {
 		
 		 
 		 try{
-			 HermesProjects hermesProject = new HermesProjectsImpl();
+			 HermesProjects hermesProject = new HermesProjectsImpl(hermesWS);
 			 for(int i=0;i<repo.size();i++) {
 				 
 				   String cmd[] = {"/bin/sh","-c","ls | grep \""+repo.get(i).id+"*"+"\""};
@@ -95,7 +97,7 @@ public class HermesProcess implements Callable<HermesResultDTO> {
 					
 				
 				 hermesProject.addProjects(projects);
-			    hermesDocker = new HermesDocker(repoDir);
+			    hermesDocker = new HermesDocker(repoDir , hermesWS);
 				 
 			 }
 			 
