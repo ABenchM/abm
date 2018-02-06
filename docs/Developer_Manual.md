@@ -22,9 +22,8 @@
   $ sudo chmod 755 abm_install.sh
   $ sudo ./abm_install.sh
   ```
-* You will be prompted for the mysql root password. It is "password". You can modify it afterwards.
+* If you are prompted for the mysql root password, it is "password". You can modify it afterwards.
 * Once the installation finishes, log out and log in again.
-* Run the script again to finish the installation.
 * Make sure that the [configuration files](#configuration-files) of ABM contain the correct information.
 * You can [launch ABM](#launch-abm).
   
@@ -137,7 +136,7 @@ The installation of ABM is not recommended on Windows. We advise Windows users t
 * Import the source code of ABM 
   * File > Import > General > Existing projects into Workspace
   * Point the root directory to ${DIRECTORY}/abm/bnd-workspace
-  * Select all projects except de.fraunhofer.abm.collection.dao.jdbc
+  * Select all projects.
   * Uncheck "Copy projects into workspace"
 * Wait for the workspace to finish building. If compilation errors appear in the code (except for the test project), they should be solved before continuing.
 * Open the file abm/bnd-workspace/de.fraunhofer.abm.collection.dao.jpa/configuration/configuration.json and modify the database configurations: replace the user and password by the mysql user and password that you have created when [installing the database](#set-up-the-database). If you haven't created a user, you can use "root" as the user and the root password as the configuration password.
