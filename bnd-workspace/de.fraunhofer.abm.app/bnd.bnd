@@ -7,6 +7,7 @@ Bundle-Description: ABM main application
 
 Private-Package: \
 	de.fraunhofer.abm.app,\
+	de.fraunhofer.abm.app.constants,\
 	de.fraunhofer.abm.app.controllers,\
 	de.fraunhofer.abm.app.websocket,\
 	de.fraunhofer.abm.app.download

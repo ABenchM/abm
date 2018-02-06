@@ -1,5 +1,7 @@
 package de.fraunhofer.abm.app;
 
+import static de.fraunhofer.abm.util.AbmApplicationConstants.*;
+
 import java.io.IOException;
 import java.util.List;
 
@@ -25,14 +27,12 @@ import osgi.enroute.google.angular.capabilities.RequireAngularWebResource;
 import osgi.enroute.rest.api.REST;
 import osgi.enroute.rest.api.RESTRequest;
 import osgi.enroute.webserver.capabilities.RequireWebServerExtender;
-
 @RequireAngularWebResource(resource={"angular.js","angular-resource.js", "angular-route.js", "angular-cookies.js"}, priority=1000)
 @RequireWebServerExtender
 @RequireConfigurerExtender
 @Component(name="de.fraunhofer.abm.rest")
 public class AbmApplication implements REST {
 
-    private static final String GOOGLE_CLIENT_ID = "1028525994000-2e188qbc7bgpmrdrqp0crfjaavn2o3oo.apps.googleusercontent.com";
 
     @Reference
     private Crawler crawler;
@@ -77,7 +77,7 @@ public class AbmApplication implements REST {
         String idToken = credentials.password;
         String json = HttpUtils.get("https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=" + idToken, null, "UTF-8");
         JSONObject response = new JSONObject(json);
-        if(response.has("aud") && response.get("aud").equals(GOOGLE_CLIENT_ID)) {
+        if(response.has("aud") && response.get("aud").equals(googleClientId())) {
             String uniqueGoogleUserId = response.getString("sub");
             Role user = userAdmin.getRole(uniqueGoogleUserId);
             if(user == null) {

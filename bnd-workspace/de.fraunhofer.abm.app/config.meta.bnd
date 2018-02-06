@@ -5,3 +5,11 @@
 	felix.webconsole.username=root
 -runvm: \
    -Xmx1G
+   -DadminAddress="",\
+   -DserverHost="",\
+   -DserverPort="",\
+   -DuserAddress="",\
+   -DuserName="",\
+   -DuserPassword="",\
+   -DgoogleClientId="",\
+   -DgithubToken=""

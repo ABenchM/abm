@@ -9,7 +9,8 @@ Export-Package:  \
 	de.fraunhofer.abm.crawler.api;version=latest,\
 	de.fraunhofer.abm.domain;version=latest,\
 	json;version=20160212.0,\
-	de.fraunhofer.abm.http.client;version=latest
+	de.fraunhofer.abm.http.client;version=latest,\
+	de.fraunhofer.abm.util;version=latest
 
 -testpath: \
 	osgi.enroute.junit.wrapper;version=4.12,\
