@@ -2,7 +2,7 @@
 #  RUN SPECIFICATION
 #
 
-
+-include: config.bnd
 Bundle-Version:				1.0.0.${tstamp}
 Bundle-SymbolicName:		de.fraunhofer.abm.app.launch
 JPM-Command:					abm
@@ -182,9 +182,3 @@ JPM-Command:					abm
 	org.scala-lang.scala-reflect;version='[2.11.11,2.11.12)',\
 	org.scala-lang.scala-xml;version='[2.11.0,2.11.1)',\
 	javax.mail;version='[1.4.0,1.4.7)'
--runproperties: \
-	felix.webconsole.password=F+9:j9Cy9ea5x+A.,\
-	org.jboss.logging.provider=slf4j,\
-	org.apache.felix.http.host=127.0.0.1,\
-	felix.webconsole.username=root
--runvm: -Xmx1G
