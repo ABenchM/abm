@@ -181,6 +181,9 @@ All users are managed by the OSGi UserAdmin service, which can be accessed throu
 * **You are done with the installation. Congratulations!** 
 
 # Configuration files
+
+In current set up , we dont need to set the directory path or need to create if the required directory structure is not there. application will itself create the directory structure and application will run fine.
+
 * The file Configuration.java in de.fraunhofer.abm.suitebuilder contains "Workspace Root" which you can adjust to fit your development machine. Make sure that your ${USER} has read, write, and execute accesses to this directory and its sub-directories.
 * The file Configuration.java in de.fraunhofer.abm.repoarchive.local contains "Directory" which you can adjust to fit your development machine. Make sure that your ${USER} has read, write, and execute accesses to this directory and its sub-directories.
 * The file HermesConfiguration.java in de.fraunhofer.abm.hermes.impl contains "hermesConfigDir()" which you can adust to fit your development machine. Make sure that your ${USER} has read, write, and execute accesses to this directory and its sub-directories. Make sure to keep all the hermes configuration files in this directory.
