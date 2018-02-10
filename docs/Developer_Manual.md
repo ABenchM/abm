@@ -186,7 +186,7 @@ In current set up , we dont need to set the directory path or need to create if 
 
 * The file Configuration.java in de.fraunhofer.abm.suitebuilder contains "Workspace Root" which you can adjust to fit your development machine. Make sure that your ${USER} has read, write, and execute accesses to this directory and its sub-directories.
 * The file Configuration.java in de.fraunhofer.abm.repoarchive.local contains "Directory" which you can adjust to fit your development machine. Make sure that your ${USER} has read, write, and execute accesses to this directory and its sub-directories.
-* The file HermesConfiguration.java in de.fraunhofer.abm.hermes.impl contains "hermesConfigDir()" which you can adust to fit your development machine. Make sure that your ${USER} has read, write, and execute accesses to this directory and its sub-directories. Make sure to keep all the hermes configuration files in this directory.
+* The file HermesConfiguration.java in de.fraunhofer.abm.hermes.impl contains "hermesConfigDir()" which you can adust to fit your development machine. Make sure that your ${USER} has read, write, and execute accesses to this directory and its sub-directories. **Make sure to keep all the hermes configuration files in this directory.**
 
 * These changes can also be made in the system console under OSGi -> Configuration , but it is not permanent, i.e. they are rest after a restart.
 * The file configuration.json in de.fraunhofer.abm.collection.dao.jpa contains the sql credentials that ABM uses to access the tables. Make sure that they match existing mysql credentials.
