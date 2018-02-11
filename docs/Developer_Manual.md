@@ -22,9 +22,8 @@
   $ sudo chmod 755 abm_install.sh
   $ sudo ./abm_install.sh
   ```
-* You will be prompted for the mysql root password. It is "password". You can modify it afterwards.
+* If you are prompted for the mysql root password, it is "password". You can modify it afterwards.
 * Once the installation finishes, log out and log in again.
-* Run the script again to finish the installation.
 * Make sure that the [configuration files](#configuration-files) of ABM contain the correct information.
 * You can [launch ABM](#launch-abm).
   
@@ -137,7 +136,7 @@ The installation of ABM is not recommended on Windows. We advise Windows users t
 * Import the source code of ABM 
   * File > Import > General > Existing projects into Workspace
   * Point the root directory to ${DIRECTORY}/abm/bnd-workspace
-  * Select all projects except de.fraunhofer.abm.collection.dao.jdbc
+  * Select all projects.
   * Uncheck "Copy projects into workspace"
 * Wait for the workspace to finish building. If compilation errors appear in the code (except for the test project), they should be solved before continuing.
 * Open the file abm/bnd-workspace/de.fraunhofer.abm.collection.dao.jpa/configuration/configuration.json and modify the database configurations: replace the user and password by the mysql user and password that you have created when [installing the database](#set-up-the-database). If you haven't created a user, you can use "root" as the user and the root password as the configuration password.
@@ -182,8 +181,14 @@ All users are managed by the OSGi UserAdmin service, which can be accessed throu
 * **You are done with the installation. Congratulations!** 
 
 # Configuration files
+
+In current set up , we dont need to set the directory path or need to create if the required directory structure is not there. application will itself create the directory structure and application will run fine.
+
 * The file Configuration.java in de.fraunhofer.abm.suitebuilder contains "Workspace Root" which you can adjust to fit your development machine. Make sure that your ${USER} has read, write, and execute accesses to this directory and its sub-directories.
 * The file Configuration.java in de.fraunhofer.abm.repoarchive.local contains "Directory" which you can adjust to fit your development machine. Make sure that your ${USER} has read, write, and execute accesses to this directory and its sub-directories.
+* The file HermesConfiguration.java in de.fraunhofer.abm.hermes.impl contains "hermesConfigDir()" which you can adust to fit your development machine. Make sure that your ${USER} has read, write, and execute accesses to this directory and its sub-directories. **Make sure to keep all the hermes configuration files in this directory.** Hermes configuration files are as follows - 
+     docker.sh , queryfeaturemap.json , application.conf and hermes.json
+
 * These changes can also be made in the system console under OSGi -> Configuration , but it is not permanent, i.e. they are rest after a restart.
 * The file configuration.json in de.fraunhofer.abm.collection.dao.jpa contains the sql credentials that ABM uses to access the tables. Make sure that they match existing mysql credentials.
 * The username and password of the web console can be modified in the file de.fraunhofer.abm.bndrun in de.fraunhofer.abm.app (felix.webconsole.username and felix.webconsole.password).
