@@ -1,15 +1,15 @@
 -runproperties: \
-	felix.webconsole.password=;F+9:j9Cy9ea5x+A.,\
+	felix.webconsole.password=,\
 	org.jboss.logging.provider=slf4j,\
 	org.apache.felix.http.host=127.0.0.1,\
-	felix.webconsole.username=root
+	felix.webconsole.username=
+	adminAddress="",\
+    serverHost="",\
+    serverPort="",\
+    userAddress="",\
+    userName="",\
+    userPassword="",\
+    googleClientId="",\
+    githubToken=""
 -runvm: \
    -Xmx1G
-   -DadminAddress="",\
-   -DserverHost="",\
-   -DserverPort="",\
-   -DuserAddress="",\
-   -DuserName="",\
-   -DuserPassword="",\
-   -DgoogleClientId="",\
-   -DgithubToken=""
