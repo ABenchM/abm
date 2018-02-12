@@ -21,7 +21,12 @@ angular.module('de.fraunhofer.abm').controller('modalBuildController', function(
 		$ctrl.socket.onmessage = function(e) {
 			if (typeof e.data == "string") {
 				var resp = JSON.parse(e.data);
-				if(resp.msg == "update") {
+				if (resp.msg == "build_cancelled"){
+					
+					if($ctrl.socket != null){$ctrl.socket.close();}
+					$uibModalInstance.close();
+				}
+				else if(resp.msg == "update") {
 					if(resp.data == 'build_process_finished') {
 						$scope.build.status = 'FAILED';
 						for(var i=0; i<$scope.build.projectBuilds.length; i++) {
