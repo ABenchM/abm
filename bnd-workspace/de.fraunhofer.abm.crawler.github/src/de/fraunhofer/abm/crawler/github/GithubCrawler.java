@@ -29,6 +29,7 @@ import de.fraunhofer.abm.domain.RepositoryDTO;
 import de.fraunhofer.abm.domain.TagDTO;
 import de.fraunhofer.abm.http.client.Base64;
 import de.fraunhofer.abm.http.client.HttpUtils;
+import de.fraunhofer.abm.util.AbmApplicationConstants;
 
 @Component
 @ProviderType
@@ -205,7 +206,7 @@ public class GithubCrawler implements Crawler {
 
     static Map<String, String> header = new HashMap<>();
     static {
-		String token = "f6069438a909eb2b96aca4ab1159be3b38d7f780:x-oauth-basic";
+		String token = AbmApplicationConstants.githubToken();
 		String authString = "Basic " + Base64.encodeBytes(token.getBytes());
         header.put("Authorization", authString);
     }

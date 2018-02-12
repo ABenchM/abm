@@ -2,3 +2,4 @@
 /bin/
 /cache/
 local/index.*
+/build.bnd
