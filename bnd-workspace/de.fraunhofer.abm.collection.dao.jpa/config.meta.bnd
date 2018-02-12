@@ -1,3 +1,0 @@
--includeresource: \
-	{configuration=configuration/default}, \
-	{META-INF/sql=sql}
