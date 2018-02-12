@@ -33,7 +33,7 @@
 		$routeProvider.otherwise('/');
 		
 		GoogleSigninProvider.init({
-	        client_id: '1028525994000-2e188qbc7bgpmrdrqp0crfjaavn2o3oo.apps.googleusercontent.com',
+	        client_id: '${googletoken}',
 	    });
 	}]);
 	
