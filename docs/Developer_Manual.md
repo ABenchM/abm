@@ -188,7 +188,7 @@ All users are managed by the OSGi UserAdmin service, which can be accessed throu
 * The file Configuration.java in de.fraunhofer.abm.suitebuilder contains "Workspace Root" which you can adjust to fit your development machine. Make sure that your ${USER} has read, write, and execute accesses to this directory and its sub-directories: `$ sudo chown -R ${USER}:${USER} ${WORKSPACE_ROOT}`
 * The file Configuration.java in de.fraunhofer.abm.repoarchive.local contains "Directory" which you can adjust to fit your development machine. Make sure that your ${USER} has read, write, and execute accesses to this directory and its sub-directories: `$ sudo chown -R ${USER}:${USER} ${WORKSPACE_DIRECTORY}`
 * The file HermesConfiguration.java in de.fraunhofer.abm.hermes.impl contains "hermesConfigDir()" which you can adust to fit your development machine. Make sure that your ${USER} has read, write, and execute accesses to this directory and its sub-directories: `$ sudo chown -R ${USER}:${USER} ${HERMES_CONFIG_DIR}` Make sure to keep the Hermes configuration files in this directory (docker.sh, queryfeaturemap.json, application.conf, and hermes.json). You can find the files in hermes_config in this repository.
-* The file configuration.json in de.fraunhofer.abm.collection.dao.jpa contains the sql credentials that ABM uses to access the tables. Make sure that they match existing mysql credentials.
+* The files configuration.json in de.fraunhofer.abm.collection.dao.jpa and in de.fraunhofer.abm.collection.dao.jdbc contain the sql credentials that ABM uses to access the tables. Make sure that they match existing mysql credentials.
 
 # Launching or bouncing the application on production server
 * Install ABM as shown in the installation section
