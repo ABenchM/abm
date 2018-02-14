@@ -167,7 +167,7 @@ The installation of ABM is not recommended on Windows. We advise Windows users t
 All users are managed by the OSGi UserAdmin service, which can be accessed through the system console.
 * Launch ABM (see [Launch ABM](#launch-abm))
 * Open your browser and access the system console http://localhost:8080/system/console
-* The username and password to access the user console are defined in de.fraunhofer.abm.app/de.fraunhofer.abm.bndrun under "Runtime Properties". You have modified them when [setting up Eclipse](#set-up-eclipse) (felix.webconsole.password)
+* The username and password to access the user console are defined in config.bnd in de.fraunhofer.abm.app
 * Go to OSGi -> Users
 * Create a group Admin
 * Create a group RegisteredUser
