@@ -121,7 +121,7 @@ The installation of ABM is not recommended on Windows. We advise Windows users t
 * Create the abm database
   ```
   $ mysql -uroot -p
-  $ `create database abm;`
+  $ create database abm;
   $ exit
   ```
 * Create the useradmin datatables
