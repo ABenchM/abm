@@ -53,18 +53,19 @@ The installation of ABM is not recommended on Windows. We advise Windows users t
   $ cd ${DIRECTORY}
   $ git clone https://github.com/nguyenLisa/abm.git
   ```
-* Copy the files contained in ${DIRECTORY}/abm/hermes_config into /opt/abm and give your user ${USER} read, write, and execute rights on them.
+* Set up the [configuration variables](#configuration-files), except for the SQL credentials.
+* Copy the files contained in ${DIRECTORY}/abm/hermes_config into the directory ${HERMES_CONFIG_DIR}. Give your user ${USER} read, write, and execute rights on them.
   ```
-  $ sudo mkdir /opt/abm
-  $ sudo cp ${DIRECTORY}/abm/hermes_config/* /opt/abm
-  $ sudo chown -R ${USER}:${USER} /opt/abm
+  $ sudo mkdir ${HERMES_CONFIG_DIR}
+  $ sudo cp ${DIRECTORY}/abm/hermes_config/* ${HERMES_CONFIG_DIR}
+  $ sudo chown -R ${USER}:${USER} ${HERMES_CONFIG_DIR}
   ```
 * Create the ABM workspace and give your user ${USER} read, write, and execute rights on them.
   ```
-  $ sudo mkdir /var/lib/abm/
-  $ sudo mkdir /var/lib/abm/repo
-  $ sudo mkdir /var/lib/abm/workspace
-  $ chown -R ${USER}:${USER} /var/lib/abm
+  $ sudo mkdir ${WORKSPACE_ROOT}
+  $ sudo mkdir ${WORKSPACE_DIRECTORY}
+  $ chown -R ${USER}:${USER} ${WORKSPACE_ROOT}
+  $ chown -R ${USER}:${USER} ${WORKSPACE_DIRECTORY}
   ```  
   
 ### Set up Docker
@@ -112,6 +113,7 @@ The installation of ABM is not recommended on Windows. We advise Windows users t
   $ FLUSH PRIVILEGES;
   $ exit
   ```
+* Set up the SQL credentials in the ABM [configuration files](#configuration-files).
 * Create the abm database
   ```
   $ mysql -uroot -p
@@ -180,18 +182,13 @@ All users are managed by the OSGi UserAdmin service, which can be accessed throu
     
 * **You are done with the installation. Congratulations!** 
 
-# Configuration files
+# Configuration information
 
-In current set up , we dont need to set the directory path or need to create if the required directory structure is not there. application will itself create the directory structure and application will run fine.
-
-* The file Configuration.java in de.fraunhofer.abm.suitebuilder contains "Workspace Root" which you can adjust to fit your development machine. Make sure that your ${USER} has read, write, and execute accesses to this directory and its sub-directories.
-* The file Configuration.java in de.fraunhofer.abm.repoarchive.local contains "Directory" which you can adjust to fit your development machine. Make sure that your ${USER} has read, write, and execute accesses to this directory and its sub-directories.
-* The file HermesConfiguration.java in de.fraunhofer.abm.hermes.impl contains "hermesConfigDir()" which you can adust to fit your development machine. Make sure that your ${USER} has read, write, and execute accesses to this directory and its sub-directories. **Make sure to keep all the hermes configuration files in this directory.** Hermes configuration files are as follows - 
-     docker.sh , queryfeaturemap.json , application.conf and hermes.json
-
-* These changes can also be made in the system console under OSGi -> Configuration , but it is not permanent, i.e. they are rest after a restart.
+* The file config.bnd in de.fraunhofer.abm.app contains the application configuration information: webconsole credentials and settings, admin email information, Google token and GitHub token. Replace the values of the configuration information with your own.
+* The file Configuration.java in de.fraunhofer.abm.suitebuilder contains "Workspace Root" which you can adjust to fit your development machine. Make sure that your ${USER} has read, write, and execute accesses to this directory and its sub-directories: `$ sudo chown -R ${USER}:${USER} ${WORKSPACE_ROOT}`
+* The file Configuration.java in de.fraunhofer.abm.repoarchive.local contains "Directory" which you can adjust to fit your development machine. Make sure that your ${USER} has read, write, and execute accesses to this directory and its sub-directories: `$ sudo chown -R ${USER}:${USER} ${WORKSPACE_DIRECTORY}`
+* The file HermesConfiguration.java in de.fraunhofer.abm.hermes.impl contains "hermesConfigDir()" which you can adust to fit your development machine. Make sure that your ${USER} has read, write, and execute accesses to this directory and its sub-directories: `$ sudo chown -R ${USER}:${USER} ${HERMES_CONFIG_DIR}` Make sure to keep the Hermes configuration files in this directory (docker.sh, queryfeaturemap.json, application.conf, and hermes.json). You can find the files in hermes_config in this repository.
 * The file configuration.json in de.fraunhofer.abm.collection.dao.jpa contains the sql credentials that ABM uses to access the tables. Make sure that they match existing mysql credentials.
-* The username and password of the web console can be modified in the file de.fraunhofer.abm.bndrun in de.fraunhofer.abm.app (felix.webconsole.username and felix.webconsole.password).
 
 # Launching or bouncing the application on production server
 * Install ABM as shown in the installation section
