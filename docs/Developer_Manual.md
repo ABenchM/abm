@@ -103,8 +103,12 @@ The installation of ABM is not recommended on Windows. We advise Windows users t
   $ sudo apt-get install mysql-server
   $ mysql_secure_installation
   ```
-  * MacOS `$ brew install mysql`
-  * **On Linux, you will be prompted for a root password. On MacOS, the root password appears in a popup at the end of the installation. In both cases, note it down.**
+  * MacOS
+  ```
+  $ brew install mysql
+  $ mysql_secure_installation
+  ```
+  * **Do not forget your root password.**
 * Optional: If you do not want ABM to use the mysql root account, you can create your own account and grant it all privileges.
   ```
   $ mysql -uroot -p
