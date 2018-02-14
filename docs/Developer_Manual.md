@@ -132,10 +132,6 @@ The installation of ABM is not recommended on Windows. We advise Windows users t
   
 ### Set up Eclipse 
 * Download and install Eclipse for **Java Developers** (http://www.eclipse.org/downloads/)
-* Install bndtools from the Market Place
-* Install Webclipse (Angular) from the Market Place
-* Import existing projects
-  
 * Start Eclipse with the workspace directory set to "abm/eclipse-workspace"
 * Install bndtools from the Market Place (Help > Eclipse Marketplace)
 * Optional: Install Webclipse (Angular) from the Market Place (Help > Eclipse Marketplace)
