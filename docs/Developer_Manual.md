@@ -144,7 +144,7 @@ The installation of ABM is not recommended on Windows. We advise Windows users t
 * Open the file abm/bnd-workspace/de.fraunhofer.abm.collection.dao.jpa/configuration/configuration.json and modify the database configurations: replace the user and password by the mysql user and password that you have created when [installing the database](#set-up-the-database). If you haven't created a user, you can use "root" as the user and the root password as the configuration password.
 * Open the file abm/bnd-workspace/de.fraunhofer.abm.app/de.fraunhofer.abm.bndrun and modify the felix.webconsole.username and the felix.webconsole.password
 * Generate the rest of the database:
-  * Open the file de.fraunhofer.abm.collection.dao.jpa/persistence.xml
+  * Open the file persistence.xml in de.fraunhofer.abm.collection.dao.jpa
   * Uncomment <property name="javax.persistence.schema-generation.database.action" value="drop-and-create" /> (this line enables the database generation from the JPA entities. this has to be done only when the JPA entities change or for the setup)
   * Launch ABM (see [Launch ABM](#launch-abm))
   * Close ABM by clicking on the red square in the Eclipse Console.
