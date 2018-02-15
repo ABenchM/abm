@@ -64,7 +64,7 @@
 					<th>ID</th>
 					<th></th>
 				</tr>
-				<tr ng-repeat="row in pinned">
+				<tr style="cursor:pointer;" ng-repeat="row in pinned">
 					<td ng-click="pc.view(row.id)">{{row.name}}</td>
 					<td ng-click="pc.view(row.id)">{{row.description}}</td>
 					<td>{{row.creation_date | date:'short'}}</td>
