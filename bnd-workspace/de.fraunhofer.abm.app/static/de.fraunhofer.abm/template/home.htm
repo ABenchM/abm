@@ -25,7 +25,7 @@
 						<!-- <th>Size</th> -->
 						<th>ID</th>
 					</tr>
-					<tr ng-repeat="row in userCollections">
+					<tr style="cursor:pointer;" ng-repeat="row in userCollections">
 						<td ng-click="cc.open(row)">{{row.name}}</td>
 						<td ng-click="cc.open(row)">{{row.description}}</td>
 						<td ng-click="cc.open(row)">{{row.creation_date | date:'short'}}</td>
@@ -64,7 +64,7 @@
 					<th>ID</th>
 					<th></th>
 				</tr>
-				<tr ng-repeat="row in pinned">
+				<tr style="cursor:pointer;" ng-repeat="row in pinned">
 					<td ng-click="pc.view(row.id)">{{row.name}}</td>
 					<td ng-click="pc.view(row.id)">{{row.description}}</td>
 					<td>{{row.creation_date | date:'short'}}</td>
