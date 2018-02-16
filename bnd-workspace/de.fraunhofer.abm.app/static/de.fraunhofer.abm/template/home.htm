@@ -118,7 +118,7 @@
 				<th>ID</th>
 				<th ng-hide="user === undefined"></th>
 			</tr>
-			<tr ng-repeat="row in publicData">
+			<tr style="cursor:pointer;" ng-repeat="row in publicData">
 				<td ng-click="pc.view(row.id)">{{row.name}}</td>
 				<td ng-click="pc.view(row.id)">{{row.description}}</td>
 				<td>{{row.creation_date | date:'short'}}</td>
