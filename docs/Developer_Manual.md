@@ -26,6 +26,7 @@
   * You will be prompted for your MySQL root password. If MySQL is already installed on your machine, provide the existing root password. If not, choose one.
     * To determine if MySQL is already installed on your machine, run `$ mysql`.
     * Some steps of the installations script may take several minutes. While waiting, you can consult the log files to check on the advancement of the installation.
+    * If the script fails at any point, re-run it. It will skip the parts that are already done.
 * Once the installation finishes, restart your machine.
 * Fill in the correct information in the [configuration files](#configuration-information) of ABM.
 * Continue with the installation instructions from the [Eclipse set-up](#set-up-eclipse). You don't need to install Eclipse, it is already done.
