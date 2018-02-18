@@ -19,10 +19,10 @@
 ## Installation scripts (Linux only)
 * Download the files found at abm/docs/abm_install and put them into a directory ${DIRECTORY} where you want to install ABM.
 * Run the installation script: 
-```
-$ cd ${DIRECTORY}
-$ sudo bash ./abm_install.sh
-```
+  ```
+  $ cd ${DIRECTORY}
+  $ sudo bash ./abm_install.sh
+  ```
   * You will be prompted for your MySQL root password. If MySQL is already installed on your machine, provide the existing root password. If not, choose one.
     * To determine if MySQL is already installed on your machine, run `$ mysql`.
     * Some steps of the installations script may take several minutes. While waiting, you can consult the log files to check on the advancement of the installation.
