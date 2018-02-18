@@ -27,8 +27,8 @@
     * To determine if MySQL is already installed on your machine, run `$ mysql`.
     * Some steps of the installations script may take several minutes. While waiting, you can consult the log files to check on the advancement of the installation.
 * Once the installation finishes, restart your machine.
-* Open Eclipse and fill in the correct information in the [configuration files](#configuration-information) of ABM.
-* Continue with the installation instructions from the [Eclipse set-up](#set-up-eclipse). You don't need to install Eclipse.
+* Fill in the correct information in the [configuration files](#configuration-information) of ABM.
+* Continue with the installation instructions from the [Eclipse set-up](#set-up-eclipse). You don't need to install Eclipse, it is already done.
   
 ## Complete installation (Linux and MacOS)
 The installation of ABM is not recommended on Windows. We advise Windows users to dual boot their installation with Linux or to use a VM. Note that ABM tends to be a bit slow on a VM, depending on the capabilities of the host machine.
@@ -135,7 +135,7 @@ The installation of ABM is not recommended on Windows. We advise Windows users t
   
 ### Set up Eclipse 
 * Download and install Eclipse for **Java Developers** (http://www.eclipse.org/downloads/)
-* Start Eclipse with the workspace directory set to "abm/eclipse_workspace"
+* Start Eclipse with the workspace directory set to ${DIRECTORY}/abm/eclipse_workspace
 * Install bndtools from the Market Place (Help > Eclipse Marketplace)
 * Optional: Install Webclipse (Angular) from the Market Place (Help > Eclipse Marketplace)
 * Import the source code of ABM 
