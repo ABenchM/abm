@@ -132,6 +132,7 @@ The installation of ABM is not recommended on Windows. We advise Windows users t
   ```
   $ cd ${DIRECTORY}/abm/bnd-workspace
   $ mysql -u root -p -D abm < de.fraunhofer.abm.useradmin.dao.jdbc/useradmin_ddl.sql
+  $ mysql -u root -p -D abm < docs/abm.sql
   ```
   
 ### Set up Eclipse 
