@@ -8,7 +8,7 @@
     * [Set up Eclipse](#set-up-eclipse)
     * [Launch ABM](#launch-abm)
     * [Create the demo user](#create-the-demo-user)
-* [Configuration files](#configuration-files)
+* [Configuration information](#configuration-information)
 * [Launching or bouncing the application on production server](#launching-or-bouncing-the-application-on-production-server)
 * [Running Hermes manually](#running-hermes-manually)
 * [Updating the database](#updating-the-database)
@@ -53,7 +53,7 @@ The installation of ABM is not recommended on Windows. We advise Windows users t
   $ cd ${DIRECTORY}
   $ git clone https://github.com/nguyenLisa/abm.git
   ```
-* Set up the [configuration variables](#configuration-files), except for the SQL credentials.
+* Set up the [configuration variables](#configuration-information), except for the SQL credentials.
 * Copy the files contained in ${DIRECTORY}/abm/hermes_config into the directory ${HERMES_CONFIG_DIR}. Give your user ${USER} read, write, and execute rights on them.
   ```
   $ sudo mkdir ${HERMES_CONFIG_DIR}
