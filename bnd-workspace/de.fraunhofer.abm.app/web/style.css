@@ -96,14 +96,14 @@ body {
   text-decoration: none;
 }
 
-/* Allows a modal window to appear from the left */
+/* Allows a modal window to appear from the right */
 .modal.fade {
   opacity: 1;
 }
 
 .modal.fade:not(.in).side .modal-dialog {
-  -webkit-transform: translate3d(-100%, 0, 0);
-  transform: translate3d(-100%, 0, 0);
+  -webkit-transform: translate3d(100%, 0, 0);
+  transform: translate3d(100%, 0, 0);
 }
 
 .modal-sidebar{
