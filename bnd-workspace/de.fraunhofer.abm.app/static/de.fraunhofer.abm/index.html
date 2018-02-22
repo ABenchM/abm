@@ -13,9 +13,9 @@
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <link rel="stylesheet" type="text/css" href="/osgi.enroute.webresource/${bsn}/${Bundle-Version}/*.css">
-<link rel="stylesheet" type="text/css" href="main/libs/ui.grid/ui-grid.min.css"> 
-<link rel="stylesheet" type="text/css" href="main/libs/ui.select/select.min.css"> 
-<link rel="stylesheet" type="text/css" href="main/libs/angular-ui-notification/angular-ui-notification.min.css"> 
+<link rel="stylesheet" type="text/css" href="main/libs/ui.grid/ui-grid.min.css">
+<link rel="stylesheet" type="text/css" href="main/libs/ui.select/select.min.css">
+<link rel="stylesheet" type="text/css" href="main/libs/angular-ui-notification/angular-ui-notification.min.css">
 
 
 <style type="text/css">
@@ -29,7 +29,7 @@
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-    
+
 </head>
 
 <body ng-app="de.fraunhofer.abm" ng-cloak class="ng-cloak">
@@ -47,21 +47,21 @@
 				<li ng-class="{active: page() == '/login'}" ng-show="user === undefined"><a href="#/login">Login</a></li>
 				<li ng-hide="user === undefined"><a href="" ng-click="logout()">Logout</a></li>
 			</ul>
-			
+
 		<h3 class="text-muted custom-right title-text">Automated Benchmark Management</h3>
-			
+
 		</div>
-		
-  		<div style="margin-top:89px;position:relative" ng-view></div>  	
-		
+
+  		<div style="margin-top:89px;position:relative" ng-view></div>
+
 		<div class="sidebar" ng-controller="buildTabController as btc" ng-hide="hideSidebar" >
 			<div ng-repeat="tab in btc.tabs" class="sidebarTab" ng-hide="tab.hidden" title="{{tab.name}}">
-				<span class="glyphicon glyphicon-chevron-left" ng-click="btc.hide(tab.id)")></span>
+				<span class="glyphicon glyphicon-chevron-right" ng-click="btc.hide(tab.id)")></span>
 				<a href style="background:linear-gradient(to right, {{tab.buildStatus | statusColour}} {{tab.progress * 100}}%, transparent 0%)" ng-click="btc.open(tab);">{{tab | tabTitle}}</a>
 			</div>
 		</div>
 
-<!-- 
+<!--
 		<div class="footer">
 			<p>&copy; ${def;Bundle-Vendor;Fraunhofer IEM} ${tstamp;YYYY}</p>
 		</div>
@@ -83,6 +83,6 @@
 	<script src="main/libs/ui.select/select.min.js"></script>
 	<script src="main/libs/ngCart/ngCart.js"></script>
 	<script src="main/libs/convenience.js"></script>
-	
+
 </body>
 </html>
