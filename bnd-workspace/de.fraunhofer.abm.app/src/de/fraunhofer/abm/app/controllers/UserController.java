@@ -56,7 +56,7 @@ public class UserController extends AbstractController implements REST {
 		String name = params.get("username");
 		String password = params.get("password");
 		String approvalToken = TokenGenerator.generateToken();
-		String token = MessageFormat.format("Activation Link:{0}?name={1}&token={2}\n", approvalEndpoint, name,
+		String token = MessageFormat.format("Activation Link: {0}?name={1}&token={2}\n", approvalEndpoint, name,
 				approvalToken);
 		if (!userDao.checkExists(name)) {
 			String sbj = params.get("username") + " Registered on ABM";

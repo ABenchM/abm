@@ -43,7 +43,7 @@ public class UserApprovalController extends AbstractController implements REST {
 	 * 
 	 */
 	@SuppressWarnings("unchecked")
-	public String getApproval(RESTRequest rr) {
+	public void getApproval(RESTRequest rr) {
 		try {
 			Map<String, String[]> params = rr._request().getParameterMap();
 			String name = getIfValid(params.get("name"));
@@ -54,17 +54,10 @@ public class UserApprovalController extends AbstractController implements REST {
 			user.getCredentials().put("password", password);
 			Group registeredUserGroup = (Group) userAdmin.getRole("RegisteredUser");
 			registeredUserGroup.addMember(user);
-			/**String sbj = params.get("username") + " Approved on ABM";
-			String msg = "You have been approved! Please click here to login: https://abm.cs.upb.de/abm/index.html#/login";
-			MimeMessage message = new MimeMessage(config.getSession());
-			message.setFrom(config.getFrom());
-			message.addRecipients(Message.RecipientType.TO, config.getTo());
-			message.setSubject(sbj);
-			message.setText(msg);
-			Transport.send(message);**/
-			return "User has been approved";
+			// TODO: Send email to user to let them know that their account is now active.
+			// return "User has been approved";
 		} catch (Exception e) {
-			return e.getCause() != null ? e.getCause().getMessage() : e.getMessage();
+			// return e.getCause() != null ? e.getCause().getMessage() : e.getMessage();
 		}
 	}
 

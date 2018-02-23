@@ -16,8 +16,8 @@ JPM-Command:			abm
 
 -includeresource: \
 	{readme.md}, \
-	{static=static}, \
-	web=web
+	{static=static},\
+	{web=web}
 
 -buildpath: \
 	osgi.enroute.base.api,\

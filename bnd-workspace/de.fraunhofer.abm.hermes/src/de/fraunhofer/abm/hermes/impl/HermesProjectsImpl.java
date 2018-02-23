@@ -7,7 +7,11 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.metatype.annotations.Designate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.core.JsonEncoding;
 import com.fasterxml.jackson.core.JsonFactory;
@@ -15,13 +19,17 @@ import com.fasterxml.jackson.core.JsonGenerator;
 
 import de.fraunhofer.abm.hermes.HermesProjects;
 
-
-@Component
+@Component(name = "de.fraunhofer.abm.hermes.HermesProjects")
 public class HermesProjectsImpl implements HermesProjects  {
 
-	File projectPath = new File("/opt/abm/hermes.json");
+	private static final transient Logger logger = LoggerFactory.getLogger(HermesProjectsImpl.class);
+	private File projectPath ;
 	
-	
+	public HermesProjectsImpl(File projectPath) {
+		
+		this.projectPath = projectPath;
+		this.projectPath = new File(projectPath.toString(),"hermes.json");
+	}
 	
 	
 	
@@ -57,11 +65,13 @@ public class HermesProjectsImpl implements HermesProjects  {
 				jg.close();
 	
 	}
+		
 	
 	@Override
 	public void addProjects(HashMap<String,String> projects) throws IOException
 	{
 		JsonFactory jf = new JsonFactory();
+		logger.info("Project Path is {}", projectPath);
 		 JsonGenerator jg = jf.createGenerator(projectPath,JsonEncoding.UTF8);
 		
 		

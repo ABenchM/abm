@@ -38,6 +38,7 @@ import de.fraunhofer.abm.hermes.FilterResults;
 import de.fraunhofer.abm.hermes.Hermes;
 import de.fraunhofer.abm.hermes.HermesFilter;
 import de.fraunhofer.abm.hermes.HermesProcess;
+import de.fraunhofer.abm.hermes.HermesProjects;
 import de.fraunhofer.abm.util.FileUtil;
 import osgi.enroute.configurer.api.RequireConfigurerExtender;
 import osgi.enroute.rest.api.REST;
@@ -81,6 +82,7 @@ public class HermesController implements REST {
 	 @Reference
 	 private FilterResults filterResults;
 	 
+		 
 	 
 	 interface VersionRequest extends RESTRequest {
 	        VersionDTO _body();

@@ -16,11 +16,12 @@ public class MoveConf extends AbstractHermesStep<Void> {
 	private String containerName;
 	// private String repoDir;
 	private String fileName;
-	private String workSpace;
+	private File hermesConfigDir;
 
-	public MoveConf(String repoDir) {
+	public MoveConf(String repoDir , File hermesconfigDir) {
 		super(repoDir);
 		// this.repoDir = repoDir;
+		this.hermesConfigDir = hermesconfigDir;
 		this.name = "Transfer Config files to Docker";
 
 	}
@@ -33,9 +34,9 @@ public class MoveConf extends AbstractHermesStep<Void> {
 		this.fileName = fileName;
 	}
 
-	public void setWorkSpace(String workSpace) {
+	/*public void setWorkSpace(String workSpace) {
 		this.workSpace = workSpace;
-	}
+	}*/
 
 	@Override
 	public Void execute() {
@@ -44,7 +45,7 @@ public class MoveConf extends AbstractHermesStep<Void> {
 		try {
 
 			Result result = exec("docker cp " + fileName + " " + containerName
-					+ ":/root/OPAL/DEVELOPING_OPAL/tools/src/main/resources", new File(workSpace));
+					+ ":/root/OPAL/DEVELOPING_OPAL/tools/src/main/resources", hermesConfigDir);
 			output = result.stdout;
 			errorOutput = result.stderr;
 			setStatus(result.exitValue == 0 ? STATUS.SUCCESS : STATUS.FAILED);

@@ -1,4 +1,8 @@
 eclipse-workspace
+eclipse_workspace
 workspace-eclipse
+workspace_eclipse
 dist
 .gradle
+.DS_Store
+*.class

@@ -3,6 +3,7 @@ package de.fraunhofer.abm.hermes.impl;
 
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -15,7 +16,9 @@ import java.util.Map;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.io.IOUtils;
+import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.metatype.annotations.Designate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,6 +28,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import de.fraunhofer.abm.domain.FilterStatusDTO;
 import de.fraunhofer.abm.hermes.FilterResults;
 
+@Designate(ocd = HermesConfiguration.class)
 @Component(name = "de.fraunhofer.abm.hermes.FilterResults")
 public class FilterResultsImpl implements FilterResults {
 
@@ -32,6 +36,7 @@ public class FilterResultsImpl implements FilterResults {
 	
 	
 	int noOfProjects;
+	File hermesConfigDir;
     Map<String,List<String>> queryFeatureMap = new HashMap<String,List<String>>();
 
     Map<String,Map<String,Integer>> projects =  new HashMap<String,Map<String,Integer>>();
@@ -41,6 +46,18 @@ public class FilterResultsImpl implements FilterResults {
     List<List<String>> rows = new ArrayList<List<String>>();
     
 	
+    @Activate
+    void activate(HermesConfiguration config) {
+        
+        String hermesConfigDir = config.hermesConfigDir();
+        logger.info("Setting Filter Results config path: {}", hermesConfigDir);
+        this.hermesConfigDir = new File(hermesConfigDir);
+        if(!this.hermesConfigDir.exists()) {
+        	this.hermesConfigDir.mkdirs();
+        }
+        this.hermesConfigDir = new File(hermesConfigDir,"queryfeaturemap.json");
+    }
+    
 	 
 	
 	  public String getKeyByValue(Map<String, List<String>> map, String value) {
@@ -59,7 +76,9 @@ public class FilterResultsImpl implements FilterResults {
 		  
 		  ObjectMapper mapper = new ObjectMapper();
 			
-			String url = "file:///opt/abm/queryfeaturemap.json";
+		   logger.info("Path for the Query header is {}",hermesConfigDir);
+			
+		    String url = "file://"+hermesConfigDir.toString();
 			
 			String genrejson = IOUtils.toString(new URL(url));
 
@@ -118,7 +137,7 @@ public class FilterResultsImpl implements FilterResults {
 	    	
             ObjectMapper mapper = new ObjectMapper();
 			
-			String url = "file:///opt/abm/queryfeaturemap.json";
+			String url = "file://"+hermesConfigDir.toString();
 			
 			String genrejson = IOUtils.toString(new URL(url));
 

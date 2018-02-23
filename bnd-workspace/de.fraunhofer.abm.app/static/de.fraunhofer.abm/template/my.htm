@@ -11,7 +11,7 @@
 <!--	<div id="user-collections-table" ui-grid="gridOpts" ui-grid-resize-columns ui-grid-auto-resize class="grid" ng-hide="loading"></div> -->
 	<div ng-hide="loading">
 		<p ng-show="userCollections === undefined" class="alert alert-warning">You have not created any collections yet. To create a new collection, collect projects using the search feature and create a collection from them in the Projects tab.</p>
-		
+
 		<table class="table table-bordered table-striped table-hover" style="max-height:400px;table-layout:fixed;" ng-hide="userCollections === undefined">
 			<col width="23%">
 			<col width="39%">
@@ -37,7 +37,7 @@
 			</tr>
 		</table>
 	</div>
-	
+
 	<div ng-show="cc.showCollection">
 		<hr>
 		<form name="form" role="form">
@@ -82,20 +82,20 @@
 			</div>
 			<div id="frozen" ng-show="cc.version.frozen">
 				This version is frozen, because it has been built. You can make it editable again by clicking unfreeze.
-				<strong>!!! Be aware, that the previous build result will be deleted !!!</strong>
+				<strong>Be aware, that the previous build result will be deleted!</strong>
 				<br/><br/>
 				<button ng-disabled="loading || cc.saving || cc.disableBuild" class="btn btn-primary btn-sm" ng-click="cc.addBuild(cc.version)">Show build</button>
 	            <button ng-disabled="loading || cc.saving || cc.disableBuild" class="btn btn-danger btn-sm" ng-click="cc.unfreeze(cc.version)">Unfreeze</button>
 			</div>
 			<div id="filter" ng-show="cc.version.filtered">
 				This version is frozen, because a Hermes filter has been run on it. You can make it editable again by clicking unfreeze.
-				<strong>!!! Be aware, that the results of the filter will be deleted !!!</strong>
+				<strong>Be aware, that the results of the filter will be deleted!</strong>
 				<br/><br/>
 				<button ng-disabled="loading || cc.saving || cc.disableBuild" class="btn btn-primary btn-sm" ng-click="cc.showFilter(cc.version)">Show filter results</button>
 	            <button ng-disabled="loading || cc.saving || cc.disableBuild" class="btn btn-danger btn-sm" ng-click="cc.removeFilter(cc.version)">Unfreeze</button>
 			</div>
     	</div>
-    	
+
    		<table class="table table-bordered table-striped">
 			<col width="*">
 			<col width="*">

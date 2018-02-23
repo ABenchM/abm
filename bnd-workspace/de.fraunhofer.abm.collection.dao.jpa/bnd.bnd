@@ -1,17 +1,14 @@
+-include: config.bnd
 Bundle-Version: 1.0.0.${tstamp}
 Bundle-Description: JPA implementation of the collection DAO interface 
 
 Private-Package: de.fraunhofer.abm.collection.dao.jpa
-
 # This is needed due to Hibernate bug HHH-10742
 Import-Package: javassist.util.proxy,org.hibernate.proxy,*
 
--includeresource: \
-	{configuration=configuration}, \
-	{META-INF/sql=sql}, \
-	{persistence.xml}
 
-Meta-Persistence: persistence.xml 
+
+Meta-Persistence: configuration/persistence.xml 
 
 -buildpath: \
 	de.fraunhofer.abm.domain;version=latest,\

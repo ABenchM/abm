@@ -1,7 +1,7 @@
 #
 #  DEFAULTS
 #
-
+-include: config.bnd
 Bundle-Version:					1.0.0.${tstamp}
 Bundle-Description: JDBC DAOs to access and store UserAdmin data
 
@@ -16,8 +16,6 @@ Bundle-Description: JDBC DAOs to access and store UserAdmin data
 -testpath: \
 	osgi.enroute.junit.wrapper;version=4.12
 
--includeresource: \
-	{configuration=configuration}, \
-	{useradmin_ddl.sql}
+
 
 Private-Package: de.fraunhofer.abm.useradmin.dao.jdbc

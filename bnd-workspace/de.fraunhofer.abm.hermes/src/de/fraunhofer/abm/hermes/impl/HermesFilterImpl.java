@@ -13,7 +13,10 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
 
+import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Deactivate;
+import org.osgi.service.metatype.annotations.Designate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,7 +33,7 @@ import de.fraunhofer.abm.hermes.HermesFilter;
 
 
 
-//@Designate(ocd = Configuration.class, factory=false)
+@Designate(ocd = HermesConfiguration.class)
 @Component(name = "de.fraunhofer.abm.hermes.HermesFilter"/*, configurationPolicy = ConfigurationPolicy.OPTIONAL*/)
 public class HermesFilterImpl implements HermesFilter {
 
@@ -39,7 +42,7 @@ public class HermesFilterImpl implements HermesFilter {
 	
 	
 	HashMap<String,Boolean> registered = new HashMap<String,Boolean>();
-	private File FilterPath = new File("/opt/abm/application.conf");//TODO: Actually get the configuration file to work
+	private File filterPath ;//= new File("/opt/abm/application.conf");//TODO: Actually get the configuration file to work
 	
 	Map<String,Integer> FanInFanOut = new TreeMap<String,Integer>();
 	
@@ -50,31 +53,32 @@ public class HermesFilterImpl implements HermesFilter {
 	Set<Entry<String, ConfigValue>> configNode , configNode2;
 	String key , k;
 	//ConfigValue value ,v;
+	
 		
 	
-	
-	/*@Activate
-    public void activate(Configuration config) {
-      initFilterPath(config.filterpath());
-        
+	@Activate
+    public void activate(HermesConfiguration config) {
+	  	  
+	  String filterPath = config.hermesConfigDir();
+	  logger.info("Setting Filter Path for application.conf file {}", filterPath);
+      this.filterPath = new File(filterPath);
+      if(!this.filterPath.exists()) {
+          this.filterPath.mkdirs();
+      }
+      this.filterPath = new File(filterPath+"application.conf");
     }
     
     @Deactivate
     public void deactivate() {
     }
 	
-	 private void initFilterPath(String path) {
-	        FilterPath = new File(path);
-	        if(!FilterPath.exists()) {
-	            FilterPath.mkdirs();
-	        }
-	        logger.info("Using repo archive directory {}", FilterPath.getAbsolutePath());
-	    }*/
+	 
 	
 	@Override 
 	public void setRegistered()
 	{
-		config = ConfigFactory.parseFile(FilterPath);
+		logger.info("Filter path is {}",filterPath);
+		config = ConfigFactory.parseFile(filterPath);
 		  ConfigList co = config.getList("org.opalj.hermes.queries.registered");
   	    for(int i=0;i<co.size();i++)
   	    {
@@ -90,7 +94,7 @@ public class HermesFilterImpl implements HermesFilter {
 	@Override
 	public void setMaxLocations()
 	{
-        config = ConfigFactory.parseFile(FilterPath);
+        config = ConfigFactory.parseFile(filterPath);
 		
 	    dto.maxlocations = config.getInt("org.opalj.hermes.maxLocations");
 	}
@@ -98,7 +102,7 @@ public class HermesFilterImpl implements HermesFilter {
 	@Override
 	public void setFanInFanOut()
 	{   
-		config = ConfigFactory.parseFile(FilterPath);
+		config = ConfigFactory.parseFile(filterPath);
 		
 		
 		dto.fanin_categories = config.getInt("org.opalj.hermes.queries.FanInFanOut.fanin.categories");
@@ -142,8 +146,8 @@ public class HermesFilterImpl implements HermesFilter {
     @Override
     public void updateMaxLocations(int ml) throws IOException
 	{
-		config = ConfigFactory.parseFile(FilterPath);
-		writer = new FileWriter(FilterPath);
+		config = ConfigFactory.parseFile(filterPath);
+		writer = new FileWriter(filterPath);
 		newconfig = config.withValue("org.opalj.hermes.maxLocations", ConfigValueFactory.fromAnyRef(ml));
 		
 		writer.write(newconfig.root().render(ConfigRenderOptions.concise().
@@ -154,8 +158,8 @@ public class HermesFilterImpl implements HermesFilter {
     @Override
     public void updateFanInFanOut(String key,String parameter, int value) throws IOException
 	{
-		config = ConfigFactory.parseFile(FilterPath);
-		writer = new FileWriter(FilterPath);
+		config = ConfigFactory.parseFile(filterPath);
+		writer = new FileWriter(filterPath);
 		
 		
 		
@@ -172,8 +176,8 @@ public class HermesFilterImpl implements HermesFilter {
 	{ 
 		ConfigList registered ;
 		List<ConfigObject> newregistered = new ArrayList<ConfigObject>();
-		config = ConfigFactory.parseFile(FilterPath);
-		writer = new FileWriter(FilterPath);
+		config = ConfigFactory.parseFile(filterPath);
+		writer = new FileWriter(filterPath);
 		ConfigObject co , co2;
 		registered = config.getList("org.opalj.hermes.queries.registered");
 		
@@ -205,8 +209,8 @@ public class HermesFilterImpl implements HermesFilter {
     	logger.info("updating filters in the file");
 		ConfigList registered ;
 		List<ConfigObject> newregistered = new ArrayList<ConfigObject>();
-		config = ConfigFactory.parseFile(FilterPath);
-		writer = new FileWriter(FilterPath);
+		config = ConfigFactory.parseFile(filterPath);
+		writer = new FileWriter(filterPath);
 		registered = config.getList("org.opalj.hermes.queries.registered");
 		 boolean match ;
 		for (int i=0;i<registered.size();i++)
@@ -243,7 +247,7 @@ public class HermesFilterImpl implements HermesFilter {
       @Override
       public void addFilter(String filterName , boolean activate) throws IOException
 	  {
-		  config = ConfigFactory.parseFile(FilterPath);
+		  config = ConfigFactory.parseFile(filterPath);
 		  
 		  
     	  
