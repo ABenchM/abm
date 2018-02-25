@@ -1,0 +1,15 @@
+version: '2.0'
+
+services:
+  sbt:
+    build: ./abm/docker_files/abm-sbt-0.13.13-jdk-8/
+    image: abm/sbt:01313-jdk-8
+    ports:
+      - 3100:3100
+  maven:
+    build: ./abm/docker_files/abm-maven-3-jdk-7/
+    image: abm/maven:3-jdk-7
+     
+  hermes:
+     image: opalj/sbt_scala_javafx
+           

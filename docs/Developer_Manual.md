@@ -1,14 +1,14 @@
 # Quick access
 * [Install ABM](#install-abm)
   * [Installation scripts (Linux only)](#installation-scripts-linux-only)
-  * [From the source code (Linux and MacOS)](#from-the-source-code-linux-and-macos)
+  * [Complete installation (Linux and MacOS)](#complete-installation-linux-and-macos)
     * [Set up the ABM workspace](#set-up-the-abm-workspace)
     * [Set up Docker](#set-up-docker)
     * [Set up the database](#set-up-the-database)
     * [Set up Eclipse](#set-up-eclipse)
     * [Launch ABM](#launch-abm)
     * [Create the demo user](#create-the-demo-user)
-* [Configuration files](#configuration-files)
+* [Configuration information](#configuration-information)
 * [Launching or bouncing the application on production server](#launching-or-bouncing-the-application-on-production-server)
 * [Running Hermes manually](#running-hermes-manually)
 * [Updating the database](#updating-the-database)
@@ -17,17 +17,21 @@
 # Install ABM
 
 ## Installation scripts (Linux only)
-* Run the script found at abm/docs/abm_install.sh to install ABM.
+* Download the files found at abm/docs/abm_install and put them into a directory ${DIRECTORY} where you want to install ABM.
+* Run the installation script: 
   ```
-  $ sudo chmod 755 abm_install.sh
-  $ sudo ./abm_install.sh
+  $ cd ${DIRECTORY}
+  $ sudo bash ./abm_install.sh
   ```
-* If you are prompted for the mysql root password, it is "password". You can modify it afterwards.
-* Once the installation finishes, log out and log in again.
-* Make sure that the [configuration files](#configuration-files) of ABM contain the correct information.
-* You can [launch ABM](#launch-abm).
+  * You will be prompted for your MySQL root password. If MySQL is already installed on your machine, provide the existing root password. If not, choose one.
+    * To determine if MySQL is already installed on your machine, run `$ mysql`.
+    * Some steps of the installations script may take several minutes. While waiting, you can consult the log files to check on the advancement of the installation.
+    * If the script fails at any point, consult the log file to fix the error and re-run the script. It will skip the parts that are already done.
+* Once the installation finishes, restart your machine.
+* Fill in the correct information in the [configuration files](#configuration-information) of ABM.
+* Continue with the installation instructions from the [Eclipse set-up](#set-up-eclipse). You don't need to install Eclipse, it is already done.
   
-## From the source code (Linux and MacOS)
+## Complete installation (Linux and MacOS)
 The installation of ABM is not recommended on Windows. We advise Windows users to dual boot their installation with Linux or to use a VM. Note that ABM tends to be a bit slow on a VM, depending on the capabilities of the host machine.
 
 ### Set up the ABM workspace
@@ -53,19 +57,19 @@ The installation of ABM is not recommended on Windows. We advise Windows users t
   $ cd ${DIRECTORY}
   $ git clone https://github.com/nguyenLisa/abm.git
   ```
-* Set up the [configuration variables](#configuration-files), except for the SQL credentials.
+* Set up the [configuration information](#configuration-information), except for the SQL credentials.
 * Copy the files contained in ${DIRECTORY}/abm/hermes_config into the directory ${HERMES_CONFIG_DIR}. Give your user ${USER} read, write, and execute rights on them.
   ```
   $ sudo mkdir ${HERMES_CONFIG_DIR}
   $ sudo cp ${DIRECTORY}/abm/hermes_config/* ${HERMES_CONFIG_DIR}
-  $ sudo chown -R ${USER}:${USER} ${HERMES_CONFIG_DIR}
+  $ sudo chown -R ${USER} ${HERMES_CONFIG_DIR}
   ```
 * Create the ABM workspace and give your user ${USER} read, write, and execute rights on them.
   ```
   $ sudo mkdir ${WORKSPACE_ROOT}
   $ sudo mkdir ${WORKSPACE_DIRECTORY}
-  $ chown -R ${USER}:${USER} ${WORKSPACE_ROOT}
-  $ chown -R ${USER}:${USER} ${WORKSPACE_DIRECTORY}
+  $ chown -R ${USER} ${WORKSPACE_ROOT}
+  $ chown -R ${USER} ${WORKSPACE_DIRECTORY}
   ```  
   
 ### Set up Docker
@@ -128,11 +132,12 @@ The installation of ABM is not recommended on Windows. We advise Windows users t
   ```
   $ cd ${DIRECTORY}/abm/bnd-workspace
   $ mysql -u root -p -D abm < de.fraunhofer.abm.useradmin.dao.jdbc/useradmin_ddl.sql
+  $ mysql -u root -p -D abm < ../docs/abm.sql
   ```
   
 ### Set up Eclipse 
 * Download and install Eclipse for **Java Developers** (http://www.eclipse.org/downloads/)
-* Start Eclipse with the workspace directory set to "abm/eclipse-workspace"
+* Start Eclipse with the workspace directory set to ${DIRECTORY}/abm/eclipse_workspace
 * Install bndtools from the Market Place (Help > Eclipse Marketplace)
 * Optional: Install Webclipse (Angular) from the Market Place (Help > Eclipse Marketplace)
 * Import the source code of ABM 
@@ -185,10 +190,17 @@ All users are managed by the OSGi UserAdmin service, which can be accessed throu
 # Configuration information
 
 * The file config.bnd in de.fraunhofer.abm.app contains the application configuration information: webconsole credentials and settings, admin email information, Google token and GitHub token. Replace the values of the configuration information with your own.
-* The file Configuration.java in de.fraunhofer.abm.suitebuilder contains "Workspace Root" which you can adjust to fit your development machine. Make sure that your ${USER} has read, write, and execute accesses to this directory and its sub-directories: `$ sudo chown -R ${USER}:${USER} ${WORKSPACE_ROOT}`
-* The file Configuration.java in de.fraunhofer.abm.repoarchive.local contains "Directory" which you can adjust to fit your development machine. Make sure that your ${USER} has read, write, and execute accesses to this directory and its sub-directories: `$ sudo chown -R ${USER}:${USER} ${WORKSPACE_DIRECTORY}`
-* The file HermesConfiguration.java in de.fraunhofer.abm.hermes.impl contains "hermesConfigDir()" which you can adust to fit your development machine. Make sure that your ${USER} has read, write, and execute accesses to this directory and its sub-directories: `$ sudo chown -R ${USER}:${USER} ${HERMES_CONFIG_DIR}` Make sure to keep the Hermes configuration files in this directory (docker.sh, queryfeaturemap.json, application.conf, and hermes.json). You can find the files in hermes_config in this repository.
-* The files configuration.json in de.fraunhofer.abm.collection.dao.jpa and in de.fraunhofer.abm.collection.dao.jdbc contain the sql credentials that ABM uses to access the tables. Make sure that they match existing mysql credentials.
+* The file Configuration.java in de.fraunhofer.abm.suitebuilder contains "Workspace Root" which you can adjust to fit your development machine. Make sure that your ${USER} has read, write, and execute accesses to this directory and its sub-directories: `$ sudo chown -R ${USER} ${WORKSPACE_ROOT}`
+* The file Configuration.java in de.fraunhofer.abm.repoarchive.local contains "Directory" which you can adjust to fit your development machine. Make sure that your ${USER} has read, write, and execute accesses to this directory and its sub-directories: `$ sudo chown -R ${USER} ${WORKSPACE_DIRECTORY}`
+* The file HermesConfiguration.java in de.fraunhofer.abm.hermes.impl contains "hermesConfigDir()". By default, you can set it to ${DIRECTORY}/abm/hermes_config. Else, you can adust to fit your development machine. Make sure that your ${USER} has read, write, and execute accesses to this directory and its sub-directories: `$ sudo chown -R ${USER} ${HERMES_CONFIG_DIR}` Make sure to keep the Hermes configuration files in this directory (docker.sh, queryfeaturemap.json, application.conf, and hermes.json). You can find the files in hermes_config in this repository.
+* The files configuration.json in de.fraunhofer.abm.collection.dao.jpa and configuration.json in de.fraunhofer.abm.useradmin.dao.jdbc contain the sql credentials that ABM uses to access the tables. Make sure that they match existing mysql credentials. You can use the MySQL root credentials or another account that you can create as follows:
+  ```
+  $ mysql -uroot -p
+  $ CREATE USER 'newuser'@'localhost' IDENTIFIED BY 'password';
+  $ GRANT ALL PRIVILEGES ON * . * TO 'newuser'@'localhost';
+  $ FLUSH PRIVILEGES;
+  $ exit
+  ```
 
 # Launching or bouncing the application on production server
 * Install ABM as shown in the installation section

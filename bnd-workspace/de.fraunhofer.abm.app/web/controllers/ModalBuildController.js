@@ -3,13 +3,13 @@ angular.module('de.fraunhofer.abm').controller('modalBuildController', function(
 
 	$ctrl.tabs = buildViewerService.builds;
 	$ctrl.showing = buildViewerService.initialSelection;
-	
+
 	$ctrl.select = function(target){
 		if($ctrl.socket != null){$ctrl.socket.close();}
 		$ctrl.showing = target;
 		$ctrl.loadBuild(target.id);
 	}
-	
+
 	$ctrl.openSocket = function(buildId) {
 		$ctrl.socket = new WebSocket("ws://localhost:8080/ws/build");
 		$ctrl.socket.binaryType = "arraybuffer";
@@ -22,7 +22,7 @@ angular.module('de.fraunhofer.abm').controller('modalBuildController', function(
 			if (typeof e.data == "string") {
 				var resp = JSON.parse(e.data);
 				if (resp.msg == "build_cancelled"){
-					
+
 					if($ctrl.socket != null){$ctrl.socket.close();}
 					$uibModalInstance.close();
 				}
@@ -122,9 +122,9 @@ angular.module('de.fraunhofer.abm').controller('modalBuildController', function(
 			$ctrl.isopen = false;
 		}
 	};
-	
+
 	$ctrl.cancelBuild = function(buildId) {
-		//$scope.build.status = 'CANCELLED'; 
+		//$scope.build.status = 'CANCELLED';
 		if ($ctrl.isopen) {
 			console.log('Cancel build', buildId);
 			$ctrl.socket.send(JSON.stringify({msg: 'cancel', id: buildId}));
@@ -154,7 +154,7 @@ angular.module('de.fraunhofer.abm').controller('modalBuildController', function(
 					$rootScope.loading = false;
 				});
 	}
-	
+
 	$ctrl.unfreeze = function(versionId){
 		for(i=0;i<$rootScope.userCollections.length;i++){
 			collection = $rootScope.userCollections[i];
@@ -166,11 +166,11 @@ angular.module('de.fraunhofer.abm').controller('modalBuildController', function(
 			}
 		}
 	}
-	
+
 	$ctrl.downloadArchive = function(buildResultId) {
 		location.href = '/download/' + buildResultId;
 	}
-	
+
 	$ctrl.loadBuild = function(versionId){
 		$rootScope.loading = true;
 		$http({
@@ -183,7 +183,7 @@ angular.module('de.fraunhofer.abm').controller('modalBuildController', function(
 						console.log('Opening websocket');
 						$ctrl.openSocket($scope.build.id);
 					}
-					
+
 					for(var i=0; i<$scope.build.projectBuilds.length; i++) {
 						var currentBuild = $scope.build.projectBuilds[i];
 						currentBuild.cssClass = "panel-info";
@@ -203,7 +203,7 @@ angular.module('de.fraunhofer.abm').controller('modalBuildController', function(
 								currentStep.cssClass = 'panel-warning';
 							}
 						}
-						
+
 						var allGood = currentBuild.buildSteps.length > 0;
 						for(var j=0; j<currentBuild.buildSteps.length; j++) {
 							var currentStep = currentBuild.buildSteps[j];
@@ -215,7 +215,7 @@ angular.module('de.fraunhofer.abm').controller('modalBuildController', function(
 							currentBuild.cssClass = 'panel-success';
 						}
 					}
-					
+
 					//console.log(self.buildResult);
 				}, function failure(d) {
 					if(d.status == 403) {
@@ -227,7 +227,7 @@ angular.module('de.fraunhofer.abm').controller('modalBuildController', function(
 					$rootScope.loading = false;
 				});
 	}
-	
+
 	$ctrl.dismiss = function(tabId){
 		targetTab = buildViewerService.builds.findIndex($ctrl.findTab, tabId);
 		buildViewerService.builds[targetTab].hidden = true;
@@ -235,19 +235,19 @@ angular.module('de.fraunhofer.abm').controller('modalBuildController', function(
 			$ctrl.close();
 		}
 	}
-	
+
 	$ctrl.close = function(){
 		if($ctrl.socket != null){$ctrl.socket.close();}
 		$uibModalInstance.close();
 	}
-	
+
 	$ctrl.findTab = function(item){
 		return item.id == this;
 	}
-	
+
 	$scope.$on('modal.closing', function(event, reason, closed){
-        setTimeout(function(){$rootScope.hideSidebar = false}, 200);          
+        setTimeout(function(){$rootScope.hideSidebar = false}, 200);
     });
-	
+
 	$ctrl.loadBuild(buildViewerService.initialSelection.id);
 });
