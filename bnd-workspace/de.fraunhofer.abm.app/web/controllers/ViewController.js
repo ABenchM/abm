@@ -5,6 +5,7 @@ function viewController($rootScope, $scope, $http, $location, $routeParams, Noti
 	
 	self.id = $routeParams.id;
 	self.downloading = false;
+	$scope.isFileExists = false;
 	
 	self.loadCollection = function(collectionId){
 		$rootScope.loading = true;
@@ -40,6 +41,20 @@ function viewController($rootScope, $scope, $http, $location, $routeParams, Noti
 			});
 	};
 	
+		
+	self.doesFileExist = function (urlToFile) {
+	    var xhr = new XMLHttpRequest();
+	    
+	    xhr.open('HEAD', urlToFile, false);
+	    xhr.send();
+	     
+	    if (xhr.status == "404") {
+	        return false;
+	    } else {
+	        return true;
+	    }
+	}
+	
 	self.downloadBuild = function(versionId){
 		self.downloading = true;
 		$http({
@@ -49,10 +64,17 @@ function viewController($rootScope, $scope, $http, $location, $routeParams, Noti
 		}).then(
 				function success(d) {
 					self.buildResult = d.data;
+					
 					if(self.buildResult.status == 'RUNNING'){
 						Notification.error('Build is in progress, try again later');
 					} else {
+						
+						result = self.doesFileExist('/download/' + self.buildResult.id);
+						
+						if(result==true)
 						location.href = '/download/' + self.buildResult.id;
+						else
+						Notification.error("File does not exist");	
 					}
 				}, function failure(d){
 					Notification.error('Failed with ['+ d.status + '] '+ d.statusText);
@@ -66,12 +88,19 @@ function viewController($rootScope, $scope, $http, $location, $routeParams, Noti
 	
 	$http({
 			method: 'GET',
-			url: '/rest/instance/'+versionId
+			url: '/rest/instance/',
+			params: {'id': versionId, 'privateStatus': false }
 		}).then(
 				function success(d) {
 					self.hermesResult = d.data;
+					result = self.doesFileExist('/downloadHermes/' + self.hermesResult.id);
+					if(result==true){
 					
-					location.href = '/downloadHermes/' + self.hermesResult.id;
+						location.href = '/downloadHermes/' + self.hermesResult.id;
+					}else{
+						Notification.error("Hermes Results file does not exist");
+					}
+					
 					
 				}, function failure(d){
 					Notification.error('Failed with ['+ d.status + '] '+ d.statusText);
@@ -80,6 +109,9 @@ function viewController($rootScope, $scope, $http, $location, $routeParams, Noti
 				});
 	
 	};
+	
+	
+	
 	
 	self.selectVersion = function(version){
 		$scope.selectedVersion = version;
