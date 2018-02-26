@@ -1,11 +1,12 @@
 angular.module('de.fraunhofer.abm').controller("viewController", 
 ['$rootScope', '$scope', '$http', '$location', '$routeParams', 'Notification', 'ngCart', 'collectionService',
-function viewController($rootScope, $scope, $http, $location, $routeParams, Notification, ngCart, collectionService) {
+function viewController($rootScope, $scope, $http, $location, $routeParams, Notification, ngCart, collectionService ) {
 	var self = this;
-	
+	 
 	self.id = $routeParams.id;
 	self.downloading = false;
-	$scope.isFileExists = false;
+	self.hermesResultExists = false;
+	self.buildResultExists = false;
 	
 	self.loadCollection = function(collectionId){
 		$rootScope.loading = true;
@@ -18,6 +19,10 @@ function viewController($rootScope, $scope, $http, $location, $routeParams, Noti
 				if(resp.data[0] != undefined){
 					$scope.collection = resp.data[0];
 					$scope.selectedVersion = resp.data[0].versions[0];
+					
+					self.checkFile($scope.selectedVersion.id,'hermes');
+					self.checkFile($scope.selectedVersion.id,'build');
+					
 					if($rootScope.user != undefined){
 						$http({
 							method: 'GET',
@@ -41,8 +46,8 @@ function viewController($rootScope, $scope, $http, $location, $routeParams, Noti
 			});
 	};
 	
-		
-	self.doesFileExist = function (urlToFile) {
+  	
+	/*self.doesFileExist = function () {
 	    var xhr = new XMLHttpRequest();
 	    
 	    xhr.open('HEAD', urlToFile, false);
@@ -53,8 +58,34 @@ function viewController($rootScope, $scope, $http, $location, $routeParams, Noti
 	    } else {
 	        return true;
 	    }
-	}
+	}*/
 	
+	
+	self.checkFile = function(id,type){
+		
+		$http({
+			method: 'GET',
+			url: '/rest/fe/',
+			params: {'id': id, 'type': type }
+		}).then(
+				function success(d) {
+					
+					if(type == 'hermes')
+					self.hermesResultExists = d.data;
+					else
+					{
+					self.buildResultExists = d.data;}	
+								
+				}, function failure(d){
+					Notification.error('Failed with ['+ d.status + '] '+ d.statusText);
+				});
+					
+				
+		
+	}
+
+	
+
 	self.downloadBuild = function(versionId){
 		self.downloading = true;
 		$http({
@@ -69,12 +100,12 @@ function viewController($rootScope, $scope, $http, $location, $routeParams, Noti
 						Notification.error('Build is in progress, try again later');
 					} else {
 						
-						result = self.doesFileExist('/download/' + self.buildResult.id);
+						//result = self.doesFileExist('/download/' + self.buildResult.id);
 						
-						if(result==true)
+						//if(result==true)
 						location.href = '/download/' + self.buildResult.id;
-						else
-						Notification.error("File does not exist");	
+						//else
+						//Notification.error("File does not exist");	
 					}
 				}, function failure(d){
 					Notification.error('Failed with ['+ d.status + '] '+ d.statusText);
@@ -93,13 +124,13 @@ function viewController($rootScope, $scope, $http, $location, $routeParams, Noti
 		}).then(
 				function success(d) {
 					self.hermesResult = d.data;
-					result = self.doesFileExist('/downloadHermes/' + self.hermesResult.id);
-					if(result==true){
+					//result = self.doesFileExist('/downloadHermes/' + self.hermesResult.id);
+					//if(result==true){
 					
 						location.href = '/downloadHermes/' + self.hermesResult.id;
-					}else{
-						Notification.error("Hermes Results file does not exist");
-					}
+				//	}else{
+					//	Notification.error("Hermes Results file does not exist");
+				//	}
 					
 					
 				}, function failure(d){
