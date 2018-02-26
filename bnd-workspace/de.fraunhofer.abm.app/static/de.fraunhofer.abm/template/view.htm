@@ -22,24 +22,7 @@
 	</div>
 	<br>
 	<br>
-	 <style>
-      .outer{
-        position:relative;
-        display:inline-block;
-      }
-      
-      .outer button[disabled]{
-        position: relative;
-        z-index:-1;
-      }
-      .layer {
-          position: absolute;
-          top: 0;
-          left:0;
-          right:0;
-          bottom:0;
-      }
-    </style>
+	 
   	<table class="table table-bordered table-striped" style="max-height:400px">
 		<col width="*">
 		<col width="*">
@@ -64,17 +47,17 @@
 		<button class="btn btn-primary" ng-hide="user === undefined" ng-click="vc.copy()">Copy this collection</button>
 		
 		
-		<div class="outer" uib-tooltip="Hermes Result does not exist" tooltip-trigger="'mouseenter'" tooltip-enable="!vc.hermesResultExists">
-		<div class="layer"> </div>
-		<button ng-disabled="vc.downloading || !vc.hermesResultExists" class="btn btn-success" ng-show="selectedVersion.filtered" ng-click="vc.downloadHermes(selectedVersion.id)">Download Hermes Result</button>
-		</div>
+		
+		<span class="pull-middle"> 
+		<button title="{{(!vc.hermesResultExists?' Hermes Result does not exist' : '')}}" ng-disabled="vc.downloading || !vc.hermesResultExists" class="btn btn-success" ng-show="selectedVersion.filtered" ng-click="vc.downloadHermes(selectedVersion.id)">Download Hermes Result</button>
+		</span>
 		
    		<span class="pull-right">
    			<p ng-hide="selectedVersion.frozen">This version is not currently built</p>
-   			<div class="outer" uib-tooltip="Collection does not exist" tooltip-trigger="'mouseenter'" tooltip-enable="!vc.buildResultExists">
-		    <div class="layer"> </div>
+   			<div title="{{(!vc.buildResultExists?' collection does not exist' : '')}}"> 
    			<button ng-click="vc.downloadBuild(selectedVersion.id)" ng-show="selectedVersion.frozen" ng-disabled="vc.downloading || !vc.buildResultExists" class="btn btn-success">Download this version</a>
    			</div>
+   			
    		</span>
    	</div>
 </div>

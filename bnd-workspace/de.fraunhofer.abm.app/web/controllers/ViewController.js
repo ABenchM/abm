@@ -46,19 +46,9 @@ function viewController($rootScope, $scope, $http, $location, $routeParams, Noti
 			});
 	};
 	
-  	
-	/*self.doesFileExist = function () {
-	    var xhr = new XMLHttpRequest();
-	    
-	    xhr.open('HEAD', urlToFile, false);
-	    xhr.send();
-	     
-	    if (xhr.status == "404") {
-	        return false;
-	    } else {
-	        return true;
-	    }
-	}*/
+	$('body').tooltip({
+	    selector: '[rel="tooltip"]'
+	});
 	
 	
 	self.checkFile = function(id,type){
@@ -100,12 +90,9 @@ function viewController($rootScope, $scope, $http, $location, $routeParams, Noti
 						Notification.error('Build is in progress, try again later');
 					} else {
 						
-						//result = self.doesFileExist('/download/' + self.buildResult.id);
 						
-						//if(result==true)
 						location.href = '/download/' + self.buildResult.id;
-						//else
-						//Notification.error("File does not exist");	
+					
 					}
 				}, function failure(d){
 					Notification.error('Failed with ['+ d.status + '] '+ d.statusText);
@@ -124,13 +111,9 @@ function viewController($rootScope, $scope, $http, $location, $routeParams, Noti
 		}).then(
 				function success(d) {
 					self.hermesResult = d.data;
-					//result = self.doesFileExist('/downloadHermes/' + self.hermesResult.id);
-					//if(result==true){
-					
+								
 						location.href = '/downloadHermes/' + self.hermesResult.id;
-				//	}else{
-					//	Notification.error("Hermes Results file does not exist");
-				//	}
+			
 					
 					
 				}, function failure(d){
