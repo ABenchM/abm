@@ -22,13 +22,14 @@
 	</div>
 	<br>
 	<br>
-	<table class="table table-bordered table-striped" style="max-height:400px">
+	 
+  	<table class="table table-bordered table-striped" style="max-height:400px">
 		<col width="*">
 		<col width="*">
 		<col width="5%">
    		<tr>
    			<th>Name</th>
-   			<th>Commit</th>
+   			<th>Commit</th>	
    			<th></th>
    		</tr>
    		<tr ng-repeat="commit in selectedVersion.commits">
@@ -44,10 +45,19 @@
 				<button class="btn btn-primary" ng-click="vc.unpin()" ng-show="pinned;">Unpin</button>
 		</span>
 		<button class="btn btn-primary" ng-hide="user === undefined" ng-click="vc.copy()">Copy this collection</button>
-		<button ng-disabled="vc.downloading" class="btn btn-success" ng-show="selectedVersion.filtered" ng-click="vc.downloadHermes(selectedVersion.id)">Download Hermes Result</button>
+		
+		
+		
+		<span class="pull-middle"> 
+		<button title="{{(!vc.hermesResultExists?' Hermes Result does not exist' : '')}}" ng-disabled="vc.downloading || !vc.hermesResultExists" class="btn btn-success" ng-show="selectedVersion.filtered" ng-click="vc.downloadHermes(selectedVersion.id)">Download Hermes Result</button>
+		</span>
+		
    		<span class="pull-right">
    			<p ng-hide="selectedVersion.frozen">This version is not currently built</p>
-   			<button ng-click="vc.downloadBuild(selectedVersion.id)" ng-show="selectedVersion.frozen" ng-disabled="vc.downloading" class="btn btn-success">Download this version</a>
+   			<div title="{{(!vc.buildResultExists?' collection does not exist' : '')}}"> 
+   			<button ng-click="vc.downloadBuild(selectedVersion.id)" ng-show="selectedVersion.frozen" ng-disabled="vc.downloading || !vc.buildResultExists" class="btn btn-success">Download this version</a>
+   			</div>
+   			
    		</span>
    	</div>
 </div>

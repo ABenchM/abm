@@ -1,10 +1,12 @@
 angular.module('de.fraunhofer.abm').controller("viewController", 
 ['$rootScope', '$scope', '$http', '$location', '$routeParams', 'Notification', 'ngCart', 'collectionService',
-function viewController($rootScope, $scope, $http, $location, $routeParams, Notification, ngCart, collectionService) {
+function viewController($rootScope, $scope, $http, $location, $routeParams, Notification, ngCart, collectionService ) {
 	var self = this;
-	
+	 
 	self.id = $routeParams.id;
 	self.downloading = false;
+	self.hermesResultExists = false;
+	self.buildResultExists = false;
 	
 	self.loadCollection = function(collectionId){
 		$rootScope.loading = true;
@@ -17,6 +19,10 @@ function viewController($rootScope, $scope, $http, $location, $routeParams, Noti
 				if(resp.data[0] != undefined){
 					$scope.collection = resp.data[0];
 					$scope.selectedVersion = resp.data[0].versions[0];
+					
+					self.checkFile($scope.selectedVersion.id,'hermes');
+					self.checkFile($scope.selectedVersion.id,'build');
+					
 					if($rootScope.user != undefined){
 						$http({
 							method: 'GET',
@@ -40,6 +46,36 @@ function viewController($rootScope, $scope, $http, $location, $routeParams, Noti
 			});
 	};
 	
+	$('body').tooltip({
+	    selector: '[rel="tooltip"]'
+	});
+	
+	
+	self.checkFile = function(id,type){
+		
+		$http({
+			method: 'GET',
+			url: '/rest/fe/',
+			params: {'id': id, 'type': type }
+		}).then(
+				function success(d) {
+					
+					if(type == 'hermes')
+					self.hermesResultExists = d.data;
+					else
+					{
+					self.buildResultExists = d.data;}	
+								
+				}, function failure(d){
+					Notification.error('Failed with ['+ d.status + '] '+ d.statusText);
+				});
+					
+				
+		
+	}
+
+	
+
 	self.downloadBuild = function(versionId){
 		self.downloading = true;
 		$http({
@@ -49,10 +85,14 @@ function viewController($rootScope, $scope, $http, $location, $routeParams, Noti
 		}).then(
 				function success(d) {
 					self.buildResult = d.data;
+					
 					if(self.buildResult.status == 'RUNNING'){
 						Notification.error('Build is in progress, try again later');
 					} else {
+						
+						
 						location.href = '/download/' + self.buildResult.id;
+					
 					}
 				}, function failure(d){
 					Notification.error('Failed with ['+ d.status + '] '+ d.statusText);
@@ -66,12 +106,15 @@ function viewController($rootScope, $scope, $http, $location, $routeParams, Noti
 	
 	$http({
 			method: 'GET',
-			url: '/rest/instance/'+versionId
+			url: '/rest/instance/',
+			params: {'id': versionId, 'privateStatus': false }
 		}).then(
 				function success(d) {
 					self.hermesResult = d.data;
+								
+						location.href = '/downloadHermes/' + self.hermesResult.id;
+			
 					
-					location.href = '/downloadHermes/' + self.hermesResult.id;
 					
 				}, function failure(d){
 					Notification.error('Failed with ['+ d.status + '] '+ d.statusText);
@@ -80,6 +123,9 @@ function viewController($rootScope, $scope, $http, $location, $routeParams, Noti
 				});
 	
 	};
+	
+	
+	
 	
 	self.selectVersion = function(version){
 		$scope.selectedVersion = version;

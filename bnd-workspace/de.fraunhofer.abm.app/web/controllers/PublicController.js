@@ -112,9 +112,9 @@ function publicController($rootScope, $scope, $http, $location, $route, Notifica
 			function(d) {
 				$scope.publicData = d.data;
 				publicCollectionService.collections = $scope.publicData;
-				for(i=0;i<$scope.publicData.length;i++){
+				/*for(i=0;i<$scope.publicData.length;i++){
 					self.checkPinned($scope.publicData[i]);
-				}
+				}*/
 			}, function(d) {
 				Notification.error('Failed with ['+ d.status + '] '+ d.statusText);
 			}
@@ -147,6 +147,7 @@ function publicController($rootScope, $scope, $http, $location, $route, Notifica
 		if($scope.publicData.length == 0){
 			self.initilize();
 		} else if ($rootScope.user != undefined){
+			
 			self.loadPinned();
 		}
 	}
