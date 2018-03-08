@@ -1,92 +1,112 @@
 <div class="wrapper" ng-show="loading">
 	<span class="cssload-loader"></span>
 </div>
+
 <div ng-controller="collectionController as cc" ng-hide="loading">
-    <hr>
-	<form name="form" role="form">
-        <div class="form-group" ng-class="{ 'has-error': form.name.$dirty && form.name.$error.required }">
-   	        <label for="name">Name</label>
-       	    <input type="text" name="name" id="name" class="form-control" ng-model="cc.collection.name" required ng-disabled="cc.saving"/>
-           	<span ng-show="form.name.$dirty && form.name.$error.required" class="help-block">Name is required</span>
-        </div>
-   	    <div class="form-group" ng-class="{ 'has-error': form.description.$dirty && form.description.$error.required }">
-       	    <label for="description">Description</label>
-       	    <textarea rows='3' style="width:100%;" type="description" name="description" id="description" class="form-control" ng-model="cc.collection.description" required ng-disabled="cc.saving"></textarea>
-           	<span ng-show="form.description.$dirty && form.description.$error.required" class="help-block">Description is required</span>
-       	</div>
-       	<div class="form-actions pull-right">
-           	<button type="submit" ng-disabled="form.$invalid || cc.saving" class="btn btn-primary btn-sm" ng-hide="!cc.collection.privateStatus" ng-click="cc.update()">Save Changes</button>
-            <button ng-disabled="loading || cc.saving" class="btn btn-primary btn-sm" ng-click="cc.makePublic(cc.collection)" ng-show="cc.collection.privateStatus" confirm="Are you sure? This cannot be undone.">Make collection public</button>
-        	<span class="wrapper" ng-show="cc.saving">
-				<span class="cssload-loader"></span>
-			</span>
-       	</div>
-   	</form>
-	<span uib-dropdown>
-   		<button id="single-button" type="button" class="btn btn-success btn-xs" uib-dropdown-toggle ng-disabled="cc.disabled || cc.saving">
-       		Version {{cc.version.number}} &nbsp;&nbsp;&dash;&nbsp;&nbsp;  {{cc.version.creationDate | date:'short'}}&nbsp;&nbsp;<span class="caret"></span>
-   		</button>
-		<ul class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown">
-			<li ng-repeat="version in cc.collection.versions"><a href ng-click="cc.version = version">{{version.number}} &nbsp;&nbsp;&dash;&nbsp;&nbsp;  {{version.creationDate | date:'short'}}</a></li>
-			<li class="divider"></li>
-       		<li role="menuitem"><a href ng-click="cc.deriveVersion()">Derive new version from current version ({{cc.version.number}})</a></li>
-		</ul>
-	</span>
-	<div class="panel-body">
-   		{{cc.version.comment}}
-		<br><br>
-		<div id="not_frozen" ng-hide="cc.version.frozen" style="height:28px">
-            <button ng-disabled="loading || cc.saving || cc.version.frozen" class="btn btn-primary btn-sm" ng-click="cc.build()">Build this version</button>
-            <button ng-disabled="loading || cc.saving || cc.collection.versions.length <= 1" ng-click="cc.removeVersion(cc.version.id)" class="btn btn-sm btn-danger" title="Delete" confirm="Removal is irreversible! Continue?"><i class="glyphicon glyphicon-trash"></i> Delete this version</button>
-            <button ng-disabled="loading || cc.saving" ng-click="cc.remove(cc.collection.id)" class="btn btn-sm btn-danger" title="Delete" confirm="Removal is irreversible! Continue?"><i class="glyphicon glyphicon-trash"></i> Delete this collection</button>
-        </div>
-
-		<div id="frozen" ng-show="cc.version.frozen">
-			This version is frozen, because it has been built. You can make it editable again by clicking unfreeze.
-			<strong>Be aware, that the previous build result will be deleted!</strong>
-			<br/><br/>
-			<button ng-disabled="loading || cc.saving || cc.disableBuild" class="btn btn-primary btn-sm" ng-click="cc.addBuild(cc.version)">Show build</button>
-            <button ng-disabled="loading || cc.saving || cc.disableBuild" class="btn btn-danger btn-sm" ng-click="cc.unfreeze(cc.version)">Unfreeze</button>
-         </div>
-
-         <div id="not_filter" ng-show="cc.version.frozen">
-			<span style="float:right;">
-              <button ng-hide="cc.version.filtered" ng-disabled="loading || cc.saving || cc.disableBuild" class="btn btn-primary btn-sm" ng-click="cc.runFilter(cc.version)">Run Hermes Filter</button>
-         </span>
-         </div>
-
-
-		<div id="filter" ng-show="cc.version.filtered">
-			<span style="float:right;">
-			<!-- <button ng-disabled="cc.downloading || cc.running"  class="btn btn-success btn-sm" ng-click="cc.downloadCsv(cc.version.id)">Download Hermes Results</button> -->
-			<button ng-disabled="cc.running"  class="btn btn-success btn-sm" ng-click="cc.showHermesResults(cc.version)">Show Hermes Results</button>
-			<button ng-disabled="cc.running"  class="btn btn-danger btn-sm" ng-click="cc.removeFilter(cc.version)">Unfilter</button>
-            </span>
-		</div>
-   	</div>
-
-  		<table class="table table-bordered table-striped">
-		<col width="*">
-		<col width="*">
-		<col width="5%">
-  			<tr>
-  				<th>Name</th>
-  				<th>Commit</th>
-  				<th></th>
-  			</tr>
-  			<tr ng-repeat="commit in cc.version.commits">
-			<td>{{commit.repository.name}}</td>
-			<td>
-				<div class="dropdown" ng-hide="cc.version.frozen">
-				  <button class="btn btn-default btn-xs dropdown-toggle" ng-click="cc.selectCommit(commit)" type="button" id="commitSelect" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-				    <span style="font-family:monospace">{{commit.commitId}}</span>
-				    <span class="caret" ng-hide="loading"></span>
-				  </button>
+	<hr>
+	<form name="form" role="form" style="overflow: auto;">
+	
+		<div class ="form-actions pull-left"
+			ng-class="{ 'has-error': form.name.$dirty && form.name.$error.required }">
+			<div align="center"><label>Collection Information</label></div>
+			<div class="form-group"><label for="name">Name:</label>&nbsp<input type="text" name="name"
+				id="name" ng-model="cc.collection.name"
+				required ng-disabled="cc.saving" /> </div>
+			<span ng-show="form.name.$dirty && form.name.$error.required"
+			class="help-block">Name is required</span>
+			<div>
+				<label class="created-at">Created: {{cc.collection.creation_date | date:'short'}}</label>			
+			</div>
+			<div>
+				<label>Author: {{cc.collection.user}}</label>			
+			</div>
+			<div>
+				<label>ID: {{cc.collection.id}}</label>			
+			</div>
+				<div class="form-actions pull-left">
+					<button ng-disabled="loading || cc.saving"
+						ng-click="cc.remove(cc.collection.id)" class="btn btn-sm btn-danger"
+						title="Delete" confirm="Removal is irreversible! Continue?">
+						<i class="glyphicon glyphicon-trash"></i> Delete Collection
+					</button>
+					
+					<button ng-disabled="loading || cc.saving" title="Save Changes"
+						class="btn btn-primary btn-sm" ng-click="cc.update()">Save
+						Changes</button>		
 				</div>
-				<span style="font-family:monospace" ng-show="cc.version.frozen">{{commit.commitId}}</span>
-			</td>
-		<td><ngcart-addtocart id="{{ commit.repository.id }}" name="{{ commit.repository.name }}" price="1" quantity="1" quantity-max="30" data="commit.repository"></ngcart-addtocart></td>
-  			</tr>
-  		</table>
-  		<button ng-disabled="loading || cc.saving" class="btn btn-warning btn-sm" ng-click="cc.back()">Back to Collections</button>
+		</div>
+		<div class="form-actions" style="display: flex;">
+		<div style="margin-top: 20px; margin-left:5%; width: 95%;" align="center"
+	ng-class="{ 'has-error': form.description.$dirty && form.description.$error.required }">
+	<label align="center" for="description">Description</label>
+	<textarea rows='3' type="description" style="width: 100%;"
+		name="description" id="description" class="form-control"
+		ng-model="cc.collection.description" required ng-disabled="cc.saving"></textarea>
+	<span
+		ng-show="form.description.$dirty && form.description.$error.required"
+		class="help-block">Description is required</span>
+		</div>
+			
+	</div>
+
+
+
+
+</form>
+<hr>
+<div class = "form-actions" style="overflow: auto;">
+<div class="form-actions pull-left">
+	<div align="center"><label>Build Information</label></div>
+	<div><label>Version Comment: {{cc.version.comment}}</label></div>
+	<div><label>Created: {{cc.version.creationDate | date: 'short'}}</label></div>
+	<div ng-show="cc.collection.privateStatus"><label>Privacy: Private</label></div>
+	<div ng-hide="cc.collection.privateStatus"><label>Privacy: Public</label></div>
+	<div class="form-actions pull-left">
+		<button ng-disabled="loading || cc.saving" title="Make Public"
+			class="btn btn-primary btn-sm">New Version</button>
+		<button ng-disabled="loading || cc.saving" title="Make Public"
+			class="btn btn-primary btn-sm">Make Public</button>
+		<button ng-disabled="loading || cc.saving" title="Make Public"
+			class="btn btn-sm btn-danger">Delete Version</button>
+	</div>
+		
+</div>
+<div style="display:flex">
+<div style="width: 100%">
+			<button ng-disabled="loading || cc.saving || cc.version.frozen"
+				class="btn btn-primary btn-sm"">Edit Project(s)</button>
+			<button ng-disabled="loading || cc.saving || cc.version.frozen"
+				class="btn btn-primary btn-sm"">Download Hermes Results</button>
+</div>
+
+<div style="width: 100%">
+<table class="table table-bordered table-striped" >
+	<col width="*">
+	<col width="*">
+	<col width="5%">
+	<tr>
+		<th>Name</th>
+		<th>Commit</th>
+		<th></th>
+	</tr>
+	<tr ng-repeat="commit in cc.version.commits">
+		<td>{{commit.repository.name}}</td>
+		<td>
+			<div class="dropdown" ng-hide="cc.version.frozen">
+				<button class="btn btn-default btn-xs dropdown-toggle"
+					ng-click="cc.selectCommit(commit)" type="button" id="commitSelect"
+					data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+					<span style="font-family: monospace">{{commit.commitId}}</span> <span
+						class="caret" ng-hide="loading"></span>
+				</button>
+			</div> <span style="font-family: monospace" ng-show="cc.version.frozen">{{commit.commitId}}</span>
+		</td>
+		<td><ngcart-addtocart id="{{ commit.repository.id }}"
+				name="{{ commit.repository.name }}" price="1" quantity="1"
+				quantity-max="30" data="commit.repository"></ngcart-addtocart></td>
+	</tr>
+</table>
+</div>
+
+</div> 
 </div>
