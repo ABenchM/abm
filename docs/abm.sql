@@ -1,3 +1,13 @@
+CREATE TABLE `build_result` (
+  `id` varchar(255) NOT NULL,
+  `date` datetime DEFAULT NULL,
+  `dir` varchar(255) DEFAULT NULL,
+  `error` varchar(255) DEFAULT NULL,
+  `stackTrace` longtext,
+  `status` varchar(255) DEFAULT NULL,
+  `versionId` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+);
 
 CREATE TABLE `project_build` (
   `id` varchar(255) NOT NULL,
