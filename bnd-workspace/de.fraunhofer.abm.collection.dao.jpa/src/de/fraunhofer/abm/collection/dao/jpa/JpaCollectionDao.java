@@ -50,7 +50,7 @@ public class JpaCollectionDao extends AbstractJpaDao implements CollectionDao {
     @Override
     public List<CollectionDTO> findByUser(String user) {
         return transactionControl.notSupported(() -> {
-            TypedQuery<JpaCollection> query = em.createQuery("SELECT c FROM collection c WHERE c.user = :user AND c.privateStatus = 1 ORDER BY c.name", JpaCollection.class);
+            TypedQuery<JpaCollection> query = em.createQuery("SELECT c FROM collection c WHERE c.user = :user ORDER BY c.name", JpaCollection.class);
             query.setParameter("user", user);
             List<JpaCollection> jpaList = query.getResultList();
             return jpaList.stream().map(JpaCollection::toDTO).collect(Collectors.toList());
