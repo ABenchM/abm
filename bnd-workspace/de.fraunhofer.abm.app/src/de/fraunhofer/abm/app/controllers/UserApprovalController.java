@@ -2,8 +2,6 @@ package de.fraunhofer.abm.app.controllers;
 
 import java.util.Map;
 
-
-
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.useradmin.Group;
@@ -13,7 +11,6 @@ import org.osgi.service.useradmin.UserAdmin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.fraunhofer.abm.app.EmailConfigInterface;
 import de.fraunhofer.abm.collection.dao.UserDao;
 import osgi.enroute.configurer.api.RequireConfigurerExtender;
 import osgi.enroute.rest.api.REST;
@@ -30,9 +27,6 @@ public class UserApprovalController extends AbstractController implements REST {
 	private UserDao userDao;
 	@Reference
 	private UserAdmin userAdmin;
-	
-	@Reference
-	private EmailConfigInterface config;
 
 	/**
 	 * Approval of a user by the admin using token
