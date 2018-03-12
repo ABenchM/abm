@@ -1,4 +1,4 @@
-package de.fraunhofer.abm.builder.docker.android;
+package de.fraunhofer.abm.builder.docker.ant;
 
 import java.io.File;
 
@@ -11,7 +11,7 @@ import de.fraunhofer.abm.domain.RepositoryDTO;
 import de.fraunhofer.abm.domain.RepositoryPropertyDTO;
 
 @Component
-public class AndroidDockerBuilderFactory implements ProjectBuilderFactory {
+public class AntDockerBuilderFactory implements ProjectBuilderFactory {
 
 	@Override
     public ProjectBuilder createProjectBuilder(RepositoryDTO repo, File repoDir) {
@@ -20,21 +20,20 @@ public class AndroidDockerBuilderFactory implements ProjectBuilderFactory {
         // first check, if repository properties contain build.system
         for (RepositoryPropertyDTO prop : repo.properties) {
             if(prop.name.equals("build.system")) {
-                if(prop.value.equals("gradle")) {
-                    builder = new AndroidDockerBuilder();
+                if(prop.value.equals("ant")) {
+                    builder = new AntDockerBuilder();
                 }
             }
         }
 
         // properties didn't contain build.system
-        // let's check, if there is a pom.xml
-        //TODO check the files for gradle instead of pom.xml
-        File pom = new File(repoDir, "android.xml");
+        
+        File pom = new File(repoDir, "build.xml");
         if(pom.exists() && pom.isFile()) {
-            builder = new AndroidDockerBuilder();
+            builder = new AntDockerBuilder();
         }
 
         return builder;
     }
-	
+
 }

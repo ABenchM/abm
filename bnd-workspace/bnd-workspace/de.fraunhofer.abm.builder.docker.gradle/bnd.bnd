@@ -1,0 +1,10 @@
+Bundle-Version: 1.0.0.${tstamp}
+Private-Package: \
+	de.fraunhofer.abm.builder.docker.gradle,\
+	de.fraunhofer.abm.builder.docker.gradle.steps
+Include-Resource: Dockerfile
+-buildpath: \
+	osgi.enroute.base.api,\
+	de.fraunhofer.abm.domain;version=latest,\
+	de.fraunhofer.abm.builder.api;version=latest,\
+	de.fraunhofer.abm.builder.docker.base;version=latest

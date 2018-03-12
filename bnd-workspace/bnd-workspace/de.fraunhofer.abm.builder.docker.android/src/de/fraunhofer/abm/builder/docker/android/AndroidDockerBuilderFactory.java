@@ -29,7 +29,7 @@ public class AndroidDockerBuilderFactory implements ProjectBuilderFactory {
         // properties didn't contain build.system
         // let's check, if there is a pom.xml
         //TODO check the files for gradle instead of pom.xml
-        File pom = new File(repoDir, "android.xml");
+        File pom = new File(repoDir, "pom.xml");
         if(pom.exists() && pom.isFile()) {
             builder = new AndroidDockerBuilder();
         }
