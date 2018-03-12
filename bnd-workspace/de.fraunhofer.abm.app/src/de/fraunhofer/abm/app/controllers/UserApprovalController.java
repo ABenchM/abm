@@ -2,9 +2,7 @@ package de.fraunhofer.abm.app.controllers;
 
 import java.util.Map;
 
-import javax.mail.Message;
-import javax.mail.Transport;
-import javax.mail.internet.MimeMessage;
+
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
