@@ -7,10 +7,10 @@
 	
 <div ng-hide="user == undefined">
 	<section ng-controller="collectionController as cc">
-		<h2>Private Collections</h2>
+		<h2>My Collections</h2>
 		<hr>
 			<div ng-hide="loading">
-				<p ng-show="userCollections[0] == undefined" class="alert alert-warning">You have no private collections. To create a new collection, collect projects using the search feature and create a collection from them in the Projects tab or clone an existing collection.</p>
+				<p ng-show="userCollections[0] == undefined" class="alert alert-warning">You have no collections. To create a new collection, collect projects using the search feature and create a collection from them in the Projects tab or clone an existing collection.</p>
 				
 				<table class="table table-bordered table-striped table-hover" style="max-height:400px;table-layout:fixed;" ng-hide="userCollections[0] == undefined">
 					<col width="23%">
