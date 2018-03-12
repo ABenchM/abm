@@ -4,7 +4,6 @@ package de.fraunhofer.abm.app.controllers;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -31,7 +30,6 @@ import de.fraunhofer.abm.domain.FilterStatusDTO;
 import de.fraunhofer.abm.domain.HermesBuildDTO;
 import de.fraunhofer.abm.domain.HermesResultDTO;
 import de.fraunhofer.abm.domain.HermesStepDTO;
-import de.fraunhofer.abm.domain.ProjectBuildDTO;
 import de.fraunhofer.abm.domain.QueriesDTO;
 import de.fraunhofer.abm.domain.RepositoryDTO;
 //import de.fraunhofer.abm.domain.RepositoryDTO;
@@ -95,9 +93,6 @@ public class HermesController implements REST {
 		 
 		 authorizer.requireRole("RegisteredUser");
 		 String sessionUser = SecurityContext.getInstance().getUser();
-		 
-		
-		 
 	        VersionDTO version = versionDao.findById(versionId);
 	        CollectionDTO databaseCollection = collectionDao.findById(version.collectionId);
 	        String owner = databaseCollection.user;
@@ -111,20 +106,6 @@ public class HermesController implements REST {
 		 return dto;
 	 }
 	 
-	  public HermesResultDTO getInstance(RESTRequest rr) throws Exception {
-	    	Map<String, String[]> params = rr._request().getParameterMap();
-	    	
-	        // make sure the collection is public
-	        VersionDTO version = versionDao.findById(params.get("id")[0]);
-	        CollectionDTO databaseCollection = collectionDao.findById(version.collectionId);
-	        if (databaseCollection.privateStatus) {
-	            authorizer.requireRole("Admin");
-	        }
-
-	        HermesResultDTO dto = hermesResultDao.findByVersion(params.get("id")[0]);
-	       
-	       return dto;
-	    }
 	 
 	 
 	 public File getCsv(String versionId) {
@@ -133,9 +114,8 @@ public class HermesController implements REST {
 		 
 		 return new File(buildResultDTO.dir+"/hermesResults.csv");
 				 
-	 }			
+	 }			 
 	 
-		 
 	 //Function to get the list of Hermes instances running for the user.
 	 public List<Map<String, String>> getInstances(String user)
 	 {

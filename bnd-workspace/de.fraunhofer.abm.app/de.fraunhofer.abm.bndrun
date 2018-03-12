@@ -63,9 +63,6 @@ JPM-Command:					abm
 	osgi.identity;filter:='(osgi.identity=de.fraunhofer.abm.suitebuilder)',\
 	osgi.identity;filter:='(osgi.identity=de.fraunhofer.abm.scm.git)',\
 	osgi.identity;filter:='(osgi.identity=de.fraunhofer.abm.builder.docker.maven)',\
-	osgi.identity;filter:='(osgi.identity=de.fraunhofer.abm.builder.docker.gradle)',\
-	osgi.identity;filter:='(osgi.identity=de.fraunhofer.abm.builder.docker.ant)',\
-	osgi.identity;filter:='(osgi.identity=de.fraunhofer.abm.builder.docker.android)',\
 	osgi.identity;filter:='(osgi.identity=de.fraunhofer.abm.useradmin.dao)',\
 	osgi.identity;filter:='(osgi.identity=de.fraunhofer.abm.useradmin.dao.jdbc)',\
 	osgi.identity;filter:='(osgi.identity=de.fraunhofer.abm.useradmin.store)',\
@@ -91,9 +88,6 @@ JPM-Command:					abm
 	de.fraunhofer.abm.app;version=snapshot,\
 	de.fraunhofer.abm.builder.api;version=snapshot,\
 	de.fraunhofer.abm.builder.docker.maven;version=snapshot,\
-	de.fraunhofer.abm.builder.docker.gradle;version=snapshot,\
-	de.fraunhofer.abm.builder.docker.ant;version=snapshot,\
-	de.fraunhofer.abm.builder.docker.android;version=snapshot,\
 	de.fraunhofer.abm.collection.dao;version=snapshot,\
 	de.fraunhofer.abm.collection.dao.jpa;version=snapshot,\
 	de.fraunhofer.abm.crawler.github;version=snapshot,\

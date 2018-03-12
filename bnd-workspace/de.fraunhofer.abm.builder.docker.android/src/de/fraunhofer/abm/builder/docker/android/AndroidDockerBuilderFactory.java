@@ -2,15 +2,12 @@ package de.fraunhofer.abm.builder.docker.android;
 
 import java.io.File;
 
-import org.osgi.service.component.annotations.Component;
-
 import de.fraunhofer.abm.builder.api.ProjectBuilder;
 import de.fraunhofer.abm.builder.api.ProjectBuilderFactory;
 
 import de.fraunhofer.abm.domain.RepositoryDTO;
 import de.fraunhofer.abm.domain.RepositoryPropertyDTO;
 
-@Component
 public class AndroidDockerBuilderFactory implements ProjectBuilderFactory {
 
 	@Override

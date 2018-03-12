@@ -85,37 +85,6 @@ public class BuildController implements REST {
         return dto;
     }
     
-    public boolean getFe(RESTRequest rr) {
-    	
-    	  Map<String, String[]> params = rr._request().getParameterMap();
-    	  boolean isFileExists = false;
-    	  VersionDTO version = versionDao.findById(params.get("id")[0]);
-          CollectionDTO databaseCollection = collectionDao.findById(version.collectionId);
-          if (databaseCollection.privateStatus) {
-              authorizer.requireRole("Admin");
-          }
-          
-          BuildResultDTO dto = buildResultDao.findByVersion(params.get("id")[0]);
-          if(dto!=null) {
-        	 
-        	  if(params.get("type")[0].contentEquals("build")) {
-            	  
-              	
-        		  isFileExists = (new File(dto.dir.toString()+"/archive.zip").exists());
-        	  
-        	  
-          }else if(params.get("type")[0].contentEquals("hermes")) {
-        	  
-        	
-        		  isFileExists = (new File(dto.dir.toString()+"/hermesResults.csv").exists());
-        	  
-          }
-          }
-          
-    
-          return isFileExists;
-    }
-    
     public List<Map<String, String>> getBuilds(String user){
     	authorizer.requireUser(user);
     	
