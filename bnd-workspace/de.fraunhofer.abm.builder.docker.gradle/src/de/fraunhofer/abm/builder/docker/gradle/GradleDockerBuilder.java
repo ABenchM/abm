@@ -87,7 +87,8 @@ public class GradleDockerBuilder extends AbstractProjectBuilder {
 	                if(extractBuildResults.getStatus() != STATUS.SUCCESS) {
 	                    state = STATE.CLEAN_UP;
 	                } else {
-	                    buildArtifacts.add(new File(repoDir, "maven"));
+	                	System.out.println(new File(".").getAbsolutePath());
+	                    buildArtifacts.add(new File(repoDir, "build"));
 	                }
 	            }
 	        } finally {
