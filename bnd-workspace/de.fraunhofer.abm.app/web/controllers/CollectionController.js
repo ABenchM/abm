@@ -101,8 +101,13 @@ function collectionController($rootScope, $scope, $http, $location, $route, $rou
 	}
 	
 	self.open = function(collection){
-		self.edit(collection);
-		$location.path('/editCollection/' + collection.id);
+		if(collection.privateStatus){
+			self.edit(collection);
+			$location.path('/editCollection/' + collection.id);
+		}
+		if(!collection.privateStatus){		
+			$location.path('/view/' + collection.id);
+		}
 	}
 	
 	self.save = function(repositoryList) {
