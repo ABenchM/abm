@@ -105,7 +105,7 @@ function collectionController($rootScope, $scope, $http, $location, $route, $rou
 			self.edit(collection);
 			$location.path('/editCollection/' + collection.id);
 		}
-		if(!collection.privateStatus){		
+		else{		
 			$location.path('/view/' + collection.id);
 		}
 	}
