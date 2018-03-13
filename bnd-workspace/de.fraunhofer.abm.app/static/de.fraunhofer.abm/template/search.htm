@@ -119,7 +119,7 @@
 					<th ng-click="sc.sizeSort()">Size</th>
 					<th ng-click="sc.orginSort()">Orgin</th>
 				</tr>
-				<tr ng-repeat="row in sc.results" ng-class="{'selected': row.id == sc.singleSelection.id}">
+				<tr style="cursor:pointer;" ng-repeat="row in sc.results" ng-class="{'selected': row.id == sc.singleSelection.id}">
 					<td ng-click="sc.singleSelection = row">{{row.name}}</td>
 					<td ng-click="sc.singleSelection = row">{{row.description}}</td>
 					<td ng-click="sc.singleSelection = row">{{row.creationDate | date:'short'}}</td>

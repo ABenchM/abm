@@ -19,11 +19,13 @@ body {
 
 .custom-right{
 	position: fixed;
-	right: 15px;
-
-
-
+	right: 15px;	
 }
+
+@media screen and (min-width: 875px){
+   .rwd-break { display: none; }
+}
+
 .title-header{
 	position:fixed;
 	left: 20px;
