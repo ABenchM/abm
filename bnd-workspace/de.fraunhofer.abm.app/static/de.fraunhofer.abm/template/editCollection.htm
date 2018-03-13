@@ -61,13 +61,17 @@
 	<div><label>Created: {{cc.version.creationDate | date: 'short'}}</label></div>
 	<div ng-show="cc.collection.privateStatus"><label>Privacy: Private</label></div>
 	<div ng-hide="cc.collection.privateStatus"><label>Privacy: Public</label></div>
-	<div class="form-actions pull-left">
-		<button ng-disabled="loading || cc.saving" title="Make Public"
-			class="btn btn-sm btn-danger">Delete Version</button>
-		<button ng-disabled="loading || cc.saving" title="Make Public"
+	<div align= "center" style="margin-bottom: 5px;">
+		<button ng-disabled="loading || cc.saving" title="New Version"
 			class="btn btn-primary btn-sm">New Version</button>
-		<button ng-disabled="loading || cc.saving" title="Make Public"
+	</div>
+	<div align= "center" style="margin-bottom: 5px;">
+		<button ng-disabled="loading || cc.saving || cc.collection.privateStatus == 0" title="Make Public"
 			class="btn btn-primary btn-sm">Make Public</button>
+	</div>
+	<div align= "center" style="margin-bottom: 5px;">
+		<button ng-disabled="loading || cc.saving" title="Delete Version"
+			class="btn btn-sm btn-danger">Delete Version</button>
 	</div>
 		
 </div>
