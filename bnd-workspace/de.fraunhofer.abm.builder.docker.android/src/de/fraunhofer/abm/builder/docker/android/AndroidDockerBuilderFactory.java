@@ -2,12 +2,15 @@ package de.fraunhofer.abm.builder.docker.android;
 
 import java.io.File;
 
+import org.osgi.service.component.annotations.Component;
+
 import de.fraunhofer.abm.builder.api.ProjectBuilder;
 import de.fraunhofer.abm.builder.api.ProjectBuilderFactory;
 
 import de.fraunhofer.abm.domain.RepositoryDTO;
 import de.fraunhofer.abm.domain.RepositoryPropertyDTO;
 
+@Component
 public class AndroidDockerBuilderFactory implements ProjectBuilderFactory {
 
 	@Override
@@ -26,7 +29,7 @@ public class AndroidDockerBuilderFactory implements ProjectBuilderFactory {
         // properties didn't contain build.system
         // let's check, if there is a pom.xml
         //TODO check the files for gradle instead of pom.xml
-        File pom = new File(repoDir, "pom.xml");
+        File pom = new File(repoDir, "android.xml");
         if(pom.exists() && pom.isFile()) {
             builder = new AndroidDockerBuilder();
         }
