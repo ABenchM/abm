@@ -30,7 +30,7 @@
 						<i class="glyphicon glyphicon-trash"></i> Delete Collection
 					</button>
 					
-					<button ng-disabled="loading || cc.saving" title="Save Changes"
+					<button ng-disabled="loading || cc.saving || form.name.$error.required" title="Save Changes"
 						class="btn btn-primary btn-sm" ng-click="cc.update()">Save
 						Changes</button>		
 				</div>
@@ -41,10 +41,7 @@
 	<label align="center" for="description">Description</label>
 	<textarea rows='3' type="description" style="width: 100%;"
 		name="description" id="description" class="form-control"
-		ng-model="cc.collection.description" required ng-disabled="cc.saving"></textarea>
-	<span
-		ng-show="form.description.$dirty && form.description.$error.required"
-		class="help-block">Description is required</span>
+		ng-model="cc.collection.description" ng-disabled="cc.saving"></textarea>
 		</div>
 			
 	</div>
@@ -55,35 +52,48 @@
 </form>
 <hr>
 <div class = "form-actions" style="overflow: auto;">
-<div class="form-actions pull-left">
+<span class="form-actions pull-left">
 	<div align="center"><label>Build Information</label></div>
-	<div><label>Version Comment: {{cc.version.comment}}</label></div>
+	<div><label><span uib-dropdown>
+   		<button id="single-button" type="button" class="btn btn-success btn-xs" uib-dropdown-toggle ng-disabled="cc.disabled || cc.saving">
+       		Version {{cc.version.number}} &nbsp;&nbsp;&dash;&nbsp;&nbsp;  {{cc.version.creationDate | date:'short'}}&nbsp;&nbsp;<span class="caret"></span>
+   		</button>
+		<ul class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown">
+			<li ng-repeat="version in cc.collection.versions"><a href ng-click="cc.version = version">{{version.number}} &nbsp;&nbsp;&dash;&nbsp;&nbsp;  {{version.creationDate | date:'short'}}</a></li>
+			<li class="divider"></li>
+       		<li role="menuitem"><a href ng-click="cc.deriveVersion()">Derive new version from current version ({{cc.version.number}})</a></li>
+		</ul>
+	</span></label></div>
 	<div><label>Created: {{cc.version.creationDate | date: 'short'}}</label></div>
+	<div><label>Latest Version Built: ???</label></div>
 	<div ng-show="cc.collection.privateStatus"><label>Privacy: Private</label></div>
 	<div ng-hide="cc.collection.privateStatus"><label>Privacy: Public</label></div>
-	<div align= "center" style="margin-bottom: 5px;">
+	<div  align="center">
+	<div class="btn-group-vertical">
+	
 		<button ng-disabled="loading || cc.saving" title="New Version"
-			class="btn btn-primary btn-sm">New Version</button>
+			class="btn btn-primary btn-sm" style="margin-bottom: 5px;">New Version</button>
+	
+	
+		<button ng-disabled="loading || cc.saving || !cc.collection.privateStatus" title="Make Public"
+			class="btn btn-primary btn-sm" style="margin-bottom: 5px;">Make Public</button>
+	
+
+		<button ng-disabled="loading || cc.saving || !cc.collection.privateStatus" title="Delete Version"
+			class="btn btn-sm btn-danger" style="margin-bottom: 5px;">Delete Version</button>
+	
 	</div>
-	<div align= "center" style="margin-bottom: 5px;">
-		<button ng-disabled="loading || cc.saving || cc.collection.privateStatus == 0" title="Make Public"
-			class="btn btn-primary btn-sm">Make Public</button>
 	</div>
-	<div align= "center" style="margin-bottom: 5px;">
-		<button ng-disabled="loading || cc.saving" title="Delete Version"
-			class="btn btn-sm btn-danger">Delete Version</button>
-	</div>
-		
-</div>
-<div style="display:flex">
-<div style="width: 100%">
-			<button ng-disabled="loading || cc.saving || cc.version.frozen"
+</span>
+<span style="display: block; overflow: hidden; padding-left: 5%">
+<div style="margin-bottom: 5px;">
+			<button ng-disabled="loading || cc.saving || !cc.collection.privateStatus"
 				class="btn btn-primary btn-sm"">Edit Project(s)</button>
-			<button ng-disabled="loading || cc.saving || cc.version.frozen"
+			<button ng-disabled="loading || cc.saving"
 				class="btn btn-primary btn-sm"">Download Hermes Results</button>
 </div>
 
-<div style="width: 100%">
+<div style="float: right; width: 100%"">
 <table class="table table-bordered table-striped" >
 	<col width="*">
 	<col width="*">
@@ -112,5 +122,5 @@
 </table>
 </div>
 
-</div> 
+</span> 
 </div>
