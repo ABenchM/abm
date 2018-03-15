@@ -8,26 +8,26 @@
 	
 		<div class ="form-actions pull-left"
 			ng-class="{ 'has-error': form.name.$dirty && form.name.$error.required }">
-			<div align="center"><label>Collection Information</label></div>
-			<div class="form-group"><label for="name">Name:</label>&nbsp<input type="text" name="name"
+			<div><h4>Collection Information</h4></div>
+			<div>Name:&nbsp<input type="text" name="name"
 				id="name" ng-model="cc.collection.name"
 				required ng-disabled="cc.saving" /> </div>
 			<span ng-show="form.name.$dirty && form.name.$error.required"
 			class="help-block">Name is required</span>
 			<div>
-				<label class="created-at">Created: {{cc.collection.creation_date | date:'short'}}</label>			
+				Created: {{cc.collection.creation_date | date:'short'}}		
 			</div>
 			<div>
-				<label>Author: {{cc.collection.user}}</label>			
+				Author: {{cc.collection.user}}		
 			</div>
 			<div>
-				<label>ID: {{cc.collection.id}}</label>			
+				ID: {{cc.collection.id}}			
 			</div>
-				<div class="form-actions pull-left">
+				<div class="form-actions pull-left" style="padding-top: 5%">
 					<button ng-disabled="loading || cc.saving"
 						ng-click="cc.remove(cc.collection.id)" class="btn btn-sm btn-danger"
 						title="Delete" confirm="Removal is irreversible! Continue?">
-						<i class="glyphicon glyphicon-trash"></i> Delete Collection
+						Delete Collection
 					</button>
 					
 					<button ng-disabled="loading || cc.saving || form.name.$error.required" title="Save Changes"
@@ -36,9 +36,9 @@
 				</div>
 		</div>
 		<div class="form-actions" style="display: flex;">
-		<div style="margin-top: 20px; margin-left:5%; width: 95%;" align="center"
+		<div style="margin-left:5%; width: 95%;"
 	ng-class="{ 'has-error': form.description.$dirty && form.description.$error.required }">
-	<label align="center" for="description">Description</label>
+	Description
 	<textarea rows='3' type="description" style="width: 100%;"
 		name="description" id="description" class="form-control"
 		ng-model="cc.collection.description" ng-disabled="cc.saving"></textarea>
@@ -51,9 +51,10 @@
 
 </form>
 <hr>
+<br>
 <div class = "form-actions" style="overflow: auto;">
 <span class="form-actions pull-left">
-	<div align="center"><label>Build Information</label></div>
+	<div><h4>Build Information</h4></div>
 	<div><label><span uib-dropdown>
    		<button id="single-button" type="button" class="btn btn-success btn-xs" uib-dropdown-toggle ng-disabled="cc.disabled || cc.saving">
        		Version {{cc.version.number}} &nbsp;&nbsp;&dash;&nbsp;&nbsp;  {{cc.version.creationDate | date:'short'}}&nbsp;&nbsp;<span class="caret"></span>
@@ -64,12 +65,12 @@
        		<li role="menuitem"><a href ng-click="cc.deriveVersion()">Derive new version from current version ({{cc.version.number}})</a></li>
 		</ul>
 	</span></label></div>
-	<div><label>Created: {{cc.version.creationDate | date: 'short'}}</label></div>
-	<div><label>Latest Version Built: ???</label></div>
-	<div ng-show="cc.collection.privateStatus"><label>Privacy: Private</label></div>
-	<div ng-hide="cc.collection.privateStatus"><label>Privacy: Public</label></div>
+	<div>Created: {{cc.version.creationDate | date: 'short'}}</div>
+	<div>Latest Version Built: ???</div>
+	<div ng-show="cc.collection.privateStatus">Privacy: Private</div>
+	<div ng-hide="cc.collection.privateStatus">Privacy: Public</div>
 	<div  align="center">
-	<div class="btn-group-vertical">
+	<div class="btn-group-vertical" style="padding-top: 5%">
 	
 		<button ng-disabled="loading || cc.saving" title="New Version"
 			class="btn btn-primary btn-sm" style="margin-bottom: 5px;">New Version</button>
@@ -90,7 +91,7 @@
 			<button ng-disabled="loading || cc.saving || !cc.collection.privateStatus"
 				class="btn btn-primary btn-sm"">Edit Project(s)</button>
 			<button ng-disabled="loading || cc.saving"
-				class="btn btn-primary btn-sm"">Download Hermes Results</button>
+				class="btn btn-primary btn-sm"">Download Collection</button>
 </div>
 
 <div style="float: right; width: 100%"">
