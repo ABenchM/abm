@@ -30,7 +30,7 @@
 						Delete Collection
 					</button>
 					
-					<button ng-disabled="loading || cc.saving || form.name.$error.required" title="Save Changes"
+					<button ng-disabled="loading || cc.saving || cc.running || form.name.$error.required" title="Save Changes"
 						class="btn btn-primary btn-sm" ng-click="cc.update()">Save
 						Changes</button>		
 				</div>
@@ -76,11 +76,11 @@
 			class="btn btn-primary btn-sm" style="margin-bottom: 5px;">New Version</button>
 	
 	
-		<button ng-disabled="loading || cc.saving || !cc.collection.privateStatus" title="Make Public"
+		<button ng-disabled="loading || cc.saving || cc.running || !cc.collection.privateStatus" title="Make Public"
 			class="btn btn-primary btn-sm" style="margin-bottom: 5px;">Make Public</button>
 	
 
-		<button ng-disabled="loading || cc.saving || !cc.collection.privateStatus" title="Delete Version"
+		<button ng-disabled="loading || cc.saving || cc.running || !cc.collection.privateStatus" title="Delete Version"
 			class="btn btn-sm btn-danger" style="margin-bottom: 5px;">Delete Version</button>
 	
 	</div>
@@ -88,9 +88,9 @@
 </span>
 <span style="display: block; overflow: hidden; padding-left: 5%">
 <div style="margin-bottom: 5px;">
-			<button ng-disabled="loading || cc.saving || !cc.collection.privateStatus"
+			<button ng-disabled="loading || cc.saving || cc.running || !cc.collection.privateStatus"
 				class="btn btn-primary btn-sm"">Edit Project(s)</button>
-			<button ng-disabled="loading || cc.saving"
+			<button ng-disabled="loading || cc.running || cc.saving "
 				class="btn btn-primary btn-sm"">Download Collection</button>
 </div>
 
