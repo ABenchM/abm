@@ -55,8 +55,11 @@ public class UserApprovalController extends AbstractController implements REST {
 			user.getCredentials().put("password", password);
 			Group registeredUserGroup = (Group) userAdmin.getRole("RegisteredUser");
 			registeredUserGroup.addMember(user);
-			String sbj = params.get("username") + " Approved on ABM";
-			String msg = "You have been approved! Please click here to login: https://abm.cs.upb.de/abm/index.html#/login";
+			String sbj = "Your ABM account has been approved";
+			String msg = "Hello,\n\nYour account on ABM has been approved.\nYou "
+				+ "can now log in and start creating collections: "
+				+ "https://abm.cs.upb.de/abm/index.html#/login \n\n"
+				+ "Happy benchmarking.\n\nThe ABM team.";
 			MimeMessage message = new MimeMessage(config.getSession());
 			message.setFrom(config.getFrom());
 			message.addRecipients(Message.RecipientType.TO, config.getTo());
