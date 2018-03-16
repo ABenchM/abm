@@ -66,7 +66,7 @@ public class UserApprovalController extends AbstractController implements REST {
 			message.setSubject(sbj);
 			message.setText(msg);
 			Transport.send(message);
-			//return "User has been approved";
+			return params.get("name") + " successfully approved";
 		} catch (Exception e) {
 			//return e.getCause() != null ? e.getCause().getMessage() : e.getMessage();
 		}
