@@ -26,7 +26,7 @@
 				<div class="form-actions pull-left" style="padding-top: 5%">
 					<button ng-disabled="loading || cc.saving"
 						ng-click="cc.remove(cc.collection.id)" class="btn btn-sm btn-danger"
-						title="Delete" confirm="Removal is irreversible! Continue?">
+						title="Delete" confirm="Are you sure you want to delete this collection?">
 						Delete Collection
 					</button>
 					
@@ -35,7 +35,7 @@
 						Changes</button>
 						
 					<button ng-disabled="loading || cc.saving" title="New Version"
-						class="btn btn-primary btn-sm">New Version</button>	
+						class="btn btn-primary btn-sm" ng-click="cc.deriveVersion()">New Version</button>	
 				</div>
 		</div>
 		<div class="form-actions" style="display: flex;">
@@ -75,10 +75,14 @@
 	<div>
 	<div style="padding-top: 5%">	
 		<button ng-disabled="loading || cc.saving || cc.running || !cc.collection.privateStatus" title="Delete Version"
-			class="btn btn-sm btn-danger" style="margin-bottom: 5px;">Delete Version</button>
+			class="btn btn-sm btn-danger" style="margin-bottom: 5px;" 
+			confirm="Are you sure you want to delete this version?" ng-click="cc.removeVersion(cc.version.id)">Delete Version</button>
+			
+			
 				
 		<button ng-disabled="loading || cc.saving || cc.running || !cc.collection.privateStatus" title="Make Public"
-			class="btn btn-primary btn-sm" style="margin-bottom: 5px;">Make Public</button>
+			class="btn btn-primary btn-sm" style="margin-bottom: 5px;"
+			confirm="Are you sure you want to make this version public?" ng-click="cc.makePublic(cc)">Make Public</button>
 	
 	</div>
 	</div>
@@ -87,8 +91,10 @@
 <div style="margin-bottom: 5px; margin-top: 35px;">
 			<button ng-disabled="loading || cc.saving || cc.running || !cc.collection.privateStatus"
 				class="btn btn-primary btn-sm">Edit Project(s)</button>
-			<button ng-disabled="loading || cc.running || cc.saving "
-				class="btn btn-primary btn-sm">Download Collection</button>
+			<button ng-disabled="loading || cc.running || cc.saving"
+				class="btn btn-primary btn-sm"
+				ng-click="cc.HermesViewerService.download()">Download Collection</button>
+				
 </div>
 
 <div style="float: right; width: 100%"">
