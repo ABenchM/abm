@@ -2,11 +2,11 @@
 	<span class="cssload-loader"></span>
 </div>
 
-<div ng-controller="collectionController as cc" ng-hide="loading">
+<div ng-controller="collectionController as cc" ng-hide="loading" style="min-width: 650px; overflow-x: auto;'">
 	<hr>
 	<form name="form" role="form" style="overflow: auto;">
 	
-		<div class ="form-actions pull-left"
+		<div class ="form-actions pull-left" style="width: 320px"
 			ng-class="{ 'has-error': form.name.$dirty && form.name.$error.required }">
 			<div><h4>Collection Information</h4></div>
 			<div>Name:&nbsp<input type="text" name="name"
@@ -32,11 +32,14 @@
 					
 					<button ng-disabled="loading || cc.saving || cc.running || form.name.$error.required" title="Save Changes"
 						class="btn btn-primary btn-sm" ng-click="cc.update()">Save
-						Changes</button>		
+						Changes</button>
+						
+					<button ng-disabled="loading || cc.saving" title="New Version"
+						class="btn btn-primary btn-sm">New Version</button>	
 				</div>
 		</div>
 		<div class="form-actions" style="display: flex;">
-		<div style="margin-left:5%; width: 95%;"
+		<div style="padding-left: calc(5% + 12px); margin-top: 40px; width: 100%;"
 	ng-class="{ 'has-error': form.description.$dirty && form.description.$error.required }">
 	Description
 	<textarea rows='3' type="description" style="width: 100%;"
@@ -53,7 +56,7 @@
 <hr>
 <br>
 <div class = "form-actions" style="overflow: auto;">
-<span class="form-actions pull-left">
+<span class="form-actions pull-left" style="width: 320px">
 	<div><h4>Build Information</h4></div>
 	<div><label><span uib-dropdown>
    		<button id="single-button" type="button" class="btn btn-success btn-xs" uib-dropdown-toggle ng-disabled="cc.disabled || cc.saving">
@@ -69,29 +72,23 @@
 	<div>Latest Version Built: ???</div>
 	<div ng-show="cc.collection.privateStatus">Privacy: Private</div>
 	<div ng-hide="cc.collection.privateStatus">Privacy: Public</div>
-	<div  align="center">
-	<div class="btn-group-vertical" style="padding-top: 5%">
-	
-		<button ng-disabled="loading || cc.saving" title="New Version"
-			class="btn btn-primary btn-sm" style="margin-bottom: 5px;">New Version</button>
-	
-	
-		<button ng-disabled="loading || cc.saving || cc.running || !cc.collection.privateStatus" title="Make Public"
-			class="btn btn-primary btn-sm" style="margin-bottom: 5px;">Make Public</button>
-	
-
+	<div>
+	<div style="padding-top: 5%">	
 		<button ng-disabled="loading || cc.saving || cc.running || !cc.collection.privateStatus" title="Delete Version"
 			class="btn btn-sm btn-danger" style="margin-bottom: 5px;">Delete Version</button>
+				
+		<button ng-disabled="loading || cc.saving || cc.running || !cc.collection.privateStatus" title="Make Public"
+			class="btn btn-primary btn-sm" style="margin-bottom: 5px;">Make Public</button>
 	
 	</div>
 	</div>
 </span>
 <span style="display: block; overflow: hidden; padding-left: 5%">
-<div style="margin-bottom: 5px;">
+<div style="margin-bottom: 5px; margin-top: 35px;">
 			<button ng-disabled="loading || cc.saving || cc.running || !cc.collection.privateStatus"
-				class="btn btn-primary btn-sm"">Edit Project(s)</button>
+				class="btn btn-primary btn-sm">Edit Project(s)</button>
 			<button ng-disabled="loading || cc.running || cc.saving "
-				class="btn btn-primary btn-sm"">Download Collection</button>
+				class="btn btn-primary btn-sm">Download Collection</button>
 </div>
 
 <div style="float: right; width: 100%"">
