@@ -28,8 +28,9 @@ public class AntDockerBuilderFactory implements ProjectBuilderFactory {
 
         // properties didn't contain build.system
         
-        File pom = new File(repoDir, "build.xml");
-        if(pom.exists() && pom.isFile()) {
+        File build = new File(repoDir, "build.xml");
+        File pom = new File(repoDir,"pom.xml");
+        if(build.exists() && build.isFile() && !pom.exists()) {
             builder = new AntDockerBuilder();
         }
 

@@ -28,7 +28,7 @@ public class ExtractBuildResults extends AbstractDockerStep<Void> {
         setStatus(STATUS.IN_PROGRESS);
         logger.info("Fetching build results");
         try {
-            Result result = exec("docker cp " + containerName + ":/tmp/ant/ .", repoDir);
+            Result result = exec("docker cp " + containerName + ":/home/ant/project/ .", repoDir);
             output = result.stdout;
             errorOutput = result.stderr;
             setStatus(result.exitValue == 0 ? STATUS.SUCCESS : STATUS.FAILED);

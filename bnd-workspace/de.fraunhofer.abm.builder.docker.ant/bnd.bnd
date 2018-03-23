@@ -2,6 +2,7 @@ Bundle-Version: 1.0.0.${tstamp}
 Private-Package: \
 	de.fraunhofer.abm.builder.docker.ant,\
 	de.fraunhofer.abm.builder.docker.ant.steps
+Include-Resource: Dockerfile
 -buildpath: \
 	de.fraunhofer.abm.builder.api;version=latest,\
 	de.fraunhofer.abm.domain;version=latest,\

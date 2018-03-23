@@ -35,7 +35,8 @@ public class RunDockerBuild  extends AbstractDockerStep<String> {
         String containerName = UUID.randomUUID().toString();
         try {
             logger.debug("Running docker build container:{}", containerName);
-            Result result = exec("docker run -v M2_REPO:/usr/share/maven/ref/repository --name " + containerName + " " + imageName + " mvn verify deploy:deploy -DaltDeploymentRepository=snapshots::default::file:///tmp/maven", repoDir);
+            
+            Result result = exec("docker run -v "+ repoDir+":/home/ant/project/ -v M2_REPO:/usr/share/maven/ref/repository -v IVY_REPO:/root/.ivy2 --name " + containerName + " -w /home/ant/project/ " + imageName + " ant", repoDir);
             output = result.stdout;
             errorOutput = result.stderr;
             setStatus(result.exitValue == 0 ? STATUS.SUCCESS : STATUS.FAILED);

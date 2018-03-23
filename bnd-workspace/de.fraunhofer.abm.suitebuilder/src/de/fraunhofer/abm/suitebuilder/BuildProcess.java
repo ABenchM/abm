@@ -182,9 +182,21 @@ public class BuildProcess implements Callable<BuildResultDTO> {
                 // run builder specific steps
                 List<File> results = builder.build(repo, repoDir);
                 if(results != null) {
+                	
                     for (File file : results) {
+                    
                         File dest = new File(archive, file.getName());
-                        FileUtil.copy(file, dest);
+                     
+                        if(dest.exists()) {
+                        
+                        	FileUtil.copy(file, dest);
+                        }
+                        
+                        else
+                        {
+                        	dest.mkdir();
+                        	FileUtil.copy(file, dest);
+                        }
                     }
                 }
             } catch (NoBuilderFoundException e) {
