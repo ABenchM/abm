@@ -13,6 +13,7 @@
 * [Running Hermes manually](#running-hermes-manually)
 * [Updating the database](#updating-the-database)
 * [Changing email notification settings](#changing-email-notification-settings)
+* [Continuous integration using jenkins](#continuous-integration-using-jenkins)
 
 # Install ABM
 
@@ -262,3 +263,23 @@ To avoid this, make the following changes to your local database for each of the
 
 # Changing email notification settings
 All the settings that control the email notification system are at the top of the file EmailConfiguration.java in the package de.fraunhofer.abm.app. You can change these to control the host the program connects to, the email and credentals it uses, and who it notifies when a new account is registered.
+
+# Continuous integration using jenkins
+
+Abm uses Jenkins for deployment. Every day the code from master will deployed into the server.
+Let's see how deployment is done.
+
+* There is seperate github account for abm deployment.
+* Jenkins dashboard:
+![Jenkins Dashboard](Jenkins.png)
+* Build is done daily at midnight.
+* Using Systemd ABM jar file has been created as a service.
+* From the server, ABM can be started and stopped using 
+
+```
+systemctl start abm
+systemctl stop abm
+```
+* Before deployment `abm service` will be stopped and after the creation of new jar file abm service will be started.
+
+* In case, immediately build can be done using Build Now option in jenkins.
