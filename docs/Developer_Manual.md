@@ -13,7 +13,7 @@
 * [Running Hermes manually](#running-hermes-manually)
 * [Updating the database](#updating-the-database)
 * [Changing email notification settings](#changing-email-notification-settings)
-* [Continuous integration using jenkins] (#continuous-integration-using-jenkins)
+* [Continuous integration using jenkins](#continuous-integration-using-jenkins)
 
 # Install ABM
 
