@@ -76,7 +76,7 @@
 	<div style="padding-top: 5%">
 		<button ng-disabled="loading || cc.saving || cc.running || !cc.collection.privateStatus" title="Make Public"
 			class="btn btn-primary btn-sm" style="margin-bottom: 5px;"
-			confirm="Are you sure you want to make this version public?" ng-click="cc.makePublic(cc)">Make Public</button>
+			confirm="Are you sure you want to make this version public?" ng-click="cc.makePublic(cc.collection)">Make Public</button>
 		<button ng-disabled="loading || cc.saving || cc.running || !cc.collection.privateStatus" title="Delete Version"
 			class="btn btn-sm btn-danger" style="margin-bottom: 5px;"
 			confirm="Are you sure you want to delete this version?" ng-click="cc.removeVersion(cc.version.id)">Delete Version</button>
@@ -84,10 +84,9 @@
 	</div>
 </span>
 <span style="display: block; overflow: hidden; padding-left: 5%">
-<div style="margin-bottom: 5px; margin-top: 35px;">
-			<button ng-disabled="loading || cc.running || cc.saving"
-						class="btn btn-primary btn-sm"
-						ng-click="cc.downloadCsv(cc.version.id)">Download Collection</button>
+	<div style="margin-bottom: 5px; margin-top: 35px;">
+            <button ng-disabled="loading || cc.running || cc.saving"
+                        class="btn btn-primary btn-sm">Download Collection</button>
 			<button ng-disabled="loading || cc.saving || cc.running || !cc.collection.privateStatus"
 						class="btn btn-primary btn-sm"
 						confirm="You are about to be redirected to the 'Edit Collections' Page. You can search for packages there and add them to your package(s)."
