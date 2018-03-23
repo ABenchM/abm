@@ -36,7 +36,7 @@ public class RunDockerBuild  extends AbstractDockerStep<String> {
         try {
             logger.debug("Running docker build container:{}", containerName);
             
-            Result result = exec("docker run -v "+ repoDir+":/home/ant/project/ -v M2_REPO:/usr/share/maven/ref/repository -v IVY_REPO:/root/.ivy2 --name " + containerName + " -w /home/ant/project/ " + imageName + " ant", repoDir);
+            Result result = exec("docker run -v "+ repoDir+":/home/ant/project/ -v M2_REPO:/usr/share/maven/ref/repository -v IVY_REPO:/root/.ivy2 --name " + containerName + " -w /home/ant/project/ --user root " + imageName + " ant", repoDir);
             output = result.stdout;
             errorOutput = result.stderr;
             setStatus(result.exitValue == 0 ? STATUS.SUCCESS : STATUS.FAILED);
