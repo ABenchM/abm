@@ -158,6 +158,23 @@ function collectionController($rootScope, $scope, $http, $location, $route, $rou
 				});
 	}
 
+	self.updateCollectionInformation = function () {
+		self.saving = true;
+		$http.put('/rest/collection', self.collection, null).then(
+			function() {
+				Notification.success("Changes Saved");
+			}, function(d) {
+				if(d.status == 403) {
+					modalLoginService();
+				} else {
+					Notification.error('Failed with ['+ d.status + '] '+ d.statusText);
+				}
+			})
+			['finally'](function() {
+				self.saving = false;
+			});
+	}
+
 	self.update = function () {
 		self.saving = true;
 		$http.put('/rest/collection', self.collection, null).then(

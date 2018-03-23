@@ -24,18 +24,18 @@
 				ID: {{cc.collection.id}}
 			</div>
 				<div class="form-actions pull-left" style="padding-top: 5%">
+					<button ng-disabled="loading || cc.saving" title="New Version"
+						class="btn btn-primary btn-sm" ng-click="cc.deriveVersion()">New Version</button>
+
+					<button ng-disabled="loading || cc.saving || cc.running || form.name.$error.required" title="Save Changes"
+						class="btn btn-primary btn-sm" ng-click="cc.updateCollectionInformation()">Save
+						Changes</button>
+
 					<button ng-disabled="loading || cc.saving"
 						ng-click="cc.remove(cc.collection.id)" class="btn btn-sm btn-danger"
 						title="Delete" confirm="Are you sure you want to delete this collection?">
 						Delete Collection
 					</button>
-
-					<button ng-disabled="loading || cc.saving || cc.running || form.name.$error.required" title="Save Changes"
-						class="btn btn-primary btn-sm" ng-click="cc.update()">Save
-						Changes</button>
-
-					<button ng-disabled="loading || cc.saving" title="New Version"
-						class="btn btn-primary btn-sm" ng-click="cc.deriveVersion()">New Version</button>
 				</div>
 		</div>
 		<div class="form-actions" style="display: flex;">
@@ -74,26 +74,28 @@
 	<div ng-hide="cc.collection.privateStatus">Privacy: Public</div>
 	<div>
 	<div style="padding-top: 5%">
-		<button ng-disabled="loading || cc.saving || cc.running || !cc.collection.privateStatus" title="Delete Version"
-			class="btn btn-sm btn-danger" style="margin-bottom: 5px;"
-			confirm="Are you sure you want to delete this version?" ng-click="cc.removeVersion(cc.version.id)">Delete Version</button>
-
 		<button ng-disabled="loading || cc.saving || cc.running || !cc.collection.privateStatus" title="Make Public"
 			class="btn btn-primary btn-sm" style="margin-bottom: 5px;"
 			confirm="Are you sure you want to make this version public?" ng-click="cc.makePublic(cc)">Make Public</button>
-
+		<button ng-disabled="loading || cc.saving || cc.running || !cc.collection.privateStatus" title="Delete Version"
+			class="btn btn-sm btn-danger" style="margin-bottom: 5px;"
+			confirm="Are you sure you want to delete this version?" ng-click="cc.removeVersion(cc.version.id)">Delete Version</button>
 	</div>
 	</div>
 </span>
 <span style="display: block; overflow: hidden; padding-left: 5%">
 <div style="margin-bottom: 5px; margin-top: 35px;">
-			<button ng-disabled="loading || cc.saving || cc.running || !cc.collection.privateStatus"
-				class="btn btn-primary btn-sm"
-				confirm="You are about to be redirected to the 'Edit Collections' Page. You can search for packages there and add them to your package(s)."
-				ng-click="cc.redirectToAddProject()">Add Project(s)</button>
 			<button ng-disabled="loading || cc.running || cc.saving"
-				class="btn btn-primary btn-sm"
-				ng-click="cc.downloadCsv(cc.version.id)">Download Collection</button>
+						class="btn btn-primary btn-sm"
+						ng-click="cc.downloadCsv(cc.version.id)">Download Collection</button>
+			<button ng-disabled="loading || cc.saving || cc.running || !cc.collection.privateStatus"
+						class="btn btn-primary btn-sm"
+						confirm="You are about to be redirected to the 'Edit Collections' Page. You can search for packages there and add them to your package(s)."
+						ng-click="cc.redirectToAddProject()">Add Project(s)</button>
+			<button ng-disabled="loading || cc.saving || cc.running || !cc.collection.privateStatus"
+				class="btn btn-sm btn-danger"
+				confirm="You are about to delete the selected projects from this collection, continue?"
+				ng-click="cc.redirectToAddProject()">Delete Project(s)</button>
 
 </div>
 
