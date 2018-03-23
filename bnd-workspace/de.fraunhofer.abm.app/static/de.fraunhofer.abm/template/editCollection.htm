@@ -5,7 +5,7 @@
 <div ng-controller="collectionController as cc" ng-hide="loading" style="min-width: 650px; overflow-x: auto;'">
 	<hr>
 	<form name="form" role="form" style="overflow: auto;">
-	
+
 		<div class ="form-actions pull-left" style="width: 320px"
 			ng-class="{ 'has-error': form.name.$dirty && form.name.$error.required }">
 			<div><h4>Collection Information</h4></div>
@@ -15,13 +15,13 @@
 			<span ng-show="form.name.$dirty && form.name.$error.required"
 			class="help-block">Name is required</span>
 			<div>
-				Created: {{cc.collection.creation_date | date:'short'}}		
+				Created: {{cc.collection.creation_date | date:'short'}}
 			</div>
 			<div>
-				Author: {{cc.collection.user}}		
+				Author: {{cc.collection.user}}
 			</div>
 			<div>
-				ID: {{cc.collection.id}}			
+				ID: {{cc.collection.id}}
 			</div>
 				<div class="form-actions pull-left" style="padding-top: 5%">
 					<button ng-disabled="loading || cc.saving"
@@ -29,13 +29,13 @@
 						title="Delete" confirm="Are you sure you want to delete this collection?">
 						Delete Collection
 					</button>
-					
+
 					<button ng-disabled="loading || cc.saving || cc.running || form.name.$error.required" title="Save Changes"
 						class="btn btn-primary btn-sm" ng-click="cc.update()">Save
 						Changes</button>
-						
+
 					<button ng-disabled="loading || cc.saving" title="New Version"
-						class="btn btn-primary btn-sm" ng-click="cc.deriveVersion()">New Version</button>	
+						class="btn btn-primary btn-sm" ng-click="cc.deriveVersion()">New Version</button>
 				</div>
 		</div>
 		<div class="form-actions" style="display: flex;">
@@ -46,7 +46,7 @@
 		name="description" id="description" class="form-control"
 		ng-model="cc.collection.description" ng-disabled="cc.saving"></textarea>
 		</div>
-			
+
 	</div>
 
 
@@ -73,26 +73,28 @@
 	<div ng-show="cc.collection.privateStatus">Privacy: Private</div>
 	<div ng-hide="cc.collection.privateStatus">Privacy: Public</div>
 	<div>
-	<div style="padding-top: 5%">	
+	<div style="padding-top: 5%">
 		<button ng-disabled="loading || cc.saving || cc.running || !cc.collection.privateStatus" title="Delete Version"
-			class="btn btn-sm btn-danger" style="margin-bottom: 5px;" 
+			class="btn btn-sm btn-danger" style="margin-bottom: 5px;"
 			confirm="Are you sure you want to delete this version?" ng-click="cc.removeVersion(cc.version.id)">Delete Version</button>
-									
+
 		<button ng-disabled="loading || cc.saving || cc.running || !cc.collection.privateStatus" title="Make Public"
 			class="btn btn-primary btn-sm" style="margin-bottom: 5px;"
 			confirm="Are you sure you want to make this version public?" ng-click="cc.makePublic(cc)">Make Public</button>
-	
+
 	</div>
 	</div>
 </span>
 <span style="display: block; overflow: hidden; padding-left: 5%">
 <div style="margin-bottom: 5px; margin-top: 35px;">
 			<button ng-disabled="loading || cc.saving || cc.running || !cc.collection.privateStatus"
-				class="btn btn-primary btn-sm">Edit Project(s)</button>
+				class="btn btn-primary btn-sm"
+				confirm="You are about to be redirected to the 'Edit Collections' Page. You can search for packages there and add them to your package(s)."
+				ng-click="cc.redirectToAddProject()">Add Project(s)</button>
 			<button ng-disabled="loading || cc.running || cc.saving"
 				class="btn btn-primary btn-sm"
 				ng-click="cc.downloadCsv(cc.version.id)">Download Collection</button>
-				
+
 </div>
 
 <div style="float: right; width: 100%"">
@@ -124,5 +126,5 @@
 </table>
 </div>
 
-</span> 
+</span>
 </div>

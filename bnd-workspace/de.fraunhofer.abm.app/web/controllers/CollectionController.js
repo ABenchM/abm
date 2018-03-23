@@ -1,7 +1,7 @@
-angular.module('de.fraunhofer.abm').controller("collectionController", 
-['$rootScope', '$scope', '$http', '$location', '$route', '$routeParams', 'ngCart', 'modalLoginService', 
-	'collectionService', 'commitSelectorService', 'buildViewerService','Notification', 'hermesViewerService','modalHermesService', 
-function collectionController($rootScope, $scope, $http, $location, $route, $routeParams, ngCart, modalLoginService, 
+angular.module('de.fraunhofer.abm').controller("collectionController",
+['$rootScope', '$scope', '$http', '$location', '$route', '$routeParams', 'ngCart', 'modalLoginService',
+	'collectionService', 'commitSelectorService', 'buildViewerService','Notification', 'hermesViewerService','modalHermesService',
+function collectionController($rootScope, $scope, $http, $location, $route, $routeParams, ngCart, modalLoginService,
 		collectionService, commitSelectorService, buildViewerService, Notification,hermesViewerService,modalHermesService ) {
 	var self = this;
 	self.collection = collectionService.collection;
@@ -12,36 +12,36 @@ function collectionController($rootScope, $scope, $http, $location, $route, $rou
 	self.repositoryList = collectionService.toCreate;
 	$rootScope.running = false;
 	self.running = $rootScope.running;
-	
-	
-	
-	
+
+
+
+
 	var columnDefinition = [
 		{ name: 'name' },
 		{ name: 'description' },
 		{ displayName: 'Creation date', cellTemplate: '<div><p>{{row.versions[0].creationDate}}</p></div>'},
-		{ displayName: 'Actions', name: 'actions', 
+		{ displayName: 'Actions', name: 'actions',
 			cellTemplate: '<div>'+
 			'<button ng-click="grid.appScope.cc.edit(row.entity)" style="margin: 3px" class="btn btn-xs"><i class="glyphicon glyphicon-pencil"></i></button>'+
 			'<button ng-click="grid.appScope.cc.remove(row.entity.id)" class="btn btn-xs btn-danger" title="Delete" confirm="Removal is irreversible! Continue?"><i class="glyphicon glyphicon-trash"></i></button>'+
 			'</div>'
 		}
-		
+
     ];
 	var data = [];
 	$scope.gridOpts = {
 	    columnDefs: columnDefinition,
 	    data: data
 	};
-	
-	
-	
+
+
+
 	self.initilize = function(){
 		if($rootScope.user == undefined){return;}
 		else if($routeParams.id != undefined){self.loadCollection($routeParams.id);}
 		else{$scope.loadUserCollections();}
 	}
-	
+
 	self.loadCollection = function(collectionId){
 		$rootScope.loading = true;
 		$http({
@@ -63,7 +63,7 @@ function collectionController($rootScope, $scope, $http, $location, $route, $rou
 				$rootScope.loading = false;
 			});
 	};
-	
+
 	$scope.loadUserCollections = function() {
 		$rootScope.loading = true;
 		$http({
@@ -89,33 +89,33 @@ function collectionController($rootScope, $scope, $http, $location, $route, $rou
 				$rootScope.loading = false;
 			});
 	}
-	
-	
-             
-	
+
+
+
+
 	self.edit = function(collection) {
 		collectionService.setCollection(collection);
 		self.collection = collectionService.getCollection();
 		self.version = collectionService.version;
 		self.showCollection = true;
 	}
-	
+
 	self.open = function(collection){
 		if(collection.privateStatus){
 			self.edit(collection);
 			$location.path('/editCollection/' + collection.id);
-		} else {		
+		} else {
 			$location.path('/view/' + collection.id);
 		}
 	}
-	
+
 	self.save = function(repositoryList) {
 		if($rootScope.user == undefined){
 			Notification.error('Please login before creating a collection');
 			return;
 		}
 		$rootScope.loading = true;
-		
+
 		self.collection.creation_date = new Date();
 		self.collection.privateStatus = true;
 
@@ -126,13 +126,13 @@ function collectionController($rootScope, $scope, $http, $location, $route, $rou
 		};
 		self.collection.versions = [];
 		self.collection.versions.push(version);
-		
+
 		if(repositoryList.length == 0){
 			for(var i=0; i < ngCart.getTotalItems(); i++){
 				repositoryList.push(ngCart.getCart().items[i].getData());
 			}
 		}
-		
+
 		version.commits = [];
 		for(var i=0; i<repositoryList.length; i++) {
 			var commit = {
@@ -142,7 +142,7 @@ function collectionController($rootScope, $scope, $http, $location, $route, $rou
 			commit.branchId = commit.repository.defaultBranch;
 			version.commits.push(commit);
 		}
-		
+
 		$http.post('/rest/collection', self.collection, null).then(
 				function() {
 					$location.path('/editCollection');
@@ -157,7 +157,7 @@ function collectionController($rootScope, $scope, $http, $location, $route, $rou
 					$rootScope.loading = false;
 				});
 	}
-	
+
 	self.update = function () {
 		self.saving = true;
 		$http.put('/rest/collection', self.collection, null).then(
@@ -174,7 +174,7 @@ function collectionController($rootScope, $scope, $http, $location, $route, $rou
 				self.saving = false;
 			});
 	}
-	
+
 	self.remove = function(id) {
 		$http({
 			method: 'DELETE',
@@ -197,7 +197,7 @@ function collectionController($rootScope, $scope, $http, $location, $route, $rou
 		)['finally'](function() {
 		});
 	}
-	
+
 
 	// toggle selection for a given commit id
 	self.selection = [];
@@ -209,12 +209,12 @@ function collectionController($rootScope, $scope, $http, $location, $route, $rou
 	        self.selection.push(id);
 	    }
 	};
-	
+
 	self.removeSelectedCommits = function() {
 		if(self.selection.length == 0) {
 			return;
 		}
-		
+
 		self.saving=true;
 		$http({
 			method: 'POST',
@@ -289,14 +289,14 @@ function collectionController($rootScope, $scope, $http, $location, $route, $rou
 			commit.branchId = commit.repository.defaultBranch;
 			updatedVersion.commits.push(commit);
 		}
-		
+
 		$http({
 			method: 'PUT',
 			url: '/rest/version/',
 			data: updatedVersion
 		}).then(
 			function(d) {
-				self.version = d.data; 
+				self.version = d.data;
 				collectionService.version = self.version;
 				var col = collectionService.collection;
 				for(var i=0; i<col.versions.length; i++) {
@@ -316,7 +316,10 @@ function collectionController($rootScope, $scope, $http, $location, $route, $rou
 			$rootScope.loading = false;
 		});
 	}
-	
+
+	self.redirectToAddProject = function() {
+		$location.path('/search');
+	}
 	self.build = function() {
 		$http.post('/rest/build', self.version, null).then(
 				function(d) {
@@ -336,12 +339,12 @@ function collectionController($rootScope, $scope, $http, $location, $route, $rou
 					$rootScope.loading = false;
 				});
 	}
-	
+
 	self.selectCommit = function(commit) {
 		collectionService.commit = commit;
 		commitSelectorService();
 	}
-	
+
 	self.deriveVersion = function() {
 		self.disabled=true;
 		$http({
@@ -360,7 +363,7 @@ function collectionController($rootScope, $scope, $http, $location, $route, $rou
 				self.disabled=false;
 			});
 	}
-	
+
 	self.addBuild = function(version) {
 		targetTab = buildViewerService.builds.findIndex(self.findTab, version);
 		if(targetTab < 0){
@@ -374,10 +377,10 @@ function collectionController($rootScope, $scope, $http, $location, $route, $rou
 		buildViewerService.launch();
 		$rootScope.hideSidebar = true;
 	}
-	
-	
-	
-	
+
+
+
+
 	self.unfreeze = function(version) {
 		self.disableBuild=true;
 		$http({
@@ -428,7 +431,7 @@ function collectionController($rootScope, $scope, $http, $location, $route, $rou
 				self.disableBuild=false;
 			});
 	}
-	
+
 	self.deleteBuild = function(version){
 		$http({
 		    method: 'POST',
@@ -443,28 +446,28 @@ function collectionController($rootScope, $scope, $http, $location, $route, $rou
 				Notification.error('Failed with ['+ d.status + '] '+ d.statusText);
 			})
 	}
-	
+
 	self.makePublic = function(collection){
 		collection.privateStatus = false;
 		self.update();
 	}
-	
+
 	self.findTab = function(item){
 		return (item.id == this.id);
 	}
-	
+
 	self.nameSort = function(){
 		$rootScope.userCollections.sort(function(a, b){return a.name > b.name});
 	}
-	
+
 	self.descSort = function(){
 		$rootScope.userCollections.sort(function(a, b){return a.description > b.description});
 	}
-	
+
 	self.dateSort = function(){
 		$rootScope.userCollections.sort(function(a, b){return a.creation_date  > b.creation_date });
 	}
-	
+
 	self.getBuildProgress = function(versionId, targetTab){
 		$http({
 			method: 'GET',
@@ -498,7 +501,7 @@ function collectionController($rootScope, $scope, $http, $location, $route, $rou
 				buildViewerService.addListener(build.id);
 			});
 	}
-	
+
 	self.runFilter = function(version){
 	     $http({
 			method: 'GET',
@@ -509,7 +512,7 @@ function collectionController($rootScope, $scope, $http, $location, $route, $rou
 					if(self.buildResult.status == 'RUNNING'){
 						Notification.error('Build is in progress, try again later');
 					} else {
-						
+
 						self.version.filtered = true;
 						self.running = true;
 		                modalHermesService.version = version;
@@ -518,41 +521,41 @@ function collectionController($rootScope, $scope, $http, $location, $route, $rou
 					}
         	});
         }
-	
+
 
    self.showHermesResults = function(version){
-		
+
 		self.version.filtered = true;
 		self.running = true;
 		hermesViewerService.version = version;
 		hermesViewerService.collection = self.collection;
 		hermesViewerService.launch();
-		
-	}
-	
-	self.cancelFilter = function(){
-	
-	}
-	
-	self.showFilter = function(version){
-				
-		buildViewerService.launch();
-		
-		
-	}
-	
-	
 
-	
-	
-	
+	}
+
+	self.cancelFilter = function(){
+
+	}
+
+	self.showFilter = function(version){
+
+		buildViewerService.launch();
+
+
+	}
+
+
+
+
+
+
 	self.removeFilter = function(version){
 	    self.disableHermes = true;
 	    self.version.filtered = false;
 		$rootScope.loading = true;
 		$http({
 			method: 'GET',
-			url: '/rest/instance/' + version.id			
+			url: '/rest/instance/' + version.id
 		}).then(
 			function success(d) {
 			    console.log(d);
@@ -561,7 +564,7 @@ function collectionController($rootScope, $scope, $http, $location, $route, $rou
 				} else {
 				$http.delete('/rest/instance/' + d.data.id).then(
 					function success(d){
-						
+
 					}, function failure(d){
 						Notification.error('Failed with ['+ d.status + '] '+ d.statusText);
 					}) }
@@ -576,10 +579,10 @@ function collectionController($rootScope, $scope, $http, $location, $route, $rou
 				$rootScope.loading = false;
 			});
 	}
-	
+
 	self.back = function(){
 		$location.path('/');
 	}
-	
+
 	self.initilize();
 }]);
