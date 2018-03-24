@@ -175,6 +175,28 @@ function collectionController($rootScope, $scope, $http, $location, $route, $rou
 			});
 	}
 
+	self.downloadCsv = function(versionId){
+	self.downloading = true;
+	$http({
+			method: 'GET',
+			url: '/rest/instance/' + versionId
+			}).then(
+				function success(d) {
+					if(self.hermesResult.status == 'RUNNING'){
+						Notification.error('Hermes is in progress, try again later');
+					} else {
+					location.href = '/downloadHermes/' + self.hermesResult.id;}
+
+
+
+			}, function failure(d){
+				Notification.error('Failed with ['+ d.status + '] '+ d.statusText);
+			})['finally'](function (){
+				self.downloading = false;
+			});
+
+	};
+
 	self.update = function () {
 		self.saving = true;
 		$http.put('/rest/collection', self.collection, null).then(

@@ -2,7 +2,7 @@
 	<span class="cssload-loader"></span>
 </div>
 
-<div ng-controller="collectionController as cc" ng-hide="loading" style="min-width: 650px; overflow-x: auto;'">
+<div ng-controller="collectionController as cc" ng-hide="loading" style="min-width: 650px; overflow-x: auto;">
 	<hr>
 	<form name="form" role="form" style="overflow: auto;">
 
@@ -85,12 +85,13 @@
 </span>
 <span style="display: block; overflow: hidden; padding-left: 5%">
 	<div style="margin-bottom: 5px; margin-top: 35px;">
-            <button ng-disabled="loading || cc.running || cc.saving"
-                        class="btn btn-primary btn-sm">Download Collection</button>
+			<button ng-disabled="loading || cc.running || cc.saving"
+				class="btn btn-primary btn-sm"
+				ng-click="cc.downloadCsv(cc.version.id)">Download Collection</button>
 			<button ng-disabled="loading || cc.saving || cc.running || !cc.collection.privateStatus"
-						class="btn btn-primary btn-sm"
-						confirm="You are about to be redirected to the 'Edit Collections' Page. You can search for packages there and add them to your package(s)."
-						ng-click="cc.redirectToAddProject()">Add Project(s)</button>
+				class="btn btn-primary btn-sm"
+				confirm="You are about to be redirected to the 'Edit Collections' Page. You can search for packages there and add them to your package(s)."
+				ng-click="cc.redirectToAddProject()">Add Project(s)</button>
 			<button ng-disabled="loading || cc.saving || cc.running || !cc.collection.privateStatus"
 				class="btn btn-sm btn-danger"
 				confirm="You are about to delete the selected projects from this collection, continue?"
