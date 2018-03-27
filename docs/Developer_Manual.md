@@ -155,7 +155,7 @@ The installation of ABM is not recommended on Windows. We advise Windows users t
   * Uncheck "Copy projects into workspace"
 * Wait for the workspace to finish building. If compilation errors appear in the code (except for the test project), they should be solved before continuing.
 * Open the file abm/bnd-workspace/de.fraunhofer.abm.collection.dao.jpa/configuration/configuration.json and modify the database configurations: replace the user and password by the mysql user and password that you have created when [installing the database](#set-up-the-database). If you haven't created a user, you can use "root" as the user and the root password as the configuration password.
-* Open the file abm/bnd-workspace/de.fraunhofer.abm.app/de.fraunhofer.abm.bndrun and modify the felix.webconsole.username and the felix.webconsole.password
+* Open or create the file cnf/build.bnd and modify the felix.webconsole.username and the felix.webconsole.password
 * Generate the rest of the database:
   * Open the file persistence.xml in de.fraunhofer.abm.collection.dao.jpa
   * Uncomment <property name="javax.persistence.schema-generation.database.action" value="drop-and-create" /> (this line enables the database generation from the JPA entities. this has to be done only when the JPA entities change or for the setup)
@@ -197,7 +197,7 @@ All users are managed by the OSGi UserAdmin service, which can be accessed throu
 
 # Configuration information
 
-* The file config.bnd in de.fraunhofer.abm.app contains the application configuration information: webconsole credentials and settings, admin email information, Google token and GitHub token. Replace the values of the configuration information with your own.
+* The file build.bnd in cnf contains the application configuration information: webconsole credentials and settings, admin email information, Google token and GitHub token. Replace the values of the configuration information with your own.
 * The file Configuration.java in de.fraunhofer.abm.suitebuilder contains "Workspace Root" which you can adjust to fit your development machine. Make sure that your ${USER} has read, write, and execute accesses to this directory and its sub-directories: `$ sudo chown -R ${USER} ${WORKSPACE_ROOT}`
 * The file Configuration.java in de.fraunhofer.abm.repoarchive.local contains "Directory" which you can adjust to fit your development machine. Make sure that your ${USER} has read, write, and execute accesses to this directory and its sub-directories: `$ sudo chown -R ${USER} ${WORKSPACE_DIRECTORY}`
 * The file HermesConfiguration.java in de.fraunhofer.abm.hermes.impl contains "hermesConfigDir()". By default, you can set it to ${DIRECTORY}/abm/hermes_config. Else, you can adust to fit your development machine. Make sure that your ${USER} has read, write, and execute accesses to this directory and its sub-directories: `$ sudo chown -R ${USER} ${HERMES_CONFIG_DIR}` Make sure to keep the Hermes configuration files in this directory (docker.sh, queryfeaturemap.json, application.conf, and hermes.json). You can find the files in hermes_config in this repository.
