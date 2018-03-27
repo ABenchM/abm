@@ -102,15 +102,13 @@ The installation of ABM is not recommended on Windows. We advise Windows users t
   ```
   $ docker pull gradle 
   ```
-  It will pull latest image of gradle.
 * Create the ant build image:
   ```
   $ cd ${DIRECTORY}/abm/docker_file/abm-ant-1.10.1-jdk-8
   $ docker build -t abm/ant:1.10.1-jdk-8 .
   ```
-  
 * Pull the Hermes image: `$ docker pull opalj/sbt_scala_javafx`
-* Verify that the three images are running. You should see abm/sbt, abm/maven, and opalj/sbt_scala_javafx when running `$ docker images`
+* Verify that the three images are running. You should see abm/ant, gradle, abm/sbt, abm/maven, and opalj/sbt_scala_javafx when running `$ docker images`
 
 ### Set up the database
 * Install MySQL Community Server >= 5.5
