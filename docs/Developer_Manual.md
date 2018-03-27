@@ -99,9 +99,7 @@ The installation of ABM is not recommended on Windows. We advise Windows users t
   $ docker build -t abm/maven:3-jdk-7 .
   ```
 * Create the gradle build Image:
-  ```
-  $ docker pull gradle 
-  ```
+  `$ docker pull gradle`
 * Create the ant build image:
   ```
   $ cd ${DIRECTORY}/abm/docker_file/abm-ant-1.10.1-jdk-8
