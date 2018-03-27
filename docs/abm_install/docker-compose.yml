@@ -10,6 +10,12 @@ services:
     build: ./abm/docker_files/abm-maven-3-jdk-7/
     image: abm/maven:3-jdk-7
      
-  hermes:
-     image: opalj/sbt_scala_javafx
+  gradle:
+    image: gradle
+     
+  ant:
+    build: ./abm/docker_file/abm-ant-1.10.1-jdk-8
+    image: abm/ant:1.10.1-jdk-8
            
+  hermes:
+    image: opalj/sbt_scala_javafx
