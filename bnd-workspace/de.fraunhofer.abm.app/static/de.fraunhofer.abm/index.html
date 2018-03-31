@@ -33,9 +33,9 @@
 </head>
 
 <body ng-app="de.fraunhofer.abm" ng-cloak class="ng-cloak">
-	<div class="max-extend" style="max-width: 1400px; margin:auto;">
+	<div class="max-extend" style="max-width: 1400px; margin:auto;overflow: auto;">
 	<div class="container-fluid">
-		<div class="header">
+		<div class="header" style=" width: calc(100% - 30px); max-width: 1400px;">
 			<!--<img class="logo pull-right" src="logo.png" alt="Placeholder for logo">-->
 			<ul class="nav nav-pills pull-left" ng-controller="loginController">
 				<li ng-class="{active: page() == '/'}"><a href="#/">Collections</a></li>
@@ -47,7 +47,7 @@
 				<li ng-class="{active: page() == '/login'}" ng-show="user === undefined"><a href="#/login">Login</a></li>
 				<li ng-hide="user === undefined"><a href="" ng-click="logout()">Logout</a></li>
 			</ul>
-		<h3 class="text-muted custom-right"><br class="rwd-break">Automated Benchmark Management</h3>
+		<div class="pull-right"><h3 class="text-muted">Automated Benchmark Management</h3></div>
 		</div>
 
   		<div style="margin-top:89px;position:relative" ng-view></div>
