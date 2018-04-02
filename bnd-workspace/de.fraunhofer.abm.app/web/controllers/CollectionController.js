@@ -234,6 +234,7 @@ function collectionController($rootScope, $scope, $http, $location, $route, $rou
 				}
 			}
 		)['finally'](function() {
+			$location.path('/index')
 		});
 	}
 
