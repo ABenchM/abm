@@ -2,6 +2,11 @@ package de.fraunhofer.abm.app.controllers;
 
 import java.util.Map;
 
+import javax.mail.Message;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.MimeMessage;
+
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.useradmin.Group;
@@ -11,6 +16,7 @@ import org.osgi.service.useradmin.UserAdmin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.fraunhofer.abm.app.EmailConfigInterface;
 import de.fraunhofer.abm.collection.dao.UserDao;
 import osgi.enroute.configurer.api.RequireConfigurerExtender;
 import osgi.enroute.rest.api.REST;
@@ -27,6 +33,9 @@ public class UserApprovalController extends AbstractController implements REST {
 	private UserDao userDao;
 	@Reference
 	private UserAdmin userAdmin;
+	
+	@Reference
+	private EmailConfigInterface config;
 
 	/**
 	 * Approval of a user by the admin using token
@@ -46,10 +55,20 @@ public class UserApprovalController extends AbstractController implements REST {
 			user.getCredentials().put("password", password);
 			Group registeredUserGroup = (Group) userAdmin.getRole("RegisteredUser");
 			registeredUserGroup.addMember(user);
-			// TODO: Send email to user to let them know that their account is now active.
-			// return "User has been approved";
+			String sbj = "Your ABM account has been approved";
+			String msg = "Hello,\n\nYour account on ABM has been approved.\nYou "
+				+ "can now log in and start creating collections: "
+				+ "https://abm.cs.upb.de/abm/index.html#/login \n\n"
+				+ "Happy benchmarking.\n\nThe ABM team.";
+			MimeMessage message = new MimeMessage(config.getSession());
+			message.setFrom(config.getFrom());
+			message.addRecipients(Message.RecipientType.TO, config.getTo());
+			message.setSubject(sbj);
+			message.setText(msg);
+			Transport.send(message);
+			return params.get("name") + " successfully approved";
 		} catch (Exception e) {
-			// return e.getCause() != null ? e.getCause().getMessage() : e.getMessage();
+			//return e.getCause() != null ? e.getCause().getMessage() : e.getMessage();
 		}
 	}
 
