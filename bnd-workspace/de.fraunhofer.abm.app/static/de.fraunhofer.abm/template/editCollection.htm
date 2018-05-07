@@ -4,6 +4,10 @@
 <div ng-controller="collectionController as cc" ng-hide="loading">
     <hr>
 	<form name="form" role="form">
+	<div class="form-group" ng-class="{ 'has-error': form.name.$dirty && form.name.$error.required }">
+   	        <label for="id">Collection Id</label>
+       	    <input type="text" name="id" id="id" class="form-control" ng-model="cc.collection.id" required ng-disabled="true"/>
+        </div>
         <div class="form-group" ng-class="{ 'has-error': form.name.$dirty && form.name.$error.required }">
    	        <label for="name">Name</label>
        	    <input type="text" name="name" id="name" class="form-control" ng-model="cc.collection.name" required ng-disabled="cc.saving"/>
