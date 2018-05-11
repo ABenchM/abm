@@ -1,36 +1,43 @@
+<head>
+<style>
+.astrik_style {color: red;
+	padding-top:10px;
+	position:absolute;}
+</style>
+</head>
 <div class="col-md-6 col-md-offset-3" ng-controller="registrationController as rc">
 	<h2>Register</h2>
     <form name="form" ng-submit="rc.register()" role="form">
         <div class="form-group" ng-class="{ 'has-error': form.username.$dirty && (form.username.$error.required || !rc.available)}">
-            <label for="username">Username</label>
+            <label for="username">Username <span class="astrik_style">*</span></label>
             <input type="text" name="username" id="username" class="form-control" ng-model="request.username" ng-blur="rc.available = true" required />
             <span ng-show="form.username.$dirty && form.username.$error.required" class="help-block">Username is required</span>
             <span ng-show="!rc.available" class="help-block">Username is already in use</span>
         </div>
         <div class="form-group" ng-class="{ 'has-error': form.password.$dirty && form.password.$error.required }">
-            <label for="password">Password</label>
+            <label for="password">Password <span class="astrik_style">*</span></label>
             <input type="password" name="password" id="password" class="form-control" ng-model="request.password" required />
             <span ng-show="form.password.$dirty && form.password.$error.required" class="help-block">Password is required</span>
         </div>
         <div class="form-group" ng-class="{ 'has-error': form.confirmPassword.$dirty && (request.password != request.confirmPassword) }">
-            <label for="confirmPassword">Confirm Password</label>
+            <label for="confirmPassword">Confirm Password <span class="astrik_style">*</span></label>
             <input type="password" name="confirmPassword" id="confirmPassword" class="form-control" ng-model="request.confirmPassword" required />
             <span ng-show="form.confirmPassword.$dirty && (request.password != request.confirmPassword)" class="help-block">Passwords do not match</span>
         </div>
         
         <hr>
         <div class="form-group" ng-class="{ 'has-error': form.name.$dirty && form.name.$error.required }">
-            <label for="name">Name</label>
+            <label for="name">Name <span class="astrik_style">*</span></label>
             <input type="text" name="name" id="name" class="form-control" ng-model="request.name" required />
             <span ng-show="form.name.$dirty && form.name.$error.required" class="help-block">Your name is required</span>
         </div>
         <div class="form-group" ng-class="{ 'has-error': form.affiliation.$dirty && form.affiliation.$error.required }">
-            <label for="affiliation">Affiliation</label>
+            <label for="affiliation">Affiliation <span class="astrik_style">*</span></label>
             <input type="text" name="affiliation" id="affiliation" class="form-control" ng-model="request.affiliation" required />
             <span ng-show="form.affiliation.$dirty && form.affiliation.$error.required" class="help-block">Your affiliation is required</span>
         </div>
         <div class="form-group" ng-class="{ 'has-error': form.email.$dirty && (form.email.$error.required || rc.invalidEmail)}">
-            <label for="email">Email Address</label>
+            <label for="email">Email Address <span class="astrik_style">*</span></label>
             <input type="text" name="email" id="email" class="form-control" ng-model="request.email" ng-blur="rc.checkEmail()" required />
             <span ng-show="form.email.$dirty && form.email.$error.required" class="help-block">Your email address is required</span>
             <span ng-show="form.email.$dirty && !form.email.$error.required && rc.invalidEmail" class="help-block">This is not a valid email address</span>
