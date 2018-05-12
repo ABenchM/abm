@@ -351,3 +351,8 @@ ul.list>li>a:focus, ul.list>li>a:hover {
 	50%	{ -moz-transform: translateX(0%)		scale(1); }
 	100% { -moz-transform: translateX(100%)	scale(0); }
 }
+.astrik_style {
+	color: red;
+	padding-top:4px;
+	position:absolute;
+}
