@@ -13,6 +13,14 @@
     <col width="7%">
     <col width="7%">
     <col width="5%">
+    <tr>
+					<th >Name</th>
+					<th >Description</th>
+					<th >Creation Date</th>
+					<!--<th>Language</th>-->
+					<th >Size</th>
+					<th >Origin</th>
+    </tr>    
     <tr ng-repeat="item in ngCart.getCart().items track by $index" ng-class="{'selected': item.getData().id == cc.singleSelect.id}">
           <td style="white-space: pre-wrap;" ng-click="cc.select(item.getData())" title="'Repository'" >{{item.getData().name}}</td>
           <td style="white-space: pre-wrap;" ng-click="cc.select(item.getData())" title="'Description'">{{item.getData().description}}</td>
