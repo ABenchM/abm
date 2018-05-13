@@ -2,12 +2,12 @@
     <h2>New Collection</h2>
     <form name="form" role="form">
         <div class="form-group" ng-class="{ 'has-error': form.name.$dirty && form.name.$error.required }">
-            <label for="name">Name</label>
+            <label for="name">Name<span class="astrik_style">*</span></label>
             <input type="text" name="name" id="name" class="form-control" ng-model="cc.collection.name" required ng-disabled="loading"/>
             <span ng-show="form.name.$dirty && form.name.$error.required" class="help-block">Name is required</span>
         </div>
         <div class="form-group" ng-class="{ 'has-error': form.description.$dirty && form.description.$error.required }">
-            <label for="description">Description</label>
+            <label for="description">Description<span class="astrik_style">*</span></label>
             <input type="description" name="description" id="description" class="form-control" ng-model="cc.collection.description" required  ng-disabled="loading"/>
             <span ng-show="form.description.$dirty && form.description.$error.required" class="help-block">Description is required</span>
         </div>
