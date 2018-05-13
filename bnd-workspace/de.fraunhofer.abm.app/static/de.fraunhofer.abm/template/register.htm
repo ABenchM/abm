@@ -20,7 +20,7 @@
         
         <hr>
         <div class="form-group" ng-class="{ 'has-error': form.name.$dirty && form.name.$error.required }">
-            <label for="name">Name <span class="astrik_style">*</span></label>
+            <label for="name">Name<span class="astrik_style">*</span></label>
             <input type="text" name="name" id="name" class="form-control" ng-model="request.name" required />
             <span ng-show="form.name.$dirty && form.name.$error.required" class="help-block">Your name is required</span>
         </div>
