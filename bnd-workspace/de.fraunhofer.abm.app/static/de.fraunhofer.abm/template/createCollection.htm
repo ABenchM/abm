@@ -2,7 +2,7 @@
     <h2>New Collection</h2>
     <form name="form" role="form">
         <div class="form-group" ng-class="{ 'has-error': form.name.$dirty && form.name.$error.required }">
-            <label for="name">Name <span class="astrik_style">*</span></label>
+            <label for="name">Name<span class="astrik_style">*</span></label>
             <input type="text" name="name" id="name" class="form-control" ng-model="cc.collection.name" required ng-disabled="loading"/>
             <span ng-show="form.name.$dirty && form.name.$error.required" class="help-block">Name is required</span>
         </div>
