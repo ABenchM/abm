@@ -7,7 +7,7 @@
             <span ng-show="form.name.$dirty && form.name.$error.required" class="help-block">Name is required</span>
         </div>
         <div class="form-group" ng-class="{ 'has-error': form.description.$dirty && form.description.$error.required }">
-            <label for="description">Description <span class="astrik_style">*</span></label>
+            <label for="description">Description<span class="astrik_style">*</span></label>
             <input type="description" name="description" id="description" class="form-control" ng-model="cc.collection.description" required  ng-disabled="loading"/>
             <span ng-show="form.description.$dirty && form.description.$error.required" class="help-block">Description is required</span>
         </div>
