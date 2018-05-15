@@ -32,7 +32,7 @@ function($rootScope, $scope, $http, Notification, $location){
 					self.available = false;
 				}
 			}, function(d){
-				Notification.error('Failed with ['+ d.status + '] '+ d.statusText);
+				Notification.error('Registration cannot be done at the moment. Please try agin later');
 			})['finally'](function() {
 				$rootScope.loading = false
 			});	
