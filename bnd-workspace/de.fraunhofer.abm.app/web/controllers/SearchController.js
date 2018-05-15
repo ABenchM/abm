@@ -71,7 +71,7 @@ function searchController($rootScope, $scope, $http, $location, searchResultServ
 				if(d.status == '403') {
 					$location.path('/login');
 				} else {
-					Notification.error('Failed with ['+ d.status + '] '+ d.statusText);
+					Notification.error('Unable to retrieve the search results at the moment');
 				}
 			}
 		)['finally'](function() {
