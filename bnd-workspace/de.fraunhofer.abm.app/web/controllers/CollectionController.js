@@ -77,7 +77,7 @@ function collectionController($rootScope, $scope, $http, $location, $route, $rou
 				if(d.status == '403') {
 					$location.path('/login');
 				} else {
-					Notification.error('Failed with ['+ d.status + '] '+ d.statusText);
+					Notification.error('Collections cannot be retrieved due to some internal error');
 					$location.path('/');
 				}
 			})['finally'](function() {
@@ -150,7 +150,7 @@ function collectionController($rootScope, $scope, $http, $location, $route, $rou
 					if(d.status == 403) {
 						modalLoginService();
 					} else {
-						Notification.error('Failed with ['+ d.status + '] '+ d.statusText);
+						Notification.error('There has been some internal error. Collection cannot be saved at the moment');
 					}
 				})['finally'](function() {
 					collectionService.toCreate = [];
@@ -167,7 +167,7 @@ function collectionController($rootScope, $scope, $http, $location, $route, $rou
 				if(d.status == 403) {
 					modalLoginService();
 				} else {
-					Notification.error('Failed with ['+ d.status + '] '+ d.statusText);
+					Notification.error('There has been some internal error. Collection cannot be updated at the moment');
 				}
 			})
 			['finally'](function() {
@@ -191,7 +191,7 @@ function collectionController($rootScope, $scope, $http, $location, $route, $rou
 				if(d.status == 403) {
 					modalLoginService();
 				} else {
-					Notification.error('Failed with ['+ d.status + '] '+ d.statusText);
+					Notification.error('There has been some internal error. Collection cannot be deleted at the moment');
 				}
 			}
 		)['finally'](function() {
@@ -268,7 +268,7 @@ function collectionController($rootScope, $scope, $http, $location, $route, $rou
 					if(d.status == 403) {
 						modalLoginService();
 					} else {
-						Notification.error('Failed with ['+ d.status + '] '+ d.statusText);
+						Notification.error('There has been some internal error. Version cannot be deleted at the moment');
 					}
 				}
 		)['finally'](function() {
@@ -308,7 +308,7 @@ function collectionController($rootScope, $scope, $http, $location, $route, $rou
 				if(d.status == 403) {
 					modalLoginService();
 				} else {
-					Notification.error('Failed with ['+ d.status + '] '+ d.statusText);
+					Notification.error('There has been some internal error. Projects cannot be added at the moment');
 				}
 			}
 		)['finally'](function() {
