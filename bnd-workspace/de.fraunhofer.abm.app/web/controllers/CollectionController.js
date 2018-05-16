@@ -268,7 +268,7 @@ function collectionController($rootScope, $scope, $http, $location, $route, $rou
 					if(d.status == 403) {
 						modalLoginService();
 					} else {
-						Notification.error('Internal error: the Version cannot be deleted. Please try again later. If the error persists, please report it here: https://github.com/ABenchM/abm/issues');
+						Notification.error('Internal error: the version cannot be deleted. Please try again later. If the error persists, please report it here: https://github.com/ABenchM/abm/issues');
 					}
 				}
 		)['finally'](function() {
@@ -308,7 +308,7 @@ function collectionController($rootScope, $scope, $http, $location, $route, $rou
 				if(d.status == 403) {
 					modalLoginService();
 				} else {
-					Notification.error('Internal error: Projects cannot be added. Please try again later. If the error persists, please report it here: https://github.com/ABenchM/abm/issues');
+					Notification.error('Internal error: the projects cannot be added. Please try again later. If the error persists, please report it here: https://github.com/ABenchM/abm/issues');
 				}
 			}
 		)['finally'](function() {
