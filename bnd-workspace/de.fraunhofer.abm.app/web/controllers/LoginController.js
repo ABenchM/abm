@@ -16,7 +16,7 @@ function($rootScope, $scope, $http, $location, $cookies, ngCart, GoogleSignin, N
 						Notification.error('Wrong username or password');
 						$location.path('/login');
 					} else {
-						Notification.error('Login Failed due to some internal error. Please try agin later');
+						Notification.error('Login failed due to some internal error. Please try agin later. If the error persists, please report it here: https://github.com/ABenchM/abm/issues"');
 					}
 				})['finally'](function() {
 					$rootScope.loading = false;
@@ -51,7 +51,7 @@ function($rootScope, $scope, $http, $location, $cookies, ngCart, GoogleSignin, N
 							Notification.error('Wrong username or password');
 							$location.path('/login');
 						} else {
-							Notification.error('Login Failed due to some internal error. Please try agin later');
+							Notification.error('Login failed due to some internal error. Please try agin later. If the error persists, please report it here: https://github.com/ABenchM/abm/issues"');
 						}
 					})['finally'](function() {
 						$rootScope.loading = false;
