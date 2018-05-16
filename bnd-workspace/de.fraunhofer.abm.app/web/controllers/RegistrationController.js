@@ -32,7 +32,7 @@ function($rootScope, $scope, $http, Notification, $location){
 					self.available = false;
 				}
 			}, function(d){
-				Notification.error('Registration cannot be done at the moment. Please try agin later.');
+				Notification.error('Internal error: registrations cannot be done at the moment. Please try agin later. If the error persists, please report it here: https://github.com/ABenchM/abm/issues');
 			})['finally'](function() {
 				$rootScope.loading = false
 			});	
