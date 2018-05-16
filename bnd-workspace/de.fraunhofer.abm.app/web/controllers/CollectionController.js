@@ -53,7 +53,7 @@ function collectionController($rootScope, $scope, $http, $location, $route, $rou
 				if(resp.data[0] != undefined){
 					self.edit(resp.data[0]);
 				} else {
-					Notification.error('Collection not found, collection cannot be edited or does not exist.');
+					Notification.error('Internal error: the collections cannot be retrieved. Please try again later. If the error persists, please report it here: https://github.com/ABenchM/abm/issues');
 					$location.path('/');
 				}
 			}, function(d) {
@@ -77,7 +77,7 @@ function collectionController($rootScope, $scope, $http, $location, $route, $rou
 				if(d.status == '403') {
 					$location.path('/login');
 				} else {
-					Notification.error('Failed with ['+ d.status + '] '+ d.statusText);
+					Notification.error('Internal error: the collections cannot be retrieved. Please try again later. If the error persists, please report it here: https://github.com/ABenchM/abm/issues');
 					$location.path('/');
 				}
 			})['finally'](function() {
@@ -150,7 +150,7 @@ function collectionController($rootScope, $scope, $http, $location, $route, $rou
 					if(d.status == 403) {
 						modalLoginService();
 					} else {
-						Notification.error('Failed with ['+ d.status + '] '+ d.statusText);
+						Notification.error('Internal error: the collections cannot be saved. Please try again later. If the error persists, please report it here: https://github.com/ABenchM/abm/issues');
 					}
 				})['finally'](function() {
 					collectionService.toCreate = [];
@@ -167,7 +167,7 @@ function collectionController($rootScope, $scope, $http, $location, $route, $rou
 				if(d.status == 403) {
 					modalLoginService();
 				} else {
-					Notification.error('Failed with ['+ d.status + '] '+ d.statusText);
+					Notification.error('Internal error: the collections cannot be updated. Please try again later. If the error persists, please report it here: https://github.com/ABenchM/abm/issues');
 				}
 			})
 			['finally'](function() {
@@ -191,7 +191,7 @@ function collectionController($rootScope, $scope, $http, $location, $route, $rou
 				if(d.status == 403) {
 					modalLoginService();
 				} else {
-					Notification.error('Failed with ['+ d.status + '] '+ d.statusText);
+					Notification.error('Internal error: the collections cannot be deleted. Please try again later. If the error persists, please report it here: https://github.com/ABenchM/abm/issues');
 				}
 			}
 		)['finally'](function() {
@@ -268,7 +268,7 @@ function collectionController($rootScope, $scope, $http, $location, $route, $rou
 					if(d.status == 403) {
 						modalLoginService();
 					} else {
-						Notification.error('Failed with ['+ d.status + '] '+ d.statusText);
+						Notification.error('Internal error: the version cannot be deleted. Please try again later. If the error persists, please report it here: https://github.com/ABenchM/abm/issues');
 					}
 				}
 		)['finally'](function() {
@@ -308,7 +308,7 @@ function collectionController($rootScope, $scope, $http, $location, $route, $rou
 				if(d.status == 403) {
 					modalLoginService();
 				} else {
-					Notification.error('Failed with ['+ d.status + '] '+ d.statusText);
+					Notification.error('Internal error: the projects cannot be added. Please try again later. If the error persists, please report it here: https://github.com/ABenchM/abm/issues');
 				}
 			}
 		)['finally'](function() {
