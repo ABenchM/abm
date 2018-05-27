@@ -3,11 +3,13 @@ package de.fraunhofer.abm.app.controllers;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -149,6 +151,55 @@ public class CollectionController extends AbstractController implements REST {
 
         // delete the collection
         collectionDao.delete(id);
+    }
+    
+    
+    public VersionDTO getLastSuccessfullyBuiltVersion(String collectionID) throws IOException
+    {
+    	authorizer.requireRole("RegisteredUser");
+    	
+        // make sure the user is the owner of the collection
+        CollectionDTO collection = collectionDao.findById(collectionID);
+        ensureUserIsOwner(authorizer, collection);
+        
+        List<VersionDTO> successfullyBuiltVersions = new ArrayList<VersionDTO>();
+        
+        for(VersionDTO version : collection.versions)
+        {
+        	try
+        	{
+        		BuildResultDTO buildResult = buildResultDao.findByVersion(version.id);
+            	if(buildResult != null && buildResult.status.equals("FINISHED"))
+            	{
+            		successfullyBuiltVersions.add(version);
+            	}
+        	}
+        	catch(Exception ex)
+        	{
+        		System.out.println(ex.getMessage());
+        		ex.printStackTrace();
+        	}
+        	
+        }
+        
+        successfullyBuiltVersions.sort(new java.util.Comparator<VersionDTO>() {
+
+			@Override
+			public int compare(VersionDTO version1, VersionDTO version2) {
+				
+				return -1 * version1.creationDate.compareTo(version2.creationDate);
+			}
+        });
+        
+        //TODO: What should be returned ? Latest version (due to creation date) that was built out of all versions 
+        //that have been built, or the version that corresponds to the latest built that was executed?
+        
+        if(!successfullyBuiltVersions.isEmpty())
+        {
+        	return successfullyBuiltVersions.get(0);
+        }
+        
+        return null;
     }
 
     @Override

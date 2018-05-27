@@ -173,4 +173,16 @@ public class CollectionControllerTest extends AbstractHttpTest {
         response = HttpUtils.delete(uri, headers, charset);
         Assert.assertEquals(200, response.getResponseCode());
     }
+    
+    @Test
+    public void testLastSuccessfullyBuiltVersion() throws IOException
+    {
+    	Map<String, String> headers = login();
+        headers.put("Content-Type", "application/json;charset=UTF-8");
+        String uri = baseUri + "/rest/lastsuccessfullybuiltversion/"+"6bad3396-aa05-43bb-a529-8d66e686c36e";
+        String json = HttpUtils.get(uri, headers, charset);
+        JSONObject collection = new JSONObject(json);
+        Assert.assertNotEquals(collection, null);
+        
+    }
 }
