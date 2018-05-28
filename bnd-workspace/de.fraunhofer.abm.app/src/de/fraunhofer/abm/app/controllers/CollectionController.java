@@ -162,24 +162,20 @@ public class CollectionController extends AbstractController implements REST {
         CollectionDTO collection = collectionDao.findById(collectionID);
         ensureUserIsOwner(authorizer, collection);
         
+        if(!collection.privateStatus)
+        {
+        	return null;
+        }
+        
         List<VersionDTO> successfullyBuiltVersions = new ArrayList<VersionDTO>();
         
         for(VersionDTO version : collection.versions)
         {
-        	try
-        	{
         		BuildResultDTO buildResult = buildResultDao.findByVersion(version.id);
             	if(buildResult != null && buildResult.status.equals("FINISHED"))
             	{
             		successfullyBuiltVersions.add(version);
-            	}
-        	}
-        	catch(Exception ex)
-        	{
-        		System.out.println(ex.getMessage());
-        		ex.printStackTrace();
-        	}
-        	
+            	}        	
         }
         
         successfullyBuiltVersions.sort(new java.util.Comparator<VersionDTO>() {
@@ -191,8 +187,6 @@ public class CollectionController extends AbstractController implements REST {
 			}
         });
         
-        //TODO: What should be returned ? Latest version (due to creation date) that was built out of all versions 
-        //that have been built, or the version that corresponds to the latest built that was executed?
         
         if(!successfullyBuiltVersions.isEmpty())
         {

@@ -177,12 +177,93 @@ public class CollectionControllerTest extends AbstractHttpTest {
     @Test
     public void testLastSuccessfullyBuiltVersion() throws IOException
     {
+    	//Create a private collection first
     	Map<String, String> headers = login();
         headers.put("Content-Type", "application/json;charset=UTF-8");
-        String uri = baseUri + "/rest/lastsuccessfullybuiltversion/"+"6bad3396-aa05-43bb-a529-8d66e686c36e";
-        String json = HttpUtils.get(uri, headers, charset);
-        JSONObject collection = new JSONObject(json);
-        Assert.assertNotEquals(collection, null);
+        String uri = baseUri + "/rest/collection";
+        String payload = "{\"name\":\"SimpleMavenApp\",\"description\":\"UnitTest\",\"versions\":[{\"number\":1,\"commits\":[{\"commitId\":\"HEAD\",\"creationDate\":null,\"message\":null,\"repository\":{\"ownerType\":\"Organization\",\"issuesUrl\":\"https://api.github.com/repos/jenkins-docs/simple-java-maven-app/issues{/number}\",\"releasesUrl\":\"https://api.github.com/repos/jenkins-docs/simple-java-maven-app/releases{/id}\",\"description\":\"For an introductory tutorial on how to use Jenkins to build a simple Java application with Maven.\",\"contributorsUrl\":\"https://api.github.com/repos/jenkins-docs/simple-java-maven-app/contributors\",\"isPrivate\":false,\"commitsUrl\":\"https://api.github.com/repos/jenkins-docs/simple-java-maven-app/commits{/sha}\",\"openIssues\":9,\"latestUpdate\":\"2018-05-21T09:01:28Z\",\"score\":188,\"starred\":24,\"id\":\"a38166a0-0661-3f51-8085-f22c1b163f78\",\"forks\":2216,\"owner\":\"jenkins-docs\",\"hasWiki\":true,\"defaultBranch\":\"master\",\"htmlUrl\":\"https://github.com/jenkins-docs/simple-java-maven-app\",\"creationDate\":\"2017-09-26T02:35:06\",\"contentsUrl\":\"https://api.github.com/repos/jenkins-docs/simple-java-maven-app/contents/{+path}\",\"remoteId\":104826554,\"repositoryUrl\":\"https://github.com/jenkins-docs/simple-java-maven-app.git\",\"hasDownloads\":true,\"license\":\"\",\"watched\":24,\"size\":13,\"name\":\"simple-java-maven-app\",\"repositoryType\":\"git\",\"properties\":[]}}],\"frozen\":false,\"comment\":\"Initial Version\",\"creationDate\":\"2018-05-28T13:15:19\"}],\"privateStatus\":true,\"creation_date\":\"2018-05-28T13:15:19\",\"user\":\"demo\"}";
+        HttpResponse response = HttpUtils.post(uri, headers, payload.getBytes(charset), charset);
+        Assert.assertEquals("", response.getContent());
+        Assert.assertEquals(200, response.getResponseCode());
         
+        //Get the collection
+        uri = baseUri + "/rest/collection?user=" + USER;
+        String collections = HttpUtils.get(uri, headers, charset);
+        JSONArray array = new JSONArray(collections);
+        
+        //Get version id
+        JSONObject collection = null;
+        
+        for(int i = 0; i < array.length() ; i++)
+        {
+        	collection = (JSONObject)array.get(i);
+        	
+        	if(collection.getString("name").equals("SimpleMavenApp"))
+        	{
+        		break;
+        	}
+        }
+        
+        String collectionid = collection.getString("id");
+        String name = collection.getString("name");
+
+        Assert.assertEquals("SimpleMavenApp", name);
+        Assert.assertEquals(1,collection.getJSONArray("versions").length());
+        JSONArray versions = collection.getJSONArray("versions");
+        Assert.assertEquals(1, ((JSONObject)versions.get(0)).getJSONArray("commits").length());
+        JSONObject commit = (JSONObject)((JSONObject)versions.get(0)).getJSONArray("commits").get(0);
+        String versionid = commit.getString("versionId");
+        String commitid = commit.getString("id");
+        
+        //Start build
+        uri = baseUri + "/rest/build";
+        payload = "{\"id\": \""+versionid+"\", \"number\":1,\"commits\":[{\"versionId\":\""+versionid+"\",\"commitId\":\"HEAD\",\"id\":\""+commitid+"\",\"creationDate\":null,\"message\":null,\"repository\":{\"ownerType\":\"Organization\",\"issuesUrl\":\"https://api.github.com/repos/jenkins-docs/simple-java-maven-app/issues{/number}\",\"releasesUrl\":\"https://api.github.com/repos/jenkins-docs/simple-java-maven-app/releases{/id}\",\"description\":\"For an introductory tutorial on how to use Jenkins to build a simple Java application with Maven.\",\"contributorsUrl\":\"https://api.github.com/repos/jenkins-docs/simple-java-maven-app/contributors\",\"isPrivate\":false,\"commitsUrl\":\"https://api.github.com/repos/jenkins-docs/simple-java-maven-app/commits{/sha}\",\"openIssues\":9,\"latestUpdate\":\"2018-05-21T09:01:28Z\",\"score\":188,\"starred\":24,\"id\":\"a38166a0-0661-3f51-8085-f22c1b163f78\",\"forks\":2216,\"owner\":\"jenkins-docs\",\"hasWiki\":true,\"defaultBranch\":\"master\",\"htmlUrl\":\"https://github.com/jenkins-docs/simple-java-maven-app\",\"creationDate\":\"2017-09-26T02:35:06\",\"contentsUrl\":\"https://api.github.com/repos/jenkins-docs/simple-java-maven-app/contents/{+path}\",\"remoteId\":104826554,\"repositoryUrl\":\"https://github.com/jenkins-docs/simple-java-maven-app.git\",\"hasDownloads\":true,\"license\":\"\",\"watched\":24,\"size\":13,\"name\":\"simple-java-maven-app\",\"repositoryType\":\"git\",\"properties\":[]}}],\"filtered\":false,\"frozen\":false,\"comment\":\"Initial Version\",\"creationDate\":\"2018-05-28T13:15:19\",\"collectionId\":\""+collectionid+"\"}";
+        response = HttpUtils.post(uri, headers, payload.getBytes(charset), charset);
+        Assert.assertEquals(200, response.getResponseCode());
+        
+        //Get BuildDTO
+        uri = baseUri + "/rest/builds/"+USER;
+        
+        float build_progress = 0F;
+        while(build_progress < 1F)
+        {
+        	String json = HttpUtils.get(uri, headers, charset);
+            JSONArray builds = new JSONArray(json);
+            
+            
+            if(builds.length() > 0)
+            {
+            	try
+            	{
+            		System.out.println("Waiting for build...");
+            		Thread.sleep(10000);
+            	}catch(Exception x) {}
+            }
+            else
+            {
+            	build_progress = 1F;
+            	
+            }
+            
+            
+        }
+        
+        System.out.println("Finished building");
+        
+        //Final testing of lastsuccessfullybuiltversion
+        uri = baseUri + "/rest/lastsuccessfullybuiltversion/"+collectionid;
+        String json = HttpUtils.get(uri, headers, charset);
+        
+        JSONObject result_version = new JSONObject(json);
+        Assert.assertNotEquals(null, result_version);
+        Assert.assertEquals("Initial Version", result_version.getString("comment"));
+        Assert.assertEquals(1, result_version.getInt("number"));
+    	
+        
+        // delete
+        uri = baseUri + "/rest/collection/" + collectionid;
+        response = HttpUtils.delete(uri, headers, charset);
+        Assert.assertEquals(200, response.getResponseCode());
+
     }
 }
