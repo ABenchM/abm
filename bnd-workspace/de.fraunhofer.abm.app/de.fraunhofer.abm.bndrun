@@ -78,7 +78,9 @@ JPM-Command:					abm
 	osgi.identity;filter:='(osgi.identity=de.fraunhofer.abm.projectanalyzer.size)',\
 	osgi.identity;filter:='(osgi.identity=de.fraunhofer.abm.projectanalyzer.license)',\
 	osgi.identity;filter:='(osgi.identity=de.fraunhofer.abm.builder.docker.sbt)',\
-	osgi.identity;filter:='(osgi.identity=de.fraunhofer.abm.hermes)'
+	osgi.identity;filter:='(osgi.identity=de.fraunhofer.abm.hermes)',\
+	osgi.identity;filter:='(osgi.identity=de.fraunhofer.abm.crawler.bitbucket)',\
+	osgi.identity;filter:='(osgi.identity=org.jsoup)'
 
 -runee: JavaSE-1.8
 -runbundles: \
@@ -187,4 +189,6 @@ JPM-Command:					abm
 	org.scala-lang.scala-library;version='[2.11.11,2.11.12)',\
 	org.scala-lang.scala-reflect;version='[2.11.11,2.11.12)',\
 	org.scala-lang.scala-xml;version='[2.11.0,2.11.1)',\
-	javax.mail;version='[1.4.0,1.4.7)'
+	javax.mail;version='[1.4.0,1.4.7)',\
+	de.fraunhofer.abm.crawler.bitbucket;version=latest,\
+	org.jsoup
