@@ -160,5 +160,6 @@ CREATE TABLE `query_feature_map` (
 CREATE TABLE `user` (
   `name` varchar(255) DEFAULT NULL,
   `password` varchar(255) DEFAULT NULL,
-  `approved` tinyint(4) DEFAULT NULL
+  `approved` tinyint(4) DEFAULT NULL,
+  `approval_token` varchar(50) DEFAULT NULL
 );
