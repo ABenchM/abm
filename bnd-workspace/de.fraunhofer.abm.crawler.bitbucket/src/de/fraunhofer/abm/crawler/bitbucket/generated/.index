@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<repository increment="1528292866917" name="de.fraunhofer.abm.crawler.bitbucket" xmlns="http://www.osgi.org/xmlns/repository/v1.0.0">
+  <resource>
+    <capability namespace="osgi.identity">
+      <attribute name="osgi.identity" value="de.fraunhofer.abm.crawler.bitbucket"/>
+      <attribute name="type" value="osgi.bundle"/>
+      <attribute name="version" type="Version" value="1.0.0.201806061347"/>
+    </capability>
+    <capability namespace="osgi.content">
+      <attribute name="osgi.content" value="4cc6e844780c5e14647a296c95067c9d648a0c5ac43455c272f7818588d31729"/>
+      <attribute name="url" value="generated/de.fraunhofer.abm.crawler.bitbucket.jar"/>
+      <attribute name="size" type="Long" value="17249"/>
+      <attribute name="mime" value="application/vnd.osgi.bundle"/>
+    </capability>
+    <capability namespace="osgi.wiring.bundle">
+      <attribute name="osgi.wiring.bundle" value="de.fraunhofer.abm.crawler.bitbucket"/>
+      <attribute name="bundle-version" type="Version" value="1.0.0.201806061347"/>
+    </capability>
+    <capability namespace="osgi.wiring.host">
+      <attribute name="osgi.wiring.host" value="de.fraunhofer.abm.crawler.bitbucket"/>
+      <attribute name="bundle-version" type="Version" value="1.0.0.201806061347"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="de.fraunhofer.abm.crawler.api"/>
+      <attribute name="version" type="Version" value="1.0.0"/>
+      <attribute name="bundle-symbolic-name" value="de.fraunhofer.abm.crawler.bitbucket"/>
+      <attribute name="bundle-version" type="Version" value="1.0.0.201806061347"/>
+      <directive name="uses" value="de.fraunhofer.abm.domain"/>
+    </capability>
+    <capability namespace="osgi.service">
+      <attribute name="objectClass" type="List&lt;String&gt;" value="de.fraunhofer.abm.crawler.api.Crawler"/>
+    </capability>
+    <capability namespace="osgi.service">
+      <attribute name="objectClass" type="List&lt;String&gt;" value="de.fraunhofer.abm.crawler.api.Crawler"/>
+      <directive name="uses" value="de.fraunhofer.abm.crawler.api"/>
+    </capability>
+    <capability namespace="bndtools.workspace">
+      <attribute name="bndtools.workspace" value="file:/home/mac/Desktop/abmworkspace"/>
+      <attribute name="project.path" value="/de.fraunhofer.abm.crawler.bitbucket"/>
+    </capability>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=de.fraunhofer.abm.crawler.api)(version&gt;=1.0.0)(!(version&gt;=1.1.0)))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=de.fraunhofer.abm.domain)(version&gt;=1.0.0)(!(version&gt;=2.0.0)))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=de.fraunhofer.abm.http.client)(version&gt;=1.0.0)(!(version&gt;=2.0.0)))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.json)(version&gt;=20160212.0.0)(!(version&gt;=20160213.0.0)))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.jsoup)(version&gt;=1.11.0)(!(version&gt;=2.0.0)))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.jsoup.nodes)(version&gt;=1.11.0)(!(version&gt;=2.0.0)))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.jsoup.select)(version&gt;=1.11.0)(!(version&gt;=2.0.0)))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.slf4j)(version&gt;=1.7.0)(!(version&gt;=2.0.0)))"/>
+    </requirement>
+    <requirement namespace="osgi.extender">
+      <directive name="filter" value="(&amp;(osgi.extender=osgi.component)(version&gt;=1.3.0)(!(version&gt;=2.0.0)))"/>
+    </requirement>
+    <requirement namespace="osgi.ee">
+      <directive name="filter" value="(&amp;(osgi.ee=JavaSE)(version=1.8))"/>
+    </requirement>
+    <requirement namespace="osgi.extender">
+      <directive name="filter" value="(&amp;(osgi.extender=osgi.component)(version&gt;=1.3.0)(!(version&gt;=2.0.0)))"/>
+      <directive name="effective" value="active"/>
+    </requirement>
+  </resource>
+</repository>

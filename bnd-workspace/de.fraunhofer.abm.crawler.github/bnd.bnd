@@ -17,7 +17,7 @@ Export-Package:  \
 	biz.aQute.tester
 
 
-Private-Package: de.fraunhofer.abm.crawler.github
+Private-Package: de.fraunhofer.abm.crawler.bitbucket
 -dsannotations: *
 -runbundles: \
 	ch.qos.logback.classic;version='[1.1.7,1.1.8)',\
