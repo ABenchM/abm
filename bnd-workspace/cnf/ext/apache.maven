@@ -42,7 +42,7 @@ org.hibernate:hibernate-core:5.0.9.Final
 org.hibernate:hibernate-osgi:5.0.9.Final
 org.hibernate:hibernate-entitymanager:5.0.9.Final
 #Aries JPA
-org.apache.aries.jpa:org.apache.aries.jpa.container:2.7.0-SNAPSHOT
+org.apache.aries.jpa:org.apache.aries.jpa.container:2.7.0
 #Needed by hermes
 aopalliance:aopalliance:1.0
 com.fasterxml.jackson.core:jackson-annotations:2.8.0

@@ -16,7 +16,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.osgi.annotation.versioning.ProviderType;
 import org.osgi.service.component.annotations.Component;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,8 +28,7 @@ import de.fraunhofer.abm.domain.RepositoryDTO;
 import de.fraunhofer.abm.domain.TagDTO;
 import de.fraunhofer.abm.http.client.HttpUtils;
 
-@Component
-@ProviderType
+@Component(name="de.fraunhofer.abm.crawler.bitbucket")
 public class BitBucketCrawler implements Crawler{
 	
 	private static final transient Logger logger = LoggerFactory.getLogger(BitBucketCrawler.class);
