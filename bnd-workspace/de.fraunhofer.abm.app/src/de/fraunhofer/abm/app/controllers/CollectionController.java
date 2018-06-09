@@ -1,8 +1,8 @@
 package de.fraunhofer.abm.app.controllers;
 
-
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -149,6 +149,42 @@ public class CollectionController extends AbstractController implements REST {
 
         // delete the collection
         collectionDao.delete(id);
+    }
+     
+    public VersionDTO getLastSuccessfullyBuiltVersion(String collectionID) throws IOException {
+        authorizer.requireRole("RegisteredUser");
+        
+        // Make sure the user is the owner of the collection.
+        CollectionDTO collection = collectionDao.findById(collectionID);
+        ensureUserIsOwner(authorizer, collection);
+        
+        if (!collection.privateStatus) {
+            return null;
+        }
+        
+        List<VersionDTO> successfullyBuiltVersions = new ArrayList<VersionDTO>();
+        
+        for (VersionDTO version : collection.versions) {
+            BuildResultDTO buildResult = buildResultDao.findByVersion(version.id);
+            
+            if (buildResult != null && buildResult.status.equals("FINISHED")) {
+                successfullyBuiltVersions.add(version);
+            }     	
+        }
+        
+        successfullyBuiltVersions.sort(new java.util.Comparator<VersionDTO>() {
+
+            @Override
+            public int compare(VersionDTO version1, VersionDTO version2) {
+                return -1 * version1.creationDate.compareTo(version2.creationDate);
+            }
+        });
+        
+        if (!successfullyBuiltVersions.isEmpty()) {
+            return successfullyBuiltVersions.get(0);
+        }
+        
+        return null;
     }
 
     @Override
