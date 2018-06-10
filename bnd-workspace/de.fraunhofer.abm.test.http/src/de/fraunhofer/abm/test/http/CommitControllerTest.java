@@ -12,6 +12,8 @@ import de.fraunhofer.abm.http.client.HttpUtils;
 
 public class CommitControllerTest extends AbstractHttpTest {
 
+	public static final int NUM200 = 200;
+
     @Test(expected=IOException.class) // 401 unauthorized
     public void unauthorizedPostCommitShouldThrowException() throws IOException {
         String uri = baseUri + "/rest/commit";
@@ -51,7 +53,7 @@ public class CommitControllerTest extends AbstractHttpTest {
         uri = baseUri + "/rest/commit";
         payload = "{\"action\":\"delete_multi\",\"ids\":[\"" + commit.getString("id") + "\"]}";
         HttpResponse response = HttpUtils.post(uri, headers, payload.getBytes(), charset);
-        Assert.assertEquals(200, response.getResponseCode());
+        Assert.assertEquals(NUM200, response.getResponseCode());
 
         // cleanup: delete the collection
         deleteCollection(headers, collection.getString("id"));
@@ -109,7 +111,7 @@ public class CommitControllerTest extends AbstractHttpTest {
         commit.put("commitId", "asdf");
         HttpResponse response = HttpUtils.put(uri, headers, commit.toString().getBytes(), charset);
         Assert.assertEquals("", response.getContent());
-        Assert.assertEquals(200, response.getResponseCode());
+        Assert.assertEquals(NUM200, response.getResponseCode());
 
         deleteCollection(headers, collection.getString("id"));
     }

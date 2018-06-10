@@ -14,13 +14,16 @@ public class LoginTest extends AbstractHttpTest {
 
     @Test
     public void testLoginLogout() throws IOException {
+
+    	final int num200 = 200;
+
         // send a login request
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "application/json;charset=UTF-8");
         String uri = baseUri + "/rest/login";
         String payload = "{\"username\": \""+USER+"\", \"password\": \""+PASSWORD+"\"}";
         HttpResponse response = HttpUtils.post(uri, headers, payload.getBytes(), charset);
-        Assert.assertEquals(200, response.getResponseCode());
+        Assert.assertEquals(num200, response.getResponseCode());
         String sessionCookie = HttpUtils.getHeaderField(response.getHeader(), "Set-Cookie");
         Assert.assertTrue(sessionCookie.contains("JSESSIONID"));
 
