@@ -125,7 +125,6 @@ function publicController($rootScope, $scope, $http, $location, $route, Notifica
 	};
 	
 	self.cancel = function(){
-		
 		$scope.searchQuery=null;
 		self.cancelsearch = false;
          self.initilize();
