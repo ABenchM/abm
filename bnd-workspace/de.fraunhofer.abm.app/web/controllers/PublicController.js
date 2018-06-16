@@ -104,6 +104,7 @@ function publicController($rootScope, $scope, $http, $location, $route, Notifica
 	
 	self.search = function(query) {
 		self.searching = true;
+		self.cancelsearch = true;
 		$http({
 			method: 'GET',
 			url: '/rest/collection/',
@@ -121,6 +122,12 @@ function publicController($rootScope, $scope, $http, $location, $route, Notifica
 		)['finally'](function() {
 			self.searching = false;
 		});
+	};
+	
+	self.cancel = function(){
+		$scope.searchQuery=null;
+		self.cancelsearch = false;
+         self.initilize();
 	};
 	
 	self.nameSort = function(){

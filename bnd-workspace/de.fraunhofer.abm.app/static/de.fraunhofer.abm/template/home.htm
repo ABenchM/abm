@@ -85,7 +85,8 @@
 	
 	<form ng-submit="wordSearch" name="searchForm">
 		<input type="text" name="query" id="query" size="36" ng-model="searchQuery" style="width:80%" placeholder="Search for Collections...">
-		<button class="btn btn-success" type="submit" ng-click="pc.search(searchQuery)" ng-disabled="searchQuery === '' || searchQuery === undefined">Search</button>
+		<button class="btn btn-success" type="submit" ng-click="pc.search(searchQuery)" ng-hide="pc.cancelsearch" ng-disabled="searchQuery === '' || searchQuery === undefined">Search</button>
+		<button class="btn btn-success" type="button" ng-click="pc.cancel()" ng-show="pc.cancelsearch" >Cancel Search</button>
 	</form>
 	<!-- <form name="idSearch" role="form">
 		<p style="display:inline">Enter Collection ID:</p>
