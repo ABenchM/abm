@@ -13,6 +13,9 @@ import de.fraunhofer.abm.http.client.HttpUtils;
 // TODO write test for unfreeze ?!?
 public class VersionControllerTest extends AbstractHttpTest {
 
+	public static final int NUM403 = 403;
+	public static final int NUM123 = 123;
+
     @Test(expected=IOException.class) // 401 unauthorized
     public void unauthorizedPostVersionShouldThrowException() throws IOException {
         String uri = baseUri + "/rest/version";
@@ -47,7 +50,7 @@ public class VersionControllerTest extends AbstractHttpTest {
         addSessionCookie(headers);
         try {
             HttpResponse response = HttpUtils.post(uri, headers, version.toString().getBytes(), charset);
-            Assert.assertEquals(403, response.getResponseCode());
+            Assert.assertEquals(NUM403, response.getResponseCode());
         } catch(IOException e) {
             // expected 403 unauthorized
             Assert.assertNotNull(e);
@@ -115,7 +118,7 @@ public class VersionControllerTest extends AbstractHttpTest {
         JSONObject version = collection.getJSONArray("versions").getJSONObject(0);
 
         // change the version
-        version.put("number", 123);
+        version.put("number", NUM123);
         version.put("comment", "asdf");
 
         // put with wrong user
@@ -125,7 +128,7 @@ public class VersionControllerTest extends AbstractHttpTest {
         addSessionCookie(headers);
         try {
             HttpResponse response = HttpUtils.put(uri, headers, version.toString().getBytes(), charset);
-            Assert.assertEquals(403, response.getResponseCode());
+            Assert.assertEquals(NUM403, response.getResponseCode());
         } catch(IOException e) {
             // expected 403 unauthorized
             Assert.assertNotNull(e);
@@ -141,7 +144,7 @@ public class VersionControllerTest extends AbstractHttpTest {
         // get the collection again and check, that the version is changed
         collection = getCollection(headers);
         version = collection.getJSONArray("versions").getJSONObject(0);
-        Assert.assertEquals(123, version.getInt("number"));
+        Assert.assertEquals(NUM123, version.getInt("number"));
         Assert.assertEquals("asdf", version.getString("comment"));
 
         // clean up, delete the collection again
