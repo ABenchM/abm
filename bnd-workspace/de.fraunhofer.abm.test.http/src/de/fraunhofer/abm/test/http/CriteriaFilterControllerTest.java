@@ -113,7 +113,7 @@ public class CriteriaFilterControllerTest extends AbstractHttpTest {
         		+ "issuesUrl\":\"https://api.github.com/repos/hampelratte/svdrp4j/issues{/number}\",\"latestUpdate\":\"2016-10-04T18:43:16Z\",\""
         		+ "license\":\"\",\"name\":\"svdrp4j\",\"openIssues\":0,\"owner\":\"hampelratte\",\"ownerType\":\"User\",\"properties\":[],\""
         		+ "releasesUrl\":\"https://api.github.com/repos/hampelratte/svdrp4j/releases{/id}\",\"remoteId\":2490885,\"repositoryType\":\""
-        		+ "git\",\"repositoryUrl\":\"https://github.com/hampelratte/svdrp4j.git\",\"score\":25,\"size\":1458,\"starred\":3,\"watched\":3}]}";-
+        		+ "git\",\"repositoryUrl\":\"https://github.com/hampelratte/svdrp4j.git\",\"score\":25,\"size\":1458,\"starred\":3,\"watched\":3}]}";
         String uri = baseUri + "/rest/criteria";
         HttpResponse resp = HttpUtils.post(uri, headers, payload.getBytes(), charset);
         JSONArray filteredList = new JSONArray(resp.getContent());
