@@ -111,14 +111,18 @@ public class FilterResultsImpl implements FilterResults {
 	  
 	  public Map<String,Map<String,Integer>> getFilterResults(String repoDir, String versionid , List<FilterStatusDTO> filters) throws  IOException{
 	    	
+		   System.err.println("RepoDIR "+ repoDir);
 	    	BufferedReader readCsv = new BufferedReader(new FileReader(repoDir+"/hermesResults.csv"));
-	    	//System.out.println(repoDir+"/hermesResults.csv");
+	    	System.out.println(repoDir+"/hermesResults.csv");
 	    	Iterable<CSVRecord> records = CSVFormat.EXCEL.parse(readCsv);
 	    	
 	    	projects.clear();
 	    	rows.clear();
+	    	results.clear();
 	    	
 	    	for (CSVRecord record : records) {
+	    		
+	    		
 	    		
 	    	    List<String> row = new ArrayList<String>();
 	    	    
@@ -145,6 +149,7 @@ public class FilterResultsImpl implements FilterResults {
 			});
 
 			noOfProjects = rows.size() - 1;
+			
 			int value = 0 , threshold = 0;
 			  for(int n=1;n<=noOfProjects;n++) {
 		    	   
