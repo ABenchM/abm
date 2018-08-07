@@ -162,7 +162,14 @@ CREATE TABLE `user` (
   `password` varchar(255) DEFAULT NULL,
   `approved` tinyint(4) DEFAULT NULL,
   `approval_token` varchar(50) DEFAULT NULL,
-  `reset_token` varchar(50) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
-  `expired_period` time DEFAULT NULL
+   PRIMARY KEY (`name`)
 );
+
+CREATE TABLE `reset_token` (
+  `name` varchar(255) DEFAULT NULL,
+  `reset_token` varchar(50) DEFAULT NULL,
+  `expired_period` time DEFAULT NULL,
+   FOREIGN KEY (`expired_period`) REFERENCES `user` (`name`)
+);
+
