@@ -158,8 +158,21 @@ CREATE TABLE `query_feature_map` (
 );
 
 CREATE TABLE `user` (
-  `name` varchar(255) DEFAULT NULL,
+  `name` varchar(255) NOT NULL,
+  `firstname` varchar(255) NOT NULL,
+  `lastname` varchar(255) NOT NULL,
   `password` varchar(255) DEFAULT NULL,
+  `affiliation` varchar(255) NOT NULL,
   `approved` tinyint(4) DEFAULT NULL,
-  `approval_token` varchar(50) DEFAULT NULL
+  `approval_token` varchar(50) DEFAULT NULL,
+  `locked` tinyint(4) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+   PRIMARY KEY (`name`)
+);
+
+CREATE TABLE `reset_token` (
+  `username` varchar(255) DEFAULT NULL,
+  `reset_token` varchar(50) DEFAULT NULL,
+  `expired_period` time DEFAULT NULL,
+   FOREIGN KEY (`username`) REFERENCES `user` (`name`)
 );
