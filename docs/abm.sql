@@ -165,7 +165,7 @@ CREATE TABLE `user` (
   `affiliation` varchar(255) NOT NULL,
   `approved` tinyint(4) DEFAULT NULL,
   `approval_token` varchar(50) DEFAULT NULL,
-  `lock_user` tinyint(4) DEFAULT NULL,
+  `locked` tinyint(4) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
    PRIMARY KEY (`name`)
 );
