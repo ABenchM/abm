@@ -74,14 +74,17 @@ public class BuildProcess implements Callable<BuildResultDTO> {
         this.buildResult.versionId = version.id;
         this.buildResult.dir = workspace.getAbsolutePath();
         for (CommitDTO commit : version.commits) {
-            RepositoryDTO repo = commit.repository;
-            ProjectBuildDTO projectBuildDTO = new ProjectBuildDTO();
-            projectBuildDTO.commit = commit;
-            projectBuildDTO.repository = repo;
-            projectBuildDTO.repositoryId = repo.id;
-            projectBuildDTO.buildResultId = this.buildResult.id;
-            projectBuildDTO.buildSteps = new ArrayList<>();
-            this.buildResult.projectBuilds.add(projectBuildDTO);
+        	if (commit.selectProject == true) {
+        		RepositoryDTO repo = commit.repository;
+                ProjectBuildDTO projectBuildDTO = new ProjectBuildDTO();
+                projectBuildDTO.commit = commit;
+                projectBuildDTO.repository = repo;
+                projectBuildDTO.repositoryId = repo.id;
+                projectBuildDTO.buildResultId = this.buildResult.id;
+                projectBuildDTO.buildSteps = new ArrayList<>();
+                this.buildResult.projectBuilds.add(projectBuildDTO);
+        	}
+            
         }
         buildResultDao.save(buildResult);
     }

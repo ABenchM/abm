@@ -183,7 +183,8 @@ public class BitBucketCrawler implements Crawler{
 	 */
 	@Override
 	public boolean isSourceFor(RepositoryDTO repo) {
-		return repo.repositoryUrl.contains("github.com");
+		
+		return repo.repositoryUrl.contains("bitbucket");
 	}
 
 	/**
