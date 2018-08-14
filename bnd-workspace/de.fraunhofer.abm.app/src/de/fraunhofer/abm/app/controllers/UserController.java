@@ -76,8 +76,8 @@ public class UserController extends AbstractController implements REST {
 			message.setSubject(sbj);
 			message.setText(msg);
 			Transport.send(message);
-			String saltAndHash = Password.getSaltedHash(password);
-			userDao.addUser(name, saltAndHash, approvalToken, email);
+			String saltHashPassword = Password.getSaltedHash(password);
+			userDao.addUser(username, firstname, lastname, email, affiliation, saltHashPassword, approvalToken);
 			return true;
 		} else {
 			return false;
