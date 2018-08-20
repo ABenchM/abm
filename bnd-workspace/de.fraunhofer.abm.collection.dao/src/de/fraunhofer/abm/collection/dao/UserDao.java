@@ -6,7 +6,7 @@ public interface UserDao {
 
 	public boolean checkApproved(String name);
 
-	public void addUser(String name, String password, String token);
+	public void addUser(String name, String password, String token, String email);
 
 	public String approveToken(String name, String token);
 }
