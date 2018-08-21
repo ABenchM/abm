@@ -23,6 +23,8 @@ function($rootScope, $scope, $http, Notification, $location){
 	
 	self.register = function(){
 		$rootScope.loading = true;
+		$scope.request.firstname = 'Firstname';
+ 		$scope.request.lastname = 'Lastname';
 		$http.post('/rest/username', $scope.request, null).then(
 			function(d){
 				if(d.data){
