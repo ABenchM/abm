@@ -29,9 +29,3 @@ CREATE TABLE `role_members`
 ALTER TABLE `role_members` ADD FOREIGN KEY (`member_parent`) REFERENCES `role`(`role_name`);
 ALTER TABLE `role_members` ADD FOREIGN KEY (`member_member`) REFERENCES `role`(`role_name`);
 
-CREATE TABLE `admin`
-(
-   `role_name` varchar(255) NOT NULL,
-   `role_type` varchar(255) NOT NULL,
-  
-);
