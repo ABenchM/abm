@@ -3,7 +3,7 @@
 		"service.factoryPid": "org.apache.aries.tx.control.jdbc.local",
 		"service.pid": "de.fraunhofer.abm.useradmin.role.dao.datasource.development",
 		"user": "root",
-		"password": ";tDJYz<TB&7m7Z+{",
+		"password": "Srinidhi1!",
 		"databaseName": "abm",
 		"dataSourceName": "localDS-MySQL",
 		"serverName": "localhost",
