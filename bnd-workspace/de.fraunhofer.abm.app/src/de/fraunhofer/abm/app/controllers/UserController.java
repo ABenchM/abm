@@ -53,16 +53,21 @@ public class UserController extends AbstractController implements REST {
 		// TODO: Add more security here, such as a delay, if possible.
 		String approvalEndpoint = "https://abm.cs.upb.de/rest/approval";
 		Map<String, String> params = ar._body();
-		String name = params.get("username");
+		String username = params.get("username");
+		String firstname = params.get("firstname");
+		String lastname = params.get("lastname");
 		String password = params.get("password");
+		String email = params.get("email");
+		String affiliation = params.get("affiliation");
 		String approvalToken = TokenGenerator.generateToken();
-		String token = MessageFormat.format("Activation Link: {0}?name={1}&token={2}\n", approvalEndpoint, name,
+		String token = MessageFormat.format("Activation Link: {0}?name={1}&token={2}\n", approvalEndpoint, username,
 				approvalToken);
-		if (!userDao.checkExists(name)) {
-			String sbj = params.get("username") + " Registered on ABM";
-			String msg = "A new user has registered the username '" + params.get("username") + "' on the ABM website.\n"
-					+ "\n" + "The following information was used to register:\n" + "Name: " + params.get("name") + "\n"
-					+ "Affiliation: " + params.get("affiliation") + "\n" + "Email: " + params.get("email") + "\n"
+    
+		if (!userDao.checkExists(username)) {
+			String sbj = username + " Registered on ABM";
+			String msg = "A new user has registered the username '" + username + "' on the ABM website.\n"
+					+ "\n" + "The following information was used to register:\n" + "Name: " + firstname + " " + lastname + "\n"
+					+ "Affiliation: " + affiliation + "\n" + "Email: " + email + "\n"
 					+ token + "Please activate this account if this information seems correct.";
 
 			MimeMessage message = new MimeMessage(config.getSession());
@@ -71,8 +76,8 @@ public class UserController extends AbstractController implements REST {
 			message.setSubject(sbj);
 			message.setText(msg);
 			Transport.send(message);
-			String saltAndHash = Password.getSaltedHash(password);
-			userDao.addUser(name, saltAndHash, approvalToken);
+			String saltHashPassword = Password.getSaltedHash(password);
+			userDao.addUser(username, firstname, lastname, email, affiliation, saltHashPassword, approvalToken);
 			return true;
 		} else {
 			return false;
