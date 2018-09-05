@@ -13,8 +13,31 @@ function collectionController($rootScope, $scope, $http, $location, $route, $rou
 	$rootScope.running = false;
 	self.running = $rootScope.running;
 	
+	$scope.request = {};
+	self.showDeleteAccount = true;
 	
-	
+ 	self.deleteAccount = function(user){
+ 		alert(user);
+ 		console.log("delete user : " + user);
+		$rootScope.loading = true;
+		
+		var usernames = [];
+		usernames.push(user);
+		usernames.toString();
+		$scope.request.usernames = usernames;
+		alert(usernames);
+		$http.post('/rest/userdel', $scope.request, null).then(
+		//$http.post('/rest/userdel', user, null).then(
+			function(d){
+				if(d.data){
+					console.log("data : " + d.data);
+				}
+			}, function(d){
+				Notification.error('Internal error: Delete user cannot be done at the moment. Please try again later. If the error persists, please report it here: https://github.com/ABenchM/abm/issues');
+			})['finally'](function() {
+				$rootScope.loading = false
+			});	
+	};
 	
 	var columnDefinition = [
 		{ name: 'name' },
