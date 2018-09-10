@@ -1,5 +1,6 @@
 package de.fraunhofer.abm.app.controllers;
 
+import java.sql.Time;
 import java.text.MessageFormat;
 import java.util.Map;
 
@@ -65,7 +66,7 @@ public class ResetPasswordController extends AbstractController implements REST 
 		    String token = MessageFormat.format("Password reset link: {0}?name={1}&token={2}\n", resetpwdEndpoint, username,
 				resetToken);
 			String sbj = params.get("usernameEmail") + " Password reset request";
-				String msg = "Hello "+ params.get("username") +", You have requested for reset password " + " on the ABM website.\n"
+			String msg = "Hello "+ params.get("usernameEmail") +", You have requested for reset password " + " on the ABM website.\n"
 						+ "\n" + "Please reset the password for your account by clicking the link below."+"\n"+token;
 	
 				MimeMessage message = new MimeMessage(config.getSession());
@@ -74,7 +75,11 @@ public class ResetPasswordController extends AbstractController implements REST 
 				message.setSubject(sbj);
 				message.setText(msg);
 				Transport.send(message);
-				resetTokenDao.addToken(username, resetToken);
+				long time = System.currentTimeMillis() + 600000; 
+				if (resetTokenDao.checkExists(username)) {
+				 resetTokenDao.updateToken(username, resetToken, time);
+				} else {
+				resetTokenDao.addToken(username, resetToken, time);}
 				return true;
 	}
 
