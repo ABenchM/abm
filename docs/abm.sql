@@ -173,6 +173,6 @@ CREATE TABLE `user` (
 CREATE TABLE `reset_token` (
   `username` varchar(255) DEFAULT NULL,
   `token` varchar(50) DEFAULT NULL,
-  `expired_period` time DEFAULT NULL,
+  `expired_period` bigint(20) DEFAULT NULL,
    FOREIGN KEY (`username`) REFERENCES `user` (`name`)
 );
