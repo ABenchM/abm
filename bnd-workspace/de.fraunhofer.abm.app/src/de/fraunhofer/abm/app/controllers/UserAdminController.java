@@ -1,8 +1,10 @@
 package de.fraunhofer.abm.app.controllers;
 
+import java.util.Collections;
 import java.util.Dictionary;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.osgi.dto.DTO;
@@ -14,6 +16,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.fraunhofer.abm.app.auth.Authorizer;
+import de.fraunhofer.abm.collection.dao.CollectionDao;
+import de.fraunhofer.abm.domain.CollectionDTO;
 import osgi.enroute.configurer.api.RequireConfigurerExtender;
 import osgi.enroute.rest.api.REST;
 import osgi.enroute.rest.api.RESTRequest;
@@ -32,6 +36,9 @@ public class UserAdminController implements REST {
     @Reference
     private Authorizer authorizer;
 
+    @Reference
+    private CollectionDao collectionDao;
+    
     public AbmUser getUser(RESTRequest rr, String name) {
         authorizer.requireRole("UserAdmin");
 
@@ -67,6 +74,7 @@ public class UserAdminController implements REST {
         logger.debug("Deleting user {}", name);
         userAdmin.removeRole(name);
     }
+    
 
     public static class AbmUser extends DTO {
         public String name;
