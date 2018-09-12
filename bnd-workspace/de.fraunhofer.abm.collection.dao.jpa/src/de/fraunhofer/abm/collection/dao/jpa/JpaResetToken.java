@@ -16,11 +16,15 @@ public class JpaResetToken {
 	@Column
 	public String token;
 	
+	@Column
+	public Long expired_period;
+	
 	
 	public static JpaResetToken fromDTO(ResetTokenDTO dto) {
 		JpaResetToken jpa = new JpaResetToken();
 		jpa.username = dto.username;
 		jpa.token = dto.token;
+		jpa.expired_period = dto.expired_period;
 		return jpa;
 	}
 
@@ -28,6 +32,7 @@ public class JpaResetToken {
 		ResetTokenDTO dto = new ResetTokenDTO();
 		dto.username = this.username;
 		dto.token = this.token;
+		dto.expired_period = this.expired_period;
 		return dto;
 	}
 }
