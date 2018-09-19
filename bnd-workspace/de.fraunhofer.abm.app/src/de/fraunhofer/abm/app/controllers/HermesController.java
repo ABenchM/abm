@@ -93,7 +93,10 @@ public class HermesController implements REST {
 	 //Function to get the Hermes Instance details for the version.
 	 public HermesResultDTO getInstance(String versionId) throws Exception{
 		 
-		 authorizer.requireRole("RegisteredUser");
+		 ArrayList<String> users = new ArrayList<String>();
+		 users.add("RegisteredUser");
+		 users.add("UserAdmin"); 
+		 authorizer.requireRoles(users);
 		 String sessionUser = SecurityContext.getInstance().getUser();
 		 
 		
@@ -165,7 +168,10 @@ public class HermesController implements REST {
 	 
 	 public List<String> getResultHeader(String versionid) throws IOException {
 			
-		 authorizer.requireRole("RegisteredUser");
+		 ArrayList<String> users = new ArrayList<String>();
+		 users.add("RegisteredUser");
+		 users.add("UserAdmin"); 
+		 authorizer.requireRoles(users);
 		 List<String> headers = new ArrayList<String>();
 				   
 	        
@@ -178,7 +184,10 @@ public class HermesController implements REST {
 	 
 public List<FilterResultsDTO> getHermesResults(String versionid) throws IOException{
 		 
-		 authorizer.requireRole("RegisteredUser");
+	ArrayList<String> users = new ArrayList<String>();
+	users.add("RegisteredUser");
+	users.add("UserAdmin"); 
+    authorizer.requireRoles(users);
 		  List<FilterResultsDTO> dto = new ArrayList<FilterResultsDTO>();
 		    HermesResultDTO hermesDto ; 
 		    String repoDir;		  
@@ -212,7 +221,10 @@ public List<FilterResultsDTO> getHermesResults(String versionid) throws IOExcept
 	 //Function to get the list of active Filters for the selected version.
 	 public List<FilterStatusDTO> getActiveFilters(String versionid)
 	 { 
-		 authorizer.requireRole("RegisteredUser");
+		 ArrayList<String> users = new ArrayList<String>();
+		 users.add("RegisteredUser");
+		 users.add("UserAdmin"); 
+		 authorizer.requireRoles(users);
 		 List<FilterStatusDTO> dto = new ArrayList<FilterStatusDTO>();
 		 if(filterDao.findFilters(versionid)!=null)
 		// List<FilterStatusDTO> dto = filterDao.findFilters(versionid);
@@ -251,7 +263,10 @@ public List<FilterResultsDTO> getHermesResults(String versionid) throws IOExcept
 	 
 	 //Function to post the list of filters against version
 	 public String postHermes(FilterVersionRequest fv,String versionid) throws Exception {
-	        authorizer.requireRole("RegisteredUser");
+		 ArrayList<String> users = new ArrayList<String>();
+		 users.add("RegisteredUser");
+		 users.add("UserAdmin"); 
+		 authorizer.requireRoles(users);
 	        
 	        
 	          List<FilterStatusDTO> filters = fv._body();
@@ -308,7 +323,10 @@ public List<FilterResultsDTO> getHermesResults(String versionid) throws IOExcept
 	 
 	 //Function to delete the Hermes Instance entry for selected version.
 	 public String deleteInstance(String hermesResultId) throws Exception {
-	        authorizer.requireRole("RegisteredUser");
+		 	ArrayList<String> users = new ArrayList<String>();
+	    	users.add("RegisteredUser");
+	    	users.add("UserAdmin"); 
+	        authorizer.requireRoles(users);
 
 	        // make sure the session user is the owner
 	        HermesResultDTO hermesResultDto = hermesResultDao.findById(hermesResultId);
@@ -338,7 +356,10 @@ public List<FilterResultsDTO> getHermesResults(String versionid) throws IOExcept
 	//Function to get the list of Filters  
 	public HashMap<String,Boolean> getFilters()
 	{
-		authorizer.requireRole("RegisteredUser");
+		ArrayList<String> users = new ArrayList<String>();
+    	users.add("RegisteredUser");
+    	users.add("UserAdmin"); 
+        authorizer.requireRoles(users);
 		
 		  return  hermesFilter.getFilters();
 	}
@@ -350,21 +371,32 @@ public List<FilterResultsDTO> getHermesResults(String versionid) throws IOExcept
 	
 	public void postMaxLocation(QueryRequest qr) throws IOException
 	{  
-		authorizer.requireRole("RegisteredUser");
+		ArrayList<String> users = new ArrayList<String>();
+    	users.add("RegisteredUser");
+    	users.add("UserAdmin"); 
+        authorizer.requireRoles(users);
 	    QueriesDTO dto = qr._body();
 	    hermesFilter.updateMaxLocations(dto.maxlocations);
 		
 	}
 	
 	public void postFanIn(QueryRequest qr) throws IOException
-	{ authorizer.requireRole("RegisteredUser");
+	{ 
+		ArrayList<String> users = new ArrayList<String>();
+    	users.add("RegisteredUser");
+    	users.add("UserAdmin"); 
+        authorizer.requireRoles(users);
 	  QueriesDTO dto = qr._body();
 	  hermesFilter.updateFanInFanOut("fanin","categories",dto.fanin_categories);
 	  hermesFilter.updateFanInFanOut("fanin","categorySize", dto.fanin_categorySize);	
 	}
 	
 	public void postFanOut(QueryRequest qr) throws IOException
-	{ authorizer.requireRole("RegisteredUser");
+	{ 
+		ArrayList<String> users = new ArrayList<String>();
+    	users.add("RegisteredUser");
+    	users.add("UserAdmin"); 
+        authorizer.requireRoles(users);
 	  QueriesDTO dto = qr._body();
 	  hermesFilter.updateFanInFanOut("fanout","categories",dto.fanout_categories);
 	  hermesFilter.updateFanInFanOut("fanout","categorySize", dto.fanout_categorySize);	
@@ -372,7 +404,11 @@ public List<FilterResultsDTO> getHermesResults(String versionid) throws IOExcept
 	
 
 	public void postRatio(QueryRequest qr) throws IOException
-	{ authorizer.requireRole("RegisteredUser");
+	{ 
+		ArrayList<String> users = new ArrayList<String>();
+    	users.add("RegisteredUser");
+    	users.add("UserAdmin"); 
+        authorizer.requireRoles(users);
 	  QueriesDTO dto = qr._body();
 	  hermesFilter.updateFanInFanOut("ratio","categories",dto.ratio_categories);
 	  hermesFilter.updateFanInFanOut("ratio","categorySize", dto.ratio_categorySize);
@@ -381,7 +417,10 @@ public List<FilterResultsDTO> getHermesResults(String versionid) throws IOExcept
 	//Function to get the MaxLocation
 	public int getMaxLocations()
 	{
-		authorizer.requireRole("RegisteredUser");
+		ArrayList<String> users = new ArrayList<String>();
+    	users.add("RegisteredUser");
+    	users.add("UserAdmin"); 
+        authorizer.requireRoles(users);
 		
 		return hermesFilter.getMaxLocation();
 	}
@@ -389,7 +428,10 @@ public List<FilterResultsDTO> getHermesResults(String versionid) throws IOExcept
 	//Function to get the FanInFanout 
 	public Map<String,Integer> getFanInFanOut()
 	{
-		authorizer.requireRole("RegisteredUser");
+		ArrayList<String> users = new ArrayList<String>();
+    	users.add("RegisteredUser");
+    	users.add("UserAdmin"); 
+        authorizer.requireRoles(users);
 		return hermesFilter.getFanInFanOut();
 	}
 	

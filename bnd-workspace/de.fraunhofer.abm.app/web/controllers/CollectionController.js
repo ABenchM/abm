@@ -20,14 +20,8 @@ function collectionController($rootScope, $scope, $http, $location, $route, $rou
  		alert(user);
  		console.log("delete user : " + user);
 		$rootScope.loading = true;
-		
-		var usernames = [];
-		usernames.push(user);
-		usernames.toString();
-		$scope.request.usernames = usernames;
-		alert(usernames);
+		$scope.request.username = user;
 		$http.post('/rest/userdel', $scope.request, null).then(
-		//$http.post('/rest/userdel', user, null).then(
 			function(d){
 				if(d.data){
 					console.log("data : " + d.data);

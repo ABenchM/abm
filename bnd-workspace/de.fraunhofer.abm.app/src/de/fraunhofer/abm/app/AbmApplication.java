@@ -3,6 +3,7 @@ package de.fraunhofer.abm.app;
 import static de.fraunhofer.abm.util.AbmApplicationConstants.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -47,7 +48,11 @@ public class AbmApplication implements REST {
     private Authorizer authorizer;
 
     public List<RepositoryDTO> getSearch(RESTRequest request, String query) throws Exception {
-        authorizer.requireRole("RegisteredUser");
+        //authorizer.requireRole("RegisteredUser");
+    	ArrayList<String> users = new ArrayList<String>();
+    	users.add("RegisteredUser");
+    	users.add("UserAdmin"); 
+        authorizer.requireRoles(users);
         List<RepositoryDTO> result = crawler.search(query);
         return result;
     }
