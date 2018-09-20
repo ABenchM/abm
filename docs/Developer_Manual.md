@@ -282,7 +282,9 @@ Let's see how deployment is done.
 * Build is done daily at midnight.
 * Using Systemd ABM jar file has been created as a service.
 * From the server, ABM can be started and stopped using 
-
+# Note 
+  if jenkins dashboard is not running or down, you can start the jenkins after logging into production server and start the jenkins using the following command at the location - /opt/jenkins/.
+  sudo java -jar jenkins.war --httpPort=9090
 ```
 systemctl start abm
 systemctl stop abm
