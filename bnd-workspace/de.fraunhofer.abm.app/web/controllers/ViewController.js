@@ -185,5 +185,21 @@ function viewController($rootScope, $scope, $http, $location, $routeParams, Noti
 		$location.path('/createCollection');
 	}
 	
+	self.deleteCollection = function(){
+		self.disabled = true;
+		$http({
+			method: 'POST',
+			url: '/rest/deleteCollection/',
+			data: {'id': $scope.collection.id}
+		}).then(
+			function(){
+				//$scope.pinned = true;
+			}, function(d){
+				//Notification.error('Failed with ['+ d.status + '] '+ d.statusText);
+			})['finally'](function (){
+				//self.disabled = false;
+			});
+	}
+	
 	self.loadCollection(self.id);
 }]);

@@ -31,7 +31,7 @@ public class DeletePublicCollectionController implements REST {
     @Reference
     private CollectionDao collectionDao;
 	
-	public void postdeletecollection(String collectionId) {
+	public void postdeleteCollection(String collectionId) {
         authorizer.requireRole("UserAdmin");
         List<CollectionDTO> result = Collections.emptyList();
 
