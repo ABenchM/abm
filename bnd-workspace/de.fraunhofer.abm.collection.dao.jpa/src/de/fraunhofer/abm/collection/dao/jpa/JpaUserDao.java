@@ -72,6 +72,20 @@ public class JpaUserDao extends AbstractJpaDao implements UserDao {
 			return null;
 		});
 	}
+	
+	@Override
+ 	public void deleteUsers(List<String> usernames) {
+ 		transactionControl.required(() -> {
+ 			TypedQuery<JpaUser> query = em.createQuery("SELECT u FROM user u WHERE u.name IN :names", JpaUser.class);
+ 			query.setParameter("names", usernames);
+ 			List<JpaUser> result = query.getResultList();
+ 			for (JpaUser user : result) {
+ 				System.out.println(user);
+ 				em.remove(user);
+ 			}
+ 			return null;
+ 		});
+ 	}
 
 	@Override
 	public String approveToken(String name, String token) {

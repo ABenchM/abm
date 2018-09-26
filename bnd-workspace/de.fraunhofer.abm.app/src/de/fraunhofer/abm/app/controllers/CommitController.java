@@ -1,5 +1,7 @@
 package de.fraunhofer.abm.app.controllers;
 
+import java.util.ArrayList;
+
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
@@ -81,7 +83,10 @@ public class CommitController extends AbstractController implements REST {
     }
 
     private boolean isUserOwnerOfCommit(String id) {
-        authorizer.requireRole("RegisteredUser");
+    	ArrayList<String> users = new ArrayList<String>();
+    	users.add("RegisteredUser");
+    	users.add("UserAdmin"); 
+        authorizer.requireRoles(users);
         CollectionDTO collection = collectionDao.findByCommit(id);
         ensureUserIsOwner(authorizer, collection);
         return true;

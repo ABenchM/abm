@@ -1,5 +1,7 @@
 package de.fraunhofer.abm.app.auth.impl;
 
+import java.util.ArrayList;
+
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.useradmin.User;
@@ -28,6 +30,29 @@ public class UserAdminAuthorizer implements Authorizer {
                 throw new SecurityException(username + " does not have role " + role);
             }
         }
+    }
+    
+    @Override
+    public void requireRoles(ArrayList<String> roles) throws SecurityException {
+    	String username = SecurityContext.getInstance().getUser();
+    	Boolean validUser = false;
+    	for( String  role : roles) {
+    		if ("anonymous".equals(username)) {
+                throw new SecurityException("Anonymous user is not allowed");
+            } else {
+                User user = (User) userAdmin.getRole(username);
+                if (user == null) {
+                    throw new SecurityException(username + " does not exist");
+                }
+                if(userAdmin.getAuthorization(user).hasRole(role)) {
+                    validUser = true;
+                }
+            }
+    	}
+    	if(!validUser) {
+    		throw new SecurityException(username + " does not have role " );
+    	}
+    	
     }
     
     public void requireUser(String user) throws SecurityException {
