@@ -11,4 +11,6 @@ public interface UserDao {
 	public String approveToken(String name, String token);
 	
 	public String getUsername(String usernameemail);
+	
+	public void lockunlockUser(String username,String isLock);
 }
