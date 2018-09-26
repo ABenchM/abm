@@ -72,7 +72,7 @@ public class JpaUserDao extends AbstractJpaDao implements UserDao {
 			return null;
 		});
 	}
-	
+
 	@Override
 	public void updateUser(String username, String firstname, String lastname, String email, String affiliation, String password) {
 		transactionControl.required(() -> {
@@ -121,7 +121,43 @@ public class JpaUserDao extends AbstractJpaDao implements UserDao {
 		});
 		return password;
 	}
+	
+	@Override
+	public String getUsername(String usernameemail) {
+		String username = transactionControl.required(() -> {
+			TypedQuery<JpaUser> query = em.createQuery("SELECT u FROM user u WHERE  (:email is null or u.email = :email) or (:name is null or u.name=:name)", JpaUser.class);
+			query.setParameter("email", usernameemail);
+			query.setParameter("name", usernameemail);
+			
+			JpaUser result = query.getSingleResult();
+			if (!result.name.isEmpty()) {
+				return result.name;
+			}else {
+				throw new ApprovalException("email not valid");
+			}
+		});
+		return username;
+	}
+	
+	
 
+	public void lockunlockUser(String username,String isLock) {
+		transactionControl.required(() -> {
+			TypedQuery<JpaUser> query = em.createQuery("SELECT u FROM user u WHERE u.name = :name", JpaUser.class);
+			query.setParameter("name", username);
+			JpaUser result = query.getSingleResult();
+			if(isLock=="true") {
+				result.locked=1;
+			}else {
+				result.locked=0;
+			}
+			em.merge(result);
+			return null;
+			
+			
+		});
+		
+	}
 	@Override
 	protected EntityManager getEntityManager() {
 		return em;
