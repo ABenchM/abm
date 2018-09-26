@@ -58,12 +58,12 @@ public class UserController extends AbstractController implements REST {
  		String firstname = params.get("firstname");
  		String lastname = params.get("lastname");
  		String password = params.get("password");
+ 		String saltHashPassword = Password.getSaltedHash(password);
  		String email = params.get("email");
  		String affiliation = params.get("affiliation");
- 		String approvalToken = TokenGenerator.generateToken();
- 		String token = MessageFormat.format("Activation Link: {0}?name={1}&token={2}\n", approvalEndpoint, username,
- 				approvalToken);
  		if (!userDao.checkExists(username)) {
+ 			String approvalToken = TokenGenerator.generateToken();
+ 	 		String token = MessageFormat.format("Activation Link: {0}?name={1}&token={2}\n", approvalEndpoint, username, approvalToken);
  			String sbj = username + " Registered on ABM";
  			String msg = "A new user has registered the username '" + username + "' on the ABM website.\n"
  					+ "\n" + "The following information was used to register:\n" + "Name: " + firstname + " " + lastname + "\n"
@@ -76,11 +76,11 @@ public class UserController extends AbstractController implements REST {
 			message.setSubject(sbj);
 			message.setText(msg);
 			Transport.send(message);
-			String saltHashPassword = Password.getSaltedHash(password);
  			userDao.addUser(username, firstname, lastname, email, affiliation, saltHashPassword, approvalToken);
 			return true;
 		} else {
-			return false;
+			userDao.updateUser(username, firstname, lastname, email, affiliation, saltHashPassword);
+			return true;
 		}
 	}
 
