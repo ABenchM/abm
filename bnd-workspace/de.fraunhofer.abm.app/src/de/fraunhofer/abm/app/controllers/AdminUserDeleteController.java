@@ -53,12 +53,11 @@ public class AdminUserDeleteController extends AbstractController implements RES
 	public void postAdminDeleteUsers(AccountRequest ar) throws Exception {
 		authorizer.requireRole("UserAdmin");
 		Map<String, String> params = ar._body();
-		//String username = params.get("username");
 		String[] deleteUsers = params.get("deleteUsers").split(",");
-		for (String user: deleteUsers) {           
+		for (String user: deleteUsers) {
 			logger.debug("Deleting user {}", user);
 	        try {
-	        	if (userDao.checkExists(user)) {
+	        	if ( userDao.checkExists(user) ) {
 	        		// update created by to demo for public collections by this user
 	        		collectionDao.updateUserPublicCollections(user);
 	        		// Delete users private collections

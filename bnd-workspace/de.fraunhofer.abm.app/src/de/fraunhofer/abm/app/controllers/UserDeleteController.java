@@ -69,32 +69,6 @@ public class UserDeleteController extends AbstractController implements REST {
         }
 	}
 	
-	/**
-	 * Delete list of users
-	 * 
-	 * @param usernames
-	 * @return
-	 * @throws Exception
-	 */
-	/*public void deleteUsers(List<String> usernames) throws Exception {
-        authorizer.requireRole("UserAdmin");
-        logger.debug("Deleting user {}", usernames);
-        boolean error = false;
-        for (String user : usernames) {
-        	if (!userDao.checkExists(user)) {
-        		error = true;
-        	}
-        }
-        if (!error) {
-        	// Delete all private collections created by the user
-        	
-        	// Delete user info from user table
-        	userDao.deleteUsers(usernames);
-        } else {
-        	//send user not found error message
-        }
-    }*/
-
 	@Override
 	Logger getLogger() {
 		return logger;

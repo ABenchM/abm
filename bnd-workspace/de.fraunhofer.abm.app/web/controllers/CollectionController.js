@@ -33,12 +33,13 @@ function collectionController($rootScope, $scope, $http, $location, $route, $rou
 			});	
 	};
 	
-	self.adminDeleteAccounts = function(user){
+	self.adminDeleteAccounts = function(){
  		alert("Admin delete");
- 		console.log("admin delete users : " + users);
 		$rootScope.loading = true;
-		//$scope.request.username = user;
-		$scope.request.deleteUsers = ["delete1", "delete2"];
+		var deleteUserList = [];
+		deleteUserList.push("delete1");
+		deleteUserList.push("delete2");
+		$scope.request.deleteUsers =  deleteUserList.toString();//"{ deleteUsers : "+ deleteUserList + "}";
 		$http.post('/rest/adminDeleteUsers', $scope.request, null).then(
 			function(d){
 				if(d.data){
