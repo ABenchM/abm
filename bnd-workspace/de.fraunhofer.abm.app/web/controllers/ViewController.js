@@ -185,7 +185,7 @@ function viewController($rootScope, $scope, $http, $location, $routeParams, Noti
 		$location.path('/createCollection');
 	}
 	
-	self.deleteCollection = function(){
+	self.deletePublicCollection = function(){
 		//self.disabled = true;
 		$http({
 			method: 'POST',
@@ -196,7 +196,7 @@ function viewController($rootScope, $scope, $http, $location, $routeParams, Noti
 				//$scope.pinned = true;
 				console.log("Public collection is deleted");
 			}, function(d){
-				Notification.error('Deletion Failed with ['+ d.status+ '] ');
+				Notification.error('Deletion Failed with ['+ d.status+ '] '+ d.statusText);
 			})['finally'](function (){
 				//self.disabled = false;
 			});
