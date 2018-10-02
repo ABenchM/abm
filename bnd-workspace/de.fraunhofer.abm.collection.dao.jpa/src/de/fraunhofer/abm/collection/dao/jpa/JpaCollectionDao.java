@@ -171,6 +171,16 @@ public class JpaCollectionDao extends AbstractJpaDao implements CollectionDao {
         });
     }
     
+	@Override
+    public void deleteUserPinnedCollections(String user) {
+    	// delete from CollectionPin & update Collection (privateStatus 0) user to demo
+        transactionControl.required(() -> {
+        	Query deleteOrphanProperties = em.createNativeQuery("delete from collectionPin where user = :value1").setParameter("value1", user);
+        	deleteOrphanProperties.executeUpdate();
+            return null;
+        });
+    }
+    
     @SuppressWarnings("unchecked")
 	@Override
     public void updateUserPublicCollections(String user) {
@@ -179,9 +189,7 @@ public class JpaCollectionDao extends AbstractJpaDao implements CollectionDao {
         	List<String> collectionIds = em.createQuery("select id from collection where user = :value1 and privateStatus = 0")
                     									.setParameter("value1", user).getResultList();
         	for (String id : collectionIds) {
-        		JpaCollectionPin collectionPin = em.find(JpaCollectionPin.class, id);
         		JpaCollection collection = em.find(JpaCollection.class, id);
-                em.remove(collectionPin);
                 collection.user = "demo";
                 em.persist(collection);
         	}
@@ -197,9 +205,7 @@ public class JpaCollectionDao extends AbstractJpaDao implements CollectionDao {
         	List<String> collectionIds = em.createQuery("select id from collection where user = :value1 and privateStatus = 1")
                     									.setParameter("value1", user).getResultList();
         	for (String id : collectionIds) {
-        		JpaCollectionPin collectionPin = em.find(JpaCollectionPin.class, id);
         		JpaCollection collection = em.find(JpaCollection.class, id);
-                em.remove(collectionPin);
                 em.remove(collection);
         	}
             return null;

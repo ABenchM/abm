@@ -58,6 +58,8 @@ public class AdminUserDeleteController extends AbstractController implements RES
 			logger.debug("Deleting user {}", user);
 	        try {
 	        	if ( userDao.checkExists(user) ) {
+	        		// delete all pinned collection entry by the user
+	        		collectionDao.deleteUserPinnedCollections(user);
 	        		// update created by to demo for public collections by this user
 	        		collectionDao.updateUserPublicCollections(user);
 	        		// Delete users private collections
