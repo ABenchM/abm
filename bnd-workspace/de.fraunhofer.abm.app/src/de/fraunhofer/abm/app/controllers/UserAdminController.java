@@ -16,7 +16,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.fraunhofer.abm.app.auth.Authorizer;
-import de.fraunhofer.abm.collection.dao.CollectionDao;
 import de.fraunhofer.abm.domain.CollectionDTO;
 import osgi.enroute.configurer.api.RequireConfigurerExtender;
 import osgi.enroute.rest.api.REST;
@@ -36,8 +35,6 @@ public class UserAdminController implements REST {
     @Reference
     private Authorizer authorizer;
 
-    @Reference
-    private CollectionDao collectionDao;
     
     public AbmUser getUser(RESTRequest rr, String name) {
         authorizer.requireRole("UserAdmin");

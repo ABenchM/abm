@@ -186,16 +186,17 @@ function viewController($rootScope, $scope, $http, $location, $routeParams, Noti
 	}
 	
 	self.deleteCollection = function(){
-		self.disabled = true;
+		//self.disabled = true;
 		$http({
 			method: 'POST',
-			url: '/rest/deleteCollection/',
+			url: '/rest/deletepubliccollection/',
 			data: {'id': $scope.collection.id}
 		}).then(
 			function(){
 				//$scope.pinned = true;
+				console.log("Public collection is deleted");
 			}, function(d){
-				//Notification.error('Failed with ['+ d.status + '] '+ d.statusText);
+				Notification.error('Deletion Failed with ['+ d.status+ '] ');
 			})['finally'](function (){
 				//self.disabled = false;
 			});
