@@ -19,8 +19,8 @@ import osgi.enroute.webserver.capabilities.RequireWebServerExtender;
 
 @RequireWebServerExtender
 @RequireConfigurerExtender
-@Component(name = "de.fraunhofer.abm.rest.userdel")
-public class UserDelController extends AbstractController implements REST {
+@Component(name = "de.fraunhofer.abm.rest.deleteUser")
+public class UserDeleteController extends AbstractController implements REST {
 
 	private static final transient Logger logger = LoggerFactory.getLogger(CollectionController.class);
 
@@ -50,7 +50,7 @@ public class UserDelController extends AbstractController implements REST {
 	 * @return
 	 * @throws Exception
 	 */
-	public void postUserdel(AccountRequest ar) throws Exception {
+	public void postDeleteUser(AccountRequest ar) throws Exception {
 		Map<String, String> params = ar._body();
 		String username = params.get("username");
 		authorizer.requireUser(username);

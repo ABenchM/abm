@@ -21,13 +21,31 @@ function collectionController($rootScope, $scope, $http, $location, $route, $rou
  		console.log("delete user : " + user);
 		$rootScope.loading = true;
 		$scope.request.username = user;
-		$http.post('/rest/userdel', $scope.request, null).then(
+		$http.post('/rest/deleteUser', $scope.request, null).then(
 			function(d){
 				if(d.data){
 					console.log("data : " + d.data);
 				}
 			}, function(d){
 				Notification.error('Internal error: Delete user cannot be done at the moment. Please try again later. If the error persists, please report it here: https://github.com/ABenchM/abm/issues');
+			})['finally'](function() {
+				$rootScope.loading = false
+			});	
+	};
+	
+	self.adminDeleteAccounts = function(user){
+ 		alert("Admin delete");
+ 		console.log("admin delete users : " + users);
+		$rootScope.loading = true;
+		//$scope.request.username = user;
+		$scope.request.deleteUsers = ["delete1", "delete2"];
+		$http.post('/rest/adminDeleteUsers', $scope.request, null).then(
+			function(d){
+				if(d.data){
+					console.log("data : " + d.data);
+				}
+			}, function(d){
+				Notification.error('Internal error: Delete users cannot be done at the moment. Please try again later. If the error persists, please report it here: https://github.com/ABenchM/abm/issues');
 			})['finally'](function() {
 				$rootScope.loading = false
 			});	
