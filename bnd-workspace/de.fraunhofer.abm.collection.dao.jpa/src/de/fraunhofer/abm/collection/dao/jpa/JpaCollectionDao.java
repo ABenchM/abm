@@ -191,7 +191,7 @@ public class JpaCollectionDao extends AbstractJpaDao implements CollectionDao {
     
     @SuppressWarnings("unchecked")
 	@Override
-    public void deletePrivateCollections(String user) {
+    public void deleteUserPrivateCollections(String user) {
     	// delete from CollectionPin & delete Collection (privateStatus 1)
         transactionControl.required(() -> {
         	List<String> collectionIds = em.createQuery("select id from collection where user = :value1 and privateStatus = 1")

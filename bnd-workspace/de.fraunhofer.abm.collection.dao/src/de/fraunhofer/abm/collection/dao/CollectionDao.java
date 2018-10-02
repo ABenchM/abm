@@ -18,6 +18,6 @@ public interface CollectionDao {
     public void update(CollectionDTO collection);
     public void delete(String id);
 	void updateUserPublicCollections(String user);
-	void deletePrivateCollections(String user);
+	void deleteUserPrivateCollections(String user);
 	
 }

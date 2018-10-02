@@ -60,7 +60,7 @@ public class UserDelController extends AbstractController implements REST {
         		// update created by to demo for public collections by this user
         		collectionDao.updateUserPublicCollections(username);
         		// Delete users private collections
-        		collectionDao.deletePrivateCollections(username);
+        		collectionDao.deleteUserPrivateCollections(username);
         		// Delete user info from user table
         		userDao.deleteUser(username);
             }
