@@ -1,15 +1,9 @@
 package de.fraunhofer.abm.app.controllers;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
-import org.osgi.service.useradmin.Group;
-import org.osgi.service.useradmin.Role;
-import org.osgi.service.useradmin.User;
 import org.osgi.service.useradmin.UserAdmin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import de.fraunhofer.abm.app.EmailConfigInterface;
 import de.fraunhofer.abm.app.auth.Authorizer;
 import de.fraunhofer.abm.collection.dao.UserDao;
+import de.fraunhofer.abm.collection.dao.CollectionDao;
 import osgi.enroute.configurer.api.RequireConfigurerExtender;
 import osgi.enroute.rest.api.REST;
 import osgi.enroute.rest.api.RESTRequest;
@@ -31,7 +26,10 @@ public class UserDelController extends AbstractController implements REST {
 
 	@Reference
 	private UserDao userDao;
-
+	
+	@Reference
+	private CollectionDao collectionDao;
+	
 	@Reference
 	private UserAdmin userAdmin;
 	
@@ -52,14 +50,6 @@ public class UserDelController extends AbstractController implements REST {
 	 * @return
 	 * @throws Exception
 	 */
-	/*
-	public void postUserdel(String username) throws Exception {
-		deleteCurrentUser(username);
-		// code to handle both admin delete and user delete
-		//call methods accordingly
-	}
-	*/
-	
 	public void postUserdel(AccountRequest ar) throws Exception {
 		Map<String, String> params = ar._body();
 		String username = params.get("username");
@@ -67,37 +57,16 @@ public class UserDelController extends AbstractController implements REST {
         logger.debug("Deleting user {}", username);
         try {
         	if (userDao.checkExists(username)) {
-            	changeUserPubCollections(username);
-    			delUserPvtCollections(username);
-    			delCurrentUser(username);
+        		// update created by to demo for public collections by this user
+        		collectionDao.updateUserPublicCollections(username);
+        		// Delete users private collections
+        		collectionDao.deletePrivateCollections(username);
+        		// Delete user info from user table
+        		userDao.deleteUser(username);
             }
         } catch (Exception e) {
         	logger.info("Exception");
         }
-		// code to handle both admin delete and user delete
-		//call methods accordingly
-	}
-	
-	public void changeUserPubCollections(String username) throws Exception {
-        	// update created by to demo for public collections by this user
-        	
-    }
-	
-	public void delUserPvtCollections(String username) throws Exception {
-    	// Delete users private collections
-    	
-	}
-	
-	@SuppressWarnings("unchecked")
-	public void delCurrentUser(String username) throws Exception {
-    	// Delete user info from user table
-    	List<String> usernames = new ArrayList<String>();
-    	usernames.add(username);
-    	userDao.deleteUsers(usernames);
-    	User user = (User) userAdmin.getRole(username);
-		Group registeredUserGroup = (Group) userAdmin.getRole("RegisteredUser");
-		registeredUserGroup.removeMember(user);
-		userAdmin.removeRole(username);
 	}
 	
 	/**

@@ -12,6 +12,8 @@ public interface UserDao {
 
 	public void updateUser(String username, String firstname, String lastname, String email, String affiliation, String saltHashPassword);
 
+	public void deleteUser(String username);
+	
 	public void deleteUsers(List<String> usernames);
 
 	public String approveToken(String name, String token);

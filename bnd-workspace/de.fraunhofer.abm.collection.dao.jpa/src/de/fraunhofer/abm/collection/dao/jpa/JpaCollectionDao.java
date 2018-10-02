@@ -170,6 +170,41 @@ public class JpaCollectionDao extends AbstractJpaDao implements CollectionDao {
             return result.toDTO();
         });
     }
+    
+    @SuppressWarnings("unchecked")
+	@Override
+    public void updateUserPublicCollections(String user) {
+    	// delete from CollectionPin & update Collection (privateStatus 0) user to demo
+        transactionControl.required(() -> {
+        	List<String> collectionIds = em.createQuery("select id from collection where user = :value1 and privateStatus = 0")
+                    									.setParameter("value1", user).getResultList();
+        	for (String id : collectionIds) {
+        		JpaCollectionPin collectionPin = em.find(JpaCollectionPin.class, id);
+        		JpaCollection collection = em.find(JpaCollection.class, id);
+                em.remove(collectionPin);
+                collection.user = "demo";
+                em.persist(collection);
+        	}
+            return null;
+        });
+    }
+    
+    @SuppressWarnings("unchecked")
+	@Override
+    public void deletePrivateCollections(String user) {
+    	// delete from CollectionPin & delete Collection (privateStatus 1)
+        transactionControl.required(() -> {
+        	List<String> collectionIds = em.createQuery("select id from collection where user = :value1 and privateStatus = 1")
+                    									.setParameter("value1", user).getResultList();
+        	for (String id : collectionIds) {
+        		JpaCollectionPin collectionPin = em.find(JpaCollectionPin.class, id);
+        		JpaCollection collection = em.find(JpaCollection.class, id);
+                em.remove(collectionPin);
+                em.remove(collection);
+        	}
+            return null;
+        });
+    }
 
     @Override
     protected EntityManager getEntityManager() {
