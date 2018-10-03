@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import org.osgi.service.component.annotations.Activate;
@@ -14,7 +13,6 @@ import org.osgi.service.transaction.control.TransactionControl;
 import org.osgi.service.transaction.control.jpa.JPAEntityManagerProvider;
 
 import de.fraunhofer.abm.collection.dao.UserDao;
-import de.fraunhofer.abm.domain.UserDTO;
 
 @Component
 public class JpaUserDao extends AbstractJpaDao implements UserDao {
@@ -48,32 +46,6 @@ public class JpaUserDao extends AbstractJpaDao implements UserDao {
 	}
 
 	@Override
-	public UserDTO getUserDetails(String name) {
-		
-		 return transactionControl.notSupported(() -> {
-	            TypedQuery<JpaUser> query = em.createQuery("SELECT c FROM user c WHERE c.name = :name", JpaUser.class);
-	            query.setParameter("name", name);
-	            JpaUser result = query.getSingleResult();
-	            return result.toDTO();
-	        });
-		
-		
-	}
-	
-	
-	@Override
-	public void update(UserDTO user) {
-		transactionControl.required(() -> {
-			 JpaUser jpaUser = em.find(JpaUser.class, user.username);
-	            jpaUser.name = user.username;
-	            jpaUser.firstname = user.firstname;
-	            jpaUser.lastname = user.lastname;
-	            jpaUser.password = user.password;
-	            em.persist(jpaUser);
-	            return null;
-		} );
-	}
-	@Override
 	public boolean checkApproved(String name) {
 		return transactionControl.notSupported(() -> {
 			TypedQuery<JpaUser> query = em.createQuery("SELECT u FROM user u WHERE u.name = :name", JpaUser.class);
@@ -101,17 +73,6 @@ public class JpaUserDao extends AbstractJpaDao implements UserDao {
 		});
 	}
 
-	@Override
-	public void deleteUser(String name) {
-		
-		 transactionControl.required(() -> {
-	            JpaUser user = em.find(JpaUser.class, name);
-	            em.remove(user);
-	            
-	            return null;
-	        });
-	}
-	
 	@Override
 	public String approveToken(String name, String token) {
 		String password = transactionControl.required(() -> {
