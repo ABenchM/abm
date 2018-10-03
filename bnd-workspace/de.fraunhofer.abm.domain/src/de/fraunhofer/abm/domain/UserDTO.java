@@ -10,5 +10,5 @@ public class UserDTO {
 	public boolean approved;
 	public boolean locked;
 	public String token;
-	public String email;
+	
 }
