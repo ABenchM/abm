@@ -13,4 +13,5 @@ public class VersionDTO {
     public String comment;
     public boolean frozen = false;
     public boolean filtered = false;
+    public boolean privateStatus;
 }

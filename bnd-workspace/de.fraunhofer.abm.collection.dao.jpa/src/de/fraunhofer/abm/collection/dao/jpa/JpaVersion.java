@@ -37,6 +37,9 @@ public class JpaVersion {
     public boolean frozen;
     
     @Column
+    public boolean privateStatus;
+    
+    @Column
     public boolean filtered;
 
     @ManyToOne
@@ -53,6 +56,7 @@ public class JpaVersion {
         version.number = dto.number;
         version.comment = dto.comment;
         version.frozen = dto.frozen;
+        version.privateStatus = dto.privateStatus;
         version.filtered = dto.filtered;
         version.commits = dto.commits.stream()
                 .map(JpaCommit::fromDTO)
@@ -71,6 +75,7 @@ public class JpaVersion {
         version.number = this.number;
         version.comment = this.comment;
         version.frozen = this.frozen;
+        version.privateStatus = this.privateStatus;
         version.filtered = this.filtered;
         version.collectionId = this.collection.id;
         version.commits = this.commits.stream()

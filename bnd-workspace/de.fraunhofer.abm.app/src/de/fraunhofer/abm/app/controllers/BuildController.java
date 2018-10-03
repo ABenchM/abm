@@ -90,8 +90,8 @@ public class BuildController implements REST {
     	  Map<String, String[]> params = rr._request().getParameterMap();
     	  boolean isFileExists = false;
     	  VersionDTO version = versionDao.findById(params.get("id")[0]);
-          CollectionDTO databaseCollection = collectionDao.findById(version.collectionId);
-          if (databaseCollection.privateStatus) {
+          VersionDTO databaseVersion = versionDao.findById(version.id);
+          if (databaseVersion.privateStatus) {
               authorizer.requireRole("Admin");
           }
           
@@ -154,8 +154,8 @@ public class BuildController implements REST {
     	
         // make sure the collection is public
         VersionDTO version = versionDao.findById(params.get("id")[0]);
-        CollectionDTO databaseCollection = collectionDao.findById(version.collectionId);
-        if (databaseCollection.privateStatus) {
+        VersionDTO databaseVersion = versionDao.findById(version.id);
+        if (databaseVersion.privateStatus) {
             authorizer.requireRole("Admin");
         }
 

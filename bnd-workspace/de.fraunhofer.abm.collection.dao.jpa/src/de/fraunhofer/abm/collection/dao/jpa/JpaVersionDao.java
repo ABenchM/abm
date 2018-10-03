@@ -71,6 +71,7 @@ public class JpaVersionDao extends AbstractJpaDao implements VersionDao {
             jpaVersion.number = version.number;
             jpaVersion.creationDate = version.creationDate;
             jpaVersion.frozen = version.frozen;
+            jpaVersion.privateStatus = version.privateStatus;
             jpaVersion.filtered = version.filtered;
 
             Map<String, CommitDTO> commits = version.commits.stream()
