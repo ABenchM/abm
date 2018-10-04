@@ -17,6 +17,7 @@ import de.fraunhofer.abm.app.auth.Authorizer;
 import de.fraunhofer.abm.app.auth.Password;
 import de.fraunhofer.abm.app.auth.TokenGenerator;
 import de.fraunhofer.abm.collection.dao.UserDao;
+import de.fraunhofer.abm.domain.UserDTO;
 import osgi.enroute.configurer.api.RequireConfigurerExtender;
 import osgi.enroute.rest.api.REST;
 import osgi.enroute.rest.api.RESTRequest;
@@ -81,6 +82,35 @@ public class UserController extends AbstractController implements REST {
 			return true;
 		} else {
 			return false;
+		}
+	}
+	
+	public UserDTO getUserdata(String currentUser) {
+		
+		UserDTO userData = new UserDTO();
+		if(userDao.checkExists(currentUser)) {
+		  userData = userDao.getUserDetails(currentUser);	
+		}
+		
+		return userData;
+		
+	}
+	 
+	interface UserRequest extends RESTRequest {
+		UserDTO _body();
+	}
+	
+	public void putUserData(UserRequest ur) {
+		UserDTO userdata = ur._body();
+        userDao.update(userdata);
+		
+		
+	}
+	
+	public void deleteUserdata( String currentUser) {
+		
+		if(userDao.checkExists(currentUser)) {
+			userDao.deleteUser(currentUser);
 		}
 	}
 
