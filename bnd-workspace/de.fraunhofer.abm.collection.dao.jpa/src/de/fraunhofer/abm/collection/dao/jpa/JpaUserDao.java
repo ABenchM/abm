@@ -11,6 +11,9 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.transaction.control.TransactionControl;
 import org.osgi.service.transaction.control.jpa.JPAEntityManagerProvider;
+import org.osgi.service.useradmin.Group;
+import org.osgi.service.useradmin.User;
+import org.osgi.service.useradmin.UserAdmin;
 
 import de.fraunhofer.abm.collection.dao.UserDao;
 
@@ -20,6 +23,9 @@ public class JpaUserDao extends AbstractJpaDao implements UserDao {
 	@Reference
 	TransactionControl transactionControl;
 
+	@Reference
+	private UserAdmin userAdmin;
+	
 	@Reference(name = "provider")
 	JPAEntityManagerProvider jpaEntityManagerProvider;
 
@@ -89,6 +95,26 @@ public class JpaUserDao extends AbstractJpaDao implements UserDao {
 		});
 	}
 	
+	private void deleteUserInfo(JpaUser user) {
+		System.out.println(user);
+		em.remove(user);
+		User userRole = (User) userAdmin.getRole(user.name);
+		Group registeredUserGroup = (Group) userAdmin.getRole("RegisteredUser");
+		registeredUserGroup.removeMember(userRole);
+		userAdmin.removeRole(user.name);
+	}
+	
+	@Override
+ 	public void deleteUser(String username) {
+ 		transactionControl.required(() -> {
+ 			TypedQuery<JpaUser> query = em.createQuery("SELECT u FROM user u WHERE u.name = :name", JpaUser.class);
+			query.setParameter("name", username);
+			JpaUser user = query.getSingleResult();
+ 			deleteUserInfo(user);
+ 			return null;
+ 		});
+ 	}
+
 	@Override
  	public void deleteUsers(List<String> usernames) {
  		transactionControl.required(() -> {
@@ -96,8 +122,7 @@ public class JpaUserDao extends AbstractJpaDao implements UserDao {
  			query.setParameter("names", usernames);
  			List<JpaUser> result = query.getResultList();
  			for (JpaUser user : result) {
- 				System.out.println(user);
- 				em.remove(user);
+ 				deleteUserInfo(user);
  			}
  			return null;
  		});
