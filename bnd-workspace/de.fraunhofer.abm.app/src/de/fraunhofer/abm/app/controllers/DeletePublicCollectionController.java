@@ -1,5 +1,6 @@
 package de.fraunhofer.abm.app.controllers;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
@@ -28,16 +29,13 @@ public class DeletePublicCollectionController extends AbstractController impleme
     @Reference
     private CollectionDao collectionDao;
 	
-	public void postdeletepubliccollection(String id) {
+    public boolean postDeletepubliccollection(String id) throws IOException{
         authorizer.requireRole("UserAdmin");
-        List<CollectionDTO> result = Collections.emptyList();
-
-        result = collectionDao.findPublicId(id);
-        logger.debug("Deleting public collection {}",result.get(0).name);
+    	//id = "3b847907-b97f-481e-a1b4-fea328a9d3ee";
         
-        
-        // delete the collection
-        collectionDao.delete(result.get(0).id);
+    	// delete the collection
+    	collectionDao.delete(id);
+        return true;
     }
 
 	@Override
