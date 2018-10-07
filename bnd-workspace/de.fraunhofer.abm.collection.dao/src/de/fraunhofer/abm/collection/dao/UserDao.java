@@ -2,6 +2,8 @@ package de.fraunhofer.abm.collection.dao;
 
 import java.util.List;
 
+import de.fraunhofer.abm.domain.UserDTO;
+
 public interface UserDao {
 
 	public boolean checkExists(String name);
@@ -15,6 +17,8 @@ public interface UserDao {
 	public void deleteUser(String username);
 	
 	public void deleteUsers(List<String> usernames);
+	
+	public List<UserDTO> getAllUsers(int isPending);
 
 	public String approveToken(String name, String token);
 	
