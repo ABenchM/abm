@@ -28,3 +28,5 @@ CREATE TABLE `role_members`
 );
 ALTER TABLE `role_members` ADD FOREIGN KEY (`member_parent`) REFERENCES `role`(`role_name`);
 ALTER TABLE `role_members` ADD FOREIGN KEY (`member_member`) REFERENCES `role`(`role_name`);
+
+
