@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import org.osgi.service.component.annotations.Activate;
@@ -132,14 +133,12 @@ public class JpaUserDao extends AbstractJpaDao implements UserDao {
 	@Override
 	public void updateRole(String username,String role) {
 		transactionControl.required(() -> {
-			TypedQuery<JpaRoleMembers> query = em.createQuery("SELECT r FROM role_members r WHERE r.member_member = :name", JpaRoleMembers.class);
-			query.setParameter("name", username);
-			JpaRoleMembers rolemember = query.getSingleResult();
-				rolemember.member_parent =role;
-				em.merge(rolemember);
-	 		    return null;
+			Query updateRole = em.createNativeQuery("UPDATE role_members r SET r.member_parent= :value1 where r.member_member = :value2").setParameter("value1", role).setParameter("value2", username);
+			updateRole.executeUpdate();
+			return null;
 		});
 	}
+	
 	@Override
 	protected EntityManager getEntityManager() {
 		return em;

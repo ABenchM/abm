@@ -24,6 +24,9 @@ CREATE TABLE `role_members`
    `member_parent` varchar(255) NOT NULL,
    `member_member` varchar(255) NOT NULL,
    `member_is_basic` bit(1),
-   PRIMARY KEY (`member_member`)
+   PRIMARY KEY (`member_parent`,`member_member`)
 );
+ALTER TABLE `role_members` ADD FOREIGN KEY (`member_parent`) REFERENCES `role`(`role_name`);
 ALTER TABLE `role_members` ADD FOREIGN KEY (`member_member`) REFERENCES `role`(`role_name`);
+
+
