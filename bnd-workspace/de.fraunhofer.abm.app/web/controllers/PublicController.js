@@ -90,6 +90,24 @@ function publicController($rootScope, $scope, $http, $location, $route, Notifica
 			});
 	}
 	
+	self.deleteCollection = function(target){
+		self.disabled = true;
+		$http({
+			method: 'DELETE',
+			url: '/rest/deleteCollection/',
+			data: {'type': "collection", 'user': $rootScope.user, 'id': target.id}
+		}).then(
+			function(d) {
+				$scope.publicData = d.data;
+				publicCollectionService.collections = $scope.publicData;
+				/*for(i=0;i<$scope.publicData.length;i++){
+					self.checkPinned($scope.publicData[i]);
+				}*/
+			})['finally'](function (){
+			self.disabled = false;
+		});
+	}
+	
 	self.checkPinned = function(item){
 		$http({
 			method: 'GET',

@@ -185,5 +185,22 @@ function viewController($rootScope, $scope, $http, $location, $routeParams, Noti
 		$location.path('/createCollection');
 	}
 	
+	self.deletePublicCollection = function(){
+		//self.disabled = true;
+		$http({
+			method: 'POST',
+			url: '/rest/deletepubliccollection/',
+			data: {'id': $scope.collection.id}
+		}).then(
+			function(){
+				//$scope.pinned = true;
+				console.log("Public collection is deleted");
+			}, function(d){
+				Notification.error('Deletion Failed with ['+ d.status+ '] '+ d.statusText);
+			})['finally'](function (){
+				//self.disabled = false;
+			});
+	}
+	
 	self.loadCollection(self.id);
 }]);
