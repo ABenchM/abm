@@ -9,6 +9,7 @@
 	<section ng-controller="collectionController as cc">
 		<button class="btn btn-success" type="button" ng-click="cc.deleteAccount(user)" ng-show="cc.showDeleteAccount" >Delete Account</button>
 		<button class="btn btn-success" type="button" ng-click="cc.adminDeleteAccounts()" ng-show="cc.showDeleteAccount" >Admin Delete Accounts</button>
+		<button class="btn btn-success" type="button" ng-click="cc.loadAllUserInfo()" ng-show="cc.showGetUsers" >Get All Users</button>
 		<h2>My Collections</h2>
 		<hr>
 			<div ng-hide="loading">

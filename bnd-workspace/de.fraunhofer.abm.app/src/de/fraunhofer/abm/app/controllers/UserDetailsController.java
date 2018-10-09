@@ -19,7 +19,7 @@ import osgi.enroute.webserver.capabilities.RequireWebServerExtender;
 
 @RequireWebServerExtender
 @RequireConfigurerExtender
-@Component(name = "de.fraunhofer.abm.rest.usersList")
+@Component(name = "de.fraunhofer.abm.rest.userList")
 public class UserDetailsController extends AbstractController implements REST {
 
 	private static final transient Logger logger = LoggerFactory.getLogger(CollectionController.class);
@@ -33,16 +33,16 @@ public class UserDetailsController extends AbstractController implements REST {
 	/**
 	 * Get All Users by approval status current user
 	 * 
-	 * @param isPending
+	 * @param isApproved
 	 * @return
 	 * @throws Exception
 	 */
-	public List<UserDTO> getUsersList(RESTRequest rr)  throws Exception {
+	public List<UserDTO> getUserList(RESTRequest rr) {
 		authorizer.requireRole("UserAdmin");
         List<UserDTO> result = Collections.emptyList();
         Map<String, String[]> params = rr._request().getParameterMap();
-        int isPending = params.get("isPending")[0].equals("0") ? 0 : 1;
-        result = userDao.getAllUsers(isPending);
+        int isApproved = params.get("approved")[0].equals("0") ? 0 : 1;
+        result = userDao.getAllUsers(isApproved);
         return result;
     }
 

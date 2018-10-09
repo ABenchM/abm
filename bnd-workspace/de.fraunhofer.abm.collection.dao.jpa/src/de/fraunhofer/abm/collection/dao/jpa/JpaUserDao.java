@@ -131,11 +131,11 @@ public class JpaUserDao extends AbstractJpaDao implements UserDao {
  	}
 	
 	@Override
-	public List<UserDTO> getAllUsers(int isPending) {
+	public List<UserDTO> getAllUsers(int isApproved) {
     	return transactionControl.notSupported(() -> {
-            TypedQuery<JpaUser> query = em.createQuery("SELECT * FROM user WHERE approved = :isPending", JpaUser.class);
-            query.setParameter("isPending", isPending);
-            query.setMaxResults(30);
+            TypedQuery<JpaUser> query = em.createQuery("SELECT u FROM user u WHERE u.approved = :isApproved", JpaUser.class);
+            query.setParameter("isApproved", isApproved);
+            query.setMaxResults(50);
             List<JpaUser> jpaList = query.getResultList();
             return jpaList.stream().map(JpaUser::toDTO).collect(Collectors.toList());
         });

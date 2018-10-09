@@ -14,7 +14,30 @@ function collectionController($rootScope, $scope, $http, $location, $route, $rou
 	self.running = $rootScope.running;
 	
 	$scope.request = {};
-	self.showDeleteAccount = true;
+	self.showDeleteAccount = false;
+	self.showGetUsers = true;
+	
+	self.loadAllUserInfo = function(){
+		$rootScope.loading = true;
+		$http({
+		    method: 'GET',
+			url: '/rest/userList',
+			params: {'approved': 1}
+		}).then(
+			function(resp) {
+				if(resp.data[0] != undefined){
+					self.edit(resp.data[0]);
+				} else {
+					Notification.error('Internal error: the collections cannot be retrieved. Please try again later. If the error persists, please report it here: https://github.com/ABenchM/abm/issues');
+					$location.path('/');
+				}
+			}, function(d) {
+				Notification.error('Failed with ['+ d.status + '] '+ d.statusText);
+				$location.path('/');
+			})['finally'](function() {
+				$rootScope.loading = false;
+			});
+	};
 	
  	self.deleteAccount = function(user){
  		alert(user);
