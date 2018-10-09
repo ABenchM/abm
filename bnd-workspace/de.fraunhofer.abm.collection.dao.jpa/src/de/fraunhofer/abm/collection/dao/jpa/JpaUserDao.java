@@ -2,6 +2,7 @@ package de.fraunhofer.abm.collection.dao.jpa;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -16,6 +17,7 @@ import org.osgi.service.useradmin.User;
 import org.osgi.service.useradmin.UserAdmin;
 
 import de.fraunhofer.abm.collection.dao.UserDao;
+import de.fraunhofer.abm.domain.UserDTO;
 
 @Component
 public class JpaUserDao extends AbstractJpaDao implements UserDao {
@@ -127,6 +129,17 @@ public class JpaUserDao extends AbstractJpaDao implements UserDao {
  			return null;
  		});
  	}
+	
+	@Override
+	public List<UserDTO> getAllUsers(int isPending) {
+    	return transactionControl.notSupported(() -> {
+            TypedQuery<JpaUser> query = em.createQuery("SELECT * FROM user WHERE approved = :isPending", JpaUser.class);
+            query.setParameter("isPending", isPending);
+            query.setMaxResults(30);
+            List<JpaUser> jpaList = query.getResultList();
+            return jpaList.stream().map(JpaUser::toDTO).collect(Collectors.toList());
+        });
+	}
 
 	@Override
 	public String approveToken(String name, String token) {
