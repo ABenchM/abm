@@ -124,7 +124,7 @@ public class JpaCollectionDao extends AbstractJpaDao implements CollectionDao {
 
             // attach all repos, which already exist in the database to the current JPA persistence context
             attachRepositories(jpaCol);
-
+            jpaCol.isActive = 1;
             em.persist(jpaCol);
             return null;
         });
@@ -211,6 +211,28 @@ public class JpaCollectionDao extends AbstractJpaDao implements CollectionDao {
             return null;
         });
     }
+    
+    @Override
+    public void activeCollection(String collectionname,String isActive) {
+		transactionControl.required(() -> {
+			TypedQuery<JpaCollection> query = em.createQuery("SELECT c FROM collection c WHERE c.name = :name", JpaCollection.class);
+			query.setParameter("name", collectionname);
+			JpaCollection result = query.getSingleResult();
+			//only public collections can be activated and deactivated
+			if(result.privateStatus == 0) {
+			if(isActive=="true") {
+				result.isActive=1;
+			}else {
+				result.isActive=0;
+			}
+			}
+			em.merge(result);
+			return null;
+			
+			
+		});
+		
+	}
 
     @Override
     protected EntityManager getEntityManager() {

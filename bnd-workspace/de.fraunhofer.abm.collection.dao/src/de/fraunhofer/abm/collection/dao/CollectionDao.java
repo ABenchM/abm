@@ -20,5 +20,6 @@ public interface CollectionDao {
     void deleteUserPinnedCollections(String user);
 	void updateUserPublicCollections(String user);
 	void deleteUserPrivateCollections(String user);
+	public void activeCollection(String collectionname,String isActive);
 	
 }

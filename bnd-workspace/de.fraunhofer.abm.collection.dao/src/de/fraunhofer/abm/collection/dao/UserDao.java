@@ -21,4 +21,6 @@ public interface UserDao {
 	public String getUsername(String usernameemail);
 	
 	public void lockunlockUser(String username,String isLock);
+	
+	public void updateRole(String username, String role);
 }
