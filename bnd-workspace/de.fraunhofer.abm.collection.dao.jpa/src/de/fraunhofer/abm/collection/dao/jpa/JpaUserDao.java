@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import org.osgi.service.component.annotations.Activate;
@@ -202,13 +203,29 @@ public class JpaUserDao extends AbstractJpaDao implements UserDao {
 		});
 		return token;
 	}
+  
+  @Override
+	public String getEmailId(String username) {
+		String emailId = transactionControl.required(() -> {
+			TypedQuery<JpaUser> query = em.createQuery("SELECT u FROM user u WHERE u.name = :name", JpaUser.class);
+			query.setParameter("name", username);
+			JpaUser result = query.getSingleResult();
+			if (!result.email.isEmpty()) {
+				return result.email;
+			}else {
+				throw new ApprovalException("email not valid");
+			}
+		});
+		return emailId;
+		
+	}
 
 	public void lockunlockUser(String username,String isLock) {
 		transactionControl.required(() -> {
 			TypedQuery<JpaUser> query = em.createQuery("SELECT u FROM user u WHERE u.name = :name", JpaUser.class);
 			query.setParameter("name", username);
 			JpaUser result = query.getSingleResult();
-			if(isLock=="true") {
+			if(isLock.equals("true")) {
 				result.locked=1;
 			}else {
 				result.locked=0;
@@ -220,6 +237,16 @@ public class JpaUserDao extends AbstractJpaDao implements UserDao {
 		});
 		
 	}
+	
+	@Override
+	public void updateRole(String username,String role) {
+		transactionControl.required(() -> {
+			Query updateRole = em.createNativeQuery("UPDATE role_members r SET r.member_parent= :value1 where r.member_member = :value2").setParameter("value1", role).setParameter("value2", username);
+			updateRole.executeUpdate();
+			return null;
+		});
+	}
+	
 	@Override
 	protected EntityManager getEntityManager() {
 		return em;
