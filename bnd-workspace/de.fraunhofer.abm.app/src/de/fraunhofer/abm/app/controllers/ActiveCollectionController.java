@@ -22,7 +22,7 @@ import osgi.enroute.webserver.capabilities.RequireWebServerExtender;
 
 @RequireWebServerExtender
 @RequireConfigurerExtender
-@Component(name = "de.fraunhofer.abm.rest.activecollection")
+@Component(name = "de.fraunhofer.abm.rest.collectionstatus")
 public class ActiveCollectionController extends AbstractController implements REST {
 
 	private static final transient Logger logger = LoggerFactory.getLogger(CollectionController.class);
@@ -46,13 +46,12 @@ public class ActiveCollectionController extends AbstractController implements RE
 	
 	
 	
-	public void postActivecollection(AccountRequest ar) throws Exception {
+	public void postCollectionstatus(AccountRequest ar) throws Exception {
 		//authorizer.requireRole("UserAdmin");
 	   Map<String, String> params = ar._body();
-		String collectionname = params.get("collectionname");
-		String isActive = params.get("isActive");
+		String collectionid = params.get("collectionid");
         try {
-         collectionDao.activeCollection(collectionname,isActive);
+         collectionDao.activeCollection(collectionid);
         } catch (Exception e) {
         	logger.info("Exception");
         }
