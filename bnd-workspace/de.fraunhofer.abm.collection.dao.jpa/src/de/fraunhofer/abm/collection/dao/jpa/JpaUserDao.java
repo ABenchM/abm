@@ -98,8 +98,14 @@ public class JpaUserDao extends AbstractJpaDao implements UserDao {
 	}
 	
 	private void deleteUserInfo(JpaUser user) {
-		System.out.println(user);
 		em.remove(user);
+		User userRole = (User) userAdmin.getRole(user.name);
+		Group registeredUserGroup = (Group) userAdmin.getRole("RegisteredUser");
+		registeredUserGroup.removeMember(userRole);
+		userAdmin.removeRole(user.name);
+	}
+	
+	private void deleteUserRoleInfo(JpaUser user) {
 		User userRole = (User) userAdmin.getRole(user.name);
 		Group registeredUserGroup = (Group) userAdmin.getRole("RegisteredUser");
 		registeredUserGroup.removeMember(userRole);
@@ -113,6 +119,9 @@ public class JpaUserDao extends AbstractJpaDao implements UserDao {
 			query.setParameter("name", username);
 			JpaUser user = query.getSingleResult();
  			deleteUserInfo(user);
+ 			if (user.approved == 1) {
+ 				deleteUserRoleInfo(user);
+ 			}
  			return null;
  		});
  	}
@@ -125,6 +134,7 @@ public class JpaUserDao extends AbstractJpaDao implements UserDao {
  			List<JpaUser> result = query.getResultList();
  			for (JpaUser user : result) {
  				deleteUserInfo(user);
+ 				deleteUserRoleInfo(user);
  			}
  			return null;
  		});
@@ -177,7 +187,21 @@ public class JpaUserDao extends AbstractJpaDao implements UserDao {
 		return username;
 	}
 	
-	
+	@Override
+	public String getUserToken(String user) {
+		String token = transactionControl.required(() -> {
+			TypedQuery<JpaUser> query = em.createQuery("SELECT u FROM user u WHERE u.name=:name", JpaUser.class);
+			query.setParameter("name", user);
+			
+			JpaUser result = query.getSingleResult();
+			if (!result.name.isEmpty()) {
+				return result.token;
+			}else {
+				throw new ApprovalException("user not registered");
+			}
+		});
+		return token;
+	}
 
 	public void lockunlockUser(String username,String isLock) {
 		transactionControl.required(() -> {

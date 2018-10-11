@@ -11,6 +11,8 @@ import org.osgi.service.useradmin.UserAdmin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.fraunhofer.abm.app.auth.Authorizer;
+import de.fraunhofer.abm.app.controllers.AdminUserDeleteController.AccountRequest;
 import de.fraunhofer.abm.collection.dao.UserDao;
 import osgi.enroute.configurer.api.RequireConfigurerExtender;
 import osgi.enroute.rest.api.REST;
@@ -25,8 +27,16 @@ public class UserApprovalController extends AbstractController implements REST {
 
 	@Reference
 	private UserDao userDao;
+	
 	@Reference
 	private UserAdmin userAdmin;
+	
+	@Reference
+	private Authorizer authorizer;
+	
+	interface AccountRequest extends RESTRequest {
+		Map<String, String> _body();
+	}
 
 	/**
 	 * Approval of a user by the admin using token
@@ -48,6 +58,33 @@ public class UserApprovalController extends AbstractController implements REST {
 			registeredUserGroup.addMember(user);
 			// TODO: Send email to user to let them know that their account is now active.
 			// return "User has been approved";
+		} catch (Exception e) {
+			// return e.getCause() != null ? e.getCause().getMessage() : e.getMessage();
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void postApproval(AccountRequest ar) {
+		// user approve or reject by admin
+		try {
+			authorizer.requireRole("UserAdmin");
+			Map<String, String> params = ar._body();
+			String username = params.get("username");
+			boolean isApprove = params.get("isApprove").equals("true") ? true : false;
+			if ( isApprove ) {
+				String token = userDao.getUserToken(username);
+				String password = userDao.approveToken(username, token);
+				logger.debug("Creating user {}", username);
+				User user = (User) userAdmin.createRole(username, Role.USER);
+				user.getCredentials().put("password", password);
+				Group registeredUserGroup = (Group) userAdmin.getRole("RegisteredUser");
+				registeredUserGroup.addMember(user);
+				// sendApproveRejectEmail(user, true);
+			} else {
+				userDao.deleteUser(username);
+				// sendApproveRejectEmail(user, false);
+			}
+			
 		} catch (Exception e) {
 			// return e.getCause() != null ? e.getCause().getMessage() : e.getMessage();
 		}
