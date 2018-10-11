@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import de.fraunhofer.abm.app.auth.Authenticator;
 import de.fraunhofer.abm.app.auth.Password;
+import de.fraunhofer.abm.collection.dao.UserDao;
 
 @Component
 public class UserAdminAuthenticator implements Authenticator {
@@ -17,6 +18,10 @@ public class UserAdminAuthenticator implements Authenticator {
 
     @Reference
     private UserAdmin userAdmin;
+    
+    @Reference
+	private UserDao userDao;
+
 
     @Override
     public boolean authenticate(String username, String password) throws Exception {
@@ -27,7 +32,8 @@ public class UserAdminAuthenticator implements Authenticator {
         } else {
             String saltAndPass = (String) user.getCredentials().get("password");
             success = Password.check(password, saltAndPass);
-            if(success) {
+            boolean isLocked = userDao.checkApproved(username);
+            if(success && isLocked) {
                 logger.debug("User {} successfully logged in", username);
             } else {
                 logger.debug("Wrong credentials for user {}", username);
