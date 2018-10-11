@@ -165,6 +165,22 @@ public class JpaUserDao extends AbstractJpaDao implements UserDao {
 		return username;
 	}
 	
+	@Override
+	public String getEmailId(String username) {
+		String emailId = transactionControl.required(() -> {
+			TypedQuery<JpaUser> query = em.createQuery("SELECT u FROM user u WHERE u.name = :name", JpaUser.class);
+			query.setParameter("name", username);
+			JpaUser result = query.getSingleResult();
+			if (!result.email.isEmpty()) {
+				return result.email;
+			}else {
+				throw new ApprovalException("email not valid");
+			}
+		});
+		return emailId;
+		
+	}
+	
 	
 
 	public void lockunlockUser(String username,String isLock) {
@@ -172,7 +188,7 @@ public class JpaUserDao extends AbstractJpaDao implements UserDao {
 			TypedQuery<JpaUser> query = em.createQuery("SELECT u FROM user u WHERE u.name = :name", JpaUser.class);
 			query.setParameter("name", username);
 			JpaUser result = query.getSingleResult();
-			if(isLock=="true") {
+			if(isLock.equals("true")) {
 				result.locked=1;
 			}else {
 				result.locked=0;
