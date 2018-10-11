@@ -1,6 +1,13 @@
 package de.fraunhofer.abm.app.controllers;
 
+import java.util.ArrayList;
 import java.util.Map;
+
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -11,6 +18,7 @@ import org.osgi.service.useradmin.UserAdmin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.fraunhofer.abm.app.EmailConfigInterface;
 import de.fraunhofer.abm.collection.dao.UserDao;
 import osgi.enroute.configurer.api.RequireConfigurerExtender;
 import osgi.enroute.rest.api.REST;
@@ -27,6 +35,9 @@ public class UserApprovalController extends AbstractController implements REST {
 	private UserDao userDao;
 	@Reference
 	private UserAdmin userAdmin;
+	
+	@Reference
+	private EmailConfigInterface config;
 
 	/**
 	 * Approval of a user by the admin using token
@@ -52,6 +63,33 @@ public class UserApprovalController extends AbstractController implements REST {
 			// return e.getCause() != null ? e.getCause().getMessage() : e.getMessage();
 		}
 	}
+	
+	public void sendApproveRejectEmail(String username, Boolean isApprove) throws Exception {
+		
+		String[] adminaddress = {"userDao.getEmailId(username)"};
+		InternetAddress[] addressList = new InternetAddress[adminaddress.length];
+		String sbj= null;
+		String msg= null;
+		if(isApprove) {
+			sbj = username + "Successfully registered on ABM";
+			 msg = "You have successfully been registered '" + username + "' on the ABM website.\n";
+		}
+		else {
+			sbj = username + "Rejected registration on ABM";
+		    msg = "You have  been rejected  '" + username + "' on the ABM website.\n"
+					+ "\n" + "Please contact the admin for further details";
+		}
+		
+	
+		MimeMessage message = new MimeMessage(config.getSession());
+		message.setFrom(config.getFrom());
+		message.addRecipients(Message.RecipientType.TO, addressList);
+		message.setSubject(sbj);
+		message.setText(msg);
+		Transport.send(message);
+	}
+
+
 
 	private String getIfValid(String[] data) {
 		if (data != null && data.length == 1) {

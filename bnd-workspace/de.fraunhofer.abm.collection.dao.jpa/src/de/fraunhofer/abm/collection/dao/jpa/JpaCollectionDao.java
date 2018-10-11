@@ -213,17 +213,17 @@ public class JpaCollectionDao extends AbstractJpaDao implements CollectionDao {
     }
     
     @Override
-    public void activeCollection(String collectionname,String isActive) {
+    public void activeCollection(String collectionid) {
 		transactionControl.required(() -> {
-			TypedQuery<JpaCollection> query = em.createQuery("SELECT c FROM collection c WHERE c.name = :name", JpaCollection.class);
-			query.setParameter("name", collectionname);
+			TypedQuery<JpaCollection> query = em.createQuery("SELECT c FROM collection c WHERE c.id = :id", JpaCollection.class);
+			query.setParameter("id", collectionid);
 			JpaCollection result = query.getSingleResult();
 			//only public collections can be activated and deactivated
 			if(result.privateStatus == 0) {
-			if(isActive=="true") {
-				result.isActive=1;
-			}else {
+			if(result.isActive == 1) {
 				result.isActive=0;
+			}else {
+				result.isActive=1;
 			}
 			}
 			em.merge(result);
