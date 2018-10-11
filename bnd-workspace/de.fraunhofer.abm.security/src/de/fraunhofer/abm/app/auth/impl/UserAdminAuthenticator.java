@@ -32,10 +32,15 @@ public class UserAdminAuthenticator implements Authenticator {
         } else {
             String saltAndPass = (String) user.getCredentials().get("password");
             success = Password.check(password, saltAndPass);
-            boolean isLocked = userDao.checkApproved(username);
-            if(success && isLocked) {
+            boolean isLocked = userDao.checkLocked(username);
+            if(isLocked) {
+            	success=false;
+                logger.debug("Account is locked for user {}", username);
+            }
+            else if(success) {
                 logger.debug("User {} successfully logged in", username);
             } else {
+            	success=false;
                 logger.debug("Wrong credentials for user {}", username);
             }
         }
