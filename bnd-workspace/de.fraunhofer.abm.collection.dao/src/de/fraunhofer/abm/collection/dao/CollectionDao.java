@@ -21,5 +21,6 @@ public interface CollectionDao {
 	void updateUserPublicCollections(String user);
 	void deleteUserPrivateCollections(String user);
 	public void activeCollection(String collectionid);
+	public List<CollectionDTO> findCollections();
 	
 }

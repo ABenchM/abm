@@ -68,6 +68,17 @@ public class JpaCollectionDao extends AbstractJpaDao implements CollectionDao {
     }
     
     @Override
+    public List<CollectionDTO> findCollections(){
+    	//Collections returned for manage collections for admin
+    	return transactionControl.notSupported(() -> {
+            TypedQuery<JpaCollection> query = em.createQuery("SELECT c FROM collection c WHERE c.privateStatus = 0 ORDER BY c.creation_date ASC", JpaCollection.class);
+            query.setMaxResults(30);
+            List<JpaCollection> jpaList = query.getResultList();
+            return jpaList.stream().map(JpaCollection::toDTO).collect(Collectors.toList());
+        });
+    }
+    	
+    @Override
     public List<CollectionDTO> findPublicId(String id) {
         return transactionControl.notSupported(() -> {
             TypedQuery<JpaCollection> query = em.createQuery("SELECT c FROM collection c WHERE c.id = :id AND c.privateStatus = 0 AND c.isActive = 1", JpaCollection.class);
