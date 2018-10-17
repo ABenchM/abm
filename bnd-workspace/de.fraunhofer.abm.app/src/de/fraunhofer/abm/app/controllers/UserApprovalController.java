@@ -122,8 +122,6 @@ public class UserApprovalController extends AbstractController implements REST {
 		Transport.send(message);
 	}
 
-
-
 	private String getIfValid(String[] data) {
 		if (data != null && data.length == 1) {
 			return data[0];
