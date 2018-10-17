@@ -17,7 +17,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.fraunhofer.abm.app.auth.Authorizer;
-import de.fraunhofer.abm.app.controllers.AdminUserDeleteController.AccountRequest;
 import de.fraunhofer.abm.app.EmailConfigInterface;
 import de.fraunhofer.abm.collection.dao.UserDao;
 import osgi.enroute.configurer.api.RequireConfigurerExtender;
@@ -65,8 +64,7 @@ public class UserApprovalController extends AbstractController implements REST {
 			user.getCredentials().put("password", password);
 			Group registeredUserGroup = (Group) userAdmin.getRole("RegisteredUser");
 			registeredUserGroup.addMember(user);
-			// TODO: Send email to user to let them know that their account is now active.
-			// return "User has been approved";
+			sendApproveRejectEmail(name, true);
 		} catch (Exception e) {
 			// return e.getCause() != null ? e.getCause().getMessage() : e.getMessage();
 		}
@@ -88,10 +86,10 @@ public class UserApprovalController extends AbstractController implements REST {
  				user.getCredentials().put("password", password);
  				Group registeredUserGroup = (Group) userAdmin.getRole("RegisteredUser");
  				registeredUserGroup.addMember(user);
- 				// sendApproveRejectEmail(user, true);
+ 				sendApproveRejectEmail(username, true);
  			} else {
  				userDao.deleteUser(username);
- 				// sendApproveRejectEmail(user, false);
+ 				sendApproveRejectEmail(username, false);
  			}
  			
  		} catch (Exception e) {
