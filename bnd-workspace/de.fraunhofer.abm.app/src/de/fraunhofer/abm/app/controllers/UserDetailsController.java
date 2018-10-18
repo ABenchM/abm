@@ -37,7 +37,7 @@ public class UserDetailsController extends AbstractController implements REST {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<UserDTO> getUserList(RESTRequest rr) {
+	public List<UserDTO> getUserList(RESTRequest rr) throws Exception {
 		authorizer.requireRole("UserAdmin");
         List<UserDTO> result = Collections.emptyList();
         Map<String, String[]> params = rr._request().getParameterMap();

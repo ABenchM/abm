@@ -21,6 +21,8 @@ public interface UserDao {
 	public void deleteUsers(List<String> usernames);
 	
 	public List<UserDTO> getAllUsers(int isApproved);
+	
+	public UserDTO getUserInfo(String username);
 
 	public String approveToken(String name, String token);
 	

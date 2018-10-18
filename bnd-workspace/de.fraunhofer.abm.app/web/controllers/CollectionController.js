@@ -15,8 +15,9 @@ function collectionController($rootScope, $scope, $http, $location, $route, $rou
 	
 	$scope.request = {};
 	self.showDeleteAccount = false;
-	self.showGetUsers = false;
- 	self.showApproveRejectUser = true;
+	self.showGetUsers = true;
+	self.showGetUserInfo = true;
+ 	self.showApproveRejectUser = false;
 	
  	self.approveUser = function(user){
   		alert("Approve User : " + user);
@@ -53,6 +54,28 @@ function collectionController($rootScope, $scope, $http, $location, $route, $rou
  				$rootScope.loading = false
  			});	
  	};
+ 	
+ 	self.getUserInfo = function(user){
+ 		alert(user);
+		$rootScope.loading = true;
+		$http({
+		    method: 'GET',
+			url: '/rest/username',
+			params: {'username': user}
+		}).then(
+			function(resp) {
+				if(resp != undefined){
+				} else {
+					Notification.error('Internal error: the user data cannot be retrieved. Please try again later. If the error persists, please report it here: https://github.com/ABenchM/abm/issues');
+					$location.path('/');
+				}
+			}, function(d) {
+				Notification.error('Failed with ['+ d.status + '] '+ d.statusText);
+				$location.path('/');
+			})['finally'](function() {
+				$rootScope.loading = false;
+			});
+	}
  	
 	self.loadAllUserInfo = function(){
 		$rootScope.loading = true;

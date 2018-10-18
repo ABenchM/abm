@@ -10,6 +10,7 @@
 		<button class="btn btn-success" type="button" ng-click="cc.deleteAccount(user)" ng-show="cc.showDeleteAccount" >Delete Account</button>
 		<button class="btn btn-success" type="button" ng-click="cc.adminDeleteAccounts()" ng-show="cc.showDeleteAccount" >Admin Delete Accounts</button>
 		<button class="btn btn-success" type="button" ng-click="cc.loadAllUserInfo()" ng-show="cc.showGetUsers" >Get All Users</button>
+		<button class="btn btn-success" type="button" ng-click="cc.getUserInfo(user)" ng-show="cc.showGetUserInfo" >Get Current User Info</button>
 		
 		<form ng-submit="approveReject" name="approveRejectForm">
  			<input type="text" name="usernameval" id="usernameval" size="17" ng-model="approveReject" style="width:80%" placeholder="Enter user to approve or reject...">
