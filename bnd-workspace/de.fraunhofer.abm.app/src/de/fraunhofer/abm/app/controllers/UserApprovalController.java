@@ -1,10 +1,8 @@
 package de.fraunhofer.abm.app.controllers;
 
-import java.util.ArrayList;
 import java.util.Map;
 
 import javax.mail.Message;
-import javax.mail.MessagingException;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
@@ -18,6 +16,7 @@ import org.osgi.service.useradmin.UserAdmin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.fraunhofer.abm.app.auth.Authorizer;
 import de.fraunhofer.abm.app.EmailConfigInterface;
 import de.fraunhofer.abm.collection.dao.UserDao;
 import osgi.enroute.configurer.api.RequireConfigurerExtender;
@@ -33,11 +32,19 @@ public class UserApprovalController extends AbstractController implements REST {
 
 	@Reference
 	private UserDao userDao;
+	
 	@Reference
 	private UserAdmin userAdmin;
 	
 	@Reference
 	private EmailConfigInterface config;
+	
+	@Reference
+	private Authorizer authorizer;
+	
+	interface AccountRequest extends RESTRequest {
+ 		Map<String, String> _body();
+ 	}
 
 	/**
 	 * Approval of a user by the admin using token
@@ -57,12 +64,38 @@ public class UserApprovalController extends AbstractController implements REST {
 			user.getCredentials().put("password", password);
 			Group registeredUserGroup = (Group) userAdmin.getRole("RegisteredUser");
 			registeredUserGroup.addMember(user);
-			// TODO: Send email to user to let them know that their account is now active.
-			// return "User has been approved";
+			sendApproveRejectEmail(name, true);
 		} catch (Exception e) {
 			// return e.getCause() != null ? e.getCause().getMessage() : e.getMessage();
 		}
 	}
+	
+	@SuppressWarnings("unchecked")
+ 	public void postApproval(AccountRequest ar) {
+ 		// user approve or reject by admin
+ 		try {
+ 			authorizer.requireRole("UserAdmin");
+ 			Map<String, String> params = ar._body();
+ 			String username = params.get("username");
+ 			boolean isApprove = params.get("isApprove").equals("true") ? true : false;
+ 			if ( isApprove ) {
+ 				String token = userDao.getUserToken(username);
+ 				String password = userDao.approveToken(username, token);
+ 				logger.debug("Creating user {}", username);
+ 				User user = (User) userAdmin.createRole(username, Role.USER);
+ 				user.getCredentials().put("password", password);
+ 				Group registeredUserGroup = (Group) userAdmin.getRole("RegisteredUser");
+ 				registeredUserGroup.addMember(user);
+ 				sendApproveRejectEmail(username, true);
+ 			} else {
+ 				userDao.deleteUser(username);
+ 				sendApproveRejectEmail(username, false);
+ 			}
+ 			
+ 		} catch (Exception e) {
+ 			// return e.getCause() != null ? e.getCause().getMessage() : e.getMessage();
+ 		}
+ 	}
 	
 	public void sendApproveRejectEmail(String username, Boolean isApprove) throws Exception {
 		
@@ -88,8 +121,6 @@ public class UserApprovalController extends AbstractController implements REST {
 		message.setText(msg);
 		Transport.send(message);
 	}
-
-
 
 	private String getIfValid(String[] data) {
 		if (data != null && data.length == 1) {
