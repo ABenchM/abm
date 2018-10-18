@@ -2,16 +2,16 @@ package de.fraunhofer.abm.collection.dao.jpa;
 
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
-
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
+
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.transaction.control.TransactionControl;
+
 import org.osgi.service.transaction.control.jpa.JPAEntityManagerProvider;
 import org.osgi.service.useradmin.Group;
 import org.osgi.service.useradmin.User;
@@ -149,14 +149,16 @@ public class JpaUserDao extends AbstractJpaDao implements UserDao {
  		});
  	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<UserDTO> getAllUsers(int isApproved) {
     	return transactionControl.notSupported(() -> {
-            TypedQuery<JpaUser> query = em.createQuery("SELECT u FROM user u WHERE u.approved = :isApproved", JpaUser.class);
+    		String queryCompany = "select a.name as username, a.firstname, a.lastname, a.locked, a.email, a.affiliation, b.role "
+    							+ "from user a, role_members b where a.approved = :isApproved and a.name = b.username";
+            Query query = em.createQuery(queryCompany);
             query.setParameter("isApproved", isApproved);
-            query.setMaxResults(50);
-            List<JpaUser> jpaList = query.getResultList();
-            return jpaList.stream().map(JpaUser::toDTO).collect(Collectors.toList());
+            List<UserDTO> userList = query.getResultList();
+            return userList;
         });
 	}
 
@@ -197,6 +199,21 @@ public class JpaUserDao extends AbstractJpaDao implements UserDao {
 	}
 	
 	@Override
+	public UserDTO getUserInfo(String username) {
+		UserDTO userDTO = transactionControl.required(() -> {
+			TypedQuery<JpaUser> query = em.createQuery("SELECT u FROM user u WHERE u.name = :name", JpaUser.class);
+			query.setParameter("name", username);
+			JpaUser result = query.getSingleResult();
+			if (result.name.equals(username)) {
+				return result.toDTO();
+			} else {
+				throw new ApprovalException("Invalid User");
+			}
+		});
+		return userDTO;
+	}
+	
+	@Override
 	public String getEmailId(String username) {
 		String emailId = transactionControl.required(() -> {
 			TypedQuery<JpaUser> query = em.createQuery("SELECT u FROM user u WHERE u.name = :name", JpaUser.class);
@@ -209,7 +226,6 @@ public class JpaUserDao extends AbstractJpaDao implements UserDao {
 			}
 		});
 		return emailId;
-		
 	}
 	
 	@Override

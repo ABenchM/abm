@@ -60,7 +60,7 @@ public class JpaUser {
  		user.affiliation = this.affiliation;
 		user.password = this.password;
 		user.approved = (this.approved == 1);
-		user.locked = (this.locked == 0);
+		user.locked = (this.locked == 1);
 		user.token = this.token;
 		return user;
 	}
