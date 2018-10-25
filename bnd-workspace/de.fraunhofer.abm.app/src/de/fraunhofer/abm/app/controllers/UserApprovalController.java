@@ -76,22 +76,23 @@ public class UserApprovalController extends AbstractController implements REST {
  		try {
  			authorizer.requireRole("UserAdmin");
  			Map<String, String> params = ar._body();
- 			String username = params.get("username");
- 			boolean isApprove = params.get("isApprove").equals("true") ? true : false;
- 			if ( isApprove ) {
- 				String token = userDao.getUserToken(username);
- 				String password = userDao.approveToken(username, token);
- 				logger.debug("Creating user {}", username);
- 				User user = (User) userAdmin.createRole(username, Role.USER);
- 				user.getCredentials().put("password", password);
- 				Group registeredUserGroup = (Group) userAdmin.getRole("RegisteredUser");
- 				registeredUserGroup.addMember(user);
- 				sendApproveRejectEmail(username, true);
- 			} else {
- 				userDao.deleteUser(username);
- 				sendApproveRejectEmail(username, false);
+ 			String[] userList = params.get("userList").split(",");
+ 			for (String username: userList) {
+ 	 			boolean isApprove = params.get("isApprove").equals("true") ? true : false;
+ 	 			if ( isApprove ) {
+ 	 				String token = userDao.getUserToken(username);
+ 	 				String password = userDao.approveToken(username, token);
+ 	 				logger.debug("Creating user {}", username);
+ 	 				User user = (User) userAdmin.createRole(username, Role.USER);
+ 	 				user.getCredentials().put("password", password);
+ 	 				Group registeredUserGroup = (Group) userAdmin.getRole("RegisteredUser");
+ 	 				registeredUserGroup.addMember(user);
+ 	 				sendApproveRejectEmail(username, true);
+ 	 			} else {
+ 	 				userDao.deleteUser(username);
+ 	 				sendApproveRejectEmail(username, false);
+ 	 			}
  			}
- 			
  		} catch (Exception e) {
  			// return e.getCause() != null ? e.getCause().getMessage() : e.getMessage();
  		}

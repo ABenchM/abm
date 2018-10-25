@@ -126,10 +126,10 @@ public class JpaUserDao extends AbstractJpaDao implements UserDao {
  			TypedQuery<JpaUser> query = em.createQuery("SELECT u FROM user u WHERE u.name = :name", JpaUser.class);
 			query.setParameter("name", username);
 			JpaUser user = query.getSingleResult();
- 			deleteUserInfo(user);
- 			if (user.approved == 1) {
+			if (user.approved == 1) {
   				deleteUserRoleInfo(user);
   			}
+			deleteUserInfo(user);
  			return null;
  		});
  	}
@@ -154,21 +154,29 @@ public class JpaUserDao extends AbstractJpaDao implements UserDao {
 	@Override
 	public List<UserDTO> getAllUsers(int isApproved) {
     	return transactionControl.notSupported(() -> {
-    		String queryCompany = "select a.name as username, a.firstname, a.lastname, a.locked, a.email, a.affiliation, b.role "
+    		String queryCompany = "";
+    		if ( isApproved == 1 ) {
+    			queryCompany = "select a.name as username, a.firstname, a.lastname, a.locked, a.email, a.affiliation, b.role "
     							+ "from user a, role_members b where a.approved = :isApproved and a.name = b.username";
+    		} else {
+    			queryCompany = "select a.name as username, a.firstname, a.lastname, a.locked, a.email, a.affiliation "
+    							+ "from user a where a.approved = :isApproved";
+    		}
             Query query = em.createQuery(queryCompany);
             query.setParameter("isApproved", isApproved);
             List<UserDTO> userList = new ArrayList<UserDTO>();
             List<Object[]> resultList = query.getResultList();
             for (Object[] result : resultList) {
             	UserDTO user = new UserDTO();
-        		user.username = (String) result[0]; // username
-         		user.firstname = (String) result[1]; // firstname
-         		user.lastname = (String) result[2]; // lastname
-         		user.locked = ((int) result[3] == 0) ? false : true; // locked
-         		user.email = (String) result[4]; // email
-         		user.affiliation = (String) result[5]; // affiliation
-        		user.role = (String) result[6]; // role
+        		user.username = (String) result[0];
+         		user.firstname = (String) result[1];
+         		user.lastname = (String) result[2];
+         		user.locked = ((int) result[3] == 0) ? false : true;
+         		user.email = (String) result[4];
+         		user.affiliation = (String) result[5];
+         		if ( isApproved == 1 ) {
+         			user.role = (String) result[6];
+         		}
         		userList.add(user);
             }
             return userList;
