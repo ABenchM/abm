@@ -1,6 +1,7 @@
 package de.fraunhofer.abm.collection.dao.jpa;
 
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -157,7 +158,19 @@ public class JpaUserDao extends AbstractJpaDao implements UserDao {
     							+ "from user a, role_members b where a.approved = :isApproved and a.name = b.username";
             Query query = em.createQuery(queryCompany);
             query.setParameter("isApproved", isApproved);
-            List<UserDTO> userList = query.getResultList();
+            List<UserDTO> userList = new ArrayList<UserDTO>();
+            List<Object[]> resultList = query.getResultList();
+            for (Object[] result : resultList) {
+            	UserDTO user = new UserDTO();
+        		user.username = (String) result[0]; // username
+         		user.firstname = (String) result[1]; // firstname
+         		user.lastname = (String) result[2]; // lastname
+         		user.locked = ((int) result[3] == 0) ? false : true; // locked
+         		user.email = (String) result[4]; // email
+         		user.affiliation = (String) result[5]; // affiliation
+        		user.role = (String) result[6]; // role
+        		userList.add(user);
+            }
             return userList;
         });
 	}
