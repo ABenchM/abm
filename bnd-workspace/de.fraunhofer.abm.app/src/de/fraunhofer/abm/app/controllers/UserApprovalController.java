@@ -98,22 +98,19 @@ public class UserApprovalController extends AbstractController implements REST {
  	}
 	
 	public void sendApproveRejectEmail(String username, Boolean isApprove) throws Exception {
-		
-		String[] adminaddress = {"userDao.getEmailId(username)"};
-		InternetAddress[] addressList = new InternetAddress[adminaddress.length];
+		String userEmail = userDao.getEmailId(username);
+		InternetAddress[] addressList = InternetAddress.parse(userEmail);
 		String sbj= null;
 		String msg= null;
 		if(isApprove) {
-			sbj = username + "Successfully registered on ABM";
-			 msg = "You have successfully been registered '" + username + "' on the ABM website.\n";
+			sbj = "'"+ username + "' successfully registered on ABM";
+			 msg = "Dear " + username + ",\n\n"+"You have been successfully registered on ABM.\n";
 		}
 		else {
-			sbj = username + "Rejected registration on ABM";
-		    msg = "You have  been rejected  '" + username + "' on the ABM website.\n"
-					+ "\n" + "Please contact the admin for further details";
+			sbj = "Rejected '" + username + "' registration on ABM";
+		    msg = "Dear " + username + ",\n\n"+"You have been rejected on ABM.\n\n"
+					+ "Please contact the ABM admin for further details.\n";
 		}
-		
-	
 		MimeMessage message = new MimeMessage(config.getSession());
 		message.setFrom(config.getFrom());
 		message.addRecipients(Message.RecipientType.TO, addressList);
