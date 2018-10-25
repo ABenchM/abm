@@ -14,47 +14,53 @@ function collectionController($rootScope, $scope, $http, $location, $route, $rou
 	self.running = $rootScope.running;
 	
 	$scope.request = {};
-	self.showDeleteAccount = false;
+	self.showDeleteAccount = true;
 	self.showGetUsers = true;
 	self.showGetUserInfo = true;
- 	self.showApproveRejectUser = false;
+ 	self.showApproveRejectUser = true;
 	
- 	self.approveUser = function(user){
-  		alert("Approve User : " + user);
-  		console.log("Approve user : " + user);
- 		$rootScope.loading = true;
- 		$scope.request.username = user;
- 		$scope.request.isApprove = true;
- 		$http.post('/rest/approval', $scope.request, null).then(
- 			function(d){
- 				if(d.data){
- 					console.log("data : " + d.data);
- 				}
- 			}, function(d){
- 				Notification.error('Internal error: Approve user cannot be done at the moment. Please try again later. If the error persists, please report it here: https://github.com/ABenchM/abm/issues');
- 			})['finally'](function() {
- 				$rootScope.loading = false
- 			});	
- 	};
- 	
- 	self.rejectUser = function(user){
- 		alert("Reject User : " + user);
-  		console.log("Reject user : " + user);
- 		$rootScope.loading = true;
- 		$scope.request.username = user;
- 		$scope.request.isApprove = false;
- 		$http.post('/rest/approval', $scope.request, null).then(
- 			function(d){
- 				if(d.data){
- 					console.log("data : " + d.data);
- 				}
- 			}, function(d){
- 				Notification.error('Internal error: Reject user cannot be done at the moment. Please try again later. If the error persists, please report it here: https://github.com/ABenchM/abm/issues');
- 			})['finally'](function() {
- 				$rootScope.loading = false
- 			});	
- 	};
- 	
+ 	self.adminApproveUsers = function(){
+ 		alert("Admin delete");
+		$rootScope.loading = true;
+		var approveUserList = [];
+		approveUserList.push("a1");
+		approveUserList.push("a2");
+		approveUserList.push("a3");
+		$scope.request.userList =  approveUserList.toString();
+		$scope.request.isApprove = true;
+		$http.post('/rest/approval', $scope.request, null).then(
+			function(d){
+				if(d.data){
+					console.log("data : " + d.data);
+				}
+			}, function(d){
+				Notification.error('Internal error: Approve user cannot be done at the moment. Please try again later. If the error persists, please report it here: https://github.com/ABenchM/abm/issues');
+			})['finally'](function() {
+				$rootScope.loading = false
+			});	
+	};
+	
+	self.adminRejectUsers = function(){
+ 		alert("Admin delete");
+		$rootScope.loading = true;
+		var rejectUserList = [];
+		rejectUserList.push("r1");
+		rejectUserList.push("r2");
+		rejectUserList.push("r3");
+		$scope.request.userList =  rejectUserList.toString();
+		$scope.request.isApprove = false;
+		$http.post('/rest/approval', $scope.request, null).then(
+			function(d){
+				if(d.data){
+					console.log("data : " + d.data);
+				}
+			}, function(d){
+				Notification.error('Internal error: Reject user cannot be done at the moment. Please try again later. If the error persists, please report it here: https://github.com/ABenchM/abm/issues');
+			})['finally'](function() {
+				$rootScope.loading = false
+			});	
+	};
+	
  	self.getUserInfo = function(user){
  		alert(user);
 		$rootScope.loading = true;
@@ -82,7 +88,7 @@ function collectionController($rootScope, $scope, $http, $location, $route, $rou
 		$http({
 		    method: 'GET',
 			url: '/rest/userList',
-			params: {'approved': 1}
+			params: {'approved': 0}
 		}).then(
 			function(resp) {
 				if(resp.data[0] != undefined){
