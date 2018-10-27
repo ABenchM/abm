@@ -32,6 +32,7 @@ public class UserAdminController implements REST {
     @Reference
     private Authorizer authorizer;
 
+    
     public AbmUser getUser(RESTRequest rr, String name) {
         authorizer.requireRole("UserAdmin");
 
@@ -67,6 +68,7 @@ public class UserAdminController implements REST {
         logger.debug("Deleting user {}", name);
         userAdmin.removeRole(name);
     }
+    
 
     public static class AbmUser extends DTO {
         public String name;

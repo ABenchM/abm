@@ -50,7 +50,7 @@ public class JpaCollectionDao extends AbstractJpaDao implements CollectionDao {
     @Override
     public List<CollectionDTO> findByUser(String user) {
         return transactionControl.notSupported(() -> {
-            TypedQuery<JpaCollection> query = em.createQuery("SELECT c FROM collection c WHERE c.user = :user ORDER BY c.name", JpaCollection.class);
+            TypedQuery<JpaCollection> query = em.createQuery("SELECT c FROM collection c WHERE c.user = :user AND c.isActive = 1 ORDER BY c.name", JpaCollection.class);
             query.setParameter("user", user);
             List<JpaCollection> jpaList = query.getResultList();
             return jpaList.stream().map(JpaCollection::toDTO).collect(Collectors.toList());
@@ -60,7 +60,7 @@ public class JpaCollectionDao extends AbstractJpaDao implements CollectionDao {
     @Override
     public CollectionDTO findById(String id) {
         return transactionControl.notSupported(() -> {
-            TypedQuery<JpaCollection> query = em.createQuery("SELECT c FROM collection c WHERE c.id = :id ORDER BY c.name", JpaCollection.class);
+            TypedQuery<JpaCollection> query = em.createQuery("SELECT c FROM collection c WHERE c.id = :id AND c.isActive = 1 ORDER BY c.name", JpaCollection.class);
             query.setParameter("id", id);
             JpaCollection result = query.getSingleResult();
             return result.toDTO();
@@ -68,9 +68,20 @@ public class JpaCollectionDao extends AbstractJpaDao implements CollectionDao {
     }
     
     @Override
+    public List<CollectionDTO> findCollections(){
+    	//Collections returned for manage collections for admin
+    	return transactionControl.notSupported(() -> {
+            TypedQuery<JpaCollection> query = em.createQuery("SELECT c FROM collection c WHERE c.privateStatus = 0 ORDER BY c.creation_date ASC", JpaCollection.class);
+            query.setMaxResults(30);
+            List<JpaCollection> jpaList = query.getResultList();
+            return jpaList.stream().map(JpaCollection::toDTO).collect(Collectors.toList());
+        });
+    }
+    	
+    @Override
     public List<CollectionDTO> findPublicId(String id) {
         return transactionControl.notSupported(() -> {
-            TypedQuery<JpaCollection> query = em.createQuery("SELECT c FROM collection c WHERE c.id = :id AND c.privateStatus = 0", JpaCollection.class);
+            TypedQuery<JpaCollection> query = em.createQuery("SELECT c FROM collection c WHERE c.id = :id AND c.privateStatus = 0 AND c.isActive = 1", JpaCollection.class);
             query.setParameter("id", id);
             List<JpaCollection> jpaList = query.getResultList();
             return jpaList.stream().map(JpaCollection::toDTO).collect(Collectors.toList());
@@ -91,7 +102,7 @@ public class JpaCollectionDao extends AbstractJpaDao implements CollectionDao {
     @Override
     public List<CollectionDTO> findPublic(){
     	return transactionControl.notSupported(() -> {
-            TypedQuery<JpaCollection> query = em.createQuery("SELECT c FROM collection c WHERE c.privateStatus = 0 ORDER BY c.creation_date ASC", JpaCollection.class);
+            TypedQuery<JpaCollection> query = em.createQuery("SELECT c FROM collection c WHERE c.privateStatus = 0 AND c.isActive = 1 ORDER BY c.creation_date ASC", JpaCollection.class);
             query.setMaxResults(30);
             List<JpaCollection> jpaList = query.getResultList();
             return jpaList.stream().map(JpaCollection::toDTO).collect(Collectors.toList());
@@ -100,7 +111,7 @@ public class JpaCollectionDao extends AbstractJpaDao implements CollectionDao {
     @Override
     public List<CollectionDTO> findPublic(String keywords){
     	String[] keywordArray = keywords.split(" ");
-    	String partialQuery = "SELECT c FROM collection c WHERE c.privateStatus = 0 AND (c.name LIKE :keyword0 OR c.description LIKE :keyword0 OR c.id = :id)";
+    	String partialQuery = "SELECT c FROM collection c WHERE c.privateStatus = 0 AND (c.name LIKE :keyword0 OR c.description LIKE :keyword0 OR c.id = :id) AND c.isActive = 1";
     	for(int i=1;i<keywordArray.length;i++){
     		partialQuery = partialQuery + " AND (c.name LIKE :keyword"+i+" OR c.description LIKE :keyword"+i+")";
     	}
@@ -124,7 +135,7 @@ public class JpaCollectionDao extends AbstractJpaDao implements CollectionDao {
 
             // attach all repos, which already exist in the database to the current JPA persistence context
             attachRepositories(jpaCol);
-
+            jpaCol.isActive = 1;
             em.persist(jpaCol);
             return null;
         });
@@ -170,6 +181,69 @@ public class JpaCollectionDao extends AbstractJpaDao implements CollectionDao {
             return result.toDTO();
         });
     }
+    
+	@Override
+    public void deleteUserPinnedCollections(String user) {
+    	// delete from CollectionPin & update Collection (privateStatus 0) user to demo
+        transactionControl.required(() -> {
+        	Query deleteOrphanProperties = em.createNativeQuery("delete from collectionPin where user = :value1").setParameter("value1", user);
+        	deleteOrphanProperties.executeUpdate();
+            return null;
+        });
+    }
+    
+    @SuppressWarnings("unchecked")
+	@Override
+    public void updateUserPublicCollections(String user) {
+    	// delete from CollectionPin & update Collection (privateStatus 0) user to demo
+        transactionControl.required(() -> {
+        	List<String> collectionIds = em.createQuery("select id from collection where user = :value1 and privateStatus = 0")
+                    									.setParameter("value1", user).getResultList();
+        	for (String id : collectionIds) {
+        		JpaCollection collection = em.find(JpaCollection.class, id);
+                collection.user = "demo";
+                em.persist(collection);
+        	}
+            return null;
+        });
+    }
+    
+    @SuppressWarnings("unchecked")
+	@Override
+    public void deleteUserPrivateCollections(String user) {
+    	// delete from CollectionPin & delete Collection (privateStatus 1)
+        transactionControl.required(() -> {
+        	List<String> collectionIds = em.createQuery("select id from collection where user = :value1 and privateStatus = 1")
+                    									.setParameter("value1", user).getResultList();
+        	for (String id : collectionIds) {
+        		JpaCollection collection = em.find(JpaCollection.class, id);
+                em.remove(collection);
+        	}
+            return null;
+        });
+    }
+    
+    @Override
+    public void activeCollection(String collectionid) {
+		transactionControl.required(() -> {
+			TypedQuery<JpaCollection> query = em.createQuery("SELECT c FROM collection c WHERE c.id = :id", JpaCollection.class);
+			query.setParameter("id", collectionid);
+			JpaCollection result = query.getSingleResult();
+			//only public collections can be activated and deactivated
+			if(result.privateStatus == 0) {
+			if(result.isActive == 1) {
+				result.isActive=0;
+			}else {
+				result.isActive=1;
+			}
+			}
+			em.merge(result);
+			return null;
+			
+			
+		});
+		
+	}
 
     @Override
     protected EntityManager getEntityManager() {

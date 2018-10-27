@@ -44,9 +44,10 @@
 				<button class="btn btn-primary" ng-click="vc.pin()" ng-hide="pinned;">Pin</button>
 				<button class="btn btn-primary" ng-click="vc.unpin()" ng-show="pinned;">Unpin</button>
 		</span>
+		<button class="btn btn-primary" ng-click="vc.deletePublicCollection()">Delete Public collection</button>
 		<button class="btn btn-primary" ng-hide="user === undefined" ng-click="vc.copy()">Copy this collection</button>
 		
-		
+		 
 		
 		<span class="pull-middle"> 
 		<button title="{{(!vc.hermesResultExists?' Hermes Result does not exist' : '')}}" ng-disabled="vc.downloading || !vc.hermesResultExists" class="btn btn-success" ng-show="selectedVersion.filtered" ng-click="vc.downloadHermes(selectedVersion.id)">Download Hermes Result</button>

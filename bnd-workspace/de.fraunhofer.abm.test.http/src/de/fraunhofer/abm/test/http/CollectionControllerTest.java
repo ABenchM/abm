@@ -13,6 +13,10 @@ import de.fraunhofer.abm.http.client.HttpUtils;
 
 public class CollectionControllerTest extends AbstractHttpTest {
 
+	public static final int NUM200 = 200;
+	public static final int NUM403 = 403;
+	public static final int NUM10000 = 10000;
+
     @Test(expected=IOException.class) // 401 unauthorized
     public void testCollectionsByUserAuth() throws IOException {
         String uri = baseUri + "/rest/collection?user=" + USER;
@@ -32,7 +36,17 @@ public class CollectionControllerTest extends AbstractHttpTest {
         Map<String,String> headers = HttpUtils.createFirefoxHeader();
         headers.put("Content-Type", "application/json;charset=UTF-8");
         String uri = baseUri + "/rest/collection";
-        String payload = "{\"name\":\"slf4j\",\"description\":\"Simple Logging Facade 4 Java\",\"versions\":[{\"number\":1,\"creationDate\":\"2017-02-22T14:45:04.028Z\",\"comment\":\"Initial Version\",\"commits\":[{\"commitId\":\"HEAD\",\"repository\":{\"commits\":null,\"commitsUrl\":\"https://api.github.com/repos/qos-ch/slf4j/commits{/sha}\",\"contentsUrl\":\"https://api.github.com/repos/qos-ch/slf4j/contents/{+path}\",\"contributorsUrl\":\"https://api.github.com/repos/qos-ch/slf4j/contributors\",\"creationDate\":\"2009-08-20T16:25:49\",\"defaultBranch\":\"master\",\"description\":\"Simple Logging Facade for Java\",\"forks\":347,\"hasDownloads\":false,\"hasWiki\":false,\"htmlUrl\":\"https://github.com/qos-ch/slf4j\",\"id\":\"6b945e0c-b859-377c-b611-bcc7aa584272\",\"isPrivate\":false,\"issuesUrl\":\"https://api.github.com/repos/qos-ch/slf4j/issues{/number}\",\"latestUpdate\":\"2017-02-21T13:56:39Z\",\"license\":\"\",\"name\":\"slf4j\",\"openIssues\":62,\"owner\":\"qos-ch\",\"ownerType\":\"Organization\",\"properties\":[],\"releasesUrl\":\"https://api.github.com/repos/qos-ch/slf4j/releases{/id}\",\"remoteId\":283187,\"repositoryType\":\"git\",\"repositoryUrl\":\"https://github.com/qos-ch/slf4j.git\",\"score\":126,\"size\":9915,\"starred\":637,\"watched\":637},\"branchId\":\"master\"}]}]}";
+        String payload = "{\"name\":\"slf4j\",\"description\":\"Simple Logging Facade 4 Java\",\"versions\":[{\"number\":1,\"creationDate\":\""
+        		+ "2017-02-22T14:45:04.028Z\",\"comment\":\"Initial Version\",\"commits\":[{\"commitId\":\"HEAD\",\"repository\":{\"commits\":null,\""
+        		+ "commitsUrl\":\"https://api.github.com/repos/qos-ch/slf4j/commits{/sha}\",\"contentsUrl\":\""
+        		+ "https://api.github.com/repos/qos-ch/slf4j/contents/{+path}\",\"contributorsUrl\":\""
+        		+ "https://api.github.com/repos/qos-ch/slf4j/contributors\",\"creationDate\":\"2009-08-20T16:25:49\",\"defaultBranch\":\"master\",\""
+        		+ "description\":\"Simple Logging Facade for Java\",\"forks\":347,\"hasDownloads\":false,\"hasWiki\":false,\"htmlUrl\":\""
+        		+ "https://github.com/qos-ch/slf4j\",\"id\":\"6b945e0c-b859-377c-b611-bcc7aa584272\",\"isPrivate\":false,\"issuesUrl\":\""
+        		+ "https://api.github.com/repos/qos-ch/slf4j/issues{/number}\",\"latestUpdate\":\"2017-02-21T13:56:39Z\",\"license\":\"\",\"name\":\""
+        		+ "slf4j\",\"openIssues\":62,\"owner\":\"qos-ch\",\"ownerType\":\"Organization\",\"properties\":[],\"releasesUrl\":\""
+        		+ "https://api.github.com/repos/qos-ch/slf4j/releases{/id}\",\"remoteId\":283187,\"repositoryType\":\"git\",\"repositoryUrl\":\""
+        		+ "https://github.com/qos-ch/slf4j.git\",\"score\":126,\"size\":9915,\"starred\":637,\"watched\":637},\"branchId\":\"master\"}]}]}";
         HttpUtils.post(uri, headers, payload.getBytes(charset), charset);
     }
 
@@ -42,10 +56,20 @@ public class CollectionControllerTest extends AbstractHttpTest {
         Map<String, String> headers = login();
         headers.put("Content-Type", "application/json;charset=UTF-8");
         String uri = baseUri + "/rest/collection";
-        String payload = "{\"name\":\"slf4j\",\"description\":\"Simple Logging Facade 4 Java\",\"versions\":[{\"number\":1,\"creationDate\":\"2017-02-22T14:45:04.028Z\",\"comment\":\"Initial Version\",\"commits\":[{\"commitId\":\"HEAD\",\"repository\":{\"commits\":null,\"commitsUrl\":\"https://api.github.com/repos/qos-ch/slf4j/commits{/sha}\",\"contentsUrl\":\"https://api.github.com/repos/qos-ch/slf4j/contents/{+path}\",\"contributorsUrl\":\"https://api.github.com/repos/qos-ch/slf4j/contributors\",\"creationDate\":\"2009-08-20T16:25:49\",\"defaultBranch\":\"master\",\"description\":\"Simple Logging Facade for Java\",\"forks\":347,\"hasDownloads\":false,\"hasWiki\":false,\"htmlUrl\":\"https://github.com/qos-ch/slf4j\",\"id\":\"6b945e0c-b859-377c-b611-bcc7aa584272\",\"isPrivate\":false,\"issuesUrl\":\"https://api.github.com/repos/qos-ch/slf4j/issues{/number}\",\"latestUpdate\":\"2017-02-21T13:56:39Z\",\"license\":\"\",\"name\":\"slf4j\",\"openIssues\":62,\"owner\":\"qos-ch\",\"ownerType\":\"Organization\",\"properties\":[],\"releasesUrl\":\"https://api.github.com/repos/qos-ch/slf4j/releases{/id}\",\"remoteId\":283187,\"repositoryType\":\"git\",\"repositoryUrl\":\"https://github.com/qos-ch/slf4j.git\",\"score\":126,\"size\":9915,\"starred\":637,\"watched\":637},\"branchId\":\"master\"}]}]}";
+        String payload = "{\"name\":\"slf4j\",\"description\":\"Simple Logging Facade 4 Java\",\"versions\":[{\"number\":1,\"creationDate\":\""
+        		+ "2017-02-22T14:45:04.028Z\",\"comment\":\"Initial Version\",\"commits\":[{\"commitId\":\"HEAD\",\"repository\":{\"commits\":null,\""
+        		+ "commitsUrl\":\"https://api.github.com/repos/qos-ch/slf4j/commits{/sha}\",\"contentsUrl\":\""
+        		+ "https://api.github.com/repos/qos-ch/slf4j/contents/{+path}\",\"contributorsUrl\":\""
+        		+ "https://api.github.com/repos/qos-ch/slf4j/contributors\",\"creationDate\":\"2009-08-20T16:25:49\",\"defaultBranch\":\"master\",\""
+        		+ "description\":\"Simple Logging Facade for Java\",\"forks\":347,\"hasDownloads\":false,\"hasWiki\":false,\"htmlUrl\":\""
+        		+ "https://github.com/qos-ch/slf4j\",\"id\":\"6b945e0c-b859-377c-b611-bcc7aa584272\",\"isPrivate\":false,\"issuesUrl\":\""
+        		+ "https://api.github.com/repos/qos-ch/slf4j/issues{/number}\",\"latestUpdate\":\"2017-02-21T13:56:39Z\",\"license\":\"\",\""
+        		+ "name\":\"slf4j\",\"openIssues\":62,\"owner\":\"qos-ch\",\"ownerType\":\"Organization\",\"properties\":[],\"releasesUrl\":\""
+        		+ "https://api.github.com/repos/qos-ch/slf4j/releases{/id}\",\"remoteId\":283187,\"repositoryType\":\"git\",\"repositoryUrl\":\""
+        		+ "https://github.com/qos-ch/slf4j.git\",\"score\":126,\"size\":9915,\"starred\":637,\"watched\":637},\"branchId\":\"master\"}]}]}";
         HttpResponse response = HttpUtils.post(uri, headers, payload.getBytes(charset), charset);
         Assert.assertEquals("", response.getContent());
-        Assert.assertEquals(200, response.getResponseCode());
+        Assert.assertEquals(NUM200, response.getResponseCode());
 
         // get collections
         uri = baseUri + "/rest/collection?user=" + USER;
@@ -62,7 +86,7 @@ public class CollectionControllerTest extends AbstractHttpTest {
         addSessionCookie(headers);
         try {
             response = HttpUtils.delete(uri, headers, charset);
-            Assert.assertEquals(403, response.getResponseCode());
+            Assert.assertEquals(NUM403, response.getResponseCode());
         } catch(IOException e) {
             // expected 403 unauthorized
             Assert.assertNotNull(e);
@@ -72,7 +96,7 @@ public class CollectionControllerTest extends AbstractHttpTest {
         login();
         addSessionCookie(headers);
         response = HttpUtils.delete(uri, headers, charset);
-        Assert.assertEquals(200, response.getResponseCode());
+        Assert.assertEquals(NUM200, response.getResponseCode());
 
         // get collections
         uri = baseUri + "/rest/collection?user=" + USER;
@@ -86,10 +110,20 @@ public class CollectionControllerTest extends AbstractHttpTest {
         Map<String, String> headers = login();
         headers.put("Content-Type", "application/json;charset=UTF-8");
         String uri = baseUri + "/rest/collection";
-        String payload = "{\"name\":\"slf4j\",\"description\":\"Simple Logging Facade 4 Java\",\"versions\":[{\"number\":1,\"creationDate\":\"2017-02-22T14:45:04.028Z\",\"comment\":\"Initial Version\",\"commits\":[{\"commitId\":\"HEAD\",\"repository\":{\"commits\":null,\"commitsUrl\":\"https://api.github.com/repos/qos-ch/slf4j/commits{/sha}\",\"contentsUrl\":\"https://api.github.com/repos/qos-ch/slf4j/contents/{+path}\",\"contributorsUrl\":\"https://api.github.com/repos/qos-ch/slf4j/contributors\",\"creationDate\":\"2009-08-20T16:25:49\",\"defaultBranch\":\"master\",\"description\":\"Simple Logging Facade for Java\",\"forks\":347,\"hasDownloads\":false,\"hasWiki\":false,\"htmlUrl\":\"https://github.com/qos-ch/slf4j\",\"id\":\"6b945e0c-b859-377c-b611-bcc7aa584272\",\"isPrivate\":false,\"issuesUrl\":\"https://api.github.com/repos/qos-ch/slf4j/issues{/number}\",\"latestUpdate\":\"2017-02-21T13:56:39Z\",\"license\":\"\",\"name\":\"slf4j\",\"openIssues\":62,\"owner\":\"qos-ch\",\"ownerType\":\"Organization\",\"properties\":[],\"releasesUrl\":\"https://api.github.com/repos/qos-ch/slf4j/releases{/id}\",\"remoteId\":283187,\"repositoryType\":\"git\",\"repositoryUrl\":\"https://github.com/qos-ch/slf4j.git\",\"score\":126,\"size\":9915,\"starred\":637,\"watched\":637},\"branchId\":\"master\"}]}]}";
+        String payload = "{\"name\":\"slf4j\",\"description\":\"Simple Logging Facade 4 Java\",\"versions\":[{\"number\":1,\"creationDate\":\""
+        		+ "2017-02-22T14:45:04.028Z\",\"comment\":\"Initial Version\",\"commits\":[{\"commitId\":\"HEAD\",\"repository\":{\"commits\":null,\""
+        		+ "commitsUrl\":\"https://api.github.com/repos/qos-ch/slf4j/commits{/sha}\",\"contentsUrl\":\""
+        		+ "https://api.github.com/repos/qos-ch/slf4j/contents/{+path}\",\"contributorsUrl\":\""
+        		+ "https://api.github.com/repos/qos-ch/slf4j/contributors\",\"creationDate\":\"2009-08-20T16:25:49\",\"defaultBranch\":\"master\",\""
+        		+ "description\":\"Simple Logging Facade for Java\",\"forks\":347,\"hasDownloads\":false,\"hasWiki\":false,\"htmlUrl\":\""
+        		+ "https://github.com/qos-ch/slf4j\",\"id\":\"6b945e0c-b859-377c-b611-bcc7aa584272\",\"isPrivate\":false,\"issuesUrl\":\""
+        		+ "https://api.github.com/repos/qos-ch/slf4j/issues{/number}\",\"latestUpdate\":\"2017-02-21T13:56:39Z\",\"license\":\"\",\"name\":\""
+        		+ "slf4j\",\"openIssues\":62,\"owner\":\"qos-ch\",\"ownerType\":\"Organization\",\"properties\":[],\"releasesUrl\":\""
+        		+ "https://api.github.com/repos/qos-ch/slf4j/releases{/id}\",\"remoteId\":283187,\"repositoryType\":\"git\",\"repositoryUrl\":\""
+        		+ "https://github.com/qos-ch/slf4j.git\",\"score\":126,\"size\":9915,\"starred\":637,\"watched\":637},\"branchId\":\"master\"}]}]}";
         HttpResponse response = HttpUtils.post(uri, headers, payload.getBytes(charset), charset);
         Assert.assertEquals("", response.getContent());
-        Assert.assertEquals(200, response.getResponseCode());
+        Assert.assertEquals(NUM200, response.getResponseCode());
 
         // get collections
         uri = baseUri + "/rest/collection?user=" + USER;
@@ -113,7 +147,7 @@ public class CollectionControllerTest extends AbstractHttpTest {
             collection.put("description", "def");
             payload = collection.toString();
             response = HttpUtils.put(uri, headers, payload.getBytes(charset), charset);
-            Assert.assertEquals(403, response.getResponseCode());
+            Assert.assertEquals(NUM403, response.getResponseCode());
         } catch(IOException e) {
             // expected 403 unauthorized
             Assert.assertNotNull(e);
@@ -138,7 +172,7 @@ public class CollectionControllerTest extends AbstractHttpTest {
         // delete
         uri = baseUri + "/rest/collection/" + id;
         response = HttpUtils.delete(uri, headers, charset);
-        Assert.assertEquals(200, response.getResponseCode());
+        Assert.assertEquals(NUM200, response.getResponseCode());
     }
 
     @Test
@@ -147,10 +181,20 @@ public class CollectionControllerTest extends AbstractHttpTest {
         Map<String, String> headers = login();
         headers.put("Content-Type", "application/json;charset=UTF-8");
         String uri = baseUri + "/rest/collection";
-        String payload = "{\"name\":\"slf4j\",\"description\":\"Simple Logging Facade 4 Java\",\"versions\":[{\"number\":1,\"creationDate\":\"2017-02-22T14:45:04.028Z\",\"comment\":\"Initial Version\",\"commits\":[{\"commitId\":\"HEAD\",\"repository\":{\"commits\":null,\"commitsUrl\":\"https://api.github.com/repos/qos-ch/slf4j/commits{/sha}\",\"contentsUrl\":\"https://api.github.com/repos/qos-ch/slf4j/contents/{+path}\",\"contributorsUrl\":\"https://api.github.com/repos/qos-ch/slf4j/contributors\",\"creationDate\":\"2009-08-20T16:25:49\",\"defaultBranch\":\"master\",\"description\":\"Simple Logging Facade for Java\",\"forks\":347,\"hasDownloads\":false,\"hasWiki\":false,\"htmlUrl\":\"https://github.com/qos-ch/slf4j\",\"id\":\"6b945e0c-b859-377c-b611-bcc7aa584272\",\"isPrivate\":false,\"issuesUrl\":\"https://api.github.com/repos/qos-ch/slf4j/issues{/number}\",\"latestUpdate\":\"2017-02-21T13:56:39Z\",\"license\":\"\",\"name\":\"slf4j\",\"openIssues\":62,\"owner\":\"qos-ch\",\"ownerType\":\"Organization\",\"properties\":[],\"releasesUrl\":\"https://api.github.com/repos/qos-ch/slf4j/releases{/id}\",\"remoteId\":283187,\"repositoryType\":\"git\",\"repositoryUrl\":\"https://github.com/qos-ch/slf4j.git\",\"score\":126,\"size\":9915,\"starred\":637,\"watched\":637},\"branchId\":\"master\"}]}]}";
+        String payload = "{\"name\":\"slf4j\",\"description\":\"Simple Logging Facade 4 Java\",\"versions\":[{\"number\":1,\"creationDate\":\""
+        		+ "2017-02-22T14:45:04.028Z\",\"comment\":\"Initial Version\",\"commits\":[{\"commitId\":\"HEAD\",\"repository\":{\"commits\":null,\""
+        		+ "commitsUrl\":\"https://api.github.com/repos/qos-ch/slf4j/commits{/sha}\",\"contentsUrl\":\""
+        		+ "https://api.github.com/repos/qos-ch/slf4j/contents/{+path}\",\"contributorsUrl\":\""
+        		+ "https://api.github.com/repos/qos-ch/slf4j/contributors\",\"creationDate\":\"2009-08-20T16:25:49\",\"defaultBranch\":\"master\",\""
+        		+ "description\":\"Simple Logging Facade for Java\",\"forks\":347,\"hasDownloads\":false,\"hasWiki\":false,\"htmlUrl\":\""
+        		+ "https://github.com/qos-ch/slf4j\",\"id\":\"6b945e0c-b859-377c-b611-bcc7aa584272\",\"isPrivate\":false,\"issuesUrl\":\""
+        		+ "https://api.github.com/repos/qos-ch/slf4j/issues{/number}\",\"latestUpdate\":\"2017-02-21T13:56:39Z\",\"license\":\"\",\"name\":\""
+        		+ "slf4j\",\"openIssues\":62,\"owner\":\"qos-ch\",\"ownerType\":\"Organization\",\"properties\":[],\"releasesUrl\":\""
+        		+ "https://api.github.com/repos/qos-ch/slf4j/releases{/id}\",\"remoteId\":283187,\"repositoryType\":\"git\",\"repositoryUrl\":\""
+        		+ "https://github.com/qos-ch/slf4j.git\",\"score\":126,\"size\":9915,\"starred\":637,\"watched\":637},\"branchId\":\"master\"}]}]}";
         HttpResponse response = HttpUtils.post(uri, headers, payload.getBytes(charset), charset);
         Assert.assertEquals("", response.getContent());
-        Assert.assertEquals(200, response.getResponseCode());
+        Assert.assertEquals(NUM200, response.getResponseCode());
 
         // get collections
         uri = baseUri + "/rest/collection?user=" + USER;
@@ -171,9 +215,9 @@ public class CollectionControllerTest extends AbstractHttpTest {
         // delete
         uri = baseUri + "/rest/collection/" + id;
         response = HttpUtils.delete(uri, headers, charset);
-        Assert.assertEquals(200, response.getResponseCode());
+        Assert.assertEquals(NUM200, response.getResponseCode());
     }
-    
+
     @Test
     public void testLastSuccessfullyBuiltVersion() throws IOException {
     	// Create a private collection first.
@@ -201,18 +245,18 @@ public class CollectionControllerTest extends AbstractHttpTest {
                 + "\"creation_date\":\"2018-05-28T13:15:19\",\"user\":\"demo\"}";
         HttpResponse response = HttpUtils.post(uri, headers, payload.getBytes(charset), charset);
         Assert.assertEquals("", response.getContent());
-        Assert.assertEquals(200, response.getResponseCode());
-        
+        Assert.assertEquals(NUM200, response.getResponseCode());
+
         // Get the collection from the server.
         uri = baseUri + "/rest/collection?user=" + USER;
         String collections = HttpUtils.get(uri, headers, charset);
         JSONArray array = new JSONArray(collections);
-        
+
         // Get version id of the version that has to be built.
         JSONObject collection = null;
         for (int i = 0; i < array.length(); i++) {
             collection = (JSONObject)array.get(i);
-        
+
             if (collection.getString("name").equals("SimpleMavenApp")) {
                 break;
             }
@@ -224,11 +268,11 @@ public class CollectionControllerTest extends AbstractHttpTest {
         Assert.assertEquals(1,collection.getJSONArray("versions").length());
         JSONArray versions = collection.getJSONArray("versions");
         Assert.assertEquals(1, ((JSONObject)versions.get(0)).getJSONArray("commits").length());
-        
+
         JSONObject commit = (JSONObject)((JSONObject)versions.get(0)).getJSONArray("commits").get(0);
         String versionid = commit.getString("versionId");
         String commitid = commit.getString("id");
-        
+
         // Start the build.
         uri = baseUri + "/rest/build";
         payload = "{\"id\": \"" + versionid + "\", \"number\":1,\"commits\":[{\"versionId\":\"" + versionid + "\","
@@ -251,50 +295,50 @@ public class CollectionControllerTest extends AbstractHttpTest {
                 + "\"properties\":[]}}],\"filtered\":false,\"frozen\":false,\"comment\":\"Initial Version\","
                 + "\"creationDate\":\"2018-05-28T13:15:19\",\"collectionId\":\"" + collectionid + "\"}";
         response = HttpUtils.post(uri, headers, payload.getBytes(charset), charset);
-        Assert.assertEquals(200, response.getResponseCode());
-        
+        Assert.assertEquals(NUM200, response.getResponseCode());
+
         // Get the BuildDTO.
         uri = baseUri + "/rest/builds/" + USER;
-        
+
         float buildProgress = 0F;
         while (buildProgress < 1F) {
             String json = HttpUtils.get(uri, headers, charset);
             JSONArray builds = new JSONArray(json);
- 
+
             if (builds.length() > 0) {
                 try {
             	    System.out.println("Waiting for build...");
-            	    Thread.sleep(10000);
+            	    Thread.sleep(NUM10000);
                 } catch (Exception x) {
                     // Do nothing on interrupted Exception.
                 }
             } else {
                 buildProgress = 1F;
-            }   
+            }
         }
         System.out.println("Finished building");
-        
+
         // Final testing of lastsuccessfullybuiltversion.
         uri = baseUri + "/rest/lastsuccessfullybuiltversion/" + collectionid;
         String json = HttpUtils.get(uri, headers, charset);
-        
+
         JSONObject resultVersion = new JSONObject(json);
         Assert.assertNotEquals(null, resultVersion);
         Assert.assertEquals("Initial Version", resultVersion.getString("comment"));
         Assert.assertEquals(1, resultVersion.getInt("number"));
-        
+
         System.out.println("Test passed. Unfreezing..");
-        
+
         // Unfreeze version so it can be deleted.
         uri = baseUri + "/rest/version";
         response = HttpUtils.put(uri, headers, payload.getBytes(charset), charset);
-        Assert.assertEquals(200, response.getResponseCode());
-        
+        Assert.assertEquals(NUM200, response.getResponseCode());
+
         System.out.println("Deleting..");
-        
+
         // Delete all mocked data.
         uri = baseUri + "/rest/collection/" + collectionid;
         response = HttpUtils.delete(uri, headers, charset);
-        Assert.assertEquals(200, response.getResponseCode());
+        Assert.assertEquals(NUM200, response.getResponseCode());
     }
 }

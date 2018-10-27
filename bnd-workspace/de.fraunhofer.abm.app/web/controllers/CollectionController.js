@@ -13,8 +13,133 @@ function collectionController($rootScope, $scope, $http, $location, $route, $rou
 	$rootScope.running = false;
 	self.running = $rootScope.running;
 	
+	$scope.request = {};
+	self.showDeleteAccount = true;
+	self.showGetUsers = true;
+	self.showGetUserInfo = true;
+ 	self.showApproveRejectUser = true;
 	
+ 	self.adminApproveUsers = function(){
+ 		alert("Admin delete");
+		$rootScope.loading = true;
+		var approveUserList = [];
+		approveUserList.push("a1");
+		approveUserList.push("a2");
+		approveUserList.push("a3");
+		$scope.request.userList =  approveUserList.toString();
+		$scope.request.isApprove = true;
+		$http.post('/rest/approval', $scope.request, null).then(
+			function(d){
+				if(d.data){
+					console.log("data : " + d.data);
+				}
+			}, function(d){
+				Notification.error('Internal error: Approve user cannot be done at the moment. Please try again later. If the error persists, please report it here: https://github.com/ABenchM/abm/issues');
+			})['finally'](function() {
+				$rootScope.loading = false
+			});	
+	};
 	
+	self.adminRejectUsers = function(){
+ 		alert("Admin delete");
+		$rootScope.loading = true;
+		var rejectUserList = [];
+		rejectUserList.push("r1");
+		rejectUserList.push("r2");
+		rejectUserList.push("r3");
+		$scope.request.userList =  rejectUserList.toString();
+		$scope.request.isApprove = false;
+		$http.post('/rest/approval', $scope.request, null).then(
+			function(d){
+				if(d.data){
+					console.log("data : " + d.data);
+				}
+			}, function(d){
+				Notification.error('Internal error: Reject user cannot be done at the moment. Please try again later. If the error persists, please report it here: https://github.com/ABenchM/abm/issues');
+			})['finally'](function() {
+				$rootScope.loading = false
+			});	
+	};
+	
+ 	self.getUserInfo = function(user){
+ 		alert(user);
+		$rootScope.loading = true;
+		$http({
+		    method: 'GET',
+			url: '/rest/username',
+			params: {'username': user}
+		}).then(
+			function(resp) {
+				if(resp != undefined){
+				} else {
+					Notification.error('Internal error: the user data cannot be retrieved. Please try again later. If the error persists, please report it here: https://github.com/ABenchM/abm/issues');
+					$location.path('/');
+				}
+			}, function(d) {
+				Notification.error('Failed with ['+ d.status + '] '+ d.statusText);
+				$location.path('/');
+			})['finally'](function() {
+				$rootScope.loading = false;
+			});
+	}
+ 	
+	self.loadAllUserInfo = function(){
+		$rootScope.loading = true;
+		$http({
+		    method: 'GET',
+			url: '/rest/userList',
+			params: {'approved': 0}
+		}).then(
+			function(resp) {
+				if(resp.data[0] != undefined){
+					self.edit(resp.data[0]);
+				} else {
+					Notification.error('Internal error: the collections cannot be retrieved. Please try again later. If the error persists, please report it here: https://github.com/ABenchM/abm/issues');
+					$location.path('/');
+				}
+			}, function(d) {
+				Notification.error('Failed with ['+ d.status + '] '+ d.statusText);
+				$location.path('/');
+			})['finally'](function() {
+				$rootScope.loading = false;
+			});
+	};
+	
+ 	self.deleteAccount = function(user){
+ 		alert(user);
+ 		console.log("delete user : " + user);
+		$rootScope.loading = true;
+		$scope.request.username = user;
+		$http.post('/rest/deleteUser', $scope.request, null).then(
+			function(d){
+				if(d.data){
+					console.log("data : " + d.data);
+				}
+			}, function(d){
+				Notification.error('Internal error: Delete user cannot be done at the moment. Please try again later. If the error persists, please report it here: https://github.com/ABenchM/abm/issues');
+			})['finally'](function() {
+				$rootScope.loading = false
+			});	
+	};
+	
+	self.adminDeleteAccounts = function(){
+ 		alert("Admin delete");
+		$rootScope.loading = true;
+		var deleteUserList = [];
+		deleteUserList.push("delete1");
+		deleteUserList.push("delete2");
+		$scope.request.deleteUsers =  deleteUserList.toString();//"{ deleteUsers : "+ deleteUserList + "}";
+		$http.post('/rest/adminDeleteUsers', $scope.request, null).then(
+			function(d){
+				if(d.data){
+					console.log("data : " + d.data);
+				}
+			}, function(d){
+				Notification.error('Internal error: Delete users cannot be done at the moment. Please try again later. If the error persists, please report it here: https://github.com/ABenchM/abm/issues');
+			})['finally'](function() {
+				$rootScope.loading = false
+			});	
+	};
 	
 	var columnDefinition = [
 		{ name: 'name' },

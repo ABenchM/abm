@@ -14,6 +14,24 @@
           <target>1.8</target>
         </configuration>
       </plugin>
+      <!-- Checkstyle plugin  : use mvn checkstyle:check to run-->
+      <plugin>
+	    <groupId>org.apache.maven.plugins</groupId>
+	    <artifactId>maven-checkstyle-plugin</artifactId>
+	    <version>2.17</version>
+	    <executions>
+	        <execution>
+	            <phase>install</phase>
+	            <goals>
+	                <goal>checkstyle</goal>
+	            </goals>
+	        </execution>
+	    </executions>
+	    <configuration>
+	        <consoleOutput>${checkstyle.printErrors}</consoleOutput>
+	        <configLocation>checkstyle.xml</configLocation>
+	    </configuration>
+      </plugin>
     </plugins>
   </build>
   <dependencies>
