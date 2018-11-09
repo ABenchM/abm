@@ -58,8 +58,13 @@ public class AbmApplication implements REST {
        
         List<RepositoryDTO> result =new ArrayList<>();
         for(Crawler c : crawlerList) {
-        	System.out.println("Using "+ c.getClass().getSimpleName() + " to search the query");
-         result.addAll(c.search(query));
+        	System.out.println(c.getClass().getSimpleName());
+//        	if(c.getClass().getSimpleName().equals("GithubCrawler")) {
+        		System.out.println("Using "+ c.getClass().getSimpleName() + " to search the query");
+        		result.addAll(c.search(query));
+//        	}
+        	
+         
         }
        // List<RepositoryDTO> result = crawler.search(query);
         //crawler = new GithubCrawler();

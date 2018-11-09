@@ -9,4 +9,5 @@ public class CommitDTO {
     public String commitId;
     public Date creationDate;
     public String message;
+    public boolean selectProject;
 }

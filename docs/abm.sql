@@ -42,11 +42,11 @@ CREATE TABLE `build_artifacts` (
 
 CREATE TABLE `collection` (
   `id` varchar(255) NOT NULL,
-  `description` varchar(255) DEFAULT NULL,
+  `description` tinytext DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
   `user` varchar(255) DEFAULT NULL,
   `privateStatus` tinyint(4) DEFAULT '0',
-  `creation_date` date DEFAULT NULL,
+  `creation_date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 );
 

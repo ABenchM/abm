@@ -116,8 +116,8 @@ public class HermesController implements REST {
 	    	
 	        // make sure the collection is public
 	        VersionDTO version = versionDao.findById(params.get("id")[0]);
-	        CollectionDTO databaseCollection = collectionDao.findById(version.collectionId);
-	        if (databaseCollection.privateStatus) {
+	        VersionDTO databaseVersion = versionDao.findById(version.id);
+	        if (databaseVersion.privateStatus) {
 	            authorizer.requireRole("Admin");
 	        }
 
