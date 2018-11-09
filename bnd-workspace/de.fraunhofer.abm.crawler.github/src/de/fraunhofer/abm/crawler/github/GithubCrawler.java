@@ -46,13 +46,20 @@ public class GithubCrawler implements Crawler {
         logger.debug("Searching for [{}]", query);
         List<RepositoryDTO> result = new ArrayList<>();
         try{
-        String uri = "https://api.github.com/search/repositories?q=" + URLEncoder.encode(query, "UTF-8");
+        String uri = "https://api.github.com/search/repositories?q=" + URLEncoder.encode(query, "UTF-8")+"language:JavaScript";
         String resp = HttpUtils.get(uri, header, "utf-8");
         JSONObject json = new JSONObject(resp);
         if(json.has("items")) {
             JSONArray items = json.getJSONArray("items");
+            
             for (int i = 0; i < items.length(); i++) {
-                result.add(createRepository(items.getJSONObject(i)));
+            	String url = "https://api.github.com/search/code?q=http+in:file+language:JavaScript+repo:"+items.getJSONObject(i).getString("full_name");
+            	String data = HttpUtils.get(url, header, "utf-8");
+            	JSONObject jsonData = new JSONObject(data);
+            	if(jsonData.has("items")) {
+            		result.add(createRepository(items.getJSONObject(i)));	
+            	}
+                
             }
         }
     }catch(Exception e)
