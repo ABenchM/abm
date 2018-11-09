@@ -16,7 +16,6 @@ import java.util.UUID;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.osgi.annotation.versioning.ProviderType;
 import org.osgi.service.component.annotations.Component;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,7 +31,6 @@ import de.fraunhofer.abm.http.client.HttpUtils;
 import de.fraunhofer.abm.util.AbmApplicationConstants;
 
 @Component
-@ProviderType
 public class GithubCrawler implements Crawler {
 
     private static final transient Logger logger = LoggerFactory.getLogger(GithubCrawler.class);
