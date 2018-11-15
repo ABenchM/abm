@@ -11,4 +11,5 @@ public class CollectionDTO {
     public boolean privateStatus;
     public Date creation_date;
     public List<VersionDTO> versions;
+    public boolean isActive;
 }
