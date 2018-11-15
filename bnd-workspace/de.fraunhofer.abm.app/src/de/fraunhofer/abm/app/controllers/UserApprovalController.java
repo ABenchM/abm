@@ -64,7 +64,8 @@ public class UserApprovalController extends AbstractController implements REST {
 			user.getCredentials().put("password", password);
 			Group registeredUserGroup = (Group) userAdmin.getRole("RegisteredUser");
 			registeredUserGroup.addMember(user);
-			sendApproveRejectEmail(name, true);
+			String userEmail = userDao.getEmailId(name);
+			sendApproveRejectEmail(name, true, userEmail);
 		} catch (Exception e) {
 			// return e.getCause() != null ? e.getCause().getMessage() : e.getMessage();
 		}
@@ -87,10 +88,12 @@ public class UserApprovalController extends AbstractController implements REST {
  	 				user.getCredentials().put("password", password);
  	 				Group registeredUserGroup = (Group) userAdmin.getRole("RegisteredUser");
  	 				registeredUserGroup.addMember(user);
- 	 				sendApproveRejectEmail(username, true);
+ 	 				String userEmail = userDao.getEmailId(username);
+ 	 				sendApproveRejectEmail(username, true, userEmail);
  	 			} else {
+ 	 				String userEmail = userDao.getEmailId(username);
  	 				userDao.deleteUser(username);
- 	 				sendApproveRejectEmail(username, false);
+ 	 				sendApproveRejectEmail(username, false, userEmail);
  	 			}
  			}
  		} catch (Exception e) {
@@ -98,8 +101,7 @@ public class UserApprovalController extends AbstractController implements REST {
  		}
  	}
 	
-	public void sendApproveRejectEmail(String username, Boolean isApprove) throws Exception {
-		String userEmail = userDao.getEmailId(username);
+	public void sendApproveRejectEmail(String username, Boolean isApprove, String userEmail) throws Exception {
 		InternetAddress[] addressList = InternetAddress.parse(userEmail);
 		String sbj= null;
 		String msg= null;
