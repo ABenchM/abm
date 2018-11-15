@@ -31,7 +31,7 @@ public class DeletePublicCollectionController extends AbstractController impleme
         Map<String, String> _body();
 	}
    
-    public boolean deleteDeletepubliccollection(CollectionRequest cr) throws IOException{
+    public boolean postDeletepubliccollection(CollectionRequest cr) throws IOException{
     	authorizer.requireRole("UserAdmin");
 		Map<String, String> params = cr._body();
 		String[] deleteCollection = params.get("deleteCollections").split(",");
