@@ -18,6 +18,9 @@ public class JpaUser {
 
 	@Column
 	public int approved;
+	
+	@Column
+	public int locked;
 
 	@Column(name="approval_token")
 	public String token;
@@ -27,6 +30,7 @@ public class JpaUser {
 		user.name = dto.name;
 		user.password = dto.password;
 		user.approved = ((dto.approved) ? 1 : 0);
+		user.locked = ((dto.locked) ? 1 : 0);
 		user.token = dto.token;
 		return user;
 	}
@@ -36,6 +40,7 @@ public class JpaUser {
 		user.name = this.name;
 		user.password = this.password;
 		user.approved = (this.approved == 1);
+		user.locked = (this.locked == 1);
 		user.token = this.token;
 		return user;
 	}

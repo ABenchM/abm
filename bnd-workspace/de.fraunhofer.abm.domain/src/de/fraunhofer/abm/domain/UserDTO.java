@@ -5,4 +5,5 @@ public class UserDTO {
 	public String password;
 	public boolean approved;
 	public String token;
+	public boolean locked;
 }

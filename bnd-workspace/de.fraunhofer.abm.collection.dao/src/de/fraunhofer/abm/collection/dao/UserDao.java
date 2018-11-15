@@ -16,4 +16,6 @@ public interface UserDao {
     public void deleteUser(String username);
 	
 	public void deleteUsers(List<String> usernames);
+	
+	public void lockunlockUser(String username,String isLock);
 }

@@ -134,6 +134,23 @@ public class JpaUserDao extends AbstractJpaDao implements UserDao {
  			return null;
  		});
  	}
+	public void lockunlockUser(String username,String isLock) {
+		transactionControl.required(() -> {
+			TypedQuery<JpaUser> query = em.createQuery("SELECT u FROM user u WHERE u.name = :name", JpaUser.class);
+			query.setParameter("name", username);
+			JpaUser result = query.getSingleResult();
+			if(isLock=="true") {
+				result.locked=1;
+			}else {
+				result.locked=0;
+			}
+			em.merge(result);
+			return null;
+			
+			
+		});
+		
+	}
 
 
 	@Override
