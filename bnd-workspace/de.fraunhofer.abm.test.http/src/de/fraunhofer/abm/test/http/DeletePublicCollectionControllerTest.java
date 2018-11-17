@@ -122,4 +122,4 @@ import java.nio.charset.Charset;
 	        String id = testGetCollection(uri, headers, charset);
 	    	return id;
 		}
-}
+	}

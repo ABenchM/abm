@@ -221,31 +221,17 @@ public class JpaUserDao extends AbstractJpaDao implements UserDao {
 	
 	@Override
 	public UserDTO getUserInfo(String username) {
-		return transactionControl.notSupported(() -> {
-			String queryStr = "select a.name as username, a.firstname, a.lastname, a.locked, a.email, a.affiliation, b.role "
-					+ "from user a, role_members b where a.name = :name and a.name = b.username";
-			Query query = em.createQuery(queryStr);
-            query.setParameter("name", username);
-            UserDTO user = new UserDTO();
-			List<UserDTO> userList = new ArrayList<UserDTO>();
-            @SuppressWarnings("unchecked")
-			List<Object[]> resultList = query.getResultList();
-            for (Object[] result : resultList) {
-        		user.username = (String) result[0];
-         		user.firstname = (String) result[1];
-         		user.lastname = (String) result[2];
-         		user.locked = ((int) result[3] == 0) ? false : true;
-         		user.email = (String) result[4];
-         		user.affiliation = (String) result[5];
-       			user.role = (String) result[6];
-        		userList.add(user);
-            }
-			if (user.username.equals(username)) {
-				return user;
+		UserDTO userDTO = transactionControl.required(() -> {
+			TypedQuery<JpaUser> query = em.createQuery("SELECT u FROM user u WHERE u.name = :name", JpaUser.class);
+			query.setParameter("name", username);
+			JpaUser result = query.getSingleResult();
+			if (result.name.equals(username)) {
+				return result.toDTO();
 			} else {
 				throw new ApprovalException("Invalid User");
 			}
 		});
+		return userDTO;
 	}
 	
 	@Override
