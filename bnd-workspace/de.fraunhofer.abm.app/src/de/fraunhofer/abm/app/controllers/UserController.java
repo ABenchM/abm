@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.fraunhofer.abm.app.EmailConfigInterface;
+import de.fraunhofer.abm.app.auth.Authenticator;
 import de.fraunhofer.abm.app.auth.Authorizer;
 import de.fraunhofer.abm.app.auth.Password;
 import de.fraunhofer.abm.app.auth.TokenGenerator;
@@ -35,6 +36,9 @@ public class UserController extends AbstractController implements REST {
 
 	@Reference
 	private Authorizer authorizer;
+	
+	@Reference
+	private Authenticator authenticator;
 
 	@Reference
 	private EmailConfigInterface config;
@@ -85,6 +89,15 @@ public class UserController extends AbstractController implements REST {
 		}
 	}
 	
+	public boolean getIsPasswordMatched(RESTRequest rr) throws Exception {
+		boolean matched = false;
+		Map<String, String[]> params = rr._request().getParameterMap();
+        String user = params.get("username")[0];
+        String password = params.get("password")[0];
+        matched = authenticator.authenticate(user, password);
+		return matched;
+        
+	}
 	/**
 	 * User Profile
 	 * 
