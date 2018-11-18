@@ -58,6 +58,7 @@ CREATE TABLE `version` (
   `frozen` bit(1) DEFAULT NULL,
   `number` int(11) DEFAULT NULL,
   `collection_id` varchar(255) DEFAULT NULL,
+  `privateStatus` tinyint(4) DEFAULT '0',
   `filtered` bit(1) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FKhwyps0yuo2dvxmfjyp34odxdk` (`collection_id`),
