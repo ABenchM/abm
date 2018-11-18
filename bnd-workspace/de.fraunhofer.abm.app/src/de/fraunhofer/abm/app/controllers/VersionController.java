@@ -2,6 +2,7 @@ package de.fraunhofer.abm.app.controllers;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Optional;
 import java.util.UUID;
@@ -58,7 +59,10 @@ public class VersionController extends AbstractController implements REST {
      * @param derive
      */
     public VersionDTO postVersion(VersionRequest vr, String action) {
-        authorizer.requireRole("RegisteredUser");
+    	ArrayList<String> users = new ArrayList<String>();
+    	users.add("RegisteredUser");
+    	users.add("UserAdmin"); 
+        authorizer.requireRoles(users);
 
         VersionDTO version = vr._body();
         if("derive".equals(action)) {
