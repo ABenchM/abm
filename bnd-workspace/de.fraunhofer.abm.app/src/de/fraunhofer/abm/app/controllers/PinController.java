@@ -39,7 +39,10 @@ public class PinController extends AbstractController implements REST {
     private Authorizer authorizer;
     
     public List getPin(RESTRequest rr) {
-        authorizer.requireRole("RegisteredUser");
+    	ArrayList<String> users = new ArrayList<String>();
+    	users.add("RegisteredUser");
+    	users.add("UserAdmin"); 
+        authorizer.requireRoles(users);
         Map<String, String[]> params = rr._request().getParameterMap();
         authorizer.requireUser(params.get("user")[0]);
     	if(params.get("type")[0].equals("collection")){

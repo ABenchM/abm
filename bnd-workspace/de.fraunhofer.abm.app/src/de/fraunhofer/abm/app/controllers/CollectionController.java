@@ -56,15 +56,21 @@ public class CollectionController extends AbstractController implements REST {
     private FilterStatusDao filterDao;
 
     public CollectionDTO getCollection(String id) {
-        authorizer.requireRole("RegisteredUser");
+    	ArrayList<String> users = new ArrayList<String>();
+    	users.add("RegisteredUser");
+    	users.add("UserAdmin"); 
+        authorizer.requireRoles(users);
         return collectionDao.findById(id);
     }
 
     public List<CollectionDTO> getCollection(RESTRequest rr) {
         List<CollectionDTO> result = Collections.emptyList();
         Map<String, String[]> params = rr._request().getParameterMap();
+        ArrayList<String> users = new ArrayList<String>();
+    	users.add("RegisteredUser");
+    	users.add("UserAdmin"); 
         if(params.isEmpty()) {
-            authorizer.requireRole("RegisteredUser");
+        	 authorizer.requireRoles(users);
             //result = collectionDao.select();
         } else if(params.get("privateStatus") != null) {
         	if(params.get("id") != null){
@@ -75,7 +81,7 @@ public class CollectionController extends AbstractController implements REST {
         		result = collectionDao.findPublic();
         	}
         } else {
-        	authorizer.requireRole("RegisteredUser");
+        	 authorizer.requireRoles(users);
             if(params.get("user") != null) {
                 String requestUser = params.get("user")[0];
                 authorizer.requireUser(requestUser);
@@ -93,8 +99,10 @@ public class CollectionController extends AbstractController implements REST {
     }
 
     public void postCollection(CollectionRequest cr) {
-        authorizer.requireRole("RegisteredUser");
-
+    	ArrayList<String> users = new ArrayList<String>();
+    	users.add("RegisteredUser");
+    	users.add("UserAdmin"); 
+        authorizer.requireRoles(users);
         CollectionDTO collection = cr._body();
         collection.id = UUID.randomUUID().toString();
         collection.user = SecurityContext.getInstance().getUser();
@@ -109,7 +117,10 @@ public class CollectionController extends AbstractController implements REST {
     }
 
     public void putCollection(CollectionRequest cr) {
-        authorizer.requireRole("RegisteredUser");
+    	ArrayList<String> users = new ArrayList<String>();
+    	users.add("RegisteredUser");
+    	users.add("UserAdmin"); 
+        authorizer.requireRoles(users);
         CollectionDTO collection = cr._body();
 
         // make sure the session user is the owner
@@ -121,8 +132,10 @@ public class CollectionController extends AbstractController implements REST {
     }
 
     public void deleteCollection(String id) throws IOException {
-        authorizer.requireRole("RegisteredUser");
-
+    	ArrayList<String> users = new ArrayList<String>();
+    	users.add("RegisteredUser");
+    	users.add("UserAdmin"); 
+        authorizer.requireRoles(users);
         // make sure the user is the owner of the collection
         CollectionDTO collection = collectionDao.findById(id);
         ensureUserIsOwner(authorizer, collection);
@@ -152,8 +165,10 @@ public class CollectionController extends AbstractController implements REST {
     }
      
     public VersionDTO getLastSuccessfullyBuiltVersion(String collectionID) throws IOException {
-        authorizer.requireRole("RegisteredUser");
-        
+    	ArrayList<String> users = new ArrayList<String>();
+    	users.add("RegisteredUser");
+    	users.add("UserAdmin"); 
+        authorizer.requireRoles(users);
         // Make sure the user is the owner of the collection.
         CollectionDTO collection = collectionDao.findById(collectionID);
         ensureUserIsOwner(authorizer, collection);
