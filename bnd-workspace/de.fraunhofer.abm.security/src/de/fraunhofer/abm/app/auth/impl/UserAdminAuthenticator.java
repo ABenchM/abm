@@ -28,7 +28,7 @@ public class UserAdminAuthenticator implements Authenticator {
         boolean success = false;
         User user = (User) userAdmin.getRole(username);
         if(user == null ) {
-            success = false;
+        	success = false;
         } else {
             String saltAndPass = (String) user.getCredentials().get("password");
             success = Password.check(password, saltAndPass);
@@ -38,7 +38,7 @@ public class UserAdminAuthenticator implements Authenticator {
                 logger.debug("Account is locked for user {}", username);
             }
             else if(success) {
-                logger.debug("User {} successfully logged in", username);
+            	logger.debug("User {} successfully logged in", username);
             } else {
             	success=false;
                 logger.debug("Wrong credentials for user {}", username);

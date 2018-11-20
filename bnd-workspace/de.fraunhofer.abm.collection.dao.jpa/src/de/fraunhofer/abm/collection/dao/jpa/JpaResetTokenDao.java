@@ -1,5 +1,7 @@
 package de.fraunhofer.abm.collection.dao.jpa;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Map;
 
@@ -46,65 +48,76 @@ public class JpaResetTokenDao extends AbstractJpaDao implements ResetTokenDao {
 
 		});
 	}
-	
+
 	@Override
 	public boolean checkExists(String name) {
 		return transactionControl.notSupported(() -> {
-			TypedQuery<JpaResetToken> query = em.createQuery("SELECT r FROM reset_token r WHERE r.username = :username", JpaResetToken.class);
+			TypedQuery<JpaResetToken> query = em.createQuery("SELECT r FROM reset_token r WHERE r.username = :username",
+					JpaResetToken.class);
 			query.setParameter("username", name);
 			query.setMaxResults(1);
 			List<JpaResetToken> result = query.getResultList();
 			return (result.size() == 1);
 		});
 	}
-	
+
 	@Override
-	public void updateToken(String name,String token,Long time) {
+	public void updateToken(String name, String token, Long time) {
 		transactionControl.required(() -> {
-			TypedQuery<JpaResetToken> query = em.createQuery("SELECT u FROM reset_token u WHERE u.username = :username", JpaResetToken.class);
+			TypedQuery<JpaResetToken> query = em.createQuery("SELECT u FROM reset_token u WHERE u.username = :username",
+					JpaResetToken.class);
 			query.setParameter("username", name);
 			JpaResetToken user = query.getSingleResult();
 			user.token = token;
 			user.expired_period = time;
 			em.merge(user);
- 		    return null;
-	
-	});
-}
-		
+			return null;
+
+		});
+	}
+
 	@Override
 	public void resetPassword(String name, String token, String password) {
 		transactionControl.required(() -> {
-			TypedQuery<JpaResetToken> query = em.createQuery("SELECT r FROM reset_token r WHERE r.username = :username", JpaResetToken.class);
-			query.setParameter("username", name);
-			JpaResetToken result = query.getSingleResult();
-			long time = System.currentTimeMillis();
-			if (time < result.expired_period && result.token.equals(token)) {
-				updateUserPassword(name,password);
+			try {
+				TypedQuery<JpaResetToken> query = em
+						.createQuery("SELECT r FROM reset_token r WHERE r.username = :username", JpaResetToken.class);
+				query.setParameter("username", name);
+				JpaResetToken result = query.getSingleResult();
+				LocalDateTime dateTime = LocalDateTime.now();
+				LocalDateTime differenceTime = dateTime.minus(result.expired_period, ChronoUnit.MILLIS);
+				// 24 hours token expiration time
+				if (differenceTime.getHour() < 24 && result.token.equals(token)) {
+					System.out.println(result.expired_period);
+					updateUserPassword(name, password);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 			return null;
 		});
-		
+
 	}
-	
+
 	@Override
-	public void updateUserPassword(String name,String password) {
+	public void updateUserPassword(String name, String password) {
 		transactionControl.required(() -> {
 			TypedQuery<JpaUser> query = em.createQuery("SELECT u FROM user u WHERE u.name = :name", JpaUser.class);
 			query.setParameter("name", name);
 			JpaUser user = query.getSingleResult();
-			user.password=password;
+			System.out.println(user.password);
+			user.password = password;
 			em.merge(user);
- 		    return null;
-	
-	});
-}
+			JpaUser user1 = query.getSingleResult();
+			System.out.println(user1.password);
+			return null;
+
+		});
+	}
 
 	@Override
 	protected EntityManager getEntityManager() {
 		return em;
 	}
-
-	
 
 }

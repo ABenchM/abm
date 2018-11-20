@@ -23,29 +23,31 @@ public class ResetPasswordApprovalController extends AbstractController implemen
 
 	@Reference
 	private ResetTokenDao resettokenDao;
-	
-	
-	public void getApprovePassword(RESTRequest rr) {
-		try {
-			//Get this password from the user entered box
-			String password ="Ironman";
-			String saltHashPassword = Password.getSaltedHash(password);
-			Map<String, String[]> params = rr._request().getParameterMap();
-			String name = getIfValid(params.get("name"));
-			String token = getIfValid(params.get("token"));
-			//Check  and update the password
-			resettokenDao.resetPassword(name, token, saltHashPassword);
-		}
-	  catch (Exception e) {
-		e.getStackTrace();
+
+	interface ApprovalPasswordRequest extends RESTRequest {
+		Map<String, String> _body();
 	}
-}
-	
-	private String getIfValid(String[] data) {
-		if (data != null && data.length == 1) {
-			return data[0];
+
+	public boolean postApprovePassword(ApprovalPasswordRequest approveReq) {
+		Map<String, String> payload = approveReq._body();
+		String password = payload.get("password");
+		String confirmPassword = payload.get("confirmPassword");
+		if (password.equals(confirmPassword)) {
+			try {
+
+				// Get this password from the user entered box
+				String saltHashPassword = Password.getSaltedHash(password);
+				String name = payload.get("username");
+				String token = payload.get("token");
+				// Check and update the password
+				resettokenDao.resetPassword(name, token, saltHashPassword);
+			} catch (Exception e) {
+				e.getStackTrace();
+			}
+			return true;
+		} else {
+			return false;
 		}
-		throw new ArrayIndexOutOfBoundsException("Invalid param key");
 	}
 
 	@Override
@@ -53,5 +55,3 @@ public class ResetPasswordApprovalController extends AbstractController implemen
 		return logger;
 	}
 }
-	
-
