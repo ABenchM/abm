@@ -56,7 +56,6 @@ public class UserApprovalController extends AbstractController implements REST {
 	public void getApproval(RESTRequest rr) {
 		try {
 			Map<String, String[]> params = rr._request().getParameterMap();
-			System.out.println(params);
 			String name = getIfValid(params.get("name"));
 			String token = getIfValid(params.get("token"));
 			String password = userDao.approveToken(name, token);
