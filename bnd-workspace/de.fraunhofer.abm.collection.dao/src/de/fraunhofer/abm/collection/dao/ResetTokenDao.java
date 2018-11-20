@@ -4,7 +4,7 @@ public interface ResetTokenDao {
 	
 	public void addToken(String name, String token,Long time);
 	
-	public boolean resetPassword(String name, String token, String password);
+	public void resetPassword(String name, String token, String password);
 
 	public void updateUserPassword(String name, String password);
 	
