@@ -73,7 +73,10 @@ public class PinController extends AbstractController implements REST {
     }
     
     public void postPin(PinRequest pr) {
-        authorizer.requireRole("RegisteredUser");
+    	ArrayList<String> users = new ArrayList<String>();
+  	  users.add("RegisteredUser");
+  	  users.add("UserAdmin"); 
+        authorizer.requireRoles(users);
         PinRequestDTO req = pr._body();
         authorizer.requireUser(req.user);
     	if(req.type.equals("collection")){
@@ -84,7 +87,10 @@ public class PinController extends AbstractController implements REST {
     }
 
     public void deletePin(PinRequest pr) {
-        authorizer.requireRole("RegisteredUser");
+    	ArrayList<String> users = new ArrayList<String>();
+  	  users.add("RegisteredUser");
+  	  users.add("UserAdmin"); 
+        authorizer.requireRoles(users);
         PinRequestDTO req = pr._body();
         authorizer.requireUser(req.user);
     	if(req.type.equals("collection")){

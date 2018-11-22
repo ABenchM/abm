@@ -54,7 +54,10 @@ public class AbmApplication implements REST {
     
 
     public List<RepositoryDTO> getSearch(RESTRequest request, String query) throws Exception {
-        authorizer.requireRole("RegisteredUser");
+    	ArrayList<String> users = new ArrayList<String>();
+    	users.add("RegisteredUser");
+    	users.add("UserAdmin"); 
+        authorizer.requireRoles(users);
        
         List<RepositoryDTO> result =new ArrayList<>();
         for(Crawler c : crawlerList) {
