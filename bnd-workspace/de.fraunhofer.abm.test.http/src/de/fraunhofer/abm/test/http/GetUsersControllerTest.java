@@ -42,7 +42,7 @@ import de.fraunhofer.abm.http.client.HttpResponse;
 	        return headers;
 	    }
 	    
-		private void testNonApprovedUsers() throws IOException {
+		private void testApprovedUsers() throws IOException {
 			//HttpResponse response;
 			Map<String, String> headers = login();
 	        headers.put("Content-Type", "application/json;charset=UTF-8");
@@ -53,11 +53,11 @@ import de.fraunhofer.abm.http.client.HttpResponse;
 	        JSONArray array = new JSONArray(collections);
 	        //System.out.println("not approved: "+array);
 	        if (array.length()>0) {
-		        assertEquals(false, array.getJSONObject(0).get("approved"));				
+		        assertEquals(true, array.getJSONObject(0).get("approved"));				
 			}
 		}
 		
-		private void testApprovedUsers() throws IOException {
+		private void testNonApprovedUsers() throws IOException {
 			//HttpResponse response;
 			Map<String, String> headers = login();
 	        headers.put("Content-Type", "application/json;charset=UTF-8");
@@ -68,7 +68,7 @@ import de.fraunhofer.abm.http.client.HttpResponse;
 	        JSONArray array = new JSONArray(collections);
 	        //System.out.println("approved: "+array);
 	        if (array.length()>0) {
-		        assertEquals(true, array.getJSONObject(0).get("approved"));				
+		        assertEquals(false, array.getJSONObject(0).get("approved"));				
 			}
 		}
 		
