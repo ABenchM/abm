@@ -53,29 +53,33 @@ public class UserController extends AbstractController implements REST {
 		// TODO: Add more security here, such as a delay, if possible.
 		String approvalEndpoint = "https://abm.cs.upb.de/rest/approval";
 		Map<String, String> params = ar._body();
-		String name = params.get("username");
-		String password = params.get("password");
-		String approvalToken = TokenGenerator.generateToken();
-		String token = MessageFormat.format("Activation Link: {0}?name={1}&token={2}\n", approvalEndpoint, name,
-				approvalToken);
-		if (!userDao.checkExists(name)) {
-			String sbj = params.get("username") + " Registered on ABM";
-			String msg = "A new user has registered the username '" + params.get("username") + "' on the ABM website.\n"
-					+ "\n" + "The following information was used to register:\n" + "Name: " + params.get("name") + "\n"
-					+ "Affiliation: " + params.get("affiliation") + "\n" + "Email: " + params.get("email") + "\n"
-					+ token + "Please activate this account if this information seems correct.";
+ 		String username = params.get("username");
+ 		String firstname = params.get("firstname");
+ 		String lastname = params.get("lastname");
+ 		String password = params.get("password");
+ 		String saltHashPassword = Password.getSaltedHash(password);
+ 		String email = params.get("email");
+ 		String affiliation = params.get("affiliation");
+ 		if (!userDao.checkExists(username)) {
+ 			String approvalToken = TokenGenerator.generateToken();
+ 	 		String token = MessageFormat.format("Activation Link: {0}?name={1}&token={2}\n", approvalEndpoint, username, approvalToken);
+ 			String sbj = username + " Registered on ABM";
+ 			String msg = "A new user has registered the username '" + username + "' on the ABM website.\n"
+ 					+ "\n" + "The following information was used to register:\n" + "Name: " + firstname + " " + lastname + "\n"
+ 					+ "Affiliation: " + affiliation + "\n" + "Email: " + email + "\n"
+ 					+ token + "Please activate this account if this information seems correct.";
 
-			MimeMessage message = new MimeMessage(config.getSession());
+ 			MimeMessage message = new MimeMessage(config.getSession());
 			message.setFrom(config.getFrom());
 			message.addRecipients(Message.RecipientType.TO, config.getTo());
 			message.setSubject(sbj);
 			message.setText(msg);
 			Transport.send(message);
-			String saltAndHash = Password.getSaltedHash(password);
-			userDao.addUser(name, saltAndHash, approvalToken);
+ 			userDao.addUser(username, firstname, lastname, email, affiliation, saltHashPassword, approvalToken);
 			return true;
 		} else {
-			return false;
+			userDao.updateUser(username, firstname, lastname, email, affiliation, saltHashPassword);
+			return true;
 		}
 	}
 

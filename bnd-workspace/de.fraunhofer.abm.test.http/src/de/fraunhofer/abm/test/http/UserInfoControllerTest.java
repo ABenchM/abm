@@ -1,16 +1,15 @@
 package de.fraunhofer.abm.test.http;
 
-import static org.junit.Assert.assertEquals;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 	
-import org.json.JSONArray;
 import org.junit.Assert;
 import org.junit.Test;
+
 import de.fraunhofer.abm.http.client.HttpResponse;
 	import de.fraunhofer.abm.http.client.HttpUtils;
-	public class GetUsersControllerTest extends AbstractHttpTest {
+	public class UserInfoControllerTest extends AbstractHttpTest {
 	    @Test
 	    public void testCollectionstatus() throws IOException {
 	    	final int num200 = 200;
@@ -25,8 +24,7 @@ import de.fraunhofer.abm.http.client.HttpResponse;
 	        Assert.assertTrue(sessionCookie.contains("JSESSIONID"));
 	        // try to get a secured resource
 	        headers.put("Cookie", sessionCookie);
-	        testNonApprovedUsers();
-	        testApprovedUsers();
+	        testRegisterUpdateUser();
 	    }	   
 	    
 		protected Map<String, String> login() throws IOException {
@@ -36,34 +34,16 @@ import de.fraunhofer.abm.http.client.HttpResponse;
 	        return headers;
 	    }
 	    
-		private void testApprovedUsers() throws IOException {
-			//HttpResponse response;
+		private void testRegisterUpdateUser() throws IOException {
+			HttpResponse response;
 			Map<String, String> headers = login();
 	        headers.put("Content-Type", "application/json;charset=UTF-8");
-	        String payload = "{\"approved\":1}";
+	 		String payload = "{\"username\":\"testUser\", \"firstname\":\"myfirstname\", \"lastname\":\"mylastname\", " 
+	 						+ "\"password\":\"testUser\", \"email\":\"anut347@gmail.com\", \"affiliation\":\"Uni Paderborn\"}";
 	        headers.put("params", payload);
-	        String uri = baseUri + "/rest/userList?approved=1";
-	        String result = HttpUtils.get(uri, headers, charset);
-	        JSONArray array = new JSONArray(result);
-	        //System.out.println("not approved: "+array);
-	        if (array.length()>0) {
-		        assertEquals(true, array.getJSONObject(0).get("approved"));				
-			}
-		}
-		
-		private void testNonApprovedUsers() throws IOException {
-			//HttpResponse response;
-			Map<String, String> headers = login();
-	        headers.put("Content-Type", "application/json;charset=UTF-8");
-	        String payload = "{\"approved\":0}";
-	        headers.put("params", payload);
-	        String uri = baseUri + "/rest/userList?approved=0";
-	        String result = HttpUtils.get(uri, headers, charset);
-	        JSONArray array = new JSONArray(result);
-	        //System.out.println("approved: "+array);
-	        if (array.length()>0) {
-		        assertEquals(false, array.getJSONObject(0).get("approved"));				
-			}
+	        String uri = baseUri + "/rest/username";
+	        response = HttpUtils.post(uri, headers, payload.getBytes(charset), charset);
+	        Assert.assertEquals(NUM200, response.getResponseCode());
 		}
 		
 	} 
