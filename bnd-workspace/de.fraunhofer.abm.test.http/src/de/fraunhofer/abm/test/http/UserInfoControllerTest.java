@@ -24,7 +24,8 @@ import de.fraunhofer.abm.http.client.HttpResponse;
 	        Assert.assertTrue(sessionCookie.contains("JSESSIONID"));
 	        // try to get a secured resource
 	        headers.put("Cookie", sessionCookie);
-	        testRegisterUpdateUser();
+	        testRegisterUser();
+	        testUpdateUser();
 	    }	   
 	    
 		protected Map<String, String> login() throws IOException {
@@ -34,11 +35,23 @@ import de.fraunhofer.abm.http.client.HttpResponse;
 	        return headers;
 	    }
 	    
-		private void testRegisterUpdateUser() throws IOException {
+		private void testRegisterUser() throws IOException {
 			HttpResponse response;
 			Map<String, String> headers = login();
 	        headers.put("Content-Type", "application/json;charset=UTF-8");
 	 		String payload = "{\"username\":\"testUser\", \"firstname\":\"myfirstname\", \"lastname\":\"mylastname\", " 
+	 						+ "\"password\":\"testUser\", \"email\":\"anut347@gmail.com\", \"affiliation\":\"Uni Paderborn\"}";
+	        headers.put("params", payload);
+	        String uri = baseUri + "/rest/username";
+	        response = HttpUtils.post(uri, headers, payload.getBytes(charset), charset);
+	        Assert.assertEquals(NUM200, response.getResponseCode());
+		}
+		
+		private void testUpdateUser() throws IOException {
+			HttpResponse response;
+			Map<String, String> headers = login();
+	        headers.put("Content-Type", "application/json;charset=UTF-8");
+	 		String payload = "{\"username\":\"testUser\", \"firstname\":\"mynewfirstname\", \"lastname\":\"mynewlastname\", " 
 	 						+ "\"password\":\"testUser\", \"email\":\"anut347@gmail.com\", \"affiliation\":\"Uni Paderborn\"}";
 	        headers.put("params", payload);
 	        String uri = baseUri + "/rest/username";
