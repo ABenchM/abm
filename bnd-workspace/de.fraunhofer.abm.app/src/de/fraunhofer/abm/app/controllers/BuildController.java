@@ -61,7 +61,10 @@ public class BuildController implements REST {
     }
 
     public BuildResultDTO getBuild(String versionId) throws Exception {
-        authorizer.requireRole("RegisteredUser");
+    	ArrayList<String> users = new ArrayList<String>();
+    	users.add("RegisteredUser");
+    	users.add("UserAdmin"); 
+        authorizer.requireRoles(users);
 
         // make sure the session user is the owner
         String sessionUser = SecurityContext.getInstance().getUser();
@@ -90,8 +93,8 @@ public class BuildController implements REST {
     	  Map<String, String[]> params = rr._request().getParameterMap();
     	  boolean isFileExists = false;
     	  VersionDTO version = versionDao.findById(params.get("id")[0]);
-          VersionDTO databaseVersion = versionDao.findById(version.id);
-          if (databaseVersion.privateStatus) {
+          CollectionDTO databaseCollection = collectionDao.findById(version.collectionId);
+          if (databaseCollection.privateStatus) {
               authorizer.requireRole("Admin");
           }
           
@@ -117,8 +120,11 @@ public class BuildController implements REST {
     }
     
     public List<Map<String, String>> getBuilds(String user){
-    	authorizer.requireUser(user);
     	
+    	try {
+    		authorizer.requireUser(user);
+    	
+    	System.out.println("Kya main yahan tak pahuch sakta hun");
     	List<BuildResultDTO> builds = buildResultDao.findRunning(user);
     	List<Map<String, String>> results = new ArrayList<>();
     	
@@ -147,6 +153,12 @@ public class BuildController implements REST {
     	}
     	
     	return results;
+    	} catch (SecurityException e) {
+    		 logger.info("User is not logged in");
+    		 return null;
+    	}
+    	
+    	
     }
 
     public BuildResultDTO getBuild(RESTRequest rr) throws Exception {
@@ -154,8 +166,8 @@ public class BuildController implements REST {
     	
         // make sure the collection is public
         VersionDTO version = versionDao.findById(params.get("id")[0]);
-        VersionDTO databaseVersion = versionDao.findById(version.id);
-        if (databaseVersion.privateStatus) {
+        CollectionDTO databaseCollection = collectionDao.findById(version.collectionId);
+        if (databaseCollection.privateStatus) {
             authorizer.requireRole("Admin");
         }
 
@@ -173,7 +185,10 @@ public class BuildController implements REST {
     }
 
     public String postBuild(VersionRequest cr) throws Exception {
-        authorizer.requireRole("RegisteredUser");
+    	ArrayList<String> users = new ArrayList<String>();
+    	users.add("RegisteredUser");
+    	users.add("UserAdmin"); 
+        authorizer.requireRoles(users);
 
         VersionDTO version = cr._body();
 
@@ -200,7 +215,10 @@ public class BuildController implements REST {
     }
 
     public String deleteBuild(String buildResultId) throws Exception {
-        authorizer.requireRole("RegisteredUser");
+    	ArrayList<String> users = new ArrayList<String>();
+    	users.add("RegisteredUser");
+    	users.add("UserAdmin"); 
+        authorizer.requireRoles(users);
 
         // make sure the session user is the owner
         BuildResultDTO buildResultDto = buildResultDao.findById(buildResultId);
