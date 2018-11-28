@@ -26,6 +26,8 @@ import de.fraunhofer.abm.http.client.HttpResponse;
 	        headers.put("Cookie", sessionCookie);
 	        testRegisterUser();
 	        testUpdateUser();
+	        testUpdateUserInfoNull();
+	        testRegisterUserNullInfo();
 	    }	   
 	    
 		protected Map<String, String> login() throws IOException {
@@ -39,8 +41,20 @@ import de.fraunhofer.abm.http.client.HttpResponse;
 			HttpResponse response;
 			Map<String, String> headers = login();
 	        headers.put("Content-Type", "application/json;charset=UTF-8");
-	 		String payload = "{\"username\":\"testUser\", \"firstname\":\"myfirstname\", \"lastname\":\"mylastname\", " 
-	 						+ "\"password\":\"testUser\", \"email\":\"anut347@gmail.com\", \"affiliation\":\"Uni Paderborn\"}";
+	 		String payload = "{\"username\":\"testUser1\", \"firstname\":\"myfirstname\", \"lastname\":\"mylastname\", " 
+	 						+ "\"password\":\"testUser1\", \"email\":\"anut347@gmail.com\", \"affiliation\":\"Uni Paderborn\"}";
+	        headers.put("params", payload);
+	        String uri = baseUri + "/rest/username";
+	        response = HttpUtils.post(uri, headers, payload.getBytes(charset), charset);
+	        Assert.assertEquals(NUM200, response.getResponseCode());
+		}
+		
+		private void testRegisterUserNullInfo() throws IOException {
+			HttpResponse response;
+			Map<String, String> headers = login();
+	        headers.put("Content-Type", "application/json;charset=UTF-8");
+	 		String payload = "{\"username\":\"testUser2\", " 
+	 						+ "\"password\":\"testUser2\", \"email\":\"anut347@gmail.com\"}";
 	        headers.put("params", payload);
 	        String uri = baseUri + "/rest/username";
 	        response = HttpUtils.post(uri, headers, payload.getBytes(charset), charset);
@@ -51,8 +65,20 @@ import de.fraunhofer.abm.http.client.HttpResponse;
 			HttpResponse response;
 			Map<String, String> headers = login();
 	        headers.put("Content-Type", "application/json;charset=UTF-8");
-	 		String payload = "{\"username\":\"testUser\", \"firstname\":\"mynewfirstname\", \"lastname\":\"mynewlastname\", " 
-	 						+ "\"password\":\"testUser\", \"email\":\"anut347@gmail.com\", \"affiliation\":\"Uni Paderborn\"}";
+	 		String payload = "{\"username\":\"testUser1\", \"firstname\":\"mynewfirstname\", \"lastname\":\"mynewlastname\", " 
+	 						+ "\"password\":\"testUser1\", \"email\":\"anut347@gmail.com\", \"affiliation\":\"Uni Paderborn\"}";
+	        headers.put("params", payload);
+	        String uri = baseUri + "/rest/username";
+	        response = HttpUtils.post(uri, headers, payload.getBytes(charset), charset);
+	        Assert.assertEquals(NUM200, response.getResponseCode());
+		}
+		
+		private void testUpdateUserInfoNull() throws IOException {
+			HttpResponse response;
+			Map<String, String> headers = login();
+	        headers.put("Content-Type", "application/json;charset=UTF-8");
+	 		String payload = "{\"username\":\"testUser1\", " 
+	 						+ "\"password\":\"testUser1\", \"email\":\"anut347@gmail.com\"}";
 	        headers.put("params", payload);
 	        String uri = baseUri + "/rest/username";
 	        response = HttpUtils.post(uri, headers, payload.getBytes(charset), charset);
