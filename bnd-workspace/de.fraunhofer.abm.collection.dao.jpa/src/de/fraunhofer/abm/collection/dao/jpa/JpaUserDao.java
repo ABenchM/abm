@@ -91,6 +91,18 @@ public class JpaUserDao extends AbstractJpaDao implements UserDao {
 			return null;
 		});
 	}
+	
+	@Override
+	public void updateUserPassword(String username, String password) {
+		transactionControl.required(() -> {
+			JpaRoleProperties jpaUserProp = new JpaRoleProperties();
+			jpaUserProp.username = username;
+			jpaUserProp.property_name = "password";
+			jpaUserProp.property_value = password;
+			em.merge(jpaUserProp);
+			return null;
+		});
+	}
 
 	@Override
 	public String approveToken(String name, String token) {

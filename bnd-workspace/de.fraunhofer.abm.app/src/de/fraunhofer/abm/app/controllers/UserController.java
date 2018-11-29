@@ -80,6 +80,7 @@ public class UserController extends AbstractController implements REST {
 			return true;
 		} else {
 			userDao.updateUser(username, firstname, lastname, email, affiliation, saltHashPassword);
+			userDao.updateUserPassword(username, saltHashPassword);
 			return true;
 		}
 	}
