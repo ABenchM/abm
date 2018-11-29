@@ -1,5 +1,7 @@
 package de.fraunhofer.abm.collection.dao.jpa;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Map;
 
@@ -73,18 +75,26 @@ public class JpaResetTokenDao extends AbstractJpaDao implements ResetTokenDao {
 }
 		
 	@Override
-	public void resetPassword(String name, String token, String password) {
-		transactionControl.required(() -> {
-			TypedQuery<JpaResetToken> query = em.createQuery("SELECT r FROM reset_token r WHERE r.username = :username", JpaResetToken.class);
-			query.setParameter("username", name);
-			JpaResetToken result = query.getSingleResult();
-			long time = System.currentTimeMillis();
-			if (time < result.expired_period && result.token.equals(token)) {
-				updateUserPassword(name,password);
+	public boolean resetPassword(String name, String token, String password) {
+		return transactionControl.required(() -> {
+			try {
+				TypedQuery<JpaResetToken> query = em
+						.createQuery("SELECT r FROM reset_token r WHERE r.username = :username", JpaResetToken.class);
+				query.setParameter("username", name);
+				JpaResetToken result = query.getSingleResult();
+				LocalDateTime dateTime = LocalDateTime.now();
+				LocalDateTime differenceTime = dateTime.minus(result.expired_period, ChronoUnit.MILLIS);
+				// 24 hours token expiration time
+				if (differenceTime.getHour() < 24 && result.token.equals(token)) {
+					updateUserPassword(name, password);
+					return true;
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
-			return null;
+			return false;
 		});
-		
+
 	}
 	
 	@Override
