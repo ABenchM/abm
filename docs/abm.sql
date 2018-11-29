@@ -171,3 +171,14 @@ CREATE TABLE `user` (
    PRIMARY KEY (`name`)
 );
 
+
+INSERT INTO user (name, firstname, lastname, password, affiliation, approved, approval_token, locked, email) VALUES ('admin', 'admin', 'admin', '6tUPRi/i6ukRjmvQK/sKXNtIlamItxhrfY6+p8jAjFc=$WItU72gsjjpOf5vY63GJrp/YeWy8Lle4527Byk4sp0E=', 'University of Paderborn', 1, 'back/end/update', 0, 'anut347@gmail.com');
+
+INSERT INTO role (role_name, role_type) VALUES ('UserAdmin', 2) ON DUPLICATE KEY UPDATE role_type = 2;
+
+INSERT INTO role (role_name, role_type) VALUES ('admin', 1);
+
+INSERT INTO role_members (member_parent, member_member, member_is_basic) VALUES ('UserAdmin', 'admin',  1);
+
+INSERT INTO role_properties (property_role, property_name, property_value, property_type) VALUES ('admin', 'password', '6tUPRi/i6ukRjmvQK/sKXNtIlamItxhrfY6+p8jAjFc=$WItU72gsjjpOf5vY63GJrp/YeWy8Lle4527Byk4sp0E=', 2);
+

@@ -61,7 +61,11 @@ public class BuildController implements REST {
     }
 
     public BuildResultDTO getBuild(String versionId) throws Exception {
-        authorizer.requireRole("RegisteredUser");
+    	ArrayList<String> users = new ArrayList<String>();
+    	users.add("RegisteredUser");
+    	users.add("UserAdmin"); 
+        authorizer.requireRoles(users);
+
 
         // make sure the session user is the owner
         String sessionUser = SecurityContext.getInstance().getUser();
@@ -173,7 +177,11 @@ public class BuildController implements REST {
     }
 
     public String postBuild(VersionRequest cr) throws Exception {
-        authorizer.requireRole("RegisteredUser");
+    	ArrayList<String> users = new ArrayList<String>();
+    	users.add("RegisteredUser");
+    	users.add("UserAdmin"); 
+        authorizer.requireRoles(users);
+
 
         VersionDTO version = cr._body();
 
@@ -200,7 +208,11 @@ public class BuildController implements REST {
     }
 
     public String deleteBuild(String buildResultId) throws Exception {
-        authorizer.requireRole("RegisteredUser");
+    	ArrayList<String> users = new ArrayList<String>();
+    	users.add("RegisteredUser");
+    	users.add("UserAdmin"); 
+        authorizer.requireRoles(users);
+
 
         // make sure the session user is the owner
         BuildResultDTO buildResultDto = buildResultDao.findById(buildResultId);
