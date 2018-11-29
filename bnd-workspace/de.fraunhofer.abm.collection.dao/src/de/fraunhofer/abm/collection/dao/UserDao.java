@@ -18,4 +18,6 @@ public interface UserDao {
 	
 	public List<UserDTO> getAllUsers(int isApproved);
 	
+	public UserDTO getUserInfo(String username);
+	
 }
