@@ -59,14 +59,35 @@ public class JpaUserDao extends AbstractJpaDao implements UserDao {
 	}
 
 	@Override
-	public void addUser(String name, String password, String approvalToken) {
+	public void addUser(String username, String firstname, String lastname, String email, String affiliation, String password, String token) {
 		transactionControl.required(() -> {
 			JpaUser jpaUser = new JpaUser();
-			jpaUser.name = name;
+			jpaUser.name = username;
+ 			jpaUser.firstname = firstname;
+ 			jpaUser.lastname = lastname;
+ 			jpaUser.email = email;
+ 			jpaUser.affiliation = affiliation;
 			jpaUser.password = password;
 			jpaUser.approved = 0;
-			jpaUser.token = approvalToken;
+			jpaUser.locked = 0;
+ 			jpaUser.token = token;
 			em.persist(jpaUser);
+			return null;
+		});
+	}
+
+	@Override
+	public void updateUser(String username, String firstname, String lastname, String email, String affiliation, String password) {
+		transactionControl.required(() -> {
+			JpaUser jpaUser = new JpaUser();
+			jpaUser.name = username;
+ 			jpaUser.firstname = firstname;
+ 			jpaUser.lastname = lastname;
+ 			jpaUser.email = email;
+ 			jpaUser.affiliation = affiliation;
+			jpaUser.password = password;
+			jpaUser.locked = 0;
+			em.merge(jpaUser);
 			return null;
 		});
 	}
@@ -122,6 +143,35 @@ public class JpaUserDao extends AbstractJpaDao implements UserDao {
             }
             return userList;
         });
+	}
+	
+	@Override
+	public UserDTO getUserInfo(String username) {
+		return transactionControl.notSupported(() -> {
+			String queryStr = "select a.name as username, a.firstname, a.lastname, a.locked, a.email, a.affiliation, b.role "
+					+ "from user a, role_members b where a.name = :name and a.name = b.username";
+			Query query = em.createQuery(queryStr);
+            query.setParameter("name", username);
+            UserDTO user = new UserDTO();
+			List<UserDTO> userList = new ArrayList<UserDTO>();
+            @SuppressWarnings("unchecked")
+			List<Object[]> resultList = query.getResultList();
+            for (Object[] result : resultList) {
+        		user.username = (String) result[0];
+         		user.firstname = (String) result[1];
+         		user.lastname = (String) result[2];
+         		user.locked = ((int) result[3] == 0) ? false : true;
+         		user.email = (String) result[4];
+         		user.affiliation = (String) result[5];
+       			user.role = (String) result[6];
+        		userList.add(user);
+            }
+			if (user.username.equals(username)) {
+				return user;
+			} else {
+				throw new ApprovalException("Invalid User");
+			}
+		});
 	}
 
 	@Override
