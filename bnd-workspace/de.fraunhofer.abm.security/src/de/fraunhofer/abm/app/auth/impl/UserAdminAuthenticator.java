@@ -25,15 +25,15 @@ public class UserAdminAuthenticator implements Authenticator {
         if(user == null ) {
             success = false;
         } else {
-            String saltAndPass = (String) user.getCredentials().get("password");
-            success = Password.check(password, saltAndPass);
-            if(success) {
-                logger.debug("User {} successfully logged in", username);
-            } else {
-                logger.debug("Wrong credentials for user {}", username);
-            }
-        }
+         String saltAndPass = (String) user.getCredentials().get("password");
+           success = Password.check(password, saltAndPass);
+           if(success) {
+               logger.debug("User {} successfully logged in", username);
+           } else {
+               logger.debug("Wrong credentials for user {}", username);
+           }
+  }
         return success;
     }
 
-}
+    }

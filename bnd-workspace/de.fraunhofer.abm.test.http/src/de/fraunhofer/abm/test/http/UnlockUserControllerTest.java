@@ -55,7 +55,7 @@ import de.fraunhofer.abm.http.client.HttpResponse;
 	        Assert.assertEquals(NUM200, response.getResponseCode());	
 	        
 	        
-	        uri = baseUri + "/rest/username?username=" + USER;
+	        uri = baseUri + "/rest/username?username=" + "demo";
 	        String result = HttpUtils.get(uri, headers, charset);
 	        Assert.assertNotNull(result);
             JSONObject obj = new JSONObject(result);
@@ -66,7 +66,7 @@ import de.fraunhofer.abm.http.client.HttpResponse;
 		     response = HttpUtils.post(uri, headers, payload.getBytes(charset), charset);
 		     Assert.assertEquals(NUM200, response.getResponseCode());	
 		        
-		        uri = baseUri + "/rest/username?username=" + USER;
+		        uri = baseUri + "/rest/username?username=" + "demo";
 		        result = HttpUtils.get(uri, headers, charset);
 		        Assert.assertNotNull(result);
 	            obj = new JSONObject(result);

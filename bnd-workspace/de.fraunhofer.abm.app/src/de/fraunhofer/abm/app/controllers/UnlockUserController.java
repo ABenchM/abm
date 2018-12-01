@@ -47,7 +47,7 @@ public class UnlockUserController extends AbstractController implements REST {
 	
 	
 	public void postUserlockunlock(AccountRequest ar) throws Exception {
-		//authorizer.requireRole("UserAdmin");
+	   authorizer.requireRole("UserAdmin");
 	   Map<String, String> params = ar._body();
 		String username = params.get("username");
 		String isLock = params.get("isLock");

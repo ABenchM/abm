@@ -94,7 +94,6 @@ public class UserController extends AbstractController implements REST {
 	public UserDTO getUsername(RESTRequest rr) throws Exception {
         Map<String, String[]> params = rr._request().getParameterMap();
         String user = params.get("username")[0];
-        authorizer.requireUser(user);
  		if (userDao.checkExists(user)) {
  			return userDao.getUserInfo(user);
 		}
