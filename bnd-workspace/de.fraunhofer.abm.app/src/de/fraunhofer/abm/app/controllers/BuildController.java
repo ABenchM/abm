@@ -151,6 +151,10 @@ public class BuildController implements REST {
     	}
     	
     	return results;
+    	} catch (SecurityException e) {
+    		 logger.info("User is not logged in");
+    		 return null;
+    	}
     }
 
     public BuildResultDTO getBuild(RESTRequest rr) throws Exception {
