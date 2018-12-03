@@ -38,27 +38,40 @@ public class PinController extends AbstractController implements REST {
     @Reference
     private Authorizer authorizer;
     
-    public List getPin(RESTRequest rr) {
-        authorizer.requireRole("RegisteredUser");
-        Map<String, String[]> params = rr._request().getParameterMap();
-        authorizer.requireUser(params.get("user")[0]);
-    	if(params.get("type")[0].equals("collection")){
-    		ArrayList<CollectionDTO> collections = new ArrayList<CollectionDTO>();
-    		List<String> ids = collectionPinDao.findPins(params.get("user")[0]);
-    		for(int i=0; i<ids.size(); i++){
-        		CollectionDTO nextCollection = collectionDao.findById(ids.get(i));
-    			collections.add(nextCollection);
-    		}
-    		return collections;
-    	} else {
-    		//Put filter retrieval here
-    		return null;
+    public List<CollectionDTO> getPin(RESTRequest rr) {
+    	try {
+    		ArrayList<String> users = new ArrayList<String>();
+        	users.add("RegisteredUser");
+        	users.add("UserAdmin"); 
+            authorizer.requireRoles(users);
+            Map<String, String[]> params = rr._request().getParameterMap();
+            authorizer.requireUser(params.get("user")[0]);
+        	if(params.get("type")[0].equals("collection")){
+        		ArrayList<CollectionDTO> collections = new ArrayList<CollectionDTO>();
+        		List<String> ids = collectionPinDao.findPins(params.get("user")[0]);
+        		for(int i=0; i<ids.size(); i++){
+            		CollectionDTO nextCollection = collectionDao.findById(ids.get(i));
+        			collections.add(nextCollection);
+        		}
+        		return collections;
+        	} else {
+        		//Put filter retrieval here
+        		return null;
+        	}
+    	} catch (SecurityException e) {
+    		logger.info("User is not logged in");
+   		    return new ArrayList<CollectionDTO>();
     	}
     }
     
     public boolean getPin(String user, String id){
-        authorizer.requireUser(user);
-    	return collectionPinDao.checkExists(user, id);
+    	 try {
+         	authorizer.requireUser(user);
+         	return collectionPinDao.checkExists(user, id);
+         }catch (SecurityException e){
+         	logger.info("User is not logged in");
+    		    return false;
+         }
     }
     
     interface PinRequest extends RESTRequest{
