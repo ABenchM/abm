@@ -109,6 +109,18 @@ public class JpaUserDao extends AbstractJpaDao implements UserDao {
 		});
 	}
 	
+	@Override
+ 	public void updateUserPassword(String username, String password) {
+ 		transactionControl.required(() -> {
+ 			JpaRoleProperties jpaUserProp = new JpaRoleProperties();
+ 			jpaUserProp.username = username;
+ 			jpaUserProp.property_name = "password";
+ 			jpaUserProp.property_value = password;
+ 			em.merge(jpaUserProp);
+ 			return null;
+ 		});
+ 	}
+	
 	private void deleteUserInfo(JpaUser user) {
 		em.remove(user);
 	}
@@ -154,12 +166,12 @@ public class JpaUserDao extends AbstractJpaDao implements UserDao {
 	@Override
 	public List<UserDTO> getAllUsers(int isApproved) {
     	return transactionControl.notSupported(() -> {
-    		String queryCompany = "";
+    		String queryCompany = "";         		
     		if ( isApproved == 1 ) {
-    			queryCompany = "select a.name as username, a.firstname, a.lastname, a.locked, a.email, a.affiliation, b.role "
+    			queryCompany = "select a.name as username, a.firstname, a.lastname, a.locked, a.email, a.affiliation, a.approved, b.role "
     							+ "from user a, role_members b where a.approved = :isApproved and a.name = b.username";
     		} else {
-    			queryCompany = "select a.name as username, a.firstname, a.lastname, a.locked, a.email, a.affiliation "
+    			queryCompany = "select a.name as username, a.firstname, a.lastname, a.locked, a.email, a.affiliation, a.approved "
     							+ "from user a where a.approved = :isApproved";
     		}
             Query query = em.createQuery(queryCompany);
@@ -174,8 +186,9 @@ public class JpaUserDao extends AbstractJpaDao implements UserDao {
          		user.locked = ((int) result[3] == 0) ? false : true;
          		user.email = (String) result[4];
          		user.affiliation = (String) result[5];
+         		user.approved = ((int) result[6] == 0) ? false : true;
          		if ( isApproved == 1 ) {
-         			user.role = (String) result[6];
+         			user.role = (String) result[7];
          		}
         		userList.add(user);
             }

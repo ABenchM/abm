@@ -16,6 +16,8 @@ public interface UserDao {
 
 	public void updateUser(String username, String firstname, String lastname, String email, String affiliation, String saltHashPassword);
 
+	public void updateUserPassword(String username, String saltHashPassword);
+	
 	public void deleteUser(String username);
 	
 	public void deleteUsers(List<String> usernames);
