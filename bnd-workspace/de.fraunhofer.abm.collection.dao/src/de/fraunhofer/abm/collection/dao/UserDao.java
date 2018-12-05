@@ -20,6 +20,8 @@ public interface UserDao {
 	
 	public void deleteUser(String username);
 	
+	public void deleteUserResetToken(String username);
+	
 	public void deleteUsers(List<String> usernames);
 	
 	public List<UserDTO> getAllUsers(int isApproved);
