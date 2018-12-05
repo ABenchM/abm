@@ -38,10 +38,9 @@ public class UserDetailsController extends AbstractController implements REST {
 	 * @throws Exception
 	 */
 	public List<UserDTO> getUserList(RESTRequest rr) throws Exception {
-		/* TODO: Uncomment the below line and remove the below that 
-		 after corresponding pullrequest as this is only for admin */
-		// authorizer.requireRole("UserAdmin");
-		authorizer.requireRole("RegisteredUser");
+		
+        authorizer.requireRole("UserAdmin");
+	//authorizer.requireRole("RegisteredUser");
         List<UserDTO> result = Collections.emptyList();
         Map<String, String[]> params = rr._request().getParameterMap();
         int isApproved = params.get("approved")[0].equals("0") ? 0 : 1;
