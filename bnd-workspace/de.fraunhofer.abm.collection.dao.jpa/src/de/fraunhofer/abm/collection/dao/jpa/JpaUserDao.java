@@ -224,22 +224,6 @@ public class JpaUserDao extends AbstractJpaDao implements UserDao {
 		return password;
 	}
 	
-	@Override
-	public String getUsername(String usernameemail) {
-		String username = transactionControl.required(() -> {
-			TypedQuery<JpaUser> query = em.createQuery("SELECT u FROM user u WHERE  (:email is null or u.email = :email) or (:name is null or u.name=:name)", JpaUser.class);
-			query.setParameter("email", usernameemail);
-			query.setParameter("name", usernameemail);
-			
-			JpaUser result = query.getSingleResult();
-			if (!result.name.isEmpty()) {
-				return result.name;
-			}else {
-				throw new ApprovalException("email not valid");
-			}
-		});
-		return username;
-	}
 	
 	@Override
 	public UserDTO getUserInfo(String username) {

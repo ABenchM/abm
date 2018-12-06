@@ -1,9 +1,12 @@
 package de.fraunhofer.abm.app.controllers;
 
+import java.util.Dictionary;
 import java.util.Map;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
+import org.osgi.service.useradmin.User;
+import org.osgi.service.useradmin.UserAdmin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,29 +26,40 @@ public class ResetPasswordApprovalController extends AbstractController implemen
 
 	@Reference
 	private ResetTokenDao resettokenDao;
-	
-	
-	public void getApprovePassword(RESTRequest rr) {
-		try {
-			//Get this password from the user entered box
-			String password ="Ironman";
-			String saltHashPassword = Password.getSaltedHash(password);
-			Map<String, String[]> params = rr._request().getParameterMap();
-			String name = getIfValid(params.get("name"));
-			String token = getIfValid(params.get("token"));
-			//Check  and update the password
-			resettokenDao.resetPassword(name, token, saltHashPassword);
-		}
-	  catch (Exception e) {
-		e.getStackTrace();
+	@Reference
+	private UserAdmin userAdmin;
+
+	interface ApprovalPasswordRequest extends RESTRequest {
+		Map<String, String> _body();
 	}
-}
-	
-	private String getIfValid(String[] data) {
-		if (data != null && data.length == 1) {
-			return data[0];
+
+	public boolean postApprovePassword(ApprovalPasswordRequest approveReq) {
+		Map<String, String> payload = approveReq._body();
+		String password = payload.get("password");
+		String confirmPassword = payload.get("confirmPassword");
+		if (password.equals(confirmPassword)) {
+			try {
+
+				// Get this password from the user entered box
+				String saltHashPassword = Password.getSaltedHash(password);
+				String name = payload.get("username");
+				String token = payload.get("token");
+				// Check and update the password
+				boolean reset = resettokenDao.resetPassword(name, token, saltHashPassword);
+				if (reset) {
+					User userRole = (User) userAdmin.getRole(name);
+					@SuppressWarnings("unchecked")
+					Dictionary<String, String> cred = userRole.getCredentials();
+					cred.put("password", saltHashPassword);
+					System.out.println(userRole.getCredentials().get("password"));
+				}
+			} catch (Exception e) {
+				e.getStackTrace();
+			}
+			return true;
+		} else {
+			return false;
 		}
-		throw new ArrayIndexOutOfBoundsException("Invalid param key");
 	}
 
 	@Override
@@ -53,5 +67,3 @@ public class ResetPasswordApprovalController extends AbstractController implemen
 		return logger;
 	}
 }
-	
-
