@@ -121,8 +121,10 @@ public class BuildController implements REST {
     }
     
     public List<Map<String, String>> getBuilds(String user){
-    	authorizer.requireUser(user);
+    	try {
+    		authorizer.requireUser(user);
     	
+    	System.out.println("Kya main yahan tak pahuch sakta hun");
     	List<BuildResultDTO> builds = buildResultDao.findRunning(user);
     	List<Map<String, String>> results = new ArrayList<>();
     	
@@ -151,6 +153,10 @@ public class BuildController implements REST {
     	}
     	
     	return results;
+    	} catch (SecurityException e) {
+    		 logger.info("User is not logged in");
+    		 return null;
+    	}
     }
 
     public BuildResultDTO getBuild(RESTRequest rr) throws Exception {
