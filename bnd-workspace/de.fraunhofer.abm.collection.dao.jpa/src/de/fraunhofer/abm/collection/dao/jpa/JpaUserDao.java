@@ -191,6 +191,15 @@ public class JpaUserDao extends AbstractJpaDao implements UserDao {
 		});
 		
 }
+	
+	@Override
+	public void updateRole(String username,String role) {
+		transactionControl.required(() -> {
+			Query updateRole = em.createNativeQuery("UPDATE role_members r SET r.member_parent= :value1 where r.member_member = :value2").setParameter("value1", role).setParameter("value2", username);
+			updateRole.executeUpdate();
+			return null;
+		});
+	}
 
 	@Override
 	protected EntityManager getEntityManager() {
