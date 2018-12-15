@@ -26,4 +26,8 @@ public interface UserDao {
 
 	public void updateRole(String username, String role);
 	
+	public String getEmailId(String username);
+	
+	public String getUserToken(String name);
+	
 }

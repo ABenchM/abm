@@ -211,6 +211,37 @@ public class JpaUserDao extends AbstractJpaDao implements UserDao {
 			return null;
 		});
 	}
+	
+	@Override
+	public String getEmailId(String username) {
+		String emailId = transactionControl.required(() -> {
+			TypedQuery<JpaUser> query = em.createQuery("SELECT u FROM user u WHERE u.name = :name", JpaUser.class);
+			query.setParameter("name", username);
+			JpaUser result = query.getSingleResult();
+			if (!result.email.isEmpty()) {
+				return result.email;
+			}else {
+				throw new ApprovalException("email not valid");
+			}
+		});
+		return emailId;
+	}
+	
+	@Override
+ 	public String getUserToken(String user) {
+ 		String token = transactionControl.required(() -> {
+ 			TypedQuery<JpaUser> query = em.createQuery("SELECT u FROM user u WHERE u.name=:name", JpaUser.class);
+ 			query.setParameter("name", user);
+ 			
+ 			JpaUser result = query.getSingleResult();
+ 			if (!result.name.isEmpty()) {
+ 				return result.token;
+ 			}else {
+ 				throw new ApprovalException("user not registered");
+ 			}
+ 		});
+ 		return token;
+ 	}
 
 	@Override
 	protected EntityManager getEntityManager() {
