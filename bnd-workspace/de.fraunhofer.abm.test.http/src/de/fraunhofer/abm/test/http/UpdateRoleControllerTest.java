@@ -51,7 +51,7 @@ import de.fraunhofer.abm.http.client.HttpResponse;
 	        
 	       String uri = baseUri + "/rest/roleupdate";
 	       String  payload = "{\"username\":\"testuser\",\"rolename\":\"UserAdmin\"}";
-	        response = HttpUtils.post(uri, headers, payload.getBytes(charset), charset);
+	        response = HttpUtils.put(uri, headers, payload.getBytes(charset), charset);
 	        Assert.assertEquals(NUM200, response.getResponseCode());	
 	        
 	        
@@ -63,7 +63,7 @@ import de.fraunhofer.abm.http.client.HttpResponse;
 		    
 		     uri = baseUri + "/rest/roleupdate";
 		     payload = "{\"username\":\"testuser\",\"rolename\":\"RegisteredUser\"}";
-		     response = HttpUtils.post(uri, headers, payload.getBytes(charset), charset);
+		     response = HttpUtils.put(uri, headers, payload.getBytes(charset), charset);
 		     Assert.assertEquals(NUM200, response.getResponseCode());	
 		        
 		        
