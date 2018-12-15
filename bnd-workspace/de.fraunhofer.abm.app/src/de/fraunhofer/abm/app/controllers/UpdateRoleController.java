@@ -41,7 +41,7 @@ public class UpdateRoleController extends AbstractController implements REST {
 	
 	
 	
-	public void postRoleupdate(AccountRequest ar) throws Exception {
+	public void putRoleupdate(AccountRequest ar) throws Exception {
 		authorizer.requireRole("UserAdmin");
 	    Map<String, String> params = ar._body();
 		String username = params.get("username");
