@@ -39,12 +39,12 @@ public class UserAdminAuthenticator implements Authenticator {
             }
             else if(success) {
                 logger.debug("User {} successfully logged in", username);
-            } else {
-            	success=false;
-                logger.debug("Wrong credentials for user {}", username);
+	            } else {
+	            	success=false;
+	                logger.debug("Wrong credentials for user {}", username);
+	            }
             }
         }
         return success;
     }
-
 }
