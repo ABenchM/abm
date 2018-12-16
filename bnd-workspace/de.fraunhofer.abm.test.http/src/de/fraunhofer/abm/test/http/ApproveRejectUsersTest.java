@@ -28,7 +28,7 @@ import de.fraunhofer.abm.http.client.HttpResponse;
 	        // try to get a secured resource
 	        headers.put("Cookie", sessionCookie);
 	        testApproveUser();
-	        testRejectUser();
+	        //testRejectUser();
 	    }	   
 	    
 		protected Map<String, String> login() throws IOException {
@@ -42,17 +42,17 @@ import de.fraunhofer.abm.http.client.HttpResponse;
 			HttpResponse response;
 			Map<String, String> headers = login();
 	        headers.put("Content-Type", "application/json;charset=UTF-8");
-	 		String payload = "{\"isApprove\":\"true\", \"userList\":\"testUser1\"}";
+	 		String payload = "{\"isApprove\":\"true\", \"userList\":[\"testUser1\", \"testUser2\"]}";
 	        headers.put("params", payload);
 	        String uri = baseUri + "/rest/approval";
 	        response = HttpUtils.put(uri, headers, payload.getBytes(charset), charset);
 	        Assert.assertEquals(NUM200, response.getResponseCode());
 	        
-	        uri = baseUri + "/rest/username?username=" + "testUser1";
+	        /*uri = baseUri + "/rest/username?username=" + "testUser1";
 	        String result = HttpUtils.get(uri, headers, charset);
 	        Assert.assertNotNull(result);
             JSONObject obj = new JSONObject(result);
-            System.out.println(obj);
+            System.out.println(obj);*/
 		    // assertEquals(true, obj.get("approved"));
 		    
 		    /*uri = baseUri + "/rest/userlockunlock";
