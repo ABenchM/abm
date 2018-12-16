@@ -124,7 +124,7 @@ public class BuildController implements REST {
     	try {
     		authorizer.requireUser(user);
     	
-    	System.out.println("Kya main yahan tak pahuch sakta hun");
+    	
     	List<BuildResultDTO> builds = buildResultDao.findRunning(user);
     	List<Map<String, String>> results = new ArrayList<>();
     	
