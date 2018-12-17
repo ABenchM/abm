@@ -61,7 +61,7 @@ public class JpaCollectionPinDao extends AbstractJpaDao implements CollectionPin
 	@Override
 	public void addPin(String user, String id) {
 		transactionControl.required(() -> {
-			Query newPin = em.createNativeQuery("INSERT INTO collectionPin VALUES (:user, :id)");
+			Query newPin = em.createNativeQuery("INSERT INTO collectionPin (user, id) VALUES (:user, :id)");
 			newPin.setParameter("user", user);
 			newPin.setParameter("id", id);
 			newPin.executeUpdate();

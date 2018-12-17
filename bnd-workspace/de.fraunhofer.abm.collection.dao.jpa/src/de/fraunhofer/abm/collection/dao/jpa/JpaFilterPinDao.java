@@ -49,7 +49,7 @@ public class JpaFilterPinDao extends AbstractJpaDao implements FilterPinDao {
 	@Override
 	public void addPin(String user, String id) {
 		transactionControl.required(() -> {
-			Query newPin = em.createNativeQuery("INSERT INTO filterPin VALUES (:user, :id)");
+			Query newPin = em.createNativeQuery("INSERT INTO filterPin (user, id) VALUES (:user, :id)");
 			newPin.setParameter("user", user);
 			newPin.setParameter("id", id);
 			newPin.executeUpdate();
