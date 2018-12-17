@@ -119,7 +119,7 @@ public class JdbcRoleDao implements RoleDao {
     public void save(RoleDTO data) {
         transactionControl.required(() -> {
             // save the role
-            PreparedStatement pst = connection.prepareStatement("INSERT INTO `role` VALUES(?,?)");
+            PreparedStatement pst = connection.prepareStatement("INSERT INTO role (role_name, role_type) VALUES(?,?)");
             pst.setString(1, data.name);
             pst.setInt(2, data.type);
             pst.executeUpdate();
@@ -158,7 +158,7 @@ public class JdbcRoleDao implements RoleDao {
             boolean isString = value instanceof String;
             String stringValue = convertPropertyOrCredential(value);
 
-            PreparedStatement pst = connection.prepareStatement("INSERT INTO `role_properties` VALUES(?,?,?,?)");
+            PreparedStatement pst = connection.prepareStatement("INSERT INTO role_properties (property_role, property_name, property_value, property_type) VALUES(?,?,?,?)");
             pst.setString(1, role);
             pst.setString(2, key);
             pst.setString(3, stringValue);
@@ -217,7 +217,7 @@ public class JdbcRoleDao implements RoleDao {
     }
 
     private void addMemberToRole(String member, String parent, boolean isBasic) throws SQLException {
-        PreparedStatement pst = connection.prepareStatement("INSERT INTO `role_members` VALUES(?,?,?)");
+        PreparedStatement pst = connection.prepareStatement("INSERT INTO role_members (member_parent, member_member, member_is_basic) VALUES(?,?,?)");
         pst.setString(1, parent);
         pst.setString(2, member);
         pst.setBoolean(3, isBasic);
