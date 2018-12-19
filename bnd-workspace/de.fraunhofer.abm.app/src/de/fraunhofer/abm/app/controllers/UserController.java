@@ -79,7 +79,8 @@ public class UserController extends AbstractController implements REST {
  			userDao.addUser(username, firstname, lastname, email, affiliation, saltHashPassword, approvalToken);
 			return true;
 		} else {
-			userDao.updateUser(username, firstname, lastname, email, affiliation, saltHashPassword);
+			String approvalToken = userDao.getUserToken(username);
+			userDao.updateUser(username, firstname, lastname, email, affiliation, saltHashPassword, approvalToken);
 			return true;
 		}
 	}

@@ -77,7 +77,7 @@ public class UserApprovalController extends AbstractController implements REST {
  		try {
  			authorizer.requireRole("UserAdmin");
  			Map<String, String> params = ar._body();
- 			String[] userList = params.get("userList").split(",");
+ 			String[] userList = params.get("userList").split(","); 
  			for (String username: userList) {
  	 			boolean isApprove = params.get("isApprove").equals("true") ? true : false;
  	 			if ( isApprove ) {

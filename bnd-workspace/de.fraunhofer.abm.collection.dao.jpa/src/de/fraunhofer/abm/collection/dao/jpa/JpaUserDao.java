@@ -88,7 +88,7 @@ public class JpaUserDao extends AbstractJpaDao implements UserDao {
 	}
 
 	@Override
-	public void updateUser(String username, String firstname, String lastname, String email, String affiliation, String password) {
+	public void updateUser(String username, String firstname, String lastname, String email, String affiliation, String password, String token) {
 		transactionControl.required(() -> {
 			JpaUser jpaUser = new JpaUser();
 			jpaUser.name = username;
@@ -98,6 +98,7 @@ public class JpaUserDao extends AbstractJpaDao implements UserDao {
  			jpaUser.affiliation = affiliation;
 			jpaUser.password = password;
 			jpaUser.locked = 0;
+			jpaUser.token = token;
 			em.merge(jpaUser);
 			return null;
 		});
@@ -159,7 +160,7 @@ public class JpaUserDao extends AbstractJpaDao implements UserDao {
 	@Override
 	public UserDTO getUserInfo(String username) {
 		return transactionControl.notSupported(() -> {
-			String queryStr = "select a.name as username, a.firstname, a.lastname, a.locked, a.email, a.affiliation, b.role "
+			String queryStr = "select a.name as username, a.firstname, a.lastname, a.locked, a.email, a.affiliation, a.approved, b.role "
 					+ "from user a, role_members b where a.name = :name and a.name = b.username";
 			Query query = em.createQuery(queryStr);
             query.setParameter("name", username);
@@ -174,7 +175,8 @@ public class JpaUserDao extends AbstractJpaDao implements UserDao {
          		user.locked = ((int) result[3] == 0) ? false : true;
          		user.email = (String) result[4];
          		user.affiliation = (String) result[5];
-       			user.role = (String) result[6];
+         		user.approved = ((int) result[6] == 0) ? false : true;
+       			user.role = (String) result[7];
         		userList.add(user);
             }
 			if (user.username.equals(username)) {
