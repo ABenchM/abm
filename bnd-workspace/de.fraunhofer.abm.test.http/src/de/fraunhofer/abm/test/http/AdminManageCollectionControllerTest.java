@@ -44,7 +44,7 @@ import de.fraunhofer.abm.http.client.HttpResponse;
 
 		private void testGetCollection() throws IOException {
 			Map<String, String> headers = login();
-			String uri = baseUri + "/rest/managecollection?user=" + "test5";
+			String uri = baseUri + "/rest/managecollection";
 	    	
 	        String collections = HttpUtils.get(uri, headers, charset); 
 	        JSONArray array = new JSONArray(collections);
