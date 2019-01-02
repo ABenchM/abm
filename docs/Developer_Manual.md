@@ -11,7 +11,7 @@
 * [Configuration information](#configuration-information)
 * [Launching or bouncing the application on production server](#launching-or-bouncing-the-application-on-production-server)
 * [Running Hermes manually](#running-hermes-manually)
-* [Updating the database](#updating-the-database)
+* [Updating the database](#updating-the-database-in-production)
 * [Changing email notification settings](#changing-email-notification-settings)
 * [Continuous integration using jenkins](#continuous-integration-using-jenkins)
 
