@@ -106,7 +106,9 @@ public class VersionController extends AbstractController implements REST {
         ensureUserIsOwner(authorizer, collectionDao, version);
 
         version.comment = "Derived from version " + version.number + ": " + version.comment;
+        version.derivedFrom = version.id;
         version.id = UUID.randomUUID().toString();
+        version.name = "derived new version";
         version.creationDate = new Date();
         version.frozen = false;
         for (CommitDTO commit : version.commits) {
