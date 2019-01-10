@@ -89,7 +89,7 @@ public class UserApprovalController extends AbstractController implements REST {
  	 				Group registeredUserGroup = (Group) userAdmin.getRole("RegisteredUser");
  	 				registeredUserGroup.addMember(user);
  	 				String userEmail = userDao.getEmailId(username);
- 	 				sendApproveRejectEmail(username, true, userEmail);
+ 	 				//sendApproveRejectEmail(username, true, userEmail);
  	 			} else {
  	 				// TODO: implement deleteuser and uncomment below lines
  	 				// String userEmail = userDao.getEmailId(username);
@@ -103,7 +103,7 @@ public class UserApprovalController extends AbstractController implements REST {
  	}
 	
 	public void sendApproveRejectEmail(String username, Boolean isApprove, String userEmail) throws Exception {
-		InternetAddress[] addressList = InternetAddress.parse(userEmail);
+		//InternetAddress[] addressList = InternetAddress.parse(userEmail);
 		String sbj= null;
 		String msg= null;
 		if(isApprove) {
@@ -117,7 +117,8 @@ public class UserApprovalController extends AbstractController implements REST {
 		}
 		MimeMessage message = new MimeMessage(config.getSession());
 		message.setFrom(config.getFrom());
-		message.addRecipients(Message.RecipientType.TO, addressList);
+		//message.addRecipients(Message.RecipientType.TO, addressList);
+		message.addRecipients(Message.RecipientType.TO, userEmail);
 		message.setSubject(sbj);
 		message.setText(msg);
 		Transport.send(message);

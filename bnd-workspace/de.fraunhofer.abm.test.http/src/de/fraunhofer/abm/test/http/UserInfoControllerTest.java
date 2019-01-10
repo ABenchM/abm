@@ -30,6 +30,7 @@ import de.fraunhofer.abm.http.client.HttpResponse;
 	        testUpdateUserInfoNull();
 	        testRegisterUserNullInfo();
 	        testApproveUser();
+	        //testApprovedUserStatus();
 	    }	   
 	    
 		protected Map<String, String> login() throws IOException {
@@ -91,19 +92,25 @@ import de.fraunhofer.abm.http.client.HttpResponse;
 			HttpResponse response;
 			Map<String, String> headers = login();
 	        headers.put("Content-Type", "application/json;charset=UTF-8");
-	 		// String payload = "{\"isApprove\":\"true\", \"userList\":[\"testUser1\", \"testUser2\"]}";
 	        String payload = "{\"isApprove\":\"true\", \"userList\":\"testUser1\"}";
 	        headers.put("params", payload);
 	        String uri = baseUri + "/rest/approval";
 	        response = HttpUtils.put(uri, headers, payload.getBytes(charset), charset);
 	        Assert.assertEquals(NUM200, response.getResponseCode());
+		}
+		
+		private void testApprovedUserStatus() throws IOException {
+			HttpResponse response;
+			Map<String, String> headers = login();
+	        headers.put("Content-Type", "application/json;charset=UTF-8");
 	        
-	        uri = baseUri + "/rest/username?username=" + "testUser1";
+	        String uri = baseUri + "/rest/username?username=" + "testUser1";
 	        String result = HttpUtils.get(uri, headers, charset);
 	        Assert.assertNotNull(result);
             JSONObject obj = new JSONObject(result);
             Assert.assertEquals(true, obj.get("approved"));
 		}
+		
 		 // TODO : Reject user will be uncommented after delete user code is checked in
 		/* private void testRejectUser() throws IOException {
 			HttpResponse response;
