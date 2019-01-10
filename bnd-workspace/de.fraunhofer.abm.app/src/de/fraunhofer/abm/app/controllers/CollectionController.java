@@ -91,6 +91,10 @@ public class CollectionController extends AbstractController implements REST {
             	result = collectionDao.findPrivateId(params.get("id")[0], user);
             }
         }
+        //to populate the Manage Collections for UserAdmin
+        if(params.get("isAdmin")!=null) {
+        	result = collectionDao.findCollections();
+        }
         return result;
     }
 
