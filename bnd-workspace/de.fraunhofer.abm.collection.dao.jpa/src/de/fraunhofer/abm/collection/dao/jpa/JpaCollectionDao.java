@@ -179,6 +179,47 @@ public class JpaCollectionDao extends AbstractJpaDao implements CollectionDao {
             return result.toDTO();
         });
     }
+    
+    @Override
+    public void deleteUserPinnedCollections(String user) {
+    	// delete from CollectionPin & update Collection (privateStatus 0) user to demo
+        transactionControl.required(() -> {
+        	Query deleteOrphanProperties = em.createNativeQuery("delete from collectionPin where user = :value1").setParameter("value1", user);
+        	deleteOrphanProperties.executeUpdate();
+            return null;
+        });
+    }
+    
+    @SuppressWarnings("unchecked")
+	@Override
+    public void updateUserPublicCollections(String user) {
+    	// delete from CollectionPin & update Collection (privateStatus 0) user to demo
+        transactionControl.required(() -> {
+        	List<String> collectionIds = em.createQuery("select id from collection where user = :value1 and privateStatus = 0")
+                    									.setParameter("value1", user).getResultList();
+        	for (String id : collectionIds) {
+        		JpaCollection collection = em.find(JpaCollection.class, id);
+                collection.user = "demo";
+                em.persist(collection);
+        	}
+            return null;
+        });
+    }
+    
+    @SuppressWarnings("unchecked")
+	@Override
+    public void deleteUserPrivateCollections(String user) {
+    	// delete from CollectionPin & delete Collection (privateStatus 1)
+        transactionControl.required(() -> {
+        	List<String> collectionIds = em.createQuery("select id from collection where user = :value1 and privateStatus = 1")
+                    									.setParameter("value1", user).getResultList();
+        	for (String id : collectionIds) {
+        		JpaCollection collection = em.find(JpaCollection.class, id);
+                em.remove(collection);
+        	}
+            return null;
+        });
+    }
 
     @Override
     protected EntityManager getEntityManager() {

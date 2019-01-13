@@ -275,6 +275,15 @@ public class JpaUserDao extends AbstractJpaDao implements UserDao {
  		});
  		return token;
  	}
+	
+	@Override
+ 	public void deleteUserResetToken(String username) {
+ 		transactionControl.required(() -> {
+			Query deleteResetTokens = em.createNativeQuery("delete from reset_token where username = :value1").setParameter("value1", username);
+			deleteResetTokens.executeUpdate();
+			return null;
+		});
+ 	}
 
 	@Override
 	protected EntityManager getEntityManager() {

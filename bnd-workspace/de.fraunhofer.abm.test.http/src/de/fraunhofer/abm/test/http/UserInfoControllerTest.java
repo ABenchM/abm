@@ -27,16 +27,24 @@ import de.fraunhofer.abm.http.client.HttpResponse;
 	        headers.put("Cookie", sessionCookie);
 	        testRegisterUser();
 	        testUpdateUserInfoNull();
+	        testDeleteUser();
 	        testRegisterUserNullInfo();
 	        testUpdateUser();
 	        testRegisterUserToApprove();
 	        testApproveUser();
 	        // testApprovedUserStatus();
-          testRejectUser();
+	        testRejectUser();
 	    }	   
 	    
 		protected Map<String, String> login() throws IOException {
 	        login(USER, PASSWORD);
+	        Map<String, String> headers = HttpUtils.createFirefoxHeader();
+	        addSessionCookie(headers);
+	        return headers;
+	    }
+		
+		protected Map<String, String> loginTestUser(String testUser) throws IOException {
+	        login(testUser, testUser);
 	        Map<String, String> headers = HttpUtils.createFirefoxHeader();
 	        addSessionCookie(headers);
 	        return headers;
@@ -110,6 +118,17 @@ import de.fraunhofer.abm.http.client.HttpResponse;
 	        headers.put("params", payload);
 	        String uri = baseUri + "/rest/approval";
 	        response = HttpUtils.put(uri, headers, payload.getBytes(charset), charset);
+	        Assert.assertEquals(NUM200, response.getResponseCode());
+		}
+		
+		private void testDeleteUser() throws IOException {
+			HttpResponse response;
+			Map<String, String> headers = loginTestUser("testUser1");
+	        headers.put("Content-Type", "application/json;charset=UTF-8");
+	 		String payload = "testUser1";
+	        headers.put("params", payload);
+	        String uri = baseUri + "/rest/username/testUser1";
+	        response = HttpUtils.delete(uri, headers, charset);
 	        Assert.assertEquals(NUM200, response.getResponseCode());
 		}
 		

@@ -1,6 +1,7 @@
 package de.fraunhofer.abm.app.controllers;
 
 import java.text.MessageFormat;
+import java.util.List;
 import java.util.Map;
 
 import javax.mail.Message;
@@ -18,6 +19,8 @@ import de.fraunhofer.abm.app.auth.Password;
 import de.fraunhofer.abm.app.auth.TokenGenerator;
 import de.fraunhofer.abm.collection.dao.UserDao;
 import de.fraunhofer.abm.domain.UserDTO;
+import de.fraunhofer.abm.collection.dao.CollectionDao;
+import de.fraunhofer.abm.collection.dao.FilterPinDao;
 import osgi.enroute.configurer.api.RequireConfigurerExtender;
 import osgi.enroute.rest.api.REST;
 import osgi.enroute.rest.api.RESTRequest;
@@ -33,6 +36,12 @@ public class UserController extends AbstractController implements REST {
 	@Reference
 	private UserDao userDao;
 
+	@Reference
+	private CollectionDao collectionDao;
+	
+	@Reference
+	private FilterPinDao filterPinDao;
+	
 	@Reference
 	private Authorizer authorizer;
 
@@ -99,6 +108,40 @@ public class UserController extends AbstractController implements REST {
  			return userDao.getUserInfo(user);
 		}
  		return null;
+	}
+	
+	/**
+	 * Delete current user
+	 * 
+	 * @param username
+	 * @return
+	 * @throws Exception
+	 */
+	public void deleteUsername(String username) throws Exception {
+		System.out.println("inside deleteUsername");
+		authorizer.requireUser(username);
+        logger.debug("Deleting user {}", username);
+        try {
+        	if (userDao.checkExists(username)) {
+        		// delete all pinned collection entry by the user
+        		collectionDao.deleteUserPinnedCollections(username);
+        		// update created by to demo for public collections by this user
+        		collectionDao.updateUserPublicCollections(username);
+        		// delete users private collections
+        		collectionDao.deleteUserPrivateCollections(username);
+        		// delete any entry for the user in filterPin table
+        		List<String> pinList = filterPinDao.findPins(username);
+        		for (String pinId : pinList) {
+        			filterPinDao.dropPin(username, pinId);
+        		}
+        		// delete any entry for the user in reset_token table
+        		userDao.deleteUserResetToken(username);
+        		// Delete user info from user table
+        		userDao.deleteUser(username);
+            }
+        } catch (Exception e) {
+        	logger.info("Exception");
+        }
 	}
 
 	@Override

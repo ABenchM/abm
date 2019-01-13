@@ -32,4 +32,6 @@ public interface UserDao {
 	
 	public String getUserToken(String name);
 	
+	public void deleteUserResetToken(String username);
+	
 }
