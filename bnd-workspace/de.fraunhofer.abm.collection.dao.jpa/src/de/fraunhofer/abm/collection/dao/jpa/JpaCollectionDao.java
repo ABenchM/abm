@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
@@ -61,9 +62,17 @@ public class JpaCollectionDao extends AbstractJpaDao implements CollectionDao {
     public CollectionDTO findById(String id) {
         return transactionControl.notSupported(() -> {
             TypedQuery<JpaCollection> query = em.createQuery("SELECT c FROM collection c WHERE c.id = :id ORDER BY c.name", JpaCollection.class);
+            
+            
             query.setParameter("id", id);
-            JpaCollection result = query.getSingleResult();
-            return result.toDTO();
+            try {
+            	 JpaCollection result = query.getSingleResult();	
+            	 return result.toDTO();
+            } catch (NoResultException e) {
+            	e.printStackTrace();
+            }
+            
+            return null;
         });
     }
     

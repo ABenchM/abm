@@ -32,7 +32,7 @@ import de.fraunhofer.abm.http.client.HttpResponse;
 	        testRegisterUserToApprove();
 	        testApproveUser();
 	        // testApprovedUserStatus();
-	        testRejectUser();
+          testRejectUser();
 	    }	   
 	    
 		protected Map<String, String> login() throws IOException {

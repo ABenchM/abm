@@ -11,7 +11,7 @@
 * [Configuration information](#configuration-information)
 * [Launching or bouncing the application on production server](#launching-or-bouncing-the-application-on-production-server)
 * [Running Hermes manually](#running-hermes-manually)
-* [Updating the database](#updating-the-database)
+* [Updating the database](#updating-the-database-in-production)
 * [Changing email notification settings](#changing-email-notification-settings)
 * [Continuous integration using jenkins](#continuous-integration-using-jenkins)
 
@@ -243,30 +243,20 @@ docker run -it --rm opalj/sbt_scala_javafx
 runMain org.opalj.hermes.HermesCLI  -config src/main/resources/hermes.json -statistics $csv.csv (You can give any name you want for CSV file)
 * You will get the csv file in DEVELOPING_OPAL/tools directory or can specify the directory where you want.
   
-# Updating the Database
-While the database is automatically generated during setup, when a installation of ABM is updated some modifications to the local database may be needed.
-The changes can be made by reinitilizing the database, but that results in the loss of all data stored on the database.
-To avoid this, make the following changes to your local database for each of the new commits you are applying.
-* Commit 983a572 (Jun 9, 2017 / Added simple public collection feature)
-  * To table "collection":
-    * Add column "privateStatus" (type tinyint, default 0)
-    * Add column "creation_date" (type datetime)
-    * Commit 983a572 (Jun 9, 2017 / Added simple public collection feature)
-* Commit f5fa5cd (Jul 5, 2017 / Added Pinning Collections and Simple Build Sidebar)
-  * Add new table "collectionPin" with the following colunms:
-    * Column "user" (type varchar(255))
-    * Column "id" (type varchar(255))
-  * Add new table "filterPin" with the following colunms:
-    * Column "user" (type varchar(255))
-    * Column "id" (type varchar(255))
-* Commit 162dff7 (Aug 4, 2017 / Bugfixes and UI changes)
-  * Add new table "user" with the following colunms:
-    * Column "name" (type varchar(255))
-    * Column "password" (type varchar(255))
-    * Column "approved" (type tinyint)
-* Commit 7364e14 (Nov 27, 2017/ Registration activation)
-  * To table "user":
-    * Column "token" (type varchar(50))
+
+# Updating the database in production
+
+Now updation of production database will be done through a script - "mysql_script.sql" which will be kept under docs folder. 
+
+Anybody who wants to make any change in the database such as -
+   1. Adding a column
+   2. Dropping a column 
+   3. Adding a constraint etc. 
+   
+   Just need to write the corresponding sql command in the above mentioned script and pushed the script to master branch. 
+   From here, jenkins will automatically execute this script in night build.
+ 
+  
 
 # Changing email notification settings
 All the settings that control the email notification system are at the top of the file EmailConfiguration.java in the package de.fraunhofer.abm.app. You can change these to control the host the program connects to, the email and credentals it uses, and who it notifies when a new account is registered.
