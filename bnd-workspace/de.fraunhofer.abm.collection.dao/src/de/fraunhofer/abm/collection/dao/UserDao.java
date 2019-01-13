@@ -16,6 +16,8 @@ public interface UserDao {
 
 	public void updateUser(String username, String firstname, String lastname, String email, String affiliation, String password, String token);
 
+	public void deleteUser(String username);
+
 	public String approveToken(String name, String token);
 	
 	public List<UserDTO> getAllUsers(int isApproved);

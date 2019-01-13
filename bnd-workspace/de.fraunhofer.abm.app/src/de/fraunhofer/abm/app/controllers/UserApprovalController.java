@@ -91,9 +91,8 @@ public class UserApprovalController extends AbstractController implements REST {
  	 				String userEmail = userDao.getEmailId(username);
  	 				// sendApproveRejectEmail(username, true, userEmail);
  	 			} else {
- 	 				// TODO: implement deleteuser and uncomment below lines
- 	 				// String userEmail = userDao.getEmailId(username);
- 	 				// userDao.deleteUser(username);
+ 	 				String userEmail = userDao.getEmailId(username);
+ 	 				userDao.deleteUser(username);
  	 				// sendApproveRejectEmail(username, false, userEmail);
  	 			}
  			}

@@ -32,7 +32,7 @@ import de.fraunhofer.abm.http.client.HttpResponse;
 	        testRegisterUserToApprove();
 	        testApproveUser();
 	        // testApprovedUserStatus();
-	        // testRejectUser();
+          testRejectUser();
 	    }	   
 	    
 		protected Map<String, String> login() throws IOException {
@@ -125,7 +125,7 @@ import de.fraunhofer.abm.http.client.HttpResponse;
             Assert.assertEquals(true, obj.get("approved"));
 		}
 		
-		/*private void testRejectUser() throws IOException {
+		private void testRejectUser() throws IOException {
 			HttpResponse response;
 			Map<String, String> headers = login();
 	        headers.put("Content-Type", "application/json;charset=UTF-8");
@@ -134,6 +134,6 @@ import de.fraunhofer.abm.http.client.HttpResponse;
 	        String uri = baseUri + "/rest/approval";
 	        response = HttpUtils.put(uri, headers, payload.getBytes(charset), charset);
 	        Assert.assertEquals(NUM200, response.getResponseCode());
-		}*/
+		}
 		
 	} 
