@@ -13,6 +13,9 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.transaction.control.TransactionControl;
 import org.osgi.service.transaction.control.jpa.JPAEntityManagerProvider;
+import org.osgi.service.useradmin.Group;
+import org.osgi.service.useradmin.User;
+import org.osgi.service.useradmin.UserAdmin;
 
 import de.fraunhofer.abm.collection.dao.UserDao;
 import de.fraunhofer.abm.domain.UserDTO;
@@ -26,6 +29,9 @@ public class JpaUserDao extends AbstractJpaDao implements UserDao {
 	@Reference(name = "provider")
 	JPAEntityManagerProvider jpaEntityManagerProvider;
 
+	@Reference
+	private UserAdmin userAdmin;
+	
 	EntityManager em;
 
 	@Activate
@@ -103,6 +109,31 @@ public class JpaUserDao extends AbstractJpaDao implements UserDao {
 			return null;
 		});
 	}
+	
+	private void deleteUserInfo(JpaUser user) {
+		em.remove(user);
+	}
+	
+	private void deleteUserRoleInfo(JpaUser user) {
+ 		User userRole = (User) userAdmin.getRole(user.name);
+ 		Group registeredUserGroup = (Group) userAdmin.getRole("RegisteredUser");
+ 		registeredUserGroup.removeMember(userRole);
+ 		userAdmin.removeRole(user.name);
+ 	}
+	
+	@Override
+ 	public void deleteUser(String username) {
+ 		transactionControl.required(() -> {
+ 			TypedQuery<JpaUser> query = em.createQuery("SELECT u FROM user u WHERE u.name = :name", JpaUser.class);
+			query.setParameter("name", username);
+			JpaUser user = query.getSingleResult();
+			if (user.approved == 1) {
+  				deleteUserRoleInfo(user);
+  			}
+			deleteUserInfo(user);
+ 			return null;
+ 		});
+ 	}
 
 	@Override
 	public String approveToken(String name, String token) {
