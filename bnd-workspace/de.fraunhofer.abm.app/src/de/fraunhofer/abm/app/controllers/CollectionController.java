@@ -91,8 +91,28 @@ public class CollectionController extends AbstractController implements REST {
             	result = collectionDao.findPrivateId(params.get("id")[0], user);
             }
         }
+        //to populate the Manage Collections for UserAdmin
+        if(params.get("isAdmin")!=null) {
+        	result = collectionDao.findCollections();
+        }
         return result;
     }
+    
+    interface AccountRequest extends RESTRequest {
+		Map<String, String> _body();
+	}
+    
+    public void putCollectionstatus(AccountRequest ar) throws Exception {
+  	   authorizer.requireRole("UserAdmin");
+  	   Map<String, String> params = ar._body();
+  		String collectionid = params.get("collectionid");
+          try {
+           collectionDao.activeCollection(collectionid);
+          } catch (Exception e) {
+          	logger.info("Exception");
+          }
+  }
+
 
     interface CollectionRequest extends RESTRequest {
         CollectionDTO _body();
