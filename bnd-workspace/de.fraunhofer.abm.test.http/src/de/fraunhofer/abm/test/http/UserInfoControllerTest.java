@@ -34,6 +34,7 @@ import de.fraunhofer.abm.http.client.HttpResponse;
 	        testApproveUser();
 	        // testApprovedUserStatus();
 	        testRejectUser();
+	        testAdminDeleteUser();
 	    }	   
 	    
 		protected Map<String, String> login() throws IOException {
@@ -128,6 +129,17 @@ import de.fraunhofer.abm.http.client.HttpResponse;
 	 		String payload = "testUser1";
 	        headers.put("params", payload);
 	        String uri = baseUri + "/rest/username/testUser1";
+	        response = HttpUtils.delete(uri, headers, charset);
+	        Assert.assertEquals(NUM200, response.getResponseCode());
+		}
+		
+		private void testAdminDeleteUser() throws IOException {
+			HttpResponse response;
+			Map<String, String> headers = login();
+	        headers.put("Content-Type", "application/json;charset=UTF-8");
+	 		String payload = "testApproveUser1";
+	        headers.put("params", payload);
+	        String uri = baseUri + "/rest/adminDeleteUsers/testApproveUser1";
 	        response = HttpUtils.delete(uri, headers, charset);
 	        Assert.assertEquals(NUM200, response.getResponseCode());
 		}
