@@ -89,7 +89,7 @@ public class UserApprovalController extends AbstractController implements REST {
  	 				Group registeredUserGroup = (Group) userAdmin.getRole("RegisteredUser");
  	 				registeredUserGroup.addMember(user);
  	 				String userEmail = userDao.getEmailId(username);
- 	 				//sendApproveRejectEmail(username, true, userEmail);
+ 	 				sendApproveRejectEmail(username, true, userEmail);
  	 			} else {
  	 				// TODO: implement deleteuser and uncomment below lines
  	 				// String userEmail = userDao.getEmailId(username);
