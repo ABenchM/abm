@@ -26,11 +26,13 @@ import de.fraunhofer.abm.http.client.HttpResponse;
 	        // try to get a secured resource
 	        headers.put("Cookie", sessionCookie);
 	        testRegisterUser();
-	        testUpdateUser();
 	        testUpdateUserInfoNull();
 	        testRegisterUserNullInfo();
+	        testUpdateUser();
+	        testRegisterUserToApprove();
 	        testApproveUser();
-	        //testApprovedUserStatus();
+	        // testApprovedUserStatus();
+	        // testRejectUser();
 	    }	   
 	    
 		protected Map<String, String> login() throws IOException {
@@ -45,31 +47,7 @@ import de.fraunhofer.abm.http.client.HttpResponse;
 			Map<String, String> headers = login();
 	        headers.put("Content-Type", "application/json;charset=UTF-8");
 	 		String payload = "{\"username\":\"testUser1\", \"firstname\":\"myfirstname\", \"lastname\":\"mylastname\", " 
-	 						+ "\"password\":\"testUser1\", \"email\":\"anut347@gmail.com\", \"affiliation\":\"Uni Paderborn\"}";
-	        headers.put("params", payload);
-	        String uri = baseUri + "/rest/username";
-	        response = HttpUtils.post(uri, headers, payload.getBytes(charset), charset);
-	        Assert.assertEquals(NUM200, response.getResponseCode());
-		}
-		
-		private void testRegisterUserNullInfo() throws IOException {
-			HttpResponse response;
-			Map<String, String> headers = login();
-	        headers.put("Content-Type", "application/json;charset=UTF-8");
-	 		String payload = "{\"username\":\"testUser2\", " 
-	 						+ "\"password\":\"testUser2\", \"email\":\"anut347@gmail.com\"}";
-	        headers.put("params", payload);
-	        String uri = baseUri + "/rest/username";
-	        response = HttpUtils.post(uri, headers, payload.getBytes(charset), charset);
-	        Assert.assertEquals(NUM200, response.getResponseCode());
-		}
-		
-		private void testUpdateUser() throws IOException {
-			HttpResponse response;
-			Map<String, String> headers = login();
-	        headers.put("Content-Type", "application/json;charset=UTF-8");
-	 		String payload = "{\"username\":\"testUser1\", \"firstname\":\"mynewfirstname\", \"lastname\":\"mynewlastname\", " 
-	 						+ "\"password\":\"testUser1\", \"email\":\"anut347@gmail.com\", \"affiliation\":\"Uni Paderborn\"}";
+	 						+ "\"password\":\"testUser1\", \"email\":\"thottam@mail.uni-paderborn.de\", \"affiliation\":\"Uni Paderborn\"}";
 	        headers.put("params", payload);
 	        String uri = baseUri + "/rest/username";
 	        response = HttpUtils.post(uri, headers, payload.getBytes(charset), charset);
@@ -81,7 +59,43 @@ import de.fraunhofer.abm.http.client.HttpResponse;
 			Map<String, String> headers = login();
 	        headers.put("Content-Type", "application/json;charset=UTF-8");
 	 		String payload = "{\"username\":\"testUser1\", " 
-	 						+ "\"password\":\"testUser1\", \"email\":\"anut347@gmail.com\"}";
+	 						+ "\"password\":\"testUser1\", \"email\":\"thottam@mail.uni-paderborn.de\"}";
+	        headers.put("params", payload);
+	        String uri = baseUri + "/rest/username";
+	        response = HttpUtils.post(uri, headers, payload.getBytes(charset), charset);
+	        Assert.assertEquals(NUM200, response.getResponseCode());
+		}
+		
+		private void testRegisterUserNullInfo() throws IOException {
+			HttpResponse response;
+			Map<String, String> headers = login();
+	        headers.put("Content-Type", "application/json;charset=UTF-8");
+	 		String payload = "{\"username\":\"testUser2\", " 
+	 						+ "\"password\":\"testUser2\", \"email\":\"thottam@mail.uni-paderborn.de\"}";
+	        headers.put("params", payload);
+	        String uri = baseUri + "/rest/username";
+	        response = HttpUtils.post(uri, headers, payload.getBytes(charset), charset);
+	        Assert.assertEquals(NUM200, response.getResponseCode());
+		}
+		
+		private void testUpdateUser() throws IOException {
+			HttpResponse response;
+			Map<String, String> headers = login();
+	        headers.put("Content-Type", "application/json;charset=UTF-8");
+	 		String payload = "{\"username\":\"testUser2\", \"firstname\":\"mynewfirstname\", \"lastname\":\"mynewlastname\", " 
+	 						+ "\"password\":\"testUser2\", \"email\":\"thottam@mail.uni-paderborn.de\", \"affiliation\":\"Uni Paderborn\"}";
+	        headers.put("params", payload);
+	        String uri = baseUri + "/rest/username";
+	        response = HttpUtils.post(uri, headers, payload.getBytes(charset), charset);
+	        Assert.assertEquals(NUM200, response.getResponseCode());
+		}
+		
+		private void testRegisterUserToApprove() throws IOException {
+			HttpResponse response;
+			Map<String, String> headers = login();
+	        headers.put("Content-Type", "application/json;charset=UTF-8");
+	 		String payload = "{\"username\":\"testApproveUser1\", \"firstname\":\"myfirstname\", \"lastname\":\"mylastname\", " 
+	 						+ "\"password\":\"testApproveUser1\", \"email\":\"thottam@mail.uni-paderborn.de\", \"affiliation\":\"Uni Paderborn\"}";
 	        headers.put("params", payload);
 	        String uri = baseUri + "/rest/username";
 	        response = HttpUtils.post(uri, headers, payload.getBytes(charset), charset);
@@ -92,7 +106,7 @@ import de.fraunhofer.abm.http.client.HttpResponse;
 			HttpResponse response;
 			Map<String, String> headers = login();
 	        headers.put("Content-Type", "application/json;charset=UTF-8");
-	        String payload = "{\"isApprove\":\"true\", \"userList\":\"testUser1\"}";
+	        String payload = "{\"isApprove\":\"true\", \"userList\":\"testApproveUser1\"}";
 	        headers.put("params", payload);
 	        String uri = baseUri + "/rest/approval";
 	        response = HttpUtils.put(uri, headers, payload.getBytes(charset), charset);
@@ -111,8 +125,7 @@ import de.fraunhofer.abm.http.client.HttpResponse;
             Assert.assertEquals(true, obj.get("approved"));
 		}
 		
-		 // TODO : Reject user will be uncommented after delete user code is checked in
-		/* private void testRejectUser() throws IOException {
+		/*private void testRejectUser() throws IOException {
 			HttpResponse response;
 			Map<String, String> headers = login();
 	        headers.put("Content-Type", "application/json;charset=UTF-8");
