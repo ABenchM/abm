@@ -14,7 +14,7 @@ public interface UserDao {
 
 	public void addUser(String username, String firstname, String lastname, String email, String affiliation, String password, String token);
 
-	public void updateUser(String username, String firstname, String lastname, String email, String affiliation, String saltHashPassword);
+	public void updateUser(String username, String firstname, String lastname, String email, String affiliation, String password, String token);
 
 	public String approveToken(String name, String token);
 	
@@ -25,5 +25,9 @@ public interface UserDao {
 	public void lockunlockUser(String username,String isLock);
 
 	public void updateRole(String username, String role);
+	
+	public String getEmailId(String username);
+	
+	public String getUserToken(String name);
 	
 }
