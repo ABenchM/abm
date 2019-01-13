@@ -14,7 +14,9 @@ public interface UserDao {
 
 	public void addUser(String username, String firstname, String lastname, String email, String affiliation, String password, String token);
 
-	public void updateUser(String username, String firstname, String lastname, String email, String affiliation, String password, String token);
+	public void updateUser(String username, String firstname, String lastname, String email, String affiliation);
+
+	public void updateUserPassword(String username, String saltHashPassword);
 
 	public void deleteUser(String username);
 

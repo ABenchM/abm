@@ -25,11 +25,11 @@ import de.fraunhofer.abm.http.client.HttpResponse;
 	        Assert.assertTrue(sessionCookie.contains("JSESSIONID"));
 	        // try to get a secured resource
 	        headers.put("Cookie", sessionCookie);
+	        testUpdateUser();
 	        testRegisterUser();
 	        testUpdateUserInfoNull();
 	        testDeleteUser();
 	        testRegisterUserNullInfo();
-	        testUpdateUser();
 	        testRegisterUserToApprove();
 	        testApproveUser();
 	        // testApprovedUserStatus();
@@ -90,12 +90,19 @@ import de.fraunhofer.abm.http.client.HttpResponse;
 			HttpResponse response;
 			Map<String, String> headers = login();
 	        headers.put("Content-Type", "application/json;charset=UTF-8");
-	 		String payload = "{\"username\":\"testUser2\", \"firstname\":\"mynewfirstname\", \"lastname\":\"mynewlastname\", " 
-	 						+ "\"password\":\"testUser2\", \"email\":\"thottam@mail.uni-paderborn.de\", \"affiliation\":\"Uni Paderborn\"}";
+	 		String payload = "{\"username\":\""+USER+"\", \"firstname\":\"mynewfirstname\", \"lastname\":\"mylastname\", " 
+					+ "\"password\":null, \"email\":\"demo@gmail.com\", \"affiliation\":\"Uni Paderborn\", \"locked\":\"0\"}";
 	        headers.put("params", payload);
 	        String uri = baseUri + "/rest/username";
-	        response = HttpUtils.post(uri, headers, payload.getBytes(charset), charset);
+	        response = HttpUtils.put(uri, headers, payload.getBytes(charset), charset);
 	        Assert.assertEquals(NUM200, response.getResponseCode());
+	        
+	        uri = baseUri + "/rest/username?username=" + USER;
+	        String result = HttpUtils.get(uri, headers, charset);
+	        System.out.println(result);
+	        Assert.assertNotNull(result);
+            JSONObject obj = new JSONObject(result);
+		    Assert.assertEquals("mynewfirstname", obj.get("firstname"));
 		}
 		
 		private void testRegisterUserToApprove() throws IOException {
