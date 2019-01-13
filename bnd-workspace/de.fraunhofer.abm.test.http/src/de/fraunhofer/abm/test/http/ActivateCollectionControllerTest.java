@@ -37,7 +37,7 @@ import de.fraunhofer.abm.http.client.HttpResponse;
 			
 			String payload = jsonString;
 			String uri = baseUri + "/rest/collectionstatus/";
-			HttpResponse collections = HttpUtils.post(uri, headers, payload.getBytes(charset), charset);
+			HttpResponse collections = HttpUtils.put(uri, headers, payload.getBytes(charset), charset);
 			Assert.assertEquals(NUM200, collections.getResponseCode());
 	        System.out.println(collections.getResponseCode());
 			
