@@ -77,10 +77,8 @@ public class JpaCollectionDao extends AbstractJpaDao implements CollectionDao {
             	 JpaCollection result = query.getSingleResult();	
             	 return result.toDTO();
             } catch (NoResultException e) {
-            	e.printStackTrace();
+             return null;
             }
-            
-            return null;
         });
     }
     @Override
