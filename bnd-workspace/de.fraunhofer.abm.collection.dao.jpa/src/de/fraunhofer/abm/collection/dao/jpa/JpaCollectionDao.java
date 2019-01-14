@@ -72,8 +72,6 @@ public class JpaCollectionDao extends AbstractJpaDao implements CollectionDao {
     public CollectionDTO findById(String id) {
         return transactionControl.notSupported(() -> {
         	TypedQuery<JpaCollection> query = em.createQuery("SELECT c FROM collection c WHERE c.id = :id AND c.isActive = 1 ORDER BY c.name", JpaCollection.class);
-            
-            
             query.setParameter("id", id);
             try {
             	 JpaCollection result = query.getSingleResult();	
@@ -85,7 +83,6 @@ public class JpaCollectionDao extends AbstractJpaDao implements CollectionDao {
             return null;
         });
     }
-    
     @Override
     public List<CollectionDTO> findPublicId(String id) {
         return transactionControl.notSupported(() -> {
