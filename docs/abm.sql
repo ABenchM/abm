@@ -46,6 +46,7 @@ CREATE TABLE `collection` (
   `name` varchar(255) DEFAULT NULL,
   `user` varchar(255) DEFAULT NULL,
   `privateStatus` tinyint(4) DEFAULT '0',
+   `isActive` tinyint(4) DEFAULT NULL,
   `creation_date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 );

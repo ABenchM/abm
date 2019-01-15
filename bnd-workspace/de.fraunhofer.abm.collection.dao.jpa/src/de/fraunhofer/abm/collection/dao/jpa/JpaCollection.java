@@ -35,7 +35,12 @@ public class JpaCollection {
     public int privateStatus;
     
     @Column
+    public int isActive;
+    
+    @Column
     public Date creation_date;
+    
+    
 
     @OneToMany(fetch=LAZY, mappedBy="collection", cascade=CascadeType.ALL)
     @OrderBy("number")
@@ -48,6 +53,7 @@ public class JpaCollection {
         collection.name = dto.name;
         collection.description = dto.description;
         collection.privateStatus = ((dto.privateStatus)? 1: 0);
+        collection.isActive = ((dto.isActive) ? 1 : 0);
         collection.creation_date = dto.creation_date;
         collection.versions = dto.versions.stream()
                 .map(JpaVersion::fromDTO)
@@ -66,6 +72,7 @@ public class JpaCollection {
         collection.name = this.name;
         collection.description = this.description;
         collection.privateStatus = (this.privateStatus == 1);
+        collection.isActive = (this.isActive == 1);
         collection.creation_date = this.creation_date;
         collection.versions = this.versions.stream()
                 .map(JpaVersion::toDTO)
