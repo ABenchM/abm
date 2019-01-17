@@ -82,7 +82,7 @@ public class UserAdminController implements REST {
         public Map properties;
     }
     
-    public boolean deleteDeletepubliccollection(String collectionIds) throws IOException{
+    public boolean deletePubliccollection(String collectionIds) throws IOException{
     	ArrayList<String> users = new ArrayList<String>();
     	users.add("UserAdmin");
     	authorizer.requireRoles(users);
