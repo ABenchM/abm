@@ -1,5 +1,7 @@
 package de.fraunhofer.abm.app.controllers;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -14,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.fraunhofer.abm.app.auth.Authorizer;
+import de.fraunhofer.abm.collection.dao.CollectionDao;
 import osgi.enroute.configurer.api.RequireConfigurerExtender;
 import osgi.enroute.rest.api.REST;
 import osgi.enroute.rest.api.RESTRequest;
@@ -32,6 +35,10 @@ public class UserAdminController implements REST {
     @Reference
     private Authorizer authorizer;
 
+
+    @Reference
+    private CollectionDao collectionDao;
+    
     public AbmUser getUser(RESTRequest rr, String name) {
         authorizer.requireRole("UserAdmin");
 
@@ -73,6 +80,23 @@ public class UserAdminController implements REST {
         public int type;
         @SuppressWarnings("rawtypes")
         public Map properties;
+    }
+    
+    public boolean deleteDeletepubliccollection(String collectionIds) throws IOException{
+    	ArrayList<String> users = new ArrayList<String>();
+    	users.add("UserAdmin");
+    	authorizer.requireRoles(users);
+    	String[] deleteCollection = collectionIds.split(","); 
+        for (String id: deleteCollection) { 
+              try { 
+                  logger.debug("deleting collection with"+id); 
+                  // delete the collection 
+                  collectionDao.delete(id); 
+              } catch (Exception e) { 
+                logger.info("Exception"); 
+              } 
+          }
+          return true;
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
