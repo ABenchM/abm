@@ -28,5 +28,17 @@ public class DelphiController implements REST {
 		
 		return featuresString;
 	}
+	
+	public String postSearchquery(String features) throws Exception {
+		//String body = "{\"query\":\"[using KeyStore]>10 && [using KeyStore]<50\"}";  
+	    String body = features;
+		header = new HashMap<>(); 
+	    header.put("Content-type", "application/json"); 
+	      String uri = "https://delphi.cs.uni-paderborn.de/api/search";   
+	        HttpResponse resp = HttpUtils.post(uri, header, body.getBytes("UTF-8"), "UTF-8");   
+	        JSONObject json = new JSONObject(resp); 
+	        System.out.println("delphi response"+json);
+	        return json.toString();
+	}
 
 }
