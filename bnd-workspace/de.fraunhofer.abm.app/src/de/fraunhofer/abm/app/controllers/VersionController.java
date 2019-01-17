@@ -109,6 +109,7 @@ public class VersionController extends AbstractController implements REST {
         version.id = UUID.randomUUID().toString();
         version.creationDate = new Date();
         version.frozen = false;
+        version.privateStatus = true;
         for (CommitDTO commit : version.commits) {
             commit.id = UUID.randomUUID().toString();
         }
