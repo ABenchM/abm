@@ -3,6 +3,7 @@ package de.fraunhofer.abm.app.controllers;
 import java.util.Dictionary;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.osgi.dto.DTO;
@@ -14,6 +15,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.fraunhofer.abm.app.auth.Authorizer;
+import de.fraunhofer.abm.collection.dao.CollectionDao;
+import de.fraunhofer.abm.collection.dao.FilterPinDao;
+import de.fraunhofer.abm.collection.dao.UserDao;
 import osgi.enroute.configurer.api.RequireConfigurerExtender;
 import osgi.enroute.rest.api.REST;
 import osgi.enroute.rest.api.RESTRequest;
@@ -29,6 +33,15 @@ public class UserAdminController implements REST {
     @Reference
     private UserAdmin userAdmin;
 
+    @Reference
+	private UserDao userDao;
+	
+	@Reference
+	private CollectionDao collectionDao;
+	
+	@Reference
+	private FilterPinDao filterPinDao;
+	
     @Reference
     private Authorizer authorizer;
 
@@ -67,6 +80,42 @@ public class UserAdminController implements REST {
         logger.debug("Deleting user {}", name);
         userAdmin.removeRole(name);
     }
+    
+    /**
+	 * Delete current user
+	 * 
+	 * @param username
+	 * @return
+	 * @throws Exception
+	 */
+	public void deleteAdminDeleteUsers(String userlist) throws Exception {
+		authorizer.requireRole("UserAdmin");
+		String[] deleteUsers = userlist.split(",");
+		for (String user: deleteUsers) {
+			logger.debug("Deleting user {}", user);
+	        try {
+	        	if ( userDao.checkExists(user) ) {
+	        		// delete all pinned collection entry by the user
+	        		collectionDao.deleteUserPinnedCollections(user);
+	        		// update created by to demo for public collections by this user
+	        		collectionDao.updateUserPublicCollections(user);
+	        		// Delete users private collections
+	        		collectionDao.deleteUserPrivateCollections(user);
+	        		// delete any entry for the user in filterPin table
+	        		List<String> pinList = filterPinDao.findPins(user);
+	        		for (String pinId : pinList) {
+	        			filterPinDao.dropPin(user, pinId);
+	        		}
+	        		// delete any entry for the user in reset_token table
+	        		userDao.deleteUserResetToken(user);
+	        		// Delete user info from user table
+	        		userDao.deleteUser(user);
+	            }
+	        } catch (Exception e) {
+	        	logger.info("Exception");
+	        }
+	    }
+	}
 
     public static class AbmUser extends DTO {
         public String name;
