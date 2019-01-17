@@ -94,7 +94,7 @@ public class JpaUserDao extends AbstractJpaDao implements UserDao {
 	}
 
 	@Override
-	public void updateUser(String username, String firstname, String lastname, String email, String affiliation, String password, String token) {
+	public void updateUser(String username, String firstname, String lastname, String email, String affiliation) {
 		transactionControl.required(() -> {
 			JpaUser jpaUser = new JpaUser();
 			jpaUser.name = username;
@@ -102,13 +102,24 @@ public class JpaUserDao extends AbstractJpaDao implements UserDao {
  			jpaUser.lastname = lastname;
  			jpaUser.email = email;
  			jpaUser.affiliation = affiliation;
-			jpaUser.password = password;
+			//jpaUser.password = password;
 			jpaUser.locked = 0;
-			jpaUser.token = token;
 			em.merge(jpaUser);
 			return null;
 		});
 	}
+	
+	@Override
+ 	public void updateUserPassword(String username, String password) {
+ 		transactionControl.required(() -> {
+ 			JpaRoleProperties jpaUserProp = new JpaRoleProperties();
+ 			jpaUserProp.username = username;
+ 			jpaUserProp.property_name = "password";
+ 			jpaUserProp.property_value = password;
+ 			em.merge(jpaUserProp);
+ 			return null;
+ 		});
+ 	}
 	
 	private void deleteUserInfo(JpaUser user) {
 		em.remove(user);
