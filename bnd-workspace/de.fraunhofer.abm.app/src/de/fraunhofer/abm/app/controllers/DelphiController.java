@@ -21,6 +21,7 @@ import de.fraunhofer.abm.http.client.HttpResponse;
 import de.fraunhofer.abm.http.client.HttpUtils;
 import osgi.enroute.configurer.api.RequireConfigurerExtender;
 import osgi.enroute.rest.api.REST;
+import osgi.enroute.rest.api.RESTRequest;
 import osgi.enroute.webserver.capabilities.RequireWebServerExtender;
 
 @RequireWebServerExtender
@@ -29,6 +30,9 @@ import osgi.enroute.webserver.capabilities.RequireWebServerExtender;
 public class DelphiController implements REST {
     static Map<String, String> header = new HashMap<>();
     
+    interface ProjectRequest extends RESTRequest {
+    	ProjectObjectDTO _body();
+    }
     @Reference
     JpaProjectDao projectDao;
 
@@ -55,13 +59,22 @@ public class DelphiController implements REST {
 	        return responseArray;
 	}
 	
-	public void postAddproject(String versionId,String projectId,String source) {
+	public void postAddprojects(ProjectRequest rr) {
+		ProjectObjectDTO projectdto = rr._body();
+        //Map<String, String[]> params = rr._request().getParameterMap();
+        //System.out.println("params"+params.toString());
+
+		//String versionId,String projectId,String source
 		ProjectObjectDTO project = new ProjectObjectDTO();
 		project.id = UUID.randomUUID().toString();
-        project.version_id = versionId;
-        project.project_id = projectId;
-        project.source = source;
-        
+        /*project.version_id = params.get("versionid")[0];
+        project.project_id = params.get("projectid")[0];
+        project.source = params.get("source")[0];
+        */
+		project.version_id = projectdto.version_id;
+        project.project_id = projectdto.project_id;
+        project.source = projectdto.source;
+        System.out.println("adding the project");
         projectDao.save(project);
 	}
 	
