@@ -25,6 +25,7 @@ import osgi.enroute.configurer.api.RequireConfigurerExtender;
 import osgi.enroute.rest.api.REST;
 import osgi.enroute.rest.api.RESTRequest;
 import osgi.enroute.webserver.capabilities.RequireWebServerExtender;
+import de.fraunhofer.abm.app.auth.Authenticator; 
 
 @RequireWebServerExtender
 @RequireConfigurerExtender
@@ -44,6 +45,9 @@ public class UserController extends AbstractController implements REST {
 	
 	@Reference
 	private Authorizer authorizer;
+	
+	@Reference 
+	private Authenticator authenticator; 
 
 	@Reference
 	private EmailConfigInterface config;
@@ -85,12 +89,11 @@ public class UserController extends AbstractController implements REST {
 			message.setSubject(sbj);
 			message.setText(msg);
 			Transport.send(message);
- 			userDao.addUser(username, firstname, lastname, email, affiliation, saltHashPassword, approvalToken);
+			userDao.addUser(username, firstname, lastname, email, affiliation, saltHashPassword, approvalToken);
 			return true;
 		} else {
-			String approvalToken = userDao.getUserToken(username);
-			userDao.updateUser(username, firstname, lastname, email, affiliation, saltHashPassword, approvalToken);
-			return true;
+			//throw new ApprovalException("User already exists");
+			return false;
 		}
 	}
 	
@@ -109,6 +112,46 @@ public class UserController extends AbstractController implements REST {
 		}
  		return null;
 	}
+	
+	/**
+	 * User Details Update
+	 * 
+	 * @param ar
+	 * @return
+	 * @throws Exception
+	 */
+	public boolean putUsername(AccountRequest ar) throws Exception {
+		Map<String, String> params = ar._body();
+ 		String username = params.get("username");
+ 		String firstname = params.get("firstname");
+ 		String lastname = params.get("lastname");
+ 		String password = params.get("password");
+ 		String email = params.get("email");
+ 		String affiliation = params.get("affiliation");
+ 		if (userDao.checkExists(username) && password ==null) {
+			userDao.updateUser(username, firstname, lastname, email, affiliation);
+			//userDao.updateUserPassword(username, saltHashPassword);
+			return true;
+		} else if(password !=null) {
+			String saltHashPassword = Password.getSaltedHash(password);
+			userDao.updateUserPassword(username, saltHashPassword);
+			return true;
+		}
+ 		else{
+			// throw new ApprovalException("User does not exist");
+			return false;
+		}
+	}
+	
+	public boolean getIsPasswordMatched(RESTRequest rr) throws Exception { 
+	    boolean matched = false; 
+	    Map<String, String[]> params = rr._request().getParameterMap(); 
+	        String user = params.get("username")[0]; 
+	        String password = params.get("password")[0]; 
+	        matched = authenticator.authenticate(user, password); 
+	    return matched; 
+	         
+	  } 
 	
 	/**
 	 * Delete current user
