@@ -26,16 +26,14 @@ import de.fraunhofer.abm.http.client.HttpResponse;
 	        // try to get a secured resource
 	        headers.put("Cookie", sessionCookie);
 	        testUpdateUserDemo();
-	        testRegisterUser1();
+	        testRegisterUser1NullInfo();
 	        testApproveUser1();
-	        testUpdateUser1InfoNull();
+	        testUpdateUser1();
 	        testDeleteUser1();
 	        testRegisterUser2NullInfo();
 	        testRejectUser2();
 	        testRegisterUser3();
 	        testApproveUser3();
-	        //testApprovedUser3Status();
-	        
 	        testAdminDeleteUser3();
 	    }	   
 	    
@@ -72,12 +70,12 @@ import de.fraunhofer.abm.http.client.HttpResponse;
 		    Assert.assertEquals("mynewfirstname", obj.get("firstname"));
 		}
 		
-		private void testRegisterUser1() throws IOException {
+		private void testRegisterUser1NullInfo() throws IOException {
 			HttpResponse response;
 			Map<String, String> headers = login();
 	        headers.put("Content-Type", "application/json;charset=UTF-8");
-	 		String payload = "{\"username\":\"testUser1\", \"firstname\":\"myfirstname\", \"lastname\":\"mylastname\", " 
-	 						+ "\"password\":\"testUser1\", \"email\":\"thottam@mail.uni-paderborn.de\", \"affiliation\":\"Uni Paderborn\"}";
+	        String payload = "{\"username\":\"testUser1\", " 
+						+ "\"password\":\"testUser1\", \"email\":\"thottam@mail.uni-paderborn.de\"}";
 	        headers.put("params", payload);
 	        String uri = baseUri + "/rest/username";
 	        response = HttpUtils.post(uri, headers, payload.getBytes(charset), charset);
@@ -93,18 +91,28 @@ import de.fraunhofer.abm.http.client.HttpResponse;
 	        String uri = baseUri + "/rest/approval";
 	        response = HttpUtils.put(uri, headers, payload.getBytes(charset), charset);
 	        Assert.assertEquals(NUM200, response.getResponseCode());
+	        
+	        // test null values
+	        uri = baseUri + "/rest/username?username=testUser1";
+	        String result = HttpUtils.get(uri, headers, charset);
+	        System.out.println(result);
+	        Assert.assertNotNull(result);
+            JSONObject obj = new JSONObject(result);
+		    Assert.assertEquals("null", obj.get("firstname").toString());
 		}
 		
-		private void testUpdateUser1InfoNull() throws IOException {
+		private void testUpdateUser1() throws IOException {
 			HttpResponse response;
 			Map<String, String> headers = login();
 	        headers.put("Content-Type", "application/json;charset=UTF-8");
-	 		String payload = "{\"username\":\"testUser1\", " 
-	 						+ "\"password\":\"testUser1\", \"email\":\"thottam@mail.uni-paderborn.de\"}";
-	        headers.put("params", payload);
+	        String payload = "{\"username\":\"testUser1\", \"firstname\":\"myfirstname\", \"lastname\":\"mylastname\", " 
+						+ "\"password\":\"testUser1\", \"email\":\"thottam@mail.uni-paderborn.de\", \"affiliation\":\"Uni Paderborn\"}";
+	 		headers.put("params", payload);
 	        String uri = baseUri + "/rest/username";
 	        response = HttpUtils.post(uri, headers, payload.getBytes(charset), charset);
 	        Assert.assertEquals(NUM200, response.getResponseCode());
+	        
+	        
 		}
 		
 		private void testDeleteUser1() throws IOException {
@@ -173,18 +181,6 @@ import de.fraunhofer.abm.http.client.HttpResponse;
 	        String uri = baseUri + "/rest/adminDeleteUsers/testApproveUser1";
 	        response = HttpUtils.delete(uri, headers, charset);
 	        Assert.assertEquals(NUM200, response.getResponseCode());
-		}
-		
-		private void testApprovedUser3Status() throws IOException {
-			HttpResponse response;
-			Map<String, String> headers = login();
-	        headers.put("Content-Type", "application/json;charset=UTF-8");
-	        
-	        String uri = baseUri + "/rest/username?username=" + "testUser1";
-	        String result = HttpUtils.get(uri, headers, charset);
-	        Assert.assertNotNull(result);
-            JSONObject obj = new JSONObject(result);
-            Assert.assertEquals(true, obj.get("approved"));
 		}
 		
 	} 
