@@ -10,8 +10,11 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.fraunhofer.abm.app.auth.SecurityContext;
+import de.fraunhofer.abm.collection.dao.ProjectDao;
 import de.fraunhofer.abm.collection.dao.jpa.JpaProjectDao;
 import de.fraunhofer.abm.domain.CollectionDTO;
 import de.fraunhofer.abm.domain.CommitDTO;
@@ -28,13 +31,16 @@ import osgi.enroute.webserver.capabilities.RequireWebServerExtender;
 @RequireConfigurerExtender
 @Component(name = "de.fraunhofer.abm.rest.delphi")
 public class DelphiController implements REST {
-    static Map<String, String> header = new HashMap<>();
+	
+	private static final transient Logger logger = LoggerFactory.getLogger(DelphiController.class);
+    
+	static Map<String, String> header = new HashMap<>();
     
     interface ProjectRequest extends RESTRequest {
     	ProjectObjectDTO _body();
     }
     @Reference
-    JpaProjectDao projectDao;
+    private ProjectDao projectDao;
 
 	private String featuresString;
 	
@@ -61,16 +67,16 @@ public class DelphiController implements REST {
 	
 	public void postAddprojects(ProjectRequest rr) {
 		ProjectObjectDTO projectdto = rr._body();
-        //Map<String, String[]> params = rr._request().getParameterMap();
+        Map<String, String[]> params = rr._request().getParameterMap();
         //System.out.println("params"+params.toString());
 
 		//String versionId,String projectId,String source
 		ProjectObjectDTO project = new ProjectObjectDTO();
 		project.id = UUID.randomUUID().toString();
-        /*project.version_id = params.get("versionid")[0];
+        project.version_id = params.get("versionid")[0];
         project.project_id = params.get("projectid")[0];
         project.source = params.get("source")[0];
-        */
+        
 		project.version_id = projectdto.version_id;
         project.project_id = projectdto.project_id;
         project.source = projectdto.source;

@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import org.osgi.service.component.annotations.Component;
@@ -30,6 +29,7 @@ public class JpaProjectDao extends AbstractJpaDao implements ProjectDao{
 		// TODO Auto-generated method stub
 		transactionControl.required(() -> {
             JpaProject jpaProj = JpaProject.fromDTO(project);
+            jpaProj.version = em.find(JpaVersion.class, project.version_id); 
 
             em.persist(jpaProj);
             return null;
@@ -55,10 +55,10 @@ public class JpaProjectDao extends AbstractJpaDao implements ProjectDao{
 	}
 	
 	@Override
-	public void delete(ProjectObjectDTO result) {
+	public void delete(ProjectObjectDTO projectId) {
 		transactionControl.required(() -> {
-            JpaProject collection = em.find(JpaProject.class, result);
-            em.remove(collection);
+            JpaProject project = em.find(JpaProject.class, projectId);
+            em.remove(project);
             return null;
         });
 		

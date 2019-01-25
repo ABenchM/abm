@@ -8,6 +8,8 @@ public interface ProjectDao {
 
 	void save(ProjectObjectDTO project);
 
-	void delete(ProjectObjectDTO result);
+	void delete(ProjectObjectDTO projectId);
+	
+	public List<ProjectObjectDTO> findproject(String projectId);
 
 }
