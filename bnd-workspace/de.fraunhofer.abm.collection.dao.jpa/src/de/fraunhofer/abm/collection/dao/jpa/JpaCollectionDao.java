@@ -62,7 +62,7 @@ public class JpaCollectionDao extends AbstractJpaDao implements CollectionDao {
     public List<CollectionDTO> findCollections(){
     	//Collections returned for manage collections for admin
     	return transactionControl.notSupported(() -> {
-            TypedQuery<JpaCollection> query = em.createQuery("SELECT c FROM collection c WHERE c.privateStatus = 0 ORDER BY c.creation_date ASC", JpaCollection.class);
+            TypedQuery<JpaCollection> query = em.createQuery("SELECT distinct c FROM collection c join c.versions as v WHERE v.privateStatus = 0 ORDER BY c.creation_date ASC", JpaCollection.class);
             query.setMaxResults(100);
             List<JpaCollection> jpaList = query.getResultList();
             return jpaList.stream().map(JpaCollection::toDTO).collect(Collectors.toList());
