@@ -46,6 +46,7 @@ CREATE TABLE `collection` (
   `name` varchar(255) DEFAULT NULL,
   `user` varchar(255) DEFAULT NULL,
   `privateStatus` tinyint(4) DEFAULT '0',
+   `isActive` tinyint(4) DEFAULT NULL,
   `creation_date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 );
@@ -171,6 +172,14 @@ CREATE TABLE `user` (
    PRIMARY KEY (`name`)
 );
 
+CREATE TABLE `project` ( 
+  `id` varchar(255) NOT NULL, 
+  `version_id` varchar(255) NOT NULL, 
+  `project_id` varchar(255) NOT NULL, 
+  `source` varchar(255) DEFAULT NULL, 
+  PRIMARY KEY (`id`), 
+  FOREIGN KEY (`version_id`) REFERENCES `version` (`id`) 
+); 
 
 INSERT INTO user (name, firstname, lastname, password, affiliation, approved, approval_token, locked, email) VALUES ('admin', 'admin', 'admin', '6tUPRi/i6ukRjmvQK/sKXNtIlamItxhrfY6+p8jAjFc=$WItU72gsjjpOf5vY63GJrp/YeWy8Lle4527Byk4sp0E=', 'University of Paderborn', 1, 'back/end/update', 0, 'anut347@gmail.com');
 

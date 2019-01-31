@@ -9,6 +9,7 @@ public class CollectionDTO {
     public String name;
     public String description;
     public boolean privateStatus;
+    public boolean isActive;
     public Date creation_date;
     public List<VersionDTO> versions;
 }

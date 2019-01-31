@@ -17,4 +17,9 @@ public interface CollectionDao {
     public void save(CollectionDTO collection);
     public void update(CollectionDTO collection);
     public void delete(String id);
+    public void deleteUserPinnedCollections(String user);
+    public void updateUserPublicCollections(String user);
+    public void deleteUserPrivateCollections(String user);
+	public List<CollectionDTO> findCollections();
+	public void activeCollection(String collectionid);
 }

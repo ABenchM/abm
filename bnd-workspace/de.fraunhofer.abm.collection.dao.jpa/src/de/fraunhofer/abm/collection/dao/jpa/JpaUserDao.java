@@ -13,6 +13,9 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.transaction.control.TransactionControl;
 import org.osgi.service.transaction.control.jpa.JPAEntityManagerProvider;
+import org.osgi.service.useradmin.Group;
+import org.osgi.service.useradmin.User;
+import org.osgi.service.useradmin.UserAdmin;
 
 import de.fraunhofer.abm.collection.dao.UserDao;
 import de.fraunhofer.abm.domain.UserDTO;
@@ -26,6 +29,9 @@ public class JpaUserDao extends AbstractJpaDao implements UserDao {
 	@Reference(name = "provider")
 	JPAEntityManagerProvider jpaEntityManagerProvider;
 
+	@Reference
+	private UserAdmin userAdmin;
+	
 	EntityManager em;
 
 	@Activate
@@ -88,7 +94,7 @@ public class JpaUserDao extends AbstractJpaDao implements UserDao {
 	}
 
 	@Override
-	public void updateUser(String username, String firstname, String lastname, String email, String affiliation, String password) {
+	public void updateUser(String username, String firstname, String lastname, String email, String affiliation) {
 		transactionControl.required(() -> {
 			JpaUser jpaUser = new JpaUser();
 			jpaUser.name = username;
@@ -96,12 +102,49 @@ public class JpaUserDao extends AbstractJpaDao implements UserDao {
  			jpaUser.lastname = lastname;
  			jpaUser.email = email;
  			jpaUser.affiliation = affiliation;
-			jpaUser.password = password;
+			//jpaUser.password = password;
 			jpaUser.locked = 0;
 			em.merge(jpaUser);
 			return null;
 		});
 	}
+	
+	@Override
+ 	public void updateUserPassword(String username, String password) {
+ 		transactionControl.required(() -> {
+ 			JpaRoleProperties jpaUserProp = new JpaRoleProperties();
+ 			jpaUserProp.username = username;
+ 			jpaUserProp.property_name = "password";
+ 			jpaUserProp.property_value = password;
+ 			em.merge(jpaUserProp);
+ 			return null;
+ 		});
+ 	}
+	
+	private void deleteUserInfo(JpaUser user) {
+		em.remove(user);
+	}
+	
+	private void deleteUserRoleInfo(JpaUser user) {
+ 		User userRole = (User) userAdmin.getRole(user.name);
+ 		Group registeredUserGroup = (Group) userAdmin.getRole("RegisteredUser");
+ 		registeredUserGroup.removeMember(userRole);
+ 		userAdmin.removeRole(user.name);
+ 	}
+	
+	@Override
+ 	public void deleteUser(String username) {
+ 		transactionControl.required(() -> {
+ 			TypedQuery<JpaUser> query = em.createQuery("SELECT u FROM user u WHERE u.name = :name", JpaUser.class);
+			query.setParameter("name", username);
+			JpaUser user = query.getSingleResult();
+			if (user.approved == 1) {
+  				deleteUserRoleInfo(user);
+  			}
+			deleteUserInfo(user);
+ 			return null;
+ 		});
+ 	}
 
 	@Override
 	public String approveToken(String name, String token) {
@@ -159,7 +202,7 @@ public class JpaUserDao extends AbstractJpaDao implements UserDao {
 	@Override
 	public UserDTO getUserInfo(String username) {
 		return transactionControl.notSupported(() -> {
-			String queryStr = "select a.name as username, a.firstname, a.lastname, a.locked, a.email, a.affiliation, b.role "
+			String queryStr = "select a.name as username, a.firstname, a.lastname, a.locked, a.email, a.affiliation, a.approved, b.role "
 					+ "from user a, role_members b where a.name = :name and a.name = b.username";
 			Query query = em.createQuery(queryStr);
             query.setParameter("name", username);
@@ -174,7 +217,8 @@ public class JpaUserDao extends AbstractJpaDao implements UserDao {
          		user.locked = ((int) result[3] == 0) ? false : true;
          		user.email = (String) result[4];
          		user.affiliation = (String) result[5];
-       			user.role = (String) result[6];
+         		user.approved = ((int) result[6] == 0) ? false : true;
+       			user.role = (String) result[7];
         		userList.add(user);
             }
 			if (user.username.equals(username)) {
@@ -211,6 +255,46 @@ public class JpaUserDao extends AbstractJpaDao implements UserDao {
 			return null;
 		});
 	}
+	
+	@Override
+	public String getEmailId(String username) {
+		String emailId = transactionControl.required(() -> {
+			TypedQuery<JpaUser> query = em.createQuery("SELECT u FROM user u WHERE u.name = :name", JpaUser.class);
+			query.setParameter("name", username);
+			JpaUser result = query.getSingleResult();
+			if (!result.email.isEmpty()) {
+				return result.email;
+			}else {
+				throw new ApprovalException("email not valid");
+			}
+		});
+		return emailId;
+	}
+	
+	@Override
+ 	public String getUserToken(String user) {
+ 		String token = transactionControl.required(() -> {
+ 			TypedQuery<JpaUser> query = em.createQuery("SELECT u FROM user u WHERE u.name=:name", JpaUser.class);
+ 			query.setParameter("name", user);
+ 			
+ 			JpaUser result = query.getSingleResult();
+ 			if (!result.name.isEmpty()) {
+ 				return result.token;
+ 			}else {
+ 				throw new ApprovalException("user not registered");
+ 			}
+ 		});
+ 		return token;
+ 	}
+	
+	@Override
+ 	public void deleteUserResetToken(String username) {
+ 		transactionControl.required(() -> {
+			Query deleteResetTokens = em.createNativeQuery("delete from reset_token where username = :value1").setParameter("value1", username);
+			deleteResetTokens.executeUpdate();
+			return null;
+		});
+ 	}
 
 	@Override
 	protected EntityManager getEntityManager() {
