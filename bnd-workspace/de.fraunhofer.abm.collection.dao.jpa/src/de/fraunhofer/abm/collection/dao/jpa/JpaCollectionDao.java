@@ -232,13 +232,10 @@ public class JpaCollectionDao extends AbstractJpaDao implements CollectionDao {
 			TypedQuery<JpaCollection> query = em.createQuery("SELECT c FROM collection c WHERE c.id = :id", JpaCollection.class);
 			query.setParameter("id", collectionid);
 			JpaCollection result = query.getSingleResult();
-			//only public collections can be activated and deactivated
-			if(result.privateStatus == 0) {
 			if(result.isActive == 1) {
 				result.isActive=0;
 			}else {
 				result.isActive=1;
-			}
 			}
 			em.merge(result);
 			return null;
