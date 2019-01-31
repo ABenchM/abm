@@ -19,8 +19,8 @@ public class JpaProject {
 	    @Column
 	    public String source;
 	    
-	    @ManyToOne
-	    public JpaVersion version;
+	    @Column
+	    public String version_id;
 	    
 
 
@@ -29,6 +29,7 @@ public class JpaProject {
 	        jpa.id = dto.id;
 	        jpa.project_id = dto.project_id;
 	        jpa.source = dto.source;
+	        jpa.version_id = dto.version_id;
 	        return jpa;
 	    }
 
@@ -36,7 +37,7 @@ public class JpaProject {
 	        ProjectObjectDTO dto = new ProjectObjectDTO();
 	        dto.id = this.id;
 	        dto.project_id = this.project_id;
-	        dto.version_id = this.version.id;
+	        dto.version_id = this.version_id;
 	        dto.source = this.source;
 	        return dto;
 	    }

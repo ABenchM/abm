@@ -1,11 +1,13 @@
 package de.fraunhofer.abm.collection.dao.jpa;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
+import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.transaction.control.TransactionControl;
@@ -24,13 +26,22 @@ public class JpaProjectDao extends AbstractJpaDao implements ProjectDao{
 
     EntityManager em;
     
+    @Activate
+    void start(Map<String, Object> props) {
+        try {
+            em = jpaEntityManagerProvider.getResource(transactionControl);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
 	@Override
 	public void save(ProjectObjectDTO project) {
 		// TODO Auto-generated method stub
 		transactionControl.required(() -> {
             JpaProject jpaProj = JpaProject.fromDTO(project);
-            jpaProj.version = em.find(JpaVersion.class, project.version_id); 
-
+            System.out.println(jpaProj.project_id.toString());
+            System.out.println(jpaProj.id.toString());            
             em.persist(jpaProj);
             return null;
         });
@@ -40,7 +51,7 @@ public class JpaProjectDao extends AbstractJpaDao implements ProjectDao{
 	public List<ProjectObjectDTO> findproject(String projectId) {
 		// TODO Auto-generated method stub
 		return transactionControl.notSupported(() -> {
-            TypedQuery<JpaProject> query = em.createQuery("SELECT c FROM project c WHERE c.project_id = :projectid", JpaProject.class);
+            TypedQuery<JpaProject> query = em.createQuery("SELECT c FROM project c WHERE c.id = :projectid", JpaProject.class);
             query.setParameter("projectid", projectId);
             query.setMaxResults(30);
             List<JpaProject> jpaList = query.getResultList();
@@ -57,8 +68,9 @@ public class JpaProjectDao extends AbstractJpaDao implements ProjectDao{
 	@Override
 	public void delete(ProjectObjectDTO projectId) {
 		transactionControl.required(() -> {
-            JpaProject project = em.find(JpaProject.class, projectId);
-            em.remove(project);
+            JpaProject project = JpaProject.fromDTO(projectId);
+            project = em.find(JpaProject.class, project.id);
+			em.remove(project);
             return null;
         });
 		
