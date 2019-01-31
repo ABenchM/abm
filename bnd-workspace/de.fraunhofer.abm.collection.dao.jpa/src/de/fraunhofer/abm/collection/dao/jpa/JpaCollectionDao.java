@@ -62,7 +62,7 @@ public class JpaCollectionDao extends AbstractJpaDao implements CollectionDao {
     public List<CollectionDTO> findCollections(){
     	//Collections returned for manage collections for admin
     	return transactionControl.notSupported(() -> {
-            TypedQuery<JpaCollection> query = em.createQuery("SELECT c FROM collection c WHERE c.privateStatus = 0 ORDER BY c.creation_date ASC", JpaCollection.class);
+            TypedQuery<JpaCollection> query = em.createQuery("SELECT distinct c FROM collection c join c.versions as v WHERE v.privateStatus = 0 ORDER BY c.creation_date ASC", JpaCollection.class);
             query.setMaxResults(100);
             List<JpaCollection> jpaList = query.getResultList();
             return jpaList.stream().map(JpaCollection::toDTO).collect(Collectors.toList());
@@ -106,7 +106,7 @@ public class JpaCollectionDao extends AbstractJpaDao implements CollectionDao {
     @Override
     public List<CollectionDTO> findPublic(){
     	return transactionControl.notSupported(() -> {
-            TypedQuery<JpaCollection> query = em.createQuery("SELECT c FROM collection c join c.versions as v WHERE v.privateStatus = 0 AND c.isActive = 1 ORDER BY c.creation_date ASC", JpaCollection.class);
+            TypedQuery<JpaCollection> query = em.createQuery("SELECT distinct c FROM collection c join c.versions as v WHERE v.privateStatus = 0 AND c.isActive = 1 ORDER BY c.creation_date ASC", JpaCollection.class);
             query.setMaxResults(30);
             List<JpaCollection> jpaList = query.getResultList();
             return jpaList.stream().map(JpaCollection::toDTO).collect(Collectors.toList());
@@ -232,13 +232,10 @@ public class JpaCollectionDao extends AbstractJpaDao implements CollectionDao {
 			TypedQuery<JpaCollection> query = em.createQuery("SELECT c FROM collection c WHERE c.id = :id", JpaCollection.class);
 			query.setParameter("id", collectionid);
 			JpaCollection result = query.getSingleResult();
-			//only public collections can be activated and deactivated
-			if(result.privateStatus == 0) {
 			if(result.isActive == 1) {
 				result.isActive=0;
 			}else {
 				result.isActive=1;
-			}
 			}
 			em.merge(result);
 			return null;
