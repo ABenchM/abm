@@ -89,11 +89,11 @@ public class UserApprovalController extends AbstractController implements REST {
  	 				Group registeredUserGroup = (Group) userAdmin.getRole("RegisteredUser");
  	 				registeredUserGroup.addMember(user);
  	 				String userEmail = userDao.getEmailId(username);
- 	 				// sendApproveRejectEmail(username, true, userEmail);
+ 	 				sendApproveRejectEmail(username, true, userEmail);
  	 			} else {
  	 				String userEmail = userDao.getEmailId(username);
  	 				userDao.deleteUser(username);
- 	 				// sendApproveRejectEmail(username, false, userEmail);
+ 	 				sendApproveRejectEmail(username, false, userEmail);
  	 			}
  			}
  		} catch (Exception e) {
@@ -106,7 +106,7 @@ public class UserApprovalController extends AbstractController implements REST {
 		String sbj= null;
 		String msg= null;
 		if(isApprove) {
-			sbj = "'"+ username + "' successfully registered on ABM";
+			sbj = "Approved '" + username + "' registration on ABM";
 			 msg = "Dear " + username + ",\n\n"+"You have been successfully registered on ABM.\n";
 		}
 		else {
