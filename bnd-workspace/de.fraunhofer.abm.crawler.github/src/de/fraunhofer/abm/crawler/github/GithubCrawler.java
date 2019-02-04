@@ -27,6 +27,7 @@ import de.fraunhofer.abm.domain.CommitDTO;
 import de.fraunhofer.abm.domain.RepositoryDTO;
 import de.fraunhofer.abm.domain.TagDTO;
 import de.fraunhofer.abm.http.client.Base64;
+import de.fraunhofer.abm.http.client.HttpResponse;
 import de.fraunhofer.abm.http.client.HttpUtils;
 import de.fraunhofer.abm.util.AbmApplicationConstants;
 
@@ -46,9 +47,15 @@ public class GithubCrawler implements Crawler {
         logger.debug("Searching for [{}]", query);
         List<RepositoryDTO> result = new ArrayList<>();
         try{
-        String uri = "https://api.github.com/search/repositories?q=" + URLEncoder.encode(query, "UTF-8")+"language:JavaScript";
-        String resp = HttpUtils.get(uri, header, "utf-8");
+        /*String uri = "https://api.github.com/search/repositories?q=" + URLEncoder.encode(query, "UTF-8")+"language:JavaScript";
+        String resp = HttpUtils.get(uri, header, "utf-8");*/
+		String body = "{\"query\":\"[using KeyStore]>10 && [using KeyStore]<50\"}"; 
+		header = new HashMap<>();
+		header.put("Content-type", "application/json");
+	    String uri = "https://delphi.cs.uni-paderborn.de/api/search";	
+        HttpResponse resp = HttpUtils.post(uri, header, body.getBytes("UTF-8"), "UTF-8");	
         JSONObject json = new JSONObject(resp);
+        System.out.println("delphi response"+json);
         if(json.has("items")) {
             JSONArray items = json.getJSONArray("items");
             
