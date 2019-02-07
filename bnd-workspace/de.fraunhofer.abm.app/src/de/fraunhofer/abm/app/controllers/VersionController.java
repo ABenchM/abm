@@ -137,8 +137,8 @@ public class VersionController extends AbstractController implements REST {
         // permissions are checked, now update the version
 
         // assign an UUID to all new commits
-        for (CommitDTO commit : version.commits) {
-            commit.id = Optional.ofNullable(commit.id).orElse(UUID.randomUUID().toString());
+        for (ProjectObjectDTO project : version.projects) {
+        	project.id = Optional.ofNullable(project.id).orElse(UUID.randomUUID().toString());
         }
 
         versionDao.update(version);
