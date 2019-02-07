@@ -71,7 +71,7 @@ public class JpaVersion {
         version.projects = dto.projects.stream()
                 .map(JpaProject::fromDTO)
                 .map(project -> {
-                    project.version.id= version.id;
+                    project.version= version;
                     return project;
                 })
                 .collect(Collectors.toList());
