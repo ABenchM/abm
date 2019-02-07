@@ -21,6 +21,7 @@ import de.fraunhofer.abm.collection.dao.VersionDao;
 import de.fraunhofer.abm.domain.BuildResultDTO;
 import de.fraunhofer.abm.domain.CollectionDTO;
 import de.fraunhofer.abm.domain.CommitDTO;
+import de.fraunhofer.abm.domain.ProjectObjectDTO;
 import de.fraunhofer.abm.domain.VersionDTO;
 import de.fraunhofer.abm.util.FileUtil;
 import osgi.enroute.configurer.api.RequireConfigurerExtender;
@@ -110,6 +111,9 @@ public class VersionController extends AbstractController implements REST {
         version.creationDate = new Date();
         version.frozen = false;
         version.privateStatus = true;
+        for(ProjectObjectDTO project: version.projects) {
+        	project.id = UUID.randomUUID().toString();
+        }
         for (CommitDTO commit : version.commits) {
             commit.id = UUID.randomUUID().toString();
         }

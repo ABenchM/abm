@@ -128,9 +128,9 @@ public class CollectionController extends AbstractController implements REST {
         collection.user = SecurityContext.getInstance().getUser();
         for (VersionDTO version : collection.versions) {
             version.id = Optional.ofNullable(version.id).orElse(UUID.randomUUID().toString());
-            for(CommitDTO commit : version.commits) {
+            /*for(CommitDTO commit : version.commits) {
                 commit.id = Optional.ofNullable(commit.id).orElse(UUID.randomUUID().toString());
-            }
+            }*/
         }
 
         collectionDao.save(collection);
