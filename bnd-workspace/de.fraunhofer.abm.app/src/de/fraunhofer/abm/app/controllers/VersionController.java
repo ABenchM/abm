@@ -3,7 +3,10 @@ package de.fraunhofer.abm.app.controllers;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -15,6 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.fraunhofer.abm.app.auth.Authorizer;
+import de.fraunhofer.abm.app.auth.SecurityContext;
 import de.fraunhofer.abm.collection.dao.BuildResultDao;
 import de.fraunhofer.abm.collection.dao.CollectionDao;
 import de.fraunhofer.abm.collection.dao.VersionDao;
@@ -167,6 +171,18 @@ public class VersionController extends AbstractController implements REST {
             maxVersion = Math.max(maxVersion, version.number);
         }
         return ++maxVersion;
+    }
+    
+    public CollectionDTO getVersionDetails(String versionId) {
+        CollectionDTO result = null;
+        ArrayList<String> users = new ArrayList<String>();
+    	users.add("RegisteredUser");
+    	users.add("UserAdmin"); 
+        if ( versionId != null ) {
+            authorizer.requireRoles(users);
+            result = collectionDao.getVersionDetails(versionId);
+        }
+        return result;
     }
 
     @Override
