@@ -16,6 +16,7 @@ import org.osgi.service.transaction.control.jpa.JPAEntityManagerProvider;
 
 import de.fraunhofer.abm.collection.dao.VersionDao;
 import de.fraunhofer.abm.domain.CommitDTO;
+import de.fraunhofer.abm.domain.ProjectObjectDTO;
 import de.fraunhofer.abm.domain.VersionDTO;
 
 @Component
@@ -76,15 +77,14 @@ public class JpaVersionDao extends AbstractJpaDao implements VersionDao {
         	jpaVersion.name = version.name;
         	jpaVersion.derivedFrom = version.derivedFrom;
 
-            Map<String, CommitDTO> commits = version.commits.stream()
+            Map<String, ProjectObjectDTO> projects = version.projects.stream()
                     .collect(Collectors.toMap(c -> c.id, Function.identity()));
 
             // update existing commits and remove deleted ones
-            jpaVersion.commits.forEach(c -> {
-                CommitDTO dto = commits.remove(c.id);
+            jpaVersion.projects.forEach(c -> {
+                ProjectObjectDTO dto = projects.remove(c.id);
                 if(dto != null) {
-                    c.commit = dto.commitId;
-                    c.creationDate = dto.creationDate;
+                    c.version.id = dto.version_id;
                 } else {
                     em.remove(c);
                 }
@@ -92,12 +92,12 @@ public class JpaVersionDao extends AbstractJpaDao implements VersionDao {
             em.flush();
 
             // add new commits
-            commits.values().forEach(c -> {
-                JpaCommit jpaCommit = JpaCommit.fromDTO(c);
-                jpaCommit.version = jpaVersion;
-                jpaCommit.repository = JpaRepository.fromDTO(c.repository);
-                attachRepository(jpaCommit);
-                em.persist(jpaCommit);
+            projects.values().forEach(c -> {
+            	JpaProject jpaProj = JpaProject.fromDTO(c);
+                jpaProj.version = jpaVersion;
+                //jpaCommit.repository = JpaRepository.fromDTO(c.repository);
+                //attachRepository(jpaCommit);
+                em.persist(jpaProj);
             });
 
             return null;
