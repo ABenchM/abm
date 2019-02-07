@@ -107,16 +107,20 @@ public class VersionController extends AbstractController implements REST {
         ensureUserIsOwner(authorizer, collectionDao, version);
 
         version.comment = "Derived from version " + version.number + ": " + version.comment;
+        version.derivedFrom = version.id;
         version.id = UUID.randomUUID().toString();
         version.creationDate = new Date();
         version.frozen = false;
         version.privateStatus = true;
+        if(version.name== null || version.name.isEmpty()) {
+        	version.name = "derived version";
+        }
         for(ProjectObjectDTO project: version.projects) {
         	project.id = UUID.randomUUID().toString();
         }
-        for (CommitDTO commit : version.commits) {
+        /*for (CommitDTO commit : version.commits) {
             commit.id = UUID.randomUUID().toString();
-        }
+        }*/
         try {
             version.number = findNextVersionNumberForCollection(version.collectionId);
         } catch(Exception e) {

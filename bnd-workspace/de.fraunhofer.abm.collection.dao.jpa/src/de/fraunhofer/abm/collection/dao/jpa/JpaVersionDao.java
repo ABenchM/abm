@@ -56,7 +56,7 @@ public class JpaVersionDao extends AbstractJpaDao implements VersionDao {
             jpaVers.collection = em.find(JpaCollection.class, version.collectionId);
 
             // attach all repos, which already exist in the database to the current JPA persistence context
-            attachRepositories(jpaVers);
+            //attachRepositories(jpaVers);
 
             em.persist(jpaVers);
             return null;
