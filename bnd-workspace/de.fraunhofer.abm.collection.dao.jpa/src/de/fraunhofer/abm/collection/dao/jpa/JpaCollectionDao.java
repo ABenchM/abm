@@ -139,6 +139,7 @@ public class JpaCollectionDao extends AbstractJpaDao implements CollectionDao {
 
             // attach all repos, which already exist in the database to the current JPA persistence context
             //attachRepositories(jpaCol);
+            
             jpaCol.isActive = 1;
             em.persist(jpaCol);
             return null;

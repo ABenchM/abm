@@ -54,7 +54,7 @@ public class JpaVersion {
     @OneToMany(fetch=FetchType.LAZY, mappedBy="version", cascade=CascadeType.ALL)
     public List<JpaCommit> commits;
 
-    @OneToMany(fetch=FetchType.LAZY, mappedBy="project", cascade=CascadeType.ALL)
+    @OneToMany(fetch=FetchType.LAZY, mappedBy="version", cascade=CascadeType.ALL)
     public List<JpaProject> projects;
 
     public static JpaVersion fromDTO(VersionDTO dto) {
@@ -71,7 +71,7 @@ public class JpaVersion {
         version.projects = dto.projects.stream()
                 .map(JpaProject::fromDTO)
                 .map(project -> {
-                    project.version_id = version.id;
+                    project.version.id= version.id;
                     return project;
                 })
                 .collect(Collectors.toList());
