@@ -54,6 +54,8 @@ public class JpaVersion {
     @OneToMany(fetch=FetchType.LAZY, mappedBy="version", cascade=CascadeType.ALL)
     public List<JpaCommit> commits;
 
+    @OneToMany(fetch=FetchType.LAZY, mappedBy="project", cascade=CascadeType.ALL)
+    public List<JpaProject> projects;
 
     public static JpaVersion fromDTO(VersionDTO dto) {
         JpaVersion version = new JpaVersion();
@@ -66,11 +68,11 @@ public class JpaVersion {
         version.frozen = dto.frozen;
         version.privateStatus = dto.privateStatus;
         version.filtered = dto.filtered;
-        version.commits = dto.commits.stream()
-                .map(JpaCommit::fromDTO)
-                .map(commit -> {
-                    commit.version = version;
-                    return commit;
+        version.projects = dto.projects.stream()
+                .map(JpaProject::fromDTO)
+                .map(project -> {
+                    project.version_id = version.id;
+                    return project;
                 })
                 .collect(Collectors.toList());
         return version;
@@ -86,14 +88,14 @@ public class JpaVersion {
         version.privateStatus = this.privateStatus;
         version.filtered = this.filtered;
         version.collectionId = this.collection.id;
-        version.commits = this.commits.stream()
-                .map(JpaCommit::toDTO)
-                .map(cmt -> {
-                    cmt.versionId = version.id;
-                    return cmt;
+        version.projects = this.projects.stream()
+                .map(JpaProject::toDTO)
+                .map(proj -> {
+                	proj.version_id = version.id;
+                    return proj;
                 })
                 .collect(Collectors.toList());
-        Collections.sort(version.commits, new RepositoryNameComparator());
+        //Collections.sort(version.projects, new RepositoryNameComparator());
         return version;
     }
 
