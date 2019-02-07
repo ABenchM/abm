@@ -25,6 +25,7 @@ import de.fraunhofer.abm.domain.BuildResultDTO;
 import de.fraunhofer.abm.domain.CollectionDTO;
 import de.fraunhofer.abm.domain.CommitDTO;
 import de.fraunhofer.abm.domain.HermesResultDTO;
+import de.fraunhofer.abm.domain.ProjectObjectDTO;
 import de.fraunhofer.abm.domain.VersionDTO;
 
 import de.fraunhofer.abm.util.FileUtil;
@@ -128,9 +129,9 @@ public class CollectionController extends AbstractController implements REST {
         collection.user = SecurityContext.getInstance().getUser();
         for (VersionDTO version : collection.versions) {
             version.id = Optional.ofNullable(version.id).orElse(UUID.randomUUID().toString());
-            /*for(CommitDTO commit : version.commits) {
-                commit.id = Optional.ofNullable(commit.id).orElse(UUID.randomUUID().toString());
-            }*/
+            for(ProjectObjectDTO project : version.projects) {
+            	project.id = Optional.ofNullable(project.id).orElse(UUID.randomUUID().toString());
+            }
         }
 
         collectionDao.save(collection);
