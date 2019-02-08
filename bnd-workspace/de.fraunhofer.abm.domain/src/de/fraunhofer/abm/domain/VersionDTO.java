@@ -6,6 +6,8 @@ import java.util.List;
 public class VersionDTO {
 
     public String id;
+    public String name;
+    public String derivedFrom;
     public String collectionId;
     public List<CommitDTO> commits;
     public int number;
