@@ -6,7 +6,7 @@ call add_column('version','derivedFrom','varchar(255)');
 
 call add_column('collection','isActive','tinyint(4)');
 
-CREATE TABLE IF NOT EXISTS `project` (
+CREATE TABLE IF NOT EXISTS project (
   `id` varchar(255) NOT NULL,
   `version_id` varchar(255) NOT NULL,
   `project_id` varchar(255) NOT NULL,
