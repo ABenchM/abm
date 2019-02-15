@@ -170,6 +170,18 @@ public class VersionController extends AbstractController implements REST {
         }
         return ++maxVersion;
     }
+    
+    public CollectionDTO getVersionDetails(String versionId) {
+        CollectionDTO result = null;
+        ArrayList<String> users = new ArrayList<String>();
+    	users.add("RegisteredUser");
+    	users.add("UserAdmin"); 
+        if ( versionId != null ) {
+            authorizer.requireRoles(users);
+            result = collectionDao.getVersionDetails(versionId);
+        }
+        return result;
+    }
 
     @Override
     Logger getLogger() {

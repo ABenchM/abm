@@ -51,7 +51,7 @@ public class CollectionControllerTest extends AbstractHttpTest {
         HttpUtils.post(uri, headers, payload.getBytes(charset), charset);
     }
 
-    //@Test
+    @Test
     public void testPostAndDeleteCollection() throws IOException {
         // create
         Map<String, String> headers = login();
@@ -167,6 +167,18 @@ public class CollectionControllerTest extends AbstractHttpTest {
         Assert.assertEquals("abc", collection.getString("name"));
         Assert.assertEquals("def", collection.getString("description"));
 
+        // get version details - test case for testGetVersionDetails
+        JSONArray versionAray = collection.getJSONArray("versions");
+        JSONObject versionDetails = (JSONObject) versionAray.get(0);
+        String versionId = versionDetails.getString("id");
+        uri = baseUri + "/rest/versionDetails/" + versionId;
+        String result = HttpUtils.get(uri, headers, charset);
+        JSONObject obj = new JSONObject(result);
+        Assert.assertNotNull(result);
+        Assert.assertEquals(id, obj.getString("id"));
+        Assert.assertEquals("abc", obj.getString("name"));
+        Assert.assertEquals("def", obj.getString("description"));
+
         // delete
         uri = baseUri + "/rest/collection/" + id;
         response = HttpUtils.delete(uri, headers, charset);
@@ -216,7 +228,7 @@ public class CollectionControllerTest extends AbstractHttpTest {
         Assert.assertEquals(NUM200, response.getResponseCode());
     }
 
-    @Test
+    //@Test
     public void testLastSuccessfullyBuiltVersion() throws IOException {
     	// Create a private collection first.
     	Map<String, String> headers = login();
