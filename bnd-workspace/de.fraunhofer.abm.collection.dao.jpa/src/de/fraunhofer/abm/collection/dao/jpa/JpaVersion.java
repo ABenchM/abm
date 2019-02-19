@@ -83,6 +83,8 @@ public class JpaVersion {
         version.id = this.id;
         version.creationDate = this.creationDate;
         version.number = this.number;
+        version.name = this.name;
+        version.derivedFrom = this.derivedFrom;
         version.comment = this.comment;
         version.frozen = this.frozen;
         version.privateStatus = this.privateStatus;

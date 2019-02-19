@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -60,46 +59,21 @@ public class VersionController extends AbstractController implements REST {
      * @param vr
      * @param derive
      */
-    public VersionDTO postVersion(VersionRequest vr, String action) {
+    public VersionDTO postVersion(VersionRequest vr, String versionName) {
     	ArrayList<String> users = new ArrayList<String>();
   	  users.add("RegisteredUser");
   	  users.add("UserAdmin"); 
         authorizer.requireRoles(users);
 
         VersionDTO version = vr._body();
-        Map<String, String[]> params = vr._request().getParameterMap();
-        if("derive".equals(action)) {
-            if(version.id == null) {
-                sendError(vr._response(), HttpServletResponse.SC_BAD_REQUEST, "submitted version is missing an id");
-                return null;
-            }
-            try {
-                version = deriveVersion(version,params.get("versionName")[0]);
-            } catch(IllegalArgumentException e ) {
-                sendError(vr._response(), HttpServletResponse.SC_BAD_REQUEST, e.getLocalizedMessage());
-                return null;
-            }
-        } else if("unfreeze".equals(action)) {
-            BuildResultDTO dto = buildResultDao.findByVersion(version.id);
-            if(dto != null) {
-            	
-                // delete build from disk
-                File buildDir = new File(dto.dir);
-                try {
-                    FileUtil.deleteRecursively(buildDir);
-                    // delete the build result from db
-                    buildResultDao.delete(dto.id);
-                } catch (IOException e) {
-                    logger.error("Couldn't delete build directory", e);
-                    throw new RuntimeException("Couldn't delete build directory");
-                }
-            }
-
-            // unfreeze version
-            version.frozen = false;
-            versionDao.update(version);
-        } else {
-            sendError(vr._response(), HttpServletResponse.SC_BAD_REQUEST, "unknown action " + action);
+        if(version.id == null) {
+            sendError(vr._response(), HttpServletResponse.SC_BAD_REQUEST, "submitted version is missing an id");
+            return null;
+        }
+        try {
+            version = deriveVersion(version,versionName);
+        } catch(IllegalArgumentException e ) {
+            sendError(vr._response(), HttpServletResponse.SC_BAD_REQUEST, e.getLocalizedMessage());
             return null;
         }
         return version;
@@ -115,10 +89,10 @@ public class VersionController extends AbstractController implements REST {
         version.frozen = false;
         version.privateStatus = true;
         if(versionName== null || versionName.isEmpty()) {
-        	version.name = "derived version";
+            version.name = "derived version";
         }
         else {
-        	version.name = versionName;
+            version.name = versionName;
         }
         for(ProjectObjectDTO project: version.projects) {
         	project.id = UUID.randomUUID().toString();
