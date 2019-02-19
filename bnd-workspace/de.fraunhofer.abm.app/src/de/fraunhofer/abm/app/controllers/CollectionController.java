@@ -131,8 +131,10 @@ public class CollectionController extends AbstractController implements REST {
             version.id = Optional.ofNullable(version.id).orElse(UUID.randomUUID().toString());
             //set name and derivedFrom for initial version ( create new collection & version )
             version.name = "initial version";
-            version.derivedFrom = version.id;
-            for(ProjectObjectDTO project : version.projects) {
+            if (version.derivedFrom == null) {
+				version.derivedFrom = version.id;
+			}
+			for(ProjectObjectDTO project : version.projects) {
             	project.id = Optional.ofNullable(project.id).orElse(UUID.randomUUID().toString());
             }
         }
