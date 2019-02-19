@@ -61,6 +61,8 @@ CREATE TABLE `version` (
   `collection_id` varchar(255) DEFAULT NULL,
   `privateStatus` tinyint(4) DEFAULT '0',
   `filtered` bit(1) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `derivedFrom` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FKhwyps0yuo2dvxmfjyp34odxdk` (`collection_id`),
   CONSTRAINT `FKhwyps0yuo2dvxmfjyp34odxdk` FOREIGN KEY (`collection_id`) REFERENCES `collection` (`id`)

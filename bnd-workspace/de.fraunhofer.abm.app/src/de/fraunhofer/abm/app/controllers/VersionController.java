@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -66,13 +67,14 @@ public class VersionController extends AbstractController implements REST {
         authorizer.requireRoles(users);
 
         VersionDTO version = vr._body();
+        Map<String, String[]> params = vr._request().getParameterMap();
         if("derive".equals(action)) {
             if(version.id == null) {
                 sendError(vr._response(), HttpServletResponse.SC_BAD_REQUEST, "submitted version is missing an id");
                 return null;
             }
             try {
-                version = deriveVersion(version);
+                version = deriveVersion(version,params.get("versionName")[0]);
             } catch(IllegalArgumentException e ) {
                 sendError(vr._response(), HttpServletResponse.SC_BAD_REQUEST, e.getLocalizedMessage());
                 return null;
@@ -103,7 +105,7 @@ public class VersionController extends AbstractController implements REST {
         return version;
     }
 
-    private VersionDTO deriveVersion(VersionDTO version) {
+    private VersionDTO deriveVersion(VersionDTO version, String versionName) {
         ensureUserIsOwner(authorizer, collectionDao, version);
 
         version.comment = "Derived from version " + version.number + ": " + version.comment;
@@ -112,8 +114,11 @@ public class VersionController extends AbstractController implements REST {
         version.creationDate = new Date();
         version.frozen = false;
         version.privateStatus = true;
-        if(version.name== null || version.name.isEmpty()) {
+        if(versionName== null || versionName.isEmpty()) {
         	version.name = "derived version";
+        }
+        else {
+        	version.name = versionName;
         }
         for(ProjectObjectDTO project: version.projects) {
         	project.id = UUID.randomUUID().toString();
@@ -175,6 +180,18 @@ public class VersionController extends AbstractController implements REST {
             maxVersion = Math.max(maxVersion, version.number);
         }
         return ++maxVersion;
+    }
+    
+    public CollectionDTO getVersionDetails(String versionId) {
+        CollectionDTO result = null;
+        ArrayList<String> users = new ArrayList<String>();
+    	users.add("RegisteredUser");
+    	users.add("UserAdmin"); 
+        if ( versionId != null ) {
+            authorizer.requireRoles(users);
+            result = collectionDao.getVersionDetails(versionId);
+        }
+        return result;
     }
 
     @Override
