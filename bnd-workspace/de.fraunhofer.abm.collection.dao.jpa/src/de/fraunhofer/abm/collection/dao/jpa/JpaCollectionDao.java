@@ -89,11 +89,19 @@ public class JpaCollectionDao extends AbstractJpaDao implements CollectionDao {
     public CollectionDTO getVersionDetails(String versionId) {
 
         return transactionControl.notSupported(() -> {
-        	TypedQuery<JpaCollection> query = em.createQuery("SELECT c FROM collection c, version v WHERE c.id = v.collection.id AND c.isActive = 1 AND v.id = :versionId", JpaCollection.class);
-            query.setParameter("versionId", versionId);
+        	TypedQuery<JpaCollection> queryC = em.createQuery("SELECT c FROM collection c, version v WHERE c.id = v.collection.id AND c.isActive = 1 AND v.id = :versionId", JpaCollection.class);
+            queryC.setParameter("versionId", versionId);
+            TypedQuery<JpaVersion> queryV = em.createQuery("SELECT v FROM version v WHERE v.id = :versionId", JpaVersion.class);
+            queryV.setParameter("versionId", versionId);
             try {
-            	 JpaCollection result = query.getSingleResult();	
-            	 return result.toDTO();
+            	 JpaCollection resultC = queryC.getSingleResult();
+            	 JpaVersion resultV = queryV.getSingleResult();
+            	 CollectionDTO resultC_DTO = resultC.toDTO();
+            	 VersionDTO resultV_DTO = resultV.toDTO();
+            	 List<VersionDTO> versions = new ArrayList<VersionDTO>();
+            	 versions.add(resultV_DTO);
+            	 resultC_DTO.versions = versions;
+            	 return resultC_DTO;
             } catch (NoResultException e) {
              return null;
             }
