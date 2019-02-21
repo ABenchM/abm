@@ -65,7 +65,7 @@ public class JpaCollectionDao extends AbstractJpaDao implements CollectionDao {
     public List<CollectionDTO> findCollections(){
     	//Collections returned for manage collections for admin
     	return transactionControl.notSupported(() -> {
-            TypedQuery<JpaCollection> query = em.createQuery("SELECT distinct c FROM collection c join c.versions as v WHERE v.privateStatus = 0 ORDER BY c.creation_date ASC", JpaCollection.class);
+            TypedQuery<JpaCollection> query = em.createQuery("SELECT c FROM collection c WHERE c.privateStatus = 0 ORDER BY c.creation_date ASC", JpaCollection.class);
             query.setMaxResults(100);
             List<JpaCollection> jpaList = query.getResultList();
             return jpaList.stream().map(JpaCollection::toDTO).collect(Collectors.toList());
@@ -89,11 +89,19 @@ public class JpaCollectionDao extends AbstractJpaDao implements CollectionDao {
     public CollectionDTO getVersionDetails(String versionId) {
 
         return transactionControl.notSupported(() -> {
-        	TypedQuery<JpaCollection> query = em.createQuery("SELECT c FROM collection c, version v WHERE c.id = v.collection.id AND c.isActive = 1 AND v.id = :versionId", JpaCollection.class);
-            query.setParameter("versionId", versionId);
+        	TypedQuery<JpaCollection> queryC = em.createQuery("SELECT c FROM collection c, version v WHERE c.id = v.collection.id AND c.isActive = 1 AND v.id = :versionId", JpaCollection.class);
+            queryC.setParameter("versionId", versionId);
+            TypedQuery<JpaVersion> queryV = em.createQuery("SELECT v FROM version v WHERE v.id = :versionId", JpaVersion.class);
+            queryV.setParameter("versionId", versionId);
             try {
-            	 JpaCollection result = query.getSingleResult();	
-            	 return result.toDTO();
+            	 JpaCollection resultC = queryC.getSingleResult();
+            	 JpaVersion resultV = queryV.getSingleResult();
+            	 CollectionDTO resultC_DTO = resultC.toDTO();
+            	 VersionDTO resultV_DTO = resultV.toDTO();
+            	 List<VersionDTO> versions = new ArrayList<VersionDTO>();
+            	 versions.add(resultV_DTO);
+            	 resultC_DTO.versions = versions;
+            	 return resultC_DTO;
             } catch (NoResultException e) {
              return null;
             }
@@ -125,7 +133,7 @@ public class JpaCollectionDao extends AbstractJpaDao implements CollectionDao {
     @Override
     public List<CollectionDTO> findPublic(){
     	return transactionControl.notSupported(() -> {
-            TypedQuery<JpaCollection> query = em.createQuery("SELECT distinct c FROM collection c join c.versions as v WHERE v.privateStatus = 0 AND c.isActive = 1 ORDER BY c.creation_date ASC", JpaCollection.class);
+            TypedQuery<JpaCollection> query = em.createQuery("SELECT c FROM collection c join c.versions as v WHERE v.privateStatus = 0 AND c.isActive = 1 ORDER BY c.creation_date ASC", JpaCollection.class);
             query.setMaxResults(30);
             List<JpaCollection> jpaList = query.getResultList();
             return jpaList.stream().map(JpaCollection::toDTO).collect(Collectors.toList());
@@ -157,8 +165,7 @@ public class JpaCollectionDao extends AbstractJpaDao implements CollectionDao {
             JpaCollection jpaCol = JpaCollection.fromDTO(collection);
 
             // attach all repos, which already exist in the database to the current JPA persistence context
-            //attachRepositories(jpaCol);
-            
+            attachRepositories(jpaCol);
             jpaCol.isActive = 1;
             em.persist(jpaCol);
             return null;
@@ -252,10 +259,13 @@ public class JpaCollectionDao extends AbstractJpaDao implements CollectionDao {
 			TypedQuery<JpaCollection> query = em.createQuery("SELECT c FROM collection c WHERE c.id = :id", JpaCollection.class);
 			query.setParameter("id", collectionid);
 			JpaCollection result = query.getSingleResult();
+			//only public collections can be activated and deactivated
+			if(result.privateStatus == 0) {
 			if(result.isActive == 1) {
 				result.isActive=0;
 			}else {
 				result.isActive=1;
+			}
 			}
 			em.merge(result);
 			return null;
