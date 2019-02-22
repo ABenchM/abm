@@ -11,9 +11,7 @@ import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.fraunhofer.abm.app.auth.SecurityContext;
 import de.fraunhofer.abm.collection.dao.ProjectDao;
-import de.fraunhofer.abm.collection.dao.jpa.JpaProjectDao;
 import de.fraunhofer.abm.domain.ProjectObjectDTO;
 import de.fraunhofer.abm.http.client.HttpResponse;
 import de.fraunhofer.abm.http.client.HttpUtils;

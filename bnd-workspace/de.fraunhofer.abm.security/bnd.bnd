@@ -2,7 +2,8 @@ Bundle-Version: 1.0.0.${tstamp}
 -buildpath: \
 	osgi.enroute.base.api,\
 	junit:junit,\
-	org.hamcrest:hamcrest-core
+	org.hamcrest:hamcrest-core,\
+	de.fraunhofer.abm.collection.dao;version=latest
 Export-Package: de.fraunhofer.abm.app.auth
 Private-Package: \
 	de.fraunhofer.abm.app.auth.impl

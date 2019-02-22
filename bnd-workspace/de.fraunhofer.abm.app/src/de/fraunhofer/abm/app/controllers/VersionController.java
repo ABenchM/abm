@@ -106,6 +106,8 @@ public class VersionController extends AbstractController implements REST {
         ensureUserIsOwner(authorizer, collectionDao, version);
 
         version.comment = "Derived from version " + version.number + ": " + version.comment;
+        version.derivedFrom = version.id;
+        version.name = "derived new version from "+version.id;
         version.id = UUID.randomUUID().toString();
         version.creationDate = new Date();
         version.frozen = false;
@@ -167,6 +169,18 @@ public class VersionController extends AbstractController implements REST {
             maxVersion = Math.max(maxVersion, version.number);
         }
         return ++maxVersion;
+    }
+    
+    public CollectionDTO getVersionDetails(String versionId) {
+        CollectionDTO result = null;
+        ArrayList<String> users = new ArrayList<String>();
+    	users.add("RegisteredUser");
+    	users.add("UserAdmin"); 
+        if ( versionId != null ) {
+            authorizer.requireRoles(users);
+            result = collectionDao.getVersionDetails(versionId);
+        }
+        return result;
     }
 
     @Override

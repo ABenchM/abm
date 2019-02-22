@@ -23,6 +23,12 @@ public class JpaVersion {
     @Id
     @Column
     public String id;
+    
+    @Column
+    public String name;
+    
+    @Column
+    public String derivedFrom;
 
     @Column(name="creation_date")
     public Date creationDate;
@@ -54,6 +60,8 @@ public class JpaVersion {
         version.id = dto.id;
         version.creationDate = dto.creationDate;
         version.number = dto.number;
+        version.name = dto.name;
+        version.derivedFrom = dto.derivedFrom;
         version.comment = dto.comment;
         version.frozen = dto.frozen;
         version.privateStatus = dto.privateStatus;

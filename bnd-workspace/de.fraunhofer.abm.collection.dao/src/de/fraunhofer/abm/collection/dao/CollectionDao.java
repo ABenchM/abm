@@ -3,6 +3,7 @@ package de.fraunhofer.abm.collection.dao;
 import java.util.List;
 
 import de.fraunhofer.abm.domain.CollectionDTO;
+import de.fraunhofer.abm.domain.VersionDTO;
 
 public interface CollectionDao {
 
@@ -22,4 +23,6 @@ public interface CollectionDao {
     public void deleteUserPrivateCollections(String user);
 	public List<CollectionDTO> findCollections();
 	public void activeCollection(String collectionid);
+	public CollectionDTO getVersionDetails(String versionId);
+	
 }

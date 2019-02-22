@@ -1,5 +1,6 @@
 package de.fraunhofer.abm.collection.dao.jpa;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -17,6 +18,8 @@ import org.osgi.service.transaction.control.jpa.JPAEntityManagerProvider;
 
 import de.fraunhofer.abm.collection.dao.CollectionDao;
 import de.fraunhofer.abm.domain.CollectionDTO;
+import de.fraunhofer.abm.domain.UserDTO;
+import de.fraunhofer.abm.domain.VersionDTO;
 
 @Component
 public class JpaCollectionDao extends AbstractJpaDao implements CollectionDao {
@@ -81,6 +84,30 @@ public class JpaCollectionDao extends AbstractJpaDao implements CollectionDao {
             }
         });
     }
+    
+    @Override
+    public CollectionDTO getVersionDetails(String versionId) {
+
+        return transactionControl.notSupported(() -> {
+        	TypedQuery<JpaCollection> queryC = em.createQuery("SELECT c FROM collection c, version v WHERE c.id = v.collection.id AND c.isActive = 1 AND v.id = :versionId", JpaCollection.class);
+            queryC.setParameter("versionId", versionId);
+            TypedQuery<JpaVersion> queryV = em.createQuery("SELECT v FROM version v WHERE v.id = :versionId", JpaVersion.class);
+            queryV.setParameter("versionId", versionId);
+            try {
+            	 JpaCollection resultC = queryC.getSingleResult();
+            	 JpaVersion resultV = queryV.getSingleResult();
+            	 CollectionDTO resultC_DTO = resultC.toDTO();
+            	 VersionDTO resultV_DTO = resultV.toDTO();
+            	 List<VersionDTO> versions = new ArrayList<VersionDTO>();
+            	 versions.add(resultV_DTO);
+            	 resultC_DTO.versions = versions;
+            	 return resultC_DTO;
+            } catch (NoResultException e) {
+             return null;
+            }
+        });
+    }
+    
     @Override
     public List<CollectionDTO> findPublicId(String id) {
         return transactionControl.notSupported(() -> {

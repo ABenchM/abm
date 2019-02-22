@@ -73,7 +73,9 @@ public class JpaVersionDao extends AbstractJpaDao implements VersionDao {
             jpaVersion.frozen = version.frozen;
             jpaVersion.privateStatus = version.privateStatus;
             jpaVersion.filtered = version.filtered;
-
+        	jpaVersion.name = version.name;
+        	jpaVersion.derivedFrom = version.derivedFrom;
+            
             Map<String, CommitDTO> commits = version.commits.stream()
                     .collect(Collectors.toMap(c -> c.id, Function.identity()));
 
