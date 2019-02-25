@@ -42,10 +42,9 @@ import de.fraunhofer.abm.http.client.HttpResponse;
 	        headers.put("Content-Type", "application/json;charset=UTF-8");
 	        String payload = "{\"approved\":1}";
 	        headers.put("params", payload);
-	        String uri = baseUri + "/rest/userList?approved=1";
+	        String uri = baseUri + "/rest/userList?username="+USER+"&approved=1";
 	        String result = HttpUtils.get(uri, headers, charset);
 	        JSONArray array = new JSONArray(result);
-	        //System.out.println("not approved: "+array);
 	        if (array.length()>0) {
 		        assertEquals(true, array.getJSONObject(0).get("approved"));				
 			}
@@ -55,12 +54,11 @@ import de.fraunhofer.abm.http.client.HttpResponse;
 			//HttpResponse response;
 			Map<String, String> headers = login();
 	        headers.put("Content-Type", "application/json;charset=UTF-8");
-	        String payload = "{\"approved\":0}";
+	        String payload = "{\"approved\":0, \"username\":\""+USER+"\"}";
 	        headers.put("params", payload);
-	        String uri = baseUri + "/rest/userList?approved=0";
+	        String uri = baseUri + "/rest/userList?username="+USER+"&approved=0";
 	        String result = HttpUtils.get(uri, headers, charset);
 	        JSONArray array = new JSONArray(result);
-	        //System.out.println("approved: "+array);
 	        if (array.length()>0) {
 		        assertEquals(false, array.getJSONObject(0).get("approved"));				
 			}
