@@ -22,7 +22,7 @@ public interface UserDao {
 
 	public String approveToken(String name, String token);
 	
-	public List<UserDTO> getAllUsers(int isApproved);
+	public List<UserDTO> getAllUsers(int isApproved, String adminuser);
 	
 	public UserDTO getUserInfo(String username);
 	
