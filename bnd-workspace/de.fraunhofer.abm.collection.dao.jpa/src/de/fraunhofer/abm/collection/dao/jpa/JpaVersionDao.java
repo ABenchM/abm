@@ -84,7 +84,7 @@ public class JpaVersionDao extends AbstractJpaDao implements VersionDao {
             jpaVersion.projects.forEach(c -> {
                 ProjectObjectDTO dto = projects.remove(c.id);
                 if(dto != null) {
-                    c.version.id = dto.version_id;
+                    c.project_id = dto.project_id;
                 } else {
                     em.remove(c);
                 }

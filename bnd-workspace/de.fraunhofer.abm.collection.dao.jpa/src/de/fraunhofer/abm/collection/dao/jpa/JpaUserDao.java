@@ -104,6 +104,7 @@ public class JpaUserDao extends AbstractJpaDao implements UserDao {
  			jpaUser.affiliation = affiliation;
 			//jpaUser.password = password;
 			jpaUser.locked = 0;
+			jpaUser.approved = 1;
 			em.merge(jpaUser);
 			return null;
 		});
