@@ -176,6 +176,8 @@ public class CollectionControllerTest extends AbstractHttpTest {
         JSONObject obj = new JSONObject(result);
         Assert.assertNotNull(result);
         Assert.assertEquals(id, obj.getString("id"));
+        JSONArray newversionAray = collection.getJSONArray("versions");
+        Assert.assertEquals(1, newversionAray.length());
         Assert.assertEquals("abc", obj.getString("name"));
         Assert.assertEquals("def", obj.getString("description"));
 
@@ -228,7 +230,7 @@ public class CollectionControllerTest extends AbstractHttpTest {
         Assert.assertEquals(NUM200, response.getResponseCode());
     }
 
-    @Test
+    //@Test
     public void testLastSuccessfullyBuiltVersion() throws IOException {
     	// Create a private collection first.
     	Map<String, String> headers = login();
@@ -355,4 +357,5 @@ public class CollectionControllerTest extends AbstractHttpTest {
         response = HttpUtils.delete(uri, headers, charset);
         Assert.assertEquals(NUM200, response.getResponseCode());
     }
+    
 }

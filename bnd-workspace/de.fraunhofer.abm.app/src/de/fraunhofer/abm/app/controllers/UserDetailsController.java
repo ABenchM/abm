@@ -44,7 +44,8 @@ public class UserDetailsController extends AbstractController implements REST {
         List<UserDTO> result = Collections.emptyList();
         Map<String, String[]> params = rr._request().getParameterMap();
         int isApproved = params.get("approved")[0].equals("0") ? 0 : 1;
-        result = userDao.getAllUsers(isApproved);
+        String adminuser = params.get("username")[0];
+        result = userDao.getAllUsers(isApproved, adminuser);
         return result;
     }
 

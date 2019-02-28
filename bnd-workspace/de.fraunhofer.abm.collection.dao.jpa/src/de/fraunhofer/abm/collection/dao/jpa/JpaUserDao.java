@@ -168,18 +168,19 @@ public class JpaUserDao extends AbstractJpaDao implements UserDao {
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<UserDTO> getAllUsers(int isApproved) {
+	public List<UserDTO> getAllUsers(int isApproved, String adminuser) {
     	return transactionControl.notSupported(() -> {
     		String queryCompany = "";         		
     		if ( isApproved == 1 ) {
     			queryCompany = "select a.name as username, a.firstname, a.lastname, a.locked, a.email, a.affiliation, a.approved, b.role "
-    							+ "from user a, role_members b where a.approved = :isApproved and a.name = b.username";
+    							+ "from user a, role_members b where a.approved = :isApproved and a.name = b.username and a.name != :adminuser";
     		} else {
     			queryCompany = "select a.name as username, a.firstname, a.lastname, a.locked, a.email, a.affiliation, a.approved "
-    							+ "from user a where a.approved = :isApproved";
+    							+ "from user a where a.approved = :isApproved and a.name != :adminuser";
     		}
             Query query = em.createQuery(queryCompany);
             query.setParameter("isApproved", isApproved);
+            query.setParameter("adminuser", adminuser);
             List<UserDTO> userList = new ArrayList<UserDTO>();
             List<Object[]> resultList = query.getResultList();
             for (Object[] result : resultList) {

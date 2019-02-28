@@ -1,0 +1,1 @@
+ALTER table version drop column test;
