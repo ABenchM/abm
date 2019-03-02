@@ -3,8 +3,8 @@ Bundle-Description: RoleRepositoryStore, which uses a JDBC connection to store t
 	
 -buildpath: \
 	osgi.enroute.base.api;version=1.0,\
-	org.apache.felix.useradmin,\
-	de.fraunhofer.abm.useradmin.dao;version=latest
+	de.fraunhofer.abm.useradmin.dao;version=latest,\
+	org.apache.felix.useradmin
 
 -testpath: \
 	osgi.enroute.junit.wrapper;version=4.12

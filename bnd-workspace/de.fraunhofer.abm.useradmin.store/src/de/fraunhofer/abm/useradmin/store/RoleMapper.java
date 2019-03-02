@@ -7,9 +7,12 @@ import org.osgi.service.useradmin.Group;
 import org.osgi.service.useradmin.Role;
 import org.osgi.service.useradmin.User;
 
+
 import de.fraunhofer.abm.useradmin.dto.RoleDTO;
 
 public class RoleMapper {
+	
+	
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
     public RoleDTO toDto(Role role) {
@@ -55,6 +58,7 @@ public class RoleMapper {
     @SuppressWarnings({ "rawtypes", "unchecked" })
     public Role toRole(RoleDTO dto) {
         // role
+    	  
         Role role = RoleFactory.createRole(dto.type, dto.name);
 
         // properties
