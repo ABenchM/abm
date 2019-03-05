@@ -7,6 +7,8 @@ import de.fraunhofer.abm.domain.UserDTO;
 public interface UserDao {
 
 	public boolean checkExists(String name);
+	
+	public boolean checkEmailExists(String email);
 
 	public boolean checkApproved(String name);
 

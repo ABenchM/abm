@@ -63,7 +63,7 @@ public class UserController extends AbstractController implements REST {
 	 * @return
 	 * @throws Exception
 	 */
-	public boolean postUsername(AccountRequest ar) throws Exception {
+	public String postUsername(AccountRequest ar) throws Exception {
 		// TODO: Add more security here, such as a delay, if possible.
 		String approvalEndpoint = "https://abm.cs.upb.de/rest/approval";
 		Map<String, String> params = ar._body();
@@ -74,7 +74,7 @@ public class UserController extends AbstractController implements REST {
  		String saltHashPassword = Password.getSaltedHash(password);
  		String email = params.get("email");
  		String affiliation = params.get("affiliation");
- 		if (!userDao.checkExists(username)) {
+ 		if (!userDao.checkExists(username) &&  !userDao.checkEmailExists(email) ) {
  			String approvalToken = TokenGenerator.generateToken();
  	 		String token = MessageFormat.format("Activation Link: {0}?name={1}&token={2}\n", approvalEndpoint, username, approvalToken);
  			String sbj = username + " Registered on ABM";
@@ -90,10 +90,12 @@ public class UserController extends AbstractController implements REST {
 			message.setText(msg);
 			Transport.send(message);
 			userDao.addUser(username, firstname, lastname, email, affiliation, saltHashPassword, approvalToken);
-			return true;
+			return "Success";
 		} else {
 			//throw new ApprovalException("User already exists");
-			return false;
+			if(userDao.checkExists(username)) return "username exists";
+			else if(userDao.checkEmailExists(email)) return "email exists";
+			else return "some other error";
 		}
 	}
 	
@@ -128,7 +130,7 @@ public class UserController extends AbstractController implements REST {
  		String password = params.get("password");
  		String email = params.get("email");
  		String affiliation = params.get("affiliation");
- 		if (userDao.checkExists(username) && password ==null) {
+ 		if (userDao.checkExists(username)  && password ==null) {
 			userDao.updateUser(username, firstname, lastname, email, affiliation);
 			//userDao.updateUserPassword(username, saltHashPassword);
 			return true;
