@@ -19,18 +19,12 @@ test-cases: 			${classes;NAMED;*Test}
 -resolve.effective:		resolve, active
 -releaserepo:                   Release
 
--plugin.4.Central:  \
-\
-        aQute.bnd.deployer.repository.wrapper.Plugin; \
-            location            =	"${build}/cache/wrapper"; \
-            reindex				=	true, \
-\
-        aQute.bnd.jpm.Repository; \
-	        includeStaged   	=       true; \
-	        name                =       Central; \
-	        location            =       ~/.bnd/shacache; \
-	        index               =       ${build}/central.json
-	        
+-plugin.5.Central = \
+    aQute.bnd.repository.maven.provider.MavenBndRepository; \
+        releaseUrl=https://repo.maven.apache.org/maven2/; \
+        name="Central";\
+        index=${build}/central.maven
+        	        
 -plugin.6.Local: \
         aQute.bnd.deployer.repository.LocalIndexedRepo; \
             name                =       Local ; \

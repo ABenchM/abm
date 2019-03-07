@@ -80,7 +80,8 @@ JPM-Command:					abm
 	osgi.identity;filter:='(osgi.identity=de.fraunhofer.abm.builder.docker.sbt)',\
 	osgi.identity;filter:='(osgi.identity=de.fraunhofer.abm.hermes)',\
 	osgi.identity;filter:='(osgi.identity=de.fraunhofer.abm.crawler.bitbucket)',\
-	osgi.identity;filter:='(osgi.identity=org.jsoup)'
+	osgi.identity;filter:='(osgi.identity=org.jsoup)',\
+	osgi.identity;filter:='(osgi.identity=de.upb.cs.swt:zenodo-api)'
 
 -runee: JavaSE-1.8
 -runbundles: \
@@ -88,8 +89,6 @@ JPM-Command:					abm
 	ch.qos.logback.core;version='[1.1.7,1.1.8)',\
 	com.fasterxml.classmate;version='[1.3.1,1.3.2)',\
 	com.googlecode.javaewah.JavaEWAH;version='[0.7.9,0.7.10)',\
-	com.jcraft.jsch;version='[0.1.53,0.1.54)',\
-	com.mysql.jdbc;version='[5.1.39,5.1.40)',\
 	de.fraunhofer.abm.app;version=snapshot,\
 	de.fraunhofer.abm.builder.api;version=snapshot,\
 	de.fraunhofer.abm.builder.docker.maven;version=snapshot,\
@@ -110,7 +109,6 @@ JPM-Command:					abm
 	de.fraunhofer.abm.useradmin.dao.jdbc;version=snapshot,\
 	de.fraunhofer.abm.useradmin.store;version=snapshot,\
 	javassist;version='[3.20.0,3.20.1)',\
-	json;version='[20160212.0.0,20160212.0.1)',\
 	org.apache.aries.jpa.container;version='[2.7.0,2.7.1)',\
 	org.apache.commons.fileupload;version='[1.3.1,1.3.2)',\
 	org.apache.commons.io;version='[2.4.0,2.4.1)',\
@@ -131,7 +129,6 @@ JPM-Command:					abm
 	org.eclipse.equinox.coordinator;version='[1.3.100,1.3.101)',\
 	org.eclipse.equinox.event;version='[1.3.100,1.3.101)',\
 	org.eclipse.equinox.metatype;version='[1.4.100,1.4.101)',\
-	org.eclipse.jgit;version='[4.4.0,4.4.1)',\
 	org.everit.osgi.loglistener.slf4j;version='[1.0.0,1.0.1)',\
 	org.hibernate.common.hibernate-commons-annotations;version='[5.0.1,5.0.2)',\
 	org.hibernate.core;version='[5.2.1,5.2.2)',\
@@ -151,7 +148,6 @@ JPM-Command:					abm
 	osgi.enroute.logger.simple.provider;version='[1.1.1,1.1.2)',\
 	osgi.enroute.rest.simple.provider;version='[2.0.2,2.0.3)',\
 	osgi.enroute.web.simple.provider;version='[1.3.3,1.3.4)',\
-	slf4j.api;version='[1.7.21,1.7.22)',\
 	de.fraunhofer.abm.repoarchive.api;version=snapshot,\
 	de.fraunhofer.abm.repoarchive.local;version=snapshot,\
 	de.fraunhofer.abm.util;version=snapshot,\
@@ -191,4 +187,10 @@ JPM-Command:					abm
 	org.scala-lang.scala-xml;version='[2.11.0,2.11.1)',\
 	javax.mail;version='[1.4.0,1.4.7)',\
 	de.fraunhofer.abm.crawler.bitbucket;version=latest,\
-	org.jsoup
+	org.jsoup,\
+	de.upb.cs.swt:zenodo-api,\
+	json,\
+	org.eclipse.jgit,\
+	slf4j.api,\
+	com.mysql.jdbc,\
+	com.jcraft.jsch

@@ -55,6 +55,19 @@ public class JpaUserDao extends AbstractJpaDao implements UserDao {
 	}
 	
 	@Override
+	public boolean checkEmailExists(String email) {
+		// TODO Auto-generated method stub
+		return transactionControl.notSupported(() -> {
+			TypedQuery<JpaUser> query = em.createQuery("select u from user u where u.email = :email", JpaUser.class);
+			query.setParameter("email", email);
+			query.setMaxResults(1);
+			List<JpaUser> result = query.getResultList();
+			return (result.size() == 1);
+		});
+		
+	}
+	
+	@Override
 	public boolean checkLocked(String name) {
 		return transactionControl.notSupported(() -> {
 			TypedQuery<JpaUser> query = em.createQuery("SELECT u FROM user u WHERE u.name = :name", JpaUser.class);

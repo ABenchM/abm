@@ -84,6 +84,7 @@ public class VersionController extends AbstractController implements REST {
 
         version.comment = "Derived from version " + version.number + ": " + version.comment;
         version.derivedFrom = version.id;
+        version.name =   version.name;
         version.id = UUID.randomUUID().toString();
         version.creationDate = new Date();
         version.frozen = false;
