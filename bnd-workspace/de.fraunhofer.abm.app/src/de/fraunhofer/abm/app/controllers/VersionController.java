@@ -59,7 +59,7 @@ public class VersionController extends AbstractController implements REST {
      * @param vr
      * @param derive
      */
-    public VersionDTO postVersion(VersionRequest vr, String versionName) {
+    public VersionDTO postVersion(VersionRequest vr) {
     	ArrayList<String> users = new ArrayList<String>();
   	  users.add("RegisteredUser");
   	  users.add("UserAdmin"); 
@@ -71,7 +71,7 @@ public class VersionController extends AbstractController implements REST {
             return null;
         }
         try {
-            version = deriveVersion(version,versionName);
+            version = deriveVersion(version);
         } catch(IllegalArgumentException e ) {
             sendError(vr._response(), HttpServletResponse.SC_BAD_REQUEST, e.getLocalizedMessage());
             return null;
@@ -79,7 +79,7 @@ public class VersionController extends AbstractController implements REST {
         return version;
     }
 
-    private VersionDTO deriveVersion(VersionDTO version, String versionName) {
+    private VersionDTO deriveVersion(VersionDTO version) {
         ensureUserIsOwner(authorizer, collectionDao, version);
 
         version.comment = "Derived from version " + version.number + ": " + version.comment;
@@ -89,12 +89,6 @@ public class VersionController extends AbstractController implements REST {
         version.creationDate = new Date();
         version.frozen = false;
         version.privateStatus = true;
-        if(versionName== null || versionName.isEmpty()) {
-            version.name = "derived version";
-        }
-        else {
-            version.name = versionName;
-        }
         for(ProjectObjectDTO project: version.projects) {
         	project.id = UUID.randomUUID().toString();
         }
