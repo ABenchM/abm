@@ -10,6 +10,7 @@ public class VersionDTO {
     public String derivedFrom;
     public String collectionId;
     public List<CommitDTO> commits;
+    public List<ProjectObjectDTO> projects;
     public int number;
     public Date creationDate;
     public String comment;

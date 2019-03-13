@@ -21,6 +21,7 @@ import de.fraunhofer.abm.collection.dao.VersionDao;
 import de.fraunhofer.abm.domain.BuildResultDTO;
 import de.fraunhofer.abm.domain.CollectionDTO;
 import de.fraunhofer.abm.domain.CommitDTO;
+import de.fraunhofer.abm.domain.ProjectObjectDTO;
 import de.fraunhofer.abm.domain.VersionDTO;
 import de.fraunhofer.abm.util.FileUtil;
 import osgi.enroute.configurer.api.RequireConfigurerExtender;
@@ -58,45 +59,21 @@ public class VersionController extends AbstractController implements REST {
      * @param vr
      * @param derive
      */
-    public VersionDTO postVersion(VersionRequest vr, String action) {
+    public VersionDTO postVersion(VersionRequest vr) {
     	ArrayList<String> users = new ArrayList<String>();
   	  users.add("RegisteredUser");
   	  users.add("UserAdmin"); 
         authorizer.requireRoles(users);
 
         VersionDTO version = vr._body();
-        if("derive".equals(action)) {
-            if(version.id == null) {
-                sendError(vr._response(), HttpServletResponse.SC_BAD_REQUEST, "submitted version is missing an id");
-                return null;
-            }
-            try {
-                version = deriveVersion(version);
-            } catch(IllegalArgumentException e ) {
-                sendError(vr._response(), HttpServletResponse.SC_BAD_REQUEST, e.getLocalizedMessage());
-                return null;
-            }
-        } else if("unfreeze".equals(action)) {
-            BuildResultDTO dto = buildResultDao.findByVersion(version.id);
-            if(dto != null) {
-            	
-                // delete build from disk
-                File buildDir = new File(dto.dir);
-                try {
-                    FileUtil.deleteRecursively(buildDir);
-                    // delete the build result from db
-                    buildResultDao.delete(dto.id);
-                } catch (IOException e) {
-                    logger.error("Couldn't delete build directory", e);
-                    throw new RuntimeException("Couldn't delete build directory");
-                }
-            }
-
-            // unfreeze version
-            version.frozen = false;
-            versionDao.update(version);
-        } else {
-            sendError(vr._response(), HttpServletResponse.SC_BAD_REQUEST, "unknown action " + action);
+        if(version.id == null) {
+            sendError(vr._response(), HttpServletResponse.SC_BAD_REQUEST, "submitted version is missing an id");
+            return null;
+        }
+        try {
+            version = deriveVersion(version);
+        } catch(IllegalArgumentException e ) {
+            sendError(vr._response(), HttpServletResponse.SC_BAD_REQUEST, e.getLocalizedMessage());
             return null;
         }
         return version;
@@ -106,15 +83,18 @@ public class VersionController extends AbstractController implements REST {
         ensureUserIsOwner(authorizer, collectionDao, version);
 
         version.comment = "Derived from version " + version.number + ": " + version.comment;
-        version.derivedFrom = version.derivedFrom;
+        version.derivedFrom = version.id;
         version.name =   version.name;
         version.id = UUID.randomUUID().toString();
         version.creationDate = new Date();
         version.frozen = false;
         version.privateStatus = true;
-        for (CommitDTO commit : version.commits) {
-            commit.id = UUID.randomUUID().toString();
+        for(ProjectObjectDTO project: version.projects) {
+        	project.id = UUID.randomUUID().toString();
         }
+        /*for (CommitDTO commit : version.commits) {
+            commit.id = UUID.randomUUID().toString();
+        }*/
         try {
             version.number = findNextVersionNumberForCollection(version.collectionId);
         } catch(Exception e) {
@@ -135,8 +115,8 @@ public class VersionController extends AbstractController implements REST {
         // permissions are checked, now update the version
 
         // assign an UUID to all new commits
-        for (CommitDTO commit : version.commits) {
-            commit.id = Optional.ofNullable(commit.id).orElse(UUID.randomUUID().toString());
+        for (ProjectObjectDTO project : version.projects) {
+        	project.id = Optional.ofNullable(project.id).orElse(UUID.randomUUID().toString());
         }
 
         versionDao.update(version);

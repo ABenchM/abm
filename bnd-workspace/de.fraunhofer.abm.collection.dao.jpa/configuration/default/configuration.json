@@ -5,7 +5,7 @@
 		"osgi.unit.name": "collection-unit",
 		"aries.dsf.target.filter": "(osgi.jdbc.driver.name=mysql)",
 		"user": "root",
-		"password": ";tDJYz<TB&7m7Z+{",
+		"password": "root",
 		"databaseName": "abm",
 		"url": "jdbc:mysql://127.0.0.1:3306/abm",
 		"serverName": "127.0.0.1",
