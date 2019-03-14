@@ -8,6 +8,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.ws.http.HTTPException;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -23,6 +24,7 @@ import de.fraunhofer.abm.domain.CollectionDTO;
 import de.fraunhofer.abm.domain.CommitDTO;
 import de.fraunhofer.abm.domain.ProjectObjectDTO;
 import de.fraunhofer.abm.domain.VersionDTO;
+import de.fraunhofer.abm.http.client.HttpResponse;
 import de.fraunhofer.abm.util.FileUtil;
 import osgi.enroute.configurer.api.RequireConfigurerExtender;
 import osgi.enroute.rest.api.REST;
@@ -159,6 +161,9 @@ public class VersionController extends AbstractController implements REST {
         if ( versionId != null ) {
             authorizer.requireRoles(users);
             result = collectionDao.getVersionDetails(versionId);
+            if(result == null) {
+            	throw new HTTPException(400);
+            }
         }
         return result;
     }
