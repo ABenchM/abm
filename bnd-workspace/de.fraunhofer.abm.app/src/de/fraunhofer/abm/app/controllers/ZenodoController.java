@@ -2,6 +2,8 @@ package de.fraunhofer.abm.app.controllers;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -16,6 +18,8 @@ import de.fraunhofer.abm.collection.dao.CollectionDao;
 import de.fraunhofer.abm.collection.dao.HermesResultDao;
 import de.fraunhofer.abm.collection.dao.VersionDao;
 import de.fraunhofer.abm.domain.VersionDTO;
+import de.fraunhofer.abm.http.client.HttpResponse;
+import de.fraunhofer.abm.http.client.HttpUtils;
 import de.fraunhofer.abm.zenodo.ZenodoAPI;
 import osgi.enroute.configurer.api.RequireConfigurerExtender;
 import osgi.enroute.rest.api.REST;
@@ -52,6 +56,7 @@ public class ZenodoController extends AbstractController implements REST {
      
 	 private static String url = "https://sandbox.zenodo.org/";
 	 private static String token = "HWiH1QCdIj81fj0a9vB9knBzfH8puk55NXiEZqkumpILavP2BHgKnjgUEyc9";
+	 static Map<String, String> header = new HashMap<>();
 	 
 	  interface VersionRequest extends RESTRequest {
 	        VersionDTO _body();
@@ -69,6 +74,16 @@ public class ZenodoController extends AbstractController implements REST {
 	        if(version.id == null) {
 	            sendError(vr._response(), HttpServletResponse.SC_BAD_REQUEST, "submitted version is missing an id");
 	            return null;
+	        } try {
+	        	header.put("Authorization", "Bearer "+ token);
+	        	String resp = HttpUtils.get(url, header, "UTF-8");
+	        	if(resp!= null) {
+	        		System.out.println("Connection to Zenodo Website successfull");
+	        	}
+	        	
+	        } catch (IllegalArgumentException e ) {
+	        	 sendError(vr._response(), HttpServletResponse.SC_BAD_REQUEST, e.getLocalizedMessage());
+	             return null;
 	        }
 		 
 		 
