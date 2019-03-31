@@ -7,9 +7,13 @@ Export-Package: de.fraunhofer.abm.zenodo
 	de.fraunhofer.abm.http.client;version=latest,\
 	com.fasterxml.jackson.core.jackson-annotations,\
 	com.fasterxml.jackson.core.jackson-core,\
-	com.fasterxml.jackson.core.jackson-databind
+	com.fasterxml.jackson.core.jackson-databind,\
+	de.fraunhofer.abm.util;version=latest,\
+	com.mashape.unirest:unirest-java
 -runrequires: bnd.identity;version='latest';id='de.fraunhofer.abm.zenodo'
 -runbundles: \
 	com.fasterxml.jackson.core.jackson-annotations,\
 	com.fasterxml.jackson.core.jackson-core,\
-	com.fasterxml.jackson.core.jackson-databind
+	com.fasterxml.jackson.core.jackson-databind,\
+	de.fraunhofer.abm.util;version=latest,\
+	com.mashape.unirest:unirest-java

@@ -81,7 +81,7 @@ JPM-Command:					abm
 	osgi.identity;filter:='(osgi.identity=de.fraunhofer.abm.hermes)',\
 	osgi.identity;filter:='(osgi.identity=de.fraunhofer.abm.crawler.bitbucket)',\
 	osgi.identity;filter:='(osgi.identity=org.jsoup)',\
-	osgi.identity;filter:='(osgi.identity=de.upb.cs.swt:zenodo-api)'
+	bnd.identity;version='latest';id='de.fraunhofer.abm.zenodo'
 
 -runee: JavaSE-1.8
 -runbundles: \
@@ -193,4 +193,5 @@ JPM-Command:					abm
 	slf4j.api,\
 	com.mysql.jdbc,\
 	com.jcraft.jsch,\
-	de.fraunhofer.abm.zenodo;version=latest
+	de.fraunhofer.abm.zenodo;version=latest,\
+	com.mashape.unirest:unirest-java

@@ -80,6 +80,7 @@ public class ZenodoController extends AbstractController implements REST {
 	        	if(resp!= null) {
 	        		System.out.println("Connection to Zenodo Website successfull");
 	        	}
+	        	client.test();
 	        	
 	        } catch (IllegalArgumentException e ) {
 	        	 sendError(vr._response(), HttpServletResponse.SC_BAD_REQUEST, e.getLocalizedMessage());
