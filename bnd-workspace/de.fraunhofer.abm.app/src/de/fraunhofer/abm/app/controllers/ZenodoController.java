@@ -16,6 +16,7 @@ import de.fraunhofer.abm.collection.dao.CollectionDao;
 import de.fraunhofer.abm.collection.dao.HermesResultDao;
 import de.fraunhofer.abm.collection.dao.VersionDao;
 import de.fraunhofer.abm.domain.VersionDTO;
+import de.fraunhofer.abm.zenodo.ZenodoAPI;
 import osgi.enroute.configurer.api.RequireConfigurerExtender;
 import osgi.enroute.rest.api.REST;
 import osgi.enroute.rest.api.RESTRequest;
@@ -46,6 +47,8 @@ public class ZenodoController extends AbstractController implements REST {
 	 private Authorizer authorizer;
 	 
 	 
+	 @Reference
+	 private ZenodoAPI client;
      
 	 private static String url = "https://sandbox.zenodo.org/";
 	 private static String token = "HWiH1QCdIj81fj0a9vB9knBzfH8puk55NXiEZqkumpILavP2BHgKnjgUEyc9";
