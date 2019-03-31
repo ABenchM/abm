@@ -4,5 +4,12 @@ Private-Package: de.fraunhofer.abm.zenodo.impl
 Export-Package: de.fraunhofer.abm.zenodo
 -buildpath: \
 	osgi.enroute.base.api,\
-	de.fraunhofer.abm.http.client;version=latest
+	de.fraunhofer.abm.http.client;version=latest,\
+	com.fasterxml.jackson.core.jackson-annotations,\
+	com.fasterxml.jackson.core.jackson-core,\
+	com.fasterxml.jackson.core.jackson-databind
 -runrequires: bnd.identity;version='latest';id='de.fraunhofer.abm.zenodo'
+-runbundles: \
+	com.fasterxml.jackson.core.jackson-annotations,\
+	com.fasterxml.jackson.core.jackson-core,\
+	com.fasterxml.jackson.core.jackson-databind
