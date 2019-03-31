@@ -192,4 +192,5 @@ JPM-Command:					abm
 	org.eclipse.jgit,\
 	slf4j.api,\
 	com.mysql.jdbc,\
-	com.jcraft.jsch
+	com.jcraft.jsch,\
+	de.fraunhofer.abm.zenodo;version=latest

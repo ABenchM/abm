@@ -44,6 +44,8 @@ public class ZenodoController extends AbstractController implements REST {
 	 
 	 @Reference
 	 private Authorizer authorizer;
+	 
+	 
      
 	 private static String url = "https://sandbox.zenodo.org/";
 	 private static String token = "HWiH1QCdIj81fj0a9vB9knBzfH8puk55NXiEZqkumpILavP2BHgKnjgUEyc9";
