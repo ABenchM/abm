@@ -77,7 +77,7 @@ public class AbmApplication implements REST {
 
     
     protected void addCrawler(Crawler crawler) {
-    	System.out.println("calling "+ ++i ); 
+    	
     	crawlerList.add(crawler);
     }
     

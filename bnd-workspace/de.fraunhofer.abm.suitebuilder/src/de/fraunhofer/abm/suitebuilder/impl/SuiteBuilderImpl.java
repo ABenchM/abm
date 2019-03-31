@@ -143,7 +143,7 @@ public class SuiteBuilderImpl implements SuiteBuilder {
 
     int i = 0;
     protected void addBuilderFactory(ProjectBuilderFactory factory) {
-    	System.out.println("Calling builderfactory " + ++i);
+    	
         builderFactories.add(factory);
     }
 

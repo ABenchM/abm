@@ -188,7 +188,6 @@ JPM-Command:					abm
 	javax.mail;version='[1.4.0,1.4.7)',\
 	de.fraunhofer.abm.crawler.bitbucket;version=latest,\
 	org.jsoup,\
-	de.upb.cs.swt:zenodo-api,\
 	json,\
 	org.eclipse.jgit,\
 	slf4j.api,\
