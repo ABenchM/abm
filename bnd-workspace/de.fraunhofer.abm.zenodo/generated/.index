@@ -1,17 +1,17 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<repository xmlns="http://www.osgi.org/xmlns/repository/v1.0.0" name="de.fraunhofer.abm.zenodo" increment="1554076888679">
+<repository xmlns="http://www.osgi.org/xmlns/repository/v1.0.0" name="de.fraunhofer.abm.zenodo" increment="1554085781023">
   <resource>
     <capability namespace="osgi.identity">
       <attribute name="osgi.identity" value="de.fraunhofer.abm.zenodo"/>
       <attribute name="type" value="osgi.bundle"/>
-      <attribute name="version" value="1.0.0.201904010001" type="Version"/>
+      <attribute name="version" value="1.0.0.201904010229" type="Version"/>
     </capability>
     <capability namespace="osgi.wiring.bundle">
-      <attribute name="bundle-version" value="1.0.0.201904010001" type="Version"/>
+      <attribute name="bundle-version" value="1.0.0.201904010229" type="Version"/>
       <attribute name="osgi.wiring.bundle" value="de.fraunhofer.abm.zenodo"/>
     </capability>
     <capability namespace="osgi.wiring.host">
-      <attribute name="bundle-version" value="1.0.0.201904010001" type="Version"/>
+      <attribute name="bundle-version" value="1.0.0.201904010229" type="Version"/>
       <attribute name="osgi.wiring.host" value="de.fraunhofer.abm.zenodo"/>
     </capability>
     <capability namespace="osgi.wiring.package">
@@ -19,14 +19,19 @@
       <attribute name="version" value="1.0.0" type="Version"/>
       <attribute name="osgi.wiring.package" value="de.fraunhofer.abm.zenodo"/>
     </capability>
+    <capability namespace="osgi.wiring.package">
+      <directive name="uses" value="de.fraunhofer.abm.zenodo"/>
+      <attribute name="version" value="1.0.0" type="Version"/>
+      <attribute name="osgi.wiring.package" value="de.fraunhofer.abm.zenodo.impl"/>
+    </capability>
     <capability namespace="osgi.service">
       <attribute name="objectClass" value="de.fraunhofer.abm.zenodo.ZenodoAPI" type="List&lt;String&gt;"/>
     </capability>
     <capability namespace="osgi.content">
-      <attribute name="size" value="17848" type="Long"/>
+      <attribute name="size" value="23823" type="Long"/>
       <attribute name="url" value="generated/de.fraunhofer.abm.zenodo.jar"/>
       <attribute name="mime" value="application/vnd.osgi.bundle"/>
-      <attribute name="osgi.content" value="0F21AD8E41E45CB66FE20D041AA1F0DB99CC34B01297A5EDB98E9D45B0F1AA4B"/>
+      <attribute name="osgi.content" value="4814E4E2BC02906D0D15A79E433EA687A9533E63A3C5B2CF677FF750840C557C"/>
     </capability>
     <capability namespace="bndtools.workspace">
       <attribute name="bndtools.workspace" value="file:/home/ankur/SHK/ABM/develop/workspace"/>
@@ -36,13 +41,25 @@
       <directive name="filter" value="(&amp;(osgi.wiring.package=com.fasterxml.jackson.annotation)(&amp;(version&gt;=2.8.0)(!(version&gt;=3.0.0))))"/>
     </requirement>
     <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=com.fasterxml.jackson.core)(&amp;(version&gt;=2.8.0)(!(version&gt;=3.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=com.fasterxml.jackson.core.type)(&amp;(version&gt;=2.8.0)(!(version&gt;=3.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=com.fasterxml.jackson.databind)(&amp;(version&gt;=2.8.0)(!(version&gt;=3.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=com.fasterxml.jackson.databind.util)(&amp;(version&gt;=2.8.0)(!(version&gt;=3.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
       <directive name="filter" value="(&amp;(osgi.wiring.package=com.mashape.unirest.http)(&amp;(version&gt;=1.4.0)(!(version&gt;=2.0.0))))"/>
     </requirement>
     <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=com.mashape.unirest.request)(&amp;(version&gt;=1.4.0)(!(version&gt;=2.0.0))))"/>
+      <directive name="filter" value="(&amp;(osgi.wiring.package=com.mashape.unirest.http.exceptions)(&amp;(version&gt;=1.4.0)(!(version&gt;=2.0.0))))"/>
     </requirement>
     <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=de.fraunhofer.abm.http.client)(&amp;(version&gt;=1.0.0)(!(version&gt;=2.0.0))))"/>
+      <directive name="filter" value="(&amp;(osgi.wiring.package=com.mashape.unirest.request)(&amp;(version&gt;=1.4.0)(!(version&gt;=2.0.0))))"/>
     </requirement>
     <requirement namespace="osgi.wiring.package">
       <directive name="filter" value="(&amp;(osgi.wiring.package=de.fraunhofer.abm.zenodo)(&amp;(version&gt;=1.0.0)(!(version&gt;=2.0.0))))"/>

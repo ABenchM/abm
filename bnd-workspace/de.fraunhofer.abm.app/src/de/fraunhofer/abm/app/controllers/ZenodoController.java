@@ -21,6 +21,7 @@ import de.fraunhofer.abm.domain.VersionDTO;
 import de.fraunhofer.abm.http.client.HttpResponse;
 import de.fraunhofer.abm.http.client.HttpUtils;
 import de.fraunhofer.abm.zenodo.ZenodoAPI;
+import de.fraunhofer.abm.zenodo.impl.ZenodoAPIImpl;
 import osgi.enroute.configurer.api.RequireConfigurerExtender;
 import osgi.enroute.rest.api.REST;
 import osgi.enroute.rest.api.RESTRequest;
@@ -51,9 +52,7 @@ public class ZenodoController extends AbstractController implements REST {
 	 private Authorizer authorizer;
 	 
 	 
-	 @Reference
-	 private ZenodoAPI client;
-     
+	      
 	 private static String url = "https://sandbox.zenodo.org/";
 	 private static String token = "HWiH1QCdIj81fj0a9vB9knBzfH8puk55NXiEZqkumpILavP2BHgKnjgUEyc9";
 	 static Map<String, String> header = new HashMap<>();
@@ -80,7 +79,7 @@ public class ZenodoController extends AbstractController implements REST {
 	        	if(resp!= null) {
 	        		System.out.println("Connection to Zenodo Website successfull");
 	        	}
-	        	client.test();
+	        	ZenodoAPI client = new ZenodoAPIImpl(url,token);
 	        	
 	        } catch (IllegalArgumentException e ) {
 	        	 sendError(vr._response(), HttpServletResponse.SC_BAD_REQUEST, e.getLocalizedMessage());

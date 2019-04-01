@@ -1,7 +1,8 @@
 Bundle-Version: 1.0.0.${tstamp}
 Bundle-Name: ABM Zenodo API
-Private-Package: de.fraunhofer.abm.zenodo.impl
-Export-Package: de.fraunhofer.abm.zenodo
+Export-Package: \
+	de.fraunhofer.abm.zenodo,\
+	de.fraunhofer.abm.zenodo.impl
 -buildpath: \
 	osgi.enroute.base.api,\
 	de.fraunhofer.abm.http.client;version=latest,\
