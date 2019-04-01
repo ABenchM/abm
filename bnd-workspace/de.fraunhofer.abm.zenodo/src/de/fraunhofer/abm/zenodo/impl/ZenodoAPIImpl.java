@@ -130,15 +130,27 @@ public class ZenodoAPIImpl implements ZenodoAPI {
 
 	@Override
 	public Deposition updateDeposition(Deposition deposition) {
-		// TODO Auto-generated method stub
+		HttpRequestWithBody request = preparePutRequest(baseURL + API.Deposit.Entity);
+		request.routeParam("id", deposition.id.toString());
+		try {
+			HttpResponse<Deposition> response = request.asObject(Deposition.class);
+			return response.getBody();
+		} catch (UnirestException e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
 
 
 	@Override
 	public void deleteDeposition(Integer id) {
-		// TODO Auto-generated method stub
-		
+		HttpRequestWithBody request = prepareDeleteRequest(baseURL + API.Deposit.Entity);
+		request.routeParam("id", id.toString());
+		try {
+			HttpResponse<String> response = request.asString();
+		} catch (UnirestException e) {
+			e.printStackTrace();
+		}
 	}
 
 
@@ -148,14 +160,26 @@ public class ZenodoAPIImpl implements ZenodoAPI {
 		return null;
 	}
 
-
+	/**
+	 * Created by agupta on 19.11.18. to get the list of files for a particular
+	 * deposition
+	 */
 	@Override
 	public List<DepositionFile> getFiles(Integer depositionId) {
-		// TODO Auto-generated method stub
+		GetRequest request = prepareGetRequest(baseURL + API.Deposit.Files);
+		request.routeParam("id", depositionId.toString());
+		try {
+			ArrayList<DepositionFile> response = fromJSON(new TypeReference<ArrayList<DepositionFile>>() {
+			}, request.asString().getBody());
+			return response;
+		} catch (UnirestException e) {
+			e.printStackTrace();
+		}
 		return null;
+
 	}
 
-
+	
 	@Override
 	public DepositionFile uploadFile(FileMetadata f, Integer depositionId)
 			throws UnsupportedOperationException, IOException {
@@ -163,10 +187,30 @@ public class ZenodoAPIImpl implements ZenodoAPI {
 		return null;
 	}
 
+	public boolean publish(Integer id) {
+		HttpRequestWithBody post = preparePostRequest(baseURL + API.Deposit.Publish).routeParam("id", id.toString());
 
+		try {
+			final HttpResponse<String> response = post.asString();
+			if (response.getStatus() == 202)
+				return true;
+		} catch (UnirestException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
 	@Override
 	public boolean discard(Integer id) {
-		// TODO Auto-generated method stub
+		HttpRequestWithBody post = preparePostRequest(baseURL + API.Deposit.Discard).routeParam("id", id.toString());
+
+		try {
+			final HttpResponse<String> response = post.asString();
+			if (response.getStatus() == 201)
+				return true;
+		} catch (UnirestException e) {
+			e.printStackTrace();
+		}
 		return false;
 	}
 	

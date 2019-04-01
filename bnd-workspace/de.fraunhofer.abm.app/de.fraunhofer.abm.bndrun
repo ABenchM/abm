@@ -195,10 +195,10 @@ JPM-Command:					abm
 	com.jcraft.jsch,\
 	de.fraunhofer.abm.zenodo;version=latest,\
 	org.apache.commons.logging,\
-	org.apache.httpcomponents:httpasyncclient,\
-	org.apache.httpcomponents:httpclient,\
-	org.apache.httpcomponents:httpcore,\
-	org.apache.httpcomponents:httpcore-nio,\
-	org.apache.httpcomponents:httpmime,\
-	com.mashape.unirest.unirest-java
+	com.mashape.unirest.unirest-java,\
+	org.apache.httpcomponents.httpcore,\
+	org.apache.httpcomponents.httpasyncclient,\
+	org.apache.httpcomponents.httpclient,\
+	org.apache.httpcomponents.httpcore-nio,\
+	org.apache.httpcomponents.httpmime
 	
