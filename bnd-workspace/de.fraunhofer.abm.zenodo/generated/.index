@@ -1,17 +1,17 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<repository xmlns="http://www.osgi.org/xmlns/repository/v1.0.0" name="de.fraunhofer.abm.zenodo" increment="1554064332392">
+<repository xmlns="http://www.osgi.org/xmlns/repository/v1.0.0" name="de.fraunhofer.abm.zenodo" increment="1554076888679">
   <resource>
     <capability namespace="osgi.identity">
       <attribute name="osgi.identity" value="de.fraunhofer.abm.zenodo"/>
       <attribute name="type" value="osgi.bundle"/>
-      <attribute name="version" value="1.0.0.201903312032" type="Version"/>
+      <attribute name="version" value="1.0.0.201904010001" type="Version"/>
     </capability>
     <capability namespace="osgi.wiring.bundle">
-      <attribute name="bundle-version" value="1.0.0.201903312032" type="Version"/>
+      <attribute name="bundle-version" value="1.0.0.201904010001" type="Version"/>
       <attribute name="osgi.wiring.bundle" value="de.fraunhofer.abm.zenodo"/>
     </capability>
     <capability namespace="osgi.wiring.host">
-      <attribute name="bundle-version" value="1.0.0.201903312032" type="Version"/>
+      <attribute name="bundle-version" value="1.0.0.201904010001" type="Version"/>
       <attribute name="osgi.wiring.host" value="de.fraunhofer.abm.zenodo"/>
     </capability>
     <capability namespace="osgi.wiring.package">
@@ -23,10 +23,10 @@
       <attribute name="objectClass" value="de.fraunhofer.abm.zenodo.ZenodoAPI" type="List&lt;String&gt;"/>
     </capability>
     <capability namespace="osgi.content">
-      <attribute name="size" value="17668" type="Long"/>
+      <attribute name="size" value="17848" type="Long"/>
       <attribute name="url" value="generated/de.fraunhofer.abm.zenodo.jar"/>
       <attribute name="mime" value="application/vnd.osgi.bundle"/>
-      <attribute name="osgi.content" value="9BFE624265E436F86EA6667C3B81501ABC852041C81C749B31D7BED973FB7D2A"/>
+      <attribute name="osgi.content" value="0F21AD8E41E45CB66FE20D041AA1F0DB99CC34B01297A5EDB98E9D45B0F1AA4B"/>
     </capability>
     <capability namespace="bndtools.workspace">
       <attribute name="bndtools.workspace" value="file:/home/ankur/SHK/ABM/develop/workspace"/>
@@ -34,6 +34,12 @@
     </capability>
     <requirement namespace="osgi.wiring.package">
       <directive name="filter" value="(&amp;(osgi.wiring.package=com.fasterxml.jackson.annotation)(&amp;(version&gt;=2.8.0)(!(version&gt;=3.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=com.mashape.unirest.http)(&amp;(version&gt;=1.4.0)(!(version&gt;=2.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=com.mashape.unirest.request)(&amp;(version&gt;=1.4.0)(!(version&gt;=2.0.0))))"/>
     </requirement>
     <requirement namespace="osgi.wiring.package">
       <directive name="filter" value="(&amp;(osgi.wiring.package=de.fraunhofer.abm.http.client)(&amp;(version&gt;=1.0.0)(!(version&gt;=2.0.0))))"/>

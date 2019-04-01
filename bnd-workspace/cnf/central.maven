@@ -34,6 +34,33 @@ org.jboss:jandex:jar:2.0.2.Final
 # https://mvnrepository.com/artifact/org.everit.osgi/org.everit.osgi.loglistener.slf4j
 org.everit.osgi:org.everit.osgi.loglistener.slf4j:jar:1.0.0
 
+# https://mvnrepository.com/artifact/org.apache.httpcomponents/httpmime
+org.apache.httpcomponents:httpmime:jar:4.5.2
+
+# https://mvnrepository.com/artifact/org.apache.httpcomponents/httpcore-nio
+org.apache.httpcomponents:httpcore-nio:jar:4.4.4
+
+# https://mvnrepository.com/artifact/org.apache.httpcomponents/httpcore
+org.apache.httpcomponents:httpcore:jar:4.4.4
+
+# https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient
+org.apache.httpcomponents:httpclient:jar:4.5.2
+
+# https://mvnrepository.com/artifact/org.apache.httpcomponents/httpasyncclient
+org.apache.httpcomponents:httpasyncclient:jar:4.1.1
+
+# https://mvnrepository.com/artifact/commons-logging/commons-logging
+commons-logging:commons-logging:jar:1.2
+
+# https://mvnrepository.com/artifact/commons-codec/commons-codec
+commons-codec:commons-codec:jar:1.9
+
+
+
+
+
+
+
 
 
 

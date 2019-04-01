@@ -7,16 +7,16 @@ import java.util.Map;
 
 import org.osgi.service.component.annotations.Component;
 
-import de.fraunhofer.abm.http.client.Base64;
+import com.mashape.unirest.http.Unirest;
+import com.mashape.unirest.request.GetRequest;
+
 import de.fraunhofer.abm.http.client.HttpUtils;
-import de.fraunhofer.abm.util.AbmApplicationConstants;
 import de.fraunhofer.abm.zenodo.API;
 import de.fraunhofer.abm.zenodo.Deposition;
 import de.fraunhofer.abm.zenodo.DepositionFile;
 import de.fraunhofer.abm.zenodo.FileMetadata;
 import de.fraunhofer.abm.zenodo.Metadata;
 import de.fraunhofer.abm.zenodo.ZenodoAPI;
-import com.mashape.unirest.http.Unirest;
 
 
 @Component
@@ -104,7 +104,9 @@ public class ZenodoAPIImpl implements ZenodoAPI {
 		return false;
 	}
 	
-	
+	private GetRequest prepareGetRequest(String url) {
+		return Unirest.get(url).header("Authorization", "Bearer " + token);
+	}
 	
 	
 	

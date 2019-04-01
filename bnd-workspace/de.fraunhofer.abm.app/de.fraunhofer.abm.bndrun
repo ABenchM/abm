@@ -194,4 +194,11 @@ JPM-Command:					abm
 	com.mysql.jdbc,\
 	com.jcraft.jsch,\
 	de.fraunhofer.abm.zenodo;version=latest,\
-	com.mashape.unirest:unirest-java
+	org.apache.commons.logging,\
+	org.apache.httpcomponents:httpasyncclient,\
+	org.apache.httpcomponents:httpclient,\
+	org.apache.httpcomponents:httpcore,\
+	org.apache.httpcomponents:httpcore-nio,\
+	org.apache.httpcomponents:httpmime,\
+	com.mashape.unirest.unirest-java
+	
