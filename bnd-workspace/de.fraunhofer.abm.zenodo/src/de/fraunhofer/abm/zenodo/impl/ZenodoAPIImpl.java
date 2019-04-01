@@ -1,5 +1,6 @@
 package de.fraunhofer.abm.zenodo.impl;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import com.mashape.unirest.request.GetRequest;
 import com.mashape.unirest.request.HttpRequestWithBody;
-
+import com.mashape.unirest.request.body.RequestBodyEntity;
 
 import de.fraunhofer.abm.zenodo.API;
 import de.fraunhofer.abm.zenodo.Deposition;
@@ -153,10 +154,30 @@ public class ZenodoAPIImpl implements ZenodoAPI {
 		}
 	}
 
+	public Deposition createDeposition() throws UnsupportedOperationException, IOException {
+		return createDeposition(null);
+	}
 
 	@Override
-	public Deposition createDeposition(Metadata m) throws UnsupportedOperationException, IOException {
-		// TODO Auto-generated method stub
+	public Deposition createDeposition(final Metadata m) throws UnsupportedOperationException, IOException {
+		HttpRequestWithBody post = preparePostRequest(baseURL + API.Deposit.Depositions);
+		ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+		String data = "{}";
+		if (m != null)
+			data = objectMapper.writeValue(new Object() {
+				public Metadata metadata = m;
+			});
+
+		RequestBodyEntity completePost = post.body(data);
+        completePost.getEntity().writeTo(bytes);
+        System.out.println(bytes.toString());
+		try {
+			HttpResponse<Deposition> response = completePost.asObject(Deposition.class);
+			return response.getBody();
+
+		} catch (UnirestException e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
 
@@ -181,10 +202,27 @@ public class ZenodoAPIImpl implements ZenodoAPI {
 
 	
 	@Override
-	public DepositionFile uploadFile(FileMetadata f, Integer depositionId)
-			throws UnsupportedOperationException, IOException {
-		// TODO Auto-generated method stub
-		return null;
+	public DepositionFile uploadFile(final FileMetadata f, Integer depositionId) throws UnsupportedOperationException, IOException {
+		ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+		HttpRequestWithBody post = preparePostFileRequest(baseURL + API.Deposit.Files).routeParam("id",
+				depositionId.toString());
+		String data = "{}";
+		data = objectMapper.writeValue(new Object() {
+			public FileMetadata files = f;
+		});
+		RequestBodyEntity completePost = post.body(data);
+		try {
+			completePost.getEntity().writeTo(bytes);
+			System.out.println(bytes.toString());
+			HttpResponse<DepositionFile> response = completePost.asObject(DepositionFile.class);
+			System.out.println(response.getStatus() + " " + response.getStatusText() + response.getBody().toString());
+			return response.getBody();
+
+		} catch (UnirestException e) {
+			e.printStackTrace();
+
+		}
+       return null;
 	}
 
 	public boolean publish(Integer id) {
