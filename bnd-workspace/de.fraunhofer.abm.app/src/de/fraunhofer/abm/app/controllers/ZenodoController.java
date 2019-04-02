@@ -77,6 +77,8 @@ public class ZenodoController extends AbstractController implements REST {
 	        } try {
 	        	ZenodoAPI client = new ZenodoAPIImpl(url,token);
 	        	
+	        	client.uploadCollectionToZenodo(version);
+	        	
 	        } catch (IllegalArgumentException e ) {
 	        	 sendError(vr._response(), HttpServletResponse.SC_BAD_REQUEST, e.getLocalizedMessage());
 	             return null;

@@ -22,6 +22,7 @@ import com.mashape.unirest.request.GetRequest;
 import com.mashape.unirest.request.HttpRequestWithBody;
 import com.mashape.unirest.request.body.RequestBodyEntity;
 
+import de.fraunhofer.abm.domain.VersionDTO;
 import de.fraunhofer.abm.zenodo.API;
 import de.fraunhofer.abm.zenodo.Deposition;
 import de.fraunhofer.abm.zenodo.DepositionFile;
@@ -286,6 +287,28 @@ public class ZenodoAPIImpl implements ZenodoAPI {
 	}
 
 	
+	/*
+	 * 
+	 * @author - Ankur Gupta
+	 * @see de.fraunhofer.abm.zenodo.ZenodoAPI#uploadCollectionToZenodo(de.fraunhofer.abm.domain.VersionDTO)
+	 */
+	@Override
+	public boolean uploadCollectionToZenodo(VersionDTO version) throws UnsupportedOperationException, IOException {
+		
+			
+		Metadata collectionData =  new Metadata(Metadata.UploadType.DATASET	,
+				new Date(),
+				version.name,
+				version.collectionId,
+				version.id,
+				Metadata.AccessRight.CLOSED
+				);
+		
+		Deposition deposition = this.createDeposition(collectionData); 
+		
+		
+		return false;
+	}
 	
 	
 

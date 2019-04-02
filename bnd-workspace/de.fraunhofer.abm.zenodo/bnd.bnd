@@ -18,7 +18,8 @@ Export-Package: \
 	org.apache.httpcomponents.httpasyncclient,\
 	org.apache.httpcomponents.httpclient,\
 	org.apache.httpcomponents.httpcore-nio,\
-	org.apache.httpcomponents.httpmime
+	org.apache.httpcomponents.httpmime,\
+	de.fraunhofer.abm.domain;version=latest
 -runrequires: bnd.identity;version='latest';id='de.fraunhofer.abm.zenodo'
 -runbundles: \
 	ch.qos.logback.classic;version='[1.1.7,1.1.8)',\
