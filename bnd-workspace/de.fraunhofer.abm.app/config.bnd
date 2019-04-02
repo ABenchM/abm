@@ -10,6 +10,8 @@
     userName=${userName},\
     userPassword=${userPassword},\
     googleClientId=${googletoken},\
-    githubToken=${githubToken}
+    githubToken=${githubToken},\
+    zenodoSandBoxToken=${zenodoSandBoxToken},\
+    zenodoProdToken=${zenodoProdToken}
 -runvm: \
    -Xmx1G 

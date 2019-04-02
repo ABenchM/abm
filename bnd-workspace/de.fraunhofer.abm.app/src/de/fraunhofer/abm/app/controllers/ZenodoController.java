@@ -20,6 +20,7 @@ import de.fraunhofer.abm.collection.dao.VersionDao;
 import de.fraunhofer.abm.domain.VersionDTO;
 import de.fraunhofer.abm.http.client.HttpResponse;
 import de.fraunhofer.abm.http.client.HttpUtils;
+import de.fraunhofer.abm.util.AbmApplicationConstants;
 import de.fraunhofer.abm.zenodo.ZenodoAPI;
 import de.fraunhofer.abm.zenodo.impl.ZenodoAPIImpl;
 import osgi.enroute.configurer.api.RequireConfigurerExtender;
@@ -54,7 +55,7 @@ public class ZenodoController extends AbstractController implements REST {
 	 
 	      
 	 private static String url = "https://sandbox.zenodo.org/";
-	 private static String token = "HWiH1QCdIj81fj0a9vB9knBzfH8puk55NXiEZqkumpILavP2BHgKnjgUEyc9";
+	 private static String token = AbmApplicationConstants.sandboxToken();
 	 static Map<String, String> header = new HashMap<>();
 	 
 	  interface VersionRequest extends RESTRequest {
@@ -74,11 +75,6 @@ public class ZenodoController extends AbstractController implements REST {
 	            sendError(vr._response(), HttpServletResponse.SC_BAD_REQUEST, "submitted version is missing an id");
 	            return null;
 	        } try {
-	        	header.put("Authorization", "Bearer "+ token);
-	        	String resp = HttpUtils.get(url, header, "UTF-8");
-	        	if(resp!= null) {
-	        		System.out.println("Connection to Zenodo Website successfull");
-	        	}
 	        	ZenodoAPI client = new ZenodoAPIImpl(url,token);
 	        	
 	        } catch (IllegalArgumentException e ) {

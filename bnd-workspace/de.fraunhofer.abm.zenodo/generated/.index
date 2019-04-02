@@ -1,17 +1,17 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<repository xmlns="http://www.osgi.org/xmlns/repository/v1.0.0" name="de.fraunhofer.abm.zenodo" increment="1554124849135">
+<repository xmlns="http://www.osgi.org/xmlns/repository/v1.0.0" name="de.fraunhofer.abm.zenodo" increment="1554200933269">
   <resource>
     <capability namespace="osgi.identity">
       <attribute name="osgi.identity" value="de.fraunhofer.abm.zenodo"/>
       <attribute name="type" value="osgi.bundle"/>
-      <attribute name="version" value="1.0.0.201904011320" type="Version"/>
+      <attribute name="version" value="1.0.0.201904021028" type="Version"/>
     </capability>
     <capability namespace="osgi.wiring.bundle">
-      <attribute name="bundle-version" value="1.0.0.201904011320" type="Version"/>
+      <attribute name="bundle-version" value="1.0.0.201904021028" type="Version"/>
       <attribute name="osgi.wiring.bundle" value="de.fraunhofer.abm.zenodo"/>
     </capability>
     <capability namespace="osgi.wiring.host">
-      <attribute name="bundle-version" value="1.0.0.201904011320" type="Version"/>
+      <attribute name="bundle-version" value="1.0.0.201904021028" type="Version"/>
       <attribute name="osgi.wiring.host" value="de.fraunhofer.abm.zenodo"/>
     </capability>
     <capability namespace="osgi.wiring.package">
@@ -28,10 +28,10 @@
       <attribute name="objectClass" value="de.fraunhofer.abm.zenodo.ZenodoAPI" type="List&lt;String&gt;"/>
     </capability>
     <capability namespace="osgi.content">
-      <attribute name="size" value="27273" type="Long"/>
+      <attribute name="size" value="27111" type="Long"/>
       <attribute name="url" value="generated/de.fraunhofer.abm.zenodo.jar"/>
       <attribute name="mime" value="application/vnd.osgi.bundle"/>
-      <attribute name="osgi.content" value="C2157DCC2503B10EAA8B1C03487EC29167CB8323768438B5E1FAA81A2AF5441A"/>
+      <attribute name="osgi.content" value="00953C1C89B929703EE5C3AC1F9D04F9A83B5D15EF3E785EB98A3208C4FA7C75"/>
     </capability>
     <capability namespace="bndtools.workspace">
       <attribute name="bndtools.workspace" value="file:/home/ankur/SHK/ABM/develop/workspace"/>

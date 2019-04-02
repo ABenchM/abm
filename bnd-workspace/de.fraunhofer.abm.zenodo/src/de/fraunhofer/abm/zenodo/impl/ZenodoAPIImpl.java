@@ -37,8 +37,8 @@ public class ZenodoAPIImpl implements ZenodoAPI {
 	static Map<String, String> header = new HashMap<>();
 	 
 	
-	 private static String baseURL = "https://sandbox.zenodo.org/";
-	 private static String token = "HWiH1QCdIj81fj0a9vB9knBzfH8puk55NXiEZqkumpILavP2BHgKnjgUEyc9";
+	 private static String baseURL = "";
+	 private static String token = "";
 			
 	 private abstract class MyObjectMapper implements ObjectMapper {
 			public abstract <T> T readValue(String value, TypeReference<T> valueType);
