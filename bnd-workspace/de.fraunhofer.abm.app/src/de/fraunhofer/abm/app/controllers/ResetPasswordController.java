@@ -55,7 +55,7 @@ public class ResetPasswordController extends AbstractController implements REST 
 	 */
 
 	public boolean postResetpassword(AccountRequest ar) throws Exception {
-		String resetpwdEndpoint = "http://localhost:3000/reset-password";
+		String resetpwdEndpoint = "https://abm.cs.upb.de/reset-password";
 		Map<String, String> params = ar._body();
 		String resetToken = TokenGenerator.generateToken();
 		String username = params.get("username");

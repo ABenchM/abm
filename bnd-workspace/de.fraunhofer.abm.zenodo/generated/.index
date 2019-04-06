@@ -1,9 +1,14 @@
 <?xml version='1.0' encoding='UTF-8'?>
+<<<<<<< HEAD
 <repository xmlns="http://www.osgi.org/xmlns/repository/v1.0.0" name="de.fraunhofer.abm.zenodo" increment="1558386560914">
+=======
+<repository xmlns="http://www.osgi.org/xmlns/repository/v1.0.0" name="de.fraunhofer.abm.zenodo" increment="1554385162084">
+>>>>>>> 0846e18... Reset end point change
   <resource>
     <capability namespace="osgi.identity">
       <attribute name="osgi.identity" value="de.fraunhofer.abm.zenodo"/>
       <attribute name="type" value="osgi.bundle"/>
+<<<<<<< HEAD
       <attribute name="version" value="1.0.0.201905202109" type="Version"/>
     </capability>
     <capability namespace="osgi.wiring.bundle">
@@ -12,6 +17,16 @@
     </capability>
     <capability namespace="osgi.wiring.host">
       <attribute name="bundle-version" value="1.0.0.201905202109" type="Version"/>
+=======
+      <attribute name="version" value="1.0.0.201904041339" type="Version"/>
+    </capability>
+    <capability namespace="osgi.wiring.bundle">
+      <attribute name="bundle-version" value="1.0.0.201904041339" type="Version"/>
+      <attribute name="osgi.wiring.bundle" value="de.fraunhofer.abm.zenodo"/>
+    </capability>
+    <capability namespace="osgi.wiring.host">
+      <attribute name="bundle-version" value="1.0.0.201904041339" type="Version"/>
+>>>>>>> 0846e18... Reset end point change
       <attribute name="osgi.wiring.host" value="de.fraunhofer.abm.zenodo"/>
     </capability>
     <capability namespace="osgi.wiring.package">
@@ -28,13 +43,20 @@
       <attribute name="objectClass" value="de.fraunhofer.abm.zenodo.ZenodoAPI" type="List&lt;String&gt;"/>
     </capability>
     <capability namespace="osgi.content">
+<<<<<<< HEAD
       <attribute name="size" value="29859" type="Long"/>
       <attribute name="url" value="generated/de.fraunhofer.abm.zenodo.jar"/>
       <attribute name="mime" value="application/vnd.osgi.bundle"/>
       <attribute name="osgi.content" value="DAA37AB3313AF7C5DE57FBEEE274188AFF366264D5D9A819A3C743ECE5B5645F"/>
+=======
+      <attribute name="size" value="27731" type="Long"/>
+      <attribute name="url" value="generated/de.fraunhofer.abm.zenodo.jar"/>
+      <attribute name="mime" value="application/vnd.osgi.bundle"/>
+      <attribute name="osgi.content" value="39DF100FC51ADFE3E8F1313C49215E8EF6262045C53AC656443BC2E823767657"/>
+>>>>>>> 0846e18... Reset end point change
     </capability>
     <capability namespace="bndtools.workspace">
-      <attribute name="bndtools.workspace" value="file:/home/ankur/SHK/ABM/develop/workspace"/>
+      <attribute name="bndtools.workspace" value="file:/home/ankur/SHK/ABM/masterWorkspace"/>
       <attribute name="project.path" value="/de.fraunhofer.abm.zenodo"/>
     </capability>
     <requirement namespace="osgi.wiring.package">
