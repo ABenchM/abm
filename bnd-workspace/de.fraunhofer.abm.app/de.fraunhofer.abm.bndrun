@@ -71,12 +71,6 @@ JPM-Command:					abm
 	osgi.identity;filter:='(osgi.identity=de.fraunhofer.abm.useradmin.store)',\
 	osgi.identity;filter:='(osgi.identity=org.everit.osgi.loglistener.slf4j)',\
 	osgi.identity;filter:='(osgi.identity=de.fraunhofer.abm.repoarchive.local)',\
-	osgi.identity;filter:='(osgi.identity=de.fraunhofer.abm.projectanalysis)',\
-	osgi.identity;filter:='(osgi.identity=de.fraunhofer.abm.projectanalyzer.api)',\
-	osgi.identity;filter:='(osgi.identity=de.fraunhofer.abm.projectanalyzer.buildsystem)',\
-	osgi.identity;filter:='(osgi.identity=de.fraunhofer.abm.projectanalyzer.language)',\
-	osgi.identity;filter:='(osgi.identity=de.fraunhofer.abm.projectanalyzer.size)',\
-	osgi.identity;filter:='(osgi.identity=de.fraunhofer.abm.projectanalyzer.license)',\
 	osgi.identity;filter:='(osgi.identity=de.fraunhofer.abm.builder.docker.sbt)',\
 	osgi.identity;filter:='(osgi.identity=de.fraunhofer.abm.hermes)',\
 	osgi.identity;filter:='(osgi.identity=de.fraunhofer.abm.crawler.bitbucket)',\
@@ -151,13 +145,7 @@ JPM-Command:					abm
 	de.fraunhofer.abm.repoarchive.api;version=snapshot,\
 	de.fraunhofer.abm.repoarchive.local;version=snapshot,\
 	de.fraunhofer.abm.util;version=snapshot,\
-	de.fraunhofer.abm.projectanalysis;version=snapshot,\
-	de.fraunhofer.abm.projectanalyzer.api;version=snapshot,\
-	de.fraunhofer.abm.projectanalyzer.buildsystem;version=snapshot,\
-	de.fraunhofer.abm.projectanalyzer.language;version=snapshot,\
 	de.fraunhofer.abm.http.client;version=snapshot,\
-	de.fraunhofer.abm.projectanalyzer.size;version=snapshot,\
-	de.fraunhofer.abm.projectanalyzer.license;version=snapshot,\
 	de.fraunhofer.abm.builder.docker.base;version=snapshot,\
 	de.fraunhofer.abm.builder.docker.sbt;version=snapshot,\
 	tx-control-provider-jdbc-local;version='[0.0.3,0.0.4)',\

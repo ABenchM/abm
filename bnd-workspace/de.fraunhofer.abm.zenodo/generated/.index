@@ -1,17 +1,17 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<repository xmlns="http://www.osgi.org/xmlns/repository/v1.0.0" name="de.fraunhofer.abm.zenodo" increment="1554909222674">
+<repository xmlns="http://www.osgi.org/xmlns/repository/v1.0.0" name="de.fraunhofer.abm.zenodo" increment="1555024355301">
   <resource>
     <capability namespace="osgi.identity">
       <attribute name="osgi.identity" value="de.fraunhofer.abm.zenodo"/>
       <attribute name="type" value="osgi.bundle"/>
-      <attribute name="version" value="1.0.0.201904101513" type="Version"/>
+      <attribute name="version" value="1.0.0.201904112311" type="Version"/>
     </capability>
     <capability namespace="osgi.wiring.bundle">
-      <attribute name="bundle-version" value="1.0.0.201904101513" type="Version"/>
+      <attribute name="bundle-version" value="1.0.0.201904112311" type="Version"/>
       <attribute name="osgi.wiring.bundle" value="de.fraunhofer.abm.zenodo"/>
     </capability>
     <capability namespace="osgi.wiring.host">
-      <attribute name="bundle-version" value="1.0.0.201904101513" type="Version"/>
+      <attribute name="bundle-version" value="1.0.0.201904112311" type="Version"/>
       <attribute name="osgi.wiring.host" value="de.fraunhofer.abm.zenodo"/>
     </capability>
     <capability namespace="osgi.wiring.package">
@@ -28,13 +28,13 @@
       <attribute name="objectClass" value="de.fraunhofer.abm.zenodo.ZenodoAPI" type="List&lt;String&gt;"/>
     </capability>
     <capability namespace="osgi.content">
-      <attribute name="size" value="27771" type="Long"/>
+      <attribute name="size" value="27770" type="Long"/>
       <attribute name="url" value="generated/de.fraunhofer.abm.zenodo.jar"/>
       <attribute name="mime" value="application/vnd.osgi.bundle"/>
-      <attribute name="osgi.content" value="67600B04D4D8FD42735B347AE4E639E9067839F38DE406CDA28917E74CC27438"/>
+      <attribute name="osgi.content" value="49FA2A71DE016CDAB87BE78C5A274A0BE0261DC431B39CD62A4274B560796A45"/>
     </capability>
     <capability namespace="bndtools.workspace">
-      <attribute name="bndtools.workspace" value="file:/home/ankur/SHK/ABM/develop/workspace"/>
+      <attribute name="bndtools.workspace" value="file:/home/ankur/SHK/ABM/Issue18/workspace"/>
       <attribute name="project.path" value="/de.fraunhofer.abm.zenodo"/>
     </capability>
     <requirement namespace="osgi.wiring.package">
