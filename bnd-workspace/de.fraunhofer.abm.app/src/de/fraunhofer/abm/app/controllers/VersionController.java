@@ -2,6 +2,7 @@ package de.fraunhofer.abm.app.controllers;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Optional;
@@ -10,6 +11,7 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.ws.http.HTTPException;
 
+import org.json.JSONObject;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
@@ -106,7 +108,7 @@ public class VersionController extends AbstractController implements REST {
         return version;
     }
 
-    public VersionDTO putVersion(VersionRequest vr) {
+    public VersionDTO putVersion(VersionRequest vr) throws SQLException {
     	ArrayList<String> users = new ArrayList<String>();
   	    users.add("RegisteredUser");
   	    users.add("UserAdmin"); 
@@ -119,12 +121,26 @@ public class VersionController extends AbstractController implements REST {
         // assign an UUID to all new commits
         for (ProjectObjectDTO project : version.projects) {
         	project.id = Optional.ofNullable(project.id).orElse(UUID.randomUUID().toString());
+             if (checkIfProjectExists(project)) {
+            	version.comment = "Project Exists";
+            	return version; 
+             }
         }
-
+        
+        
+       
         versionDao.update(version);
         return version;
     }
 
+    private boolean checkIfProjectExists(ProjectObjectDTO project) {
+    
+    	  	if(versionDao.findProjectByVersionId(project.version_id, project.project_id)) {
+    		return true;
+    	}
+    	return false;
+    }
+    
     public void deleteVersion(RESTRequest rr, String id) {
     	ArrayList<String> users = new ArrayList<String>();
   	    users.add("RegisteredUser");

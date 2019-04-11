@@ -306,7 +306,9 @@ public class ZenodoAPIImpl implements ZenodoAPI {
 		
 		Deposition deposition = this.createDeposition(collectionData); 
 		
-		
+		if(deposition.id != null) {
+			return true;
+		}
 		return false;
 	}
 	

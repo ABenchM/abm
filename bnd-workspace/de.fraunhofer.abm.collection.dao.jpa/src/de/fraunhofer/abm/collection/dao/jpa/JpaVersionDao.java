@@ -1,5 +1,6 @@
 package de.fraunhofer.abm.collection.dao.jpa;
 
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -47,6 +48,24 @@ public class JpaVersionDao extends AbstractJpaDao implements VersionDao {
             JpaVersion result = query.getSingleResult();
             return result.toDTO();
         });
+    }
+    
+    @Override
+    public boolean findProjectByVersionId(String versionId, String projectId) {
+		
+      	return transactionControl.notSupported(() -> {
+      	    TypedQuery<JpaProject> query = em.createQuery("SELECT p FROM project p where p.version.id = :versionId and p.project_id = :projectId", JpaProject.class);
+            query.setParameter("versionId", versionId);
+            query.setParameter("projectId", projectId);
+            List<JpaProject> result = query.getResultList();
+            if(result.size() >=1) {
+            	
+            	return true;
+            }
+            return false;
+      	});
+    	
+    	
     }
 
     @Override
