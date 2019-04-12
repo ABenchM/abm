@@ -72,7 +72,6 @@ JPM-Command:					abm
 	com.fasterxml.classmate;version='[1.3.1,1.3.2)',\
 	com.googlecode.javaewah.JavaEWAH;version='[0.7.9,0.7.10)',\
 	de.fraunhofer.abm.app;version=snapshot,\
-	de.fraunhofer.abm.builder.api;version=snapshot,\
 	de.fraunhofer.abm.collection.dao;version=snapshot,\
 	de.fraunhofer.abm.collection.dao.jpa;version=snapshot,\
 	de.fraunhofer.abm.domain;version=snapshot,\
@@ -123,7 +122,6 @@ JPM-Command:					abm
 	osgi.enroute.web.simple.provider;version='[1.3.3,1.3.4)',\
 	de.fraunhofer.abm.util;version=snapshot,\
 	de.fraunhofer.abm.http.client;version=snapshot,\
-	de.fraunhofer.abm.builder.docker.base;version=snapshot,\
 	tx-control-provider-jdbc-local;version='[0.0.3,0.0.4)',\
 	tx-control-provider-jpa-local;version='[0.0.3,0.0.4)',\
 	tx-control-service-local;version='[0.0.3,0.0.4)',\

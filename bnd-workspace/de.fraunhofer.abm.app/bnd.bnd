@@ -23,7 +23,6 @@ JPM-Command:			abm
 	de.fraunhofer.abm.domain;version=latest,\
 	de.fraunhofer.abm.security;version=latest,\
 	json,\
-	de.fraunhofer.abm.builder.api;version=latest,\
 	org.apache.felix.http.jetty,\
 	de.fraunhofer.abm.util;version=latest,\
 	de.fraunhofer.abm.http.client;version=latest,\
