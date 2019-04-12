@@ -45,12 +45,6 @@ public class CollectionController extends AbstractController implements REST {
     private CollectionDao collectionDao;
 
     @Reference
-    private BuildResultDao buildResultDao;
-
-    @Reference
-    private HermesResultDao hermesResultDao;
-
-    @Reference
     private Authorizer authorizer;
     
     @Reference
@@ -172,13 +166,7 @@ public class CollectionController extends AbstractController implements REST {
         // delete all build results of all version of this collection
         for (VersionDTO version : collection.versions) {
             if(version.frozen) {
-                BuildResultDTO buildResult = buildResultDao.findByVersion(version.id);
-                FileUtil.deleteRecursively(new File(buildResult.dir));
-                buildResultDao.delete(buildResult.id);
-                
-                //functionality to delete Hermes results as well by Ankur Gupta on 23.08.2017
-                 HermesResultDTO hermesResult = hermesResultDao.findByVersion(version.id);
-                 hermesResultDao.delete(hermesResult.id);
+              
                 
                  //functionality to delete filternames against the version of this collection.
                  
@@ -191,44 +179,7 @@ public class CollectionController extends AbstractController implements REST {
         collectionDao.delete(id);
     }
      
-    public VersionDTO getLastSuccessfullyBuiltVersion(String collectionID) throws IOException {
-    	ArrayList<String> users = new ArrayList<String>();
-    	users.add("RegisteredUser");
-    	users.add("UserAdmin"); 
-        authorizer.requireRoles(users);
-        
-        // Make sure the user is the owner of the collection.
-        CollectionDTO collection = collectionDao.findById(collectionID);
-        ensureUserIsOwner(authorizer, collection);
-        
-        if (!collection.privateStatus) {
-            return null;
-        }
-        
-        List<VersionDTO> successfullyBuiltVersions = new ArrayList<VersionDTO>();
-        
-        for (VersionDTO version : collection.versions) {
-            BuildResultDTO buildResult = buildResultDao.findByVersion(version.id);
-            
-            if (buildResult != null && buildResult.status.equals("FINISHED")) {
-                successfullyBuiltVersions.add(version);
-            }     	
-        }
-        
-        successfullyBuiltVersions.sort(new java.util.Comparator<VersionDTO>() {
-
-            @Override
-            public int compare(VersionDTO version1, VersionDTO version2) {
-                return -1 * version1.creationDate.compareTo(version2.creationDate);
-            }
-        });
-        
-        if (!successfullyBuiltVersions.isEmpty()) {
-            return successfullyBuiltVersions.get(0);
-        }
-        
-        return null;
-    }
+  
 
     @Override
     Logger getLogger() {

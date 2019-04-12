@@ -42,10 +42,7 @@ public class AbmApplication implements REST {
     @Reference
     private Authorizer authorizer;
     
- 
     
-
-   
 
     interface LoginRequest extends RESTRequest {
         Credentials _body();

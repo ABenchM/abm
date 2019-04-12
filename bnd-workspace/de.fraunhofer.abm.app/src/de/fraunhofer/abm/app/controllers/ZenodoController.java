@@ -39,11 +39,6 @@ public class ZenodoController extends AbstractController implements REST {
 	@Reference
     private CollectionDao collectionDao;
 	
-	@Reference
-	 private BuildResultDao buildResultDao;
-	
-	@Reference
-	 private HermesResultDao hermesResultDao;
 	
 	 @Reference
 	 private VersionDao versionDao;
