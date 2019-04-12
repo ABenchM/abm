@@ -1,7 +1,5 @@
 package de.fraunhofer.abm.app.controllers;
 
-import java.io.File;
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -11,23 +9,17 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.ws.http.HTTPException;
 
-import org.json.JSONObject;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.fraunhofer.abm.app.auth.Authorizer;
-import de.fraunhofer.abm.collection.dao.BuildResultDao;
 import de.fraunhofer.abm.collection.dao.CollectionDao;
 import de.fraunhofer.abm.collection.dao.VersionDao;
-import de.fraunhofer.abm.domain.BuildResultDTO;
 import de.fraunhofer.abm.domain.CollectionDTO;
-import de.fraunhofer.abm.domain.CommitDTO;
 import de.fraunhofer.abm.domain.ProjectObjectDTO;
 import de.fraunhofer.abm.domain.VersionDTO;
-import de.fraunhofer.abm.http.client.HttpResponse;
-import de.fraunhofer.abm.util.FileUtil;
 import osgi.enroute.configurer.api.RequireConfigurerExtender;
 import osgi.enroute.rest.api.REST;
 import osgi.enroute.rest.api.RESTRequest;
@@ -45,9 +37,7 @@ public class VersionController extends AbstractController implements REST {
     @Reference
     private VersionDao versionDao;
 
-    @Reference
-    private BuildResultDao buildResultDao;
-
+   
     @Reference
     private Authorizer authorizer;
 
