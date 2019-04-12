@@ -13,13 +13,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.fraunhofer.abm.app.auth.Authorizer;
-import de.fraunhofer.abm.collection.dao.BuildResultDao;
 import de.fraunhofer.abm.collection.dao.CollectionDao;
-import de.fraunhofer.abm.collection.dao.HermesResultDao;
 import de.fraunhofer.abm.collection.dao.VersionDao;
 import de.fraunhofer.abm.domain.VersionDTO;
-import de.fraunhofer.abm.http.client.HttpResponse;
-import de.fraunhofer.abm.http.client.HttpUtils;
 import de.fraunhofer.abm.util.AbmApplicationConstants;
 import de.fraunhofer.abm.zenodo.ZenodoAPI;
 import de.fraunhofer.abm.zenodo.impl.ZenodoAPIImpl;

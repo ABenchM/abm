@@ -62,7 +62,6 @@ JPM-Command:					abm
 	osgi.identity;filter:='(osgi.identity=de.fraunhofer.abm.useradmin.dao.jdbc)',\
 	osgi.identity;filter:='(osgi.identity=de.fraunhofer.abm.useradmin.store)',\
 	osgi.identity;filter:='(osgi.identity=org.everit.osgi.loglistener.slf4j)',\
-	osgi.identity;filter:='(osgi.identity=de.fraunhofer.abm.hermes)',\
 	osgi.identity;filter:='(osgi.identity=org.jsoup)',\
 	bnd.identity;version='latest';id='de.fraunhofer.abm.zenodo'
 
@@ -128,7 +127,6 @@ JPM-Command:					abm
 	tx-control-provider-jdbc-local;version='[0.0.3,0.0.4)',\
 	tx-control-provider-jpa-local;version='[0.0.3,0.0.4)',\
 	tx-control-service-local;version='[0.0.3,0.0.4)',\
-	de.fraunhofer.abm.hermes;version=snapshot,\
 	com.fasterxml.jackson.core.jackson-annotations;version='[2.8.0,2.8.1)',\
 	com.fasterxml.jackson.core.jackson-core;version='[2.8.8,2.8.9)',\
 	com.fasterxml.jackson.core.jackson-databind;version='[2.8.8,2.8.9)',\
