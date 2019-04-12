@@ -39,7 +39,6 @@ JPM-Command:					abm
 -runrequires: \
 	osgi.identity;filter:='(osgi.identity=de.fraunhofer.abm.app)',\
 	osgi.identity;filter:='(osgi.identity=de.fraunhofer.abm.collection.dao.jpa)',\
-	osgi.identity;filter:='(osgi.identity=de.fraunhofer.abm.crawler.api)',\
 	osgi.identity;filter:='(osgi.identity=de.fraunhofer.abm.domain)',\
 	osgi.identity;filter:='(osgi.identity=de.fraunhofer.abm.logging.configuration)',\
 	osgi.identity;filter:='(osgi.identity=json)',\
@@ -77,7 +76,6 @@ JPM-Command:					abm
 	de.fraunhofer.abm.builder.api;version=snapshot,\
 	de.fraunhofer.abm.collection.dao;version=snapshot,\
 	de.fraunhofer.abm.collection.dao.jpa;version=snapshot,\
-	de.fraunhofer.abm.crawler.api;version=snapshot,\
 	de.fraunhofer.abm.domain;version=snapshot,\
 	de.fraunhofer.abm.logging.configuration;version=snapshot,\
 	de.fraunhofer.abm.security;version=snapshot,\

@@ -8,7 +8,6 @@ Bundle-Description: ABM main application
 Private-Package: \
 	de.fraunhofer.abm.app,\
 	de.fraunhofer.abm.app.controllers,\
-	de.fraunhofer.abm.app.websocket,\
 	de.fraunhofer.abm.app.download
 
 EnRoute-Application: 	de.fraunhofer.abm
@@ -21,7 +20,6 @@ JPM-Command:			abm
 
 -buildpath: \
 	osgi.enroute.base.api,\
-	de.fraunhofer.abm.crawler.api;version=latest,\
 	de.fraunhofer.abm.collection.dao;version=latest,\
 	de.fraunhofer.abm.domain;version=latest,\
 	de.fraunhofer.abm.security;version=latest,\
