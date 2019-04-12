@@ -39,7 +39,6 @@ JPM-Command:					abm
 -runrequires: \
 	osgi.identity;filter:='(osgi.identity=de.fraunhofer.abm.app)',\
 	osgi.identity;filter:='(osgi.identity=de.fraunhofer.abm.collection.dao.jpa)',\
-	osgi.identity;filter:='(osgi.identity=de.fraunhofer.abm.crawler.github)',\
 	osgi.identity;filter:='(osgi.identity=de.fraunhofer.abm.crawler.api)',\
 	osgi.identity;filter:='(osgi.identity=de.fraunhofer.abm.domain)',\
 	osgi.identity;filter:='(osgi.identity=de.fraunhofer.abm.logging.configuration)',\
@@ -65,7 +64,6 @@ JPM-Command:					abm
 	osgi.identity;filter:='(osgi.identity=de.fraunhofer.abm.useradmin.store)',\
 	osgi.identity;filter:='(osgi.identity=org.everit.osgi.loglistener.slf4j)',\
 	osgi.identity;filter:='(osgi.identity=de.fraunhofer.abm.hermes)',\
-	osgi.identity;filter:='(osgi.identity=de.fraunhofer.abm.crawler.bitbucket)',\
 	osgi.identity;filter:='(osgi.identity=org.jsoup)',\
 	bnd.identity;version='latest';id='de.fraunhofer.abm.zenodo'
 
@@ -79,11 +77,9 @@ JPM-Command:					abm
 	de.fraunhofer.abm.builder.api;version=snapshot,\
 	de.fraunhofer.abm.collection.dao;version=snapshot,\
 	de.fraunhofer.abm.collection.dao.jpa;version=snapshot,\
-	de.fraunhofer.abm.crawler.github;version=snapshot,\
 	de.fraunhofer.abm.crawler.api;version=snapshot,\
 	de.fraunhofer.abm.domain;version=snapshot,\
 	de.fraunhofer.abm.logging.configuration;version=snapshot,\
-	de.fraunhofer.abm.scm.api;version=snapshot,\
 	de.fraunhofer.abm.security;version=snapshot,\
 	de.fraunhofer.abm.useradmin.dao;version=snapshot,\
 	de.fraunhofer.abm.useradmin.dao.jdbc;version=snapshot,\
@@ -157,7 +153,6 @@ JPM-Command:					abm
 	org.scala-lang.scala-reflect;version='[2.11.11,2.11.12)',\
 	org.scala-lang.scala-xml;version='[2.11.0,2.11.1)',\
 	javax.mail;version='[1.4.0,1.4.7)',\
-	de.fraunhofer.abm.crawler.bitbucket;version=latest,\
 	org.jsoup,\
 	json,\
 	org.eclipse.jgit,\
