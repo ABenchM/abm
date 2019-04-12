@@ -60,16 +60,10 @@ JPM-Command:					abm
 	osgi.identity;filter:='(osgi.identity=osgi.enroute.base.debug.provider)',\
 	osgi.identity;filter:='(osgi.identity=org.hibernate.osgi)',\
 	osgi.identity;filter:='(osgi.identity=org.apache.aries.jpa.container)',\
-	osgi.identity;filter:='(osgi.identity=de.fraunhofer.abm.scm.git)',\
-	osgi.identity;filter:='(osgi.identity=de.fraunhofer.abm.builder.docker.maven)',\
-	osgi.identity;filter:='(osgi.identity=de.fraunhofer.abm.builder.docker.gradle)',\
-	osgi.identity;filter:='(osgi.identity=de.fraunhofer.abm.builder.docker.ant)',\
-	osgi.identity;filter:='(osgi.identity=de.fraunhofer.abm.builder.docker.android)',\
 	osgi.identity;filter:='(osgi.identity=de.fraunhofer.abm.useradmin.dao)',\
 	osgi.identity;filter:='(osgi.identity=de.fraunhofer.abm.useradmin.dao.jdbc)',\
 	osgi.identity;filter:='(osgi.identity=de.fraunhofer.abm.useradmin.store)',\
 	osgi.identity;filter:='(osgi.identity=org.everit.osgi.loglistener.slf4j)',\
-	osgi.identity;filter:='(osgi.identity=de.fraunhofer.abm.builder.docker.sbt)',\
 	osgi.identity;filter:='(osgi.identity=de.fraunhofer.abm.hermes)',\
 	osgi.identity;filter:='(osgi.identity=de.fraunhofer.abm.crawler.bitbucket)',\
 	osgi.identity;filter:='(osgi.identity=org.jsoup)',\
@@ -83,10 +77,6 @@ JPM-Command:					abm
 	com.googlecode.javaewah.JavaEWAH;version='[0.7.9,0.7.10)',\
 	de.fraunhofer.abm.app;version=snapshot,\
 	de.fraunhofer.abm.builder.api;version=snapshot,\
-	de.fraunhofer.abm.builder.docker.maven;version=snapshot,\
-	de.fraunhofer.abm.builder.docker.gradle;version=snapshot,\
-	de.fraunhofer.abm.builder.docker.ant;version=snapshot,\
-	de.fraunhofer.abm.builder.docker.android;version=snapshot,\
 	de.fraunhofer.abm.collection.dao;version=snapshot,\
 	de.fraunhofer.abm.collection.dao.jpa;version=snapshot,\
 	de.fraunhofer.abm.crawler.github;version=snapshot,\
@@ -94,7 +84,6 @@ JPM-Command:					abm
 	de.fraunhofer.abm.domain;version=snapshot,\
 	de.fraunhofer.abm.logging.configuration;version=snapshot,\
 	de.fraunhofer.abm.scm.api;version=snapshot,\
-	de.fraunhofer.abm.scm.git;version=snapshot,\
 	de.fraunhofer.abm.security;version=snapshot,\
 	de.fraunhofer.abm.useradmin.dao;version=snapshot,\
 	de.fraunhofer.abm.useradmin.dao.jdbc;version=snapshot,\
@@ -142,7 +131,6 @@ JPM-Command:					abm
 	de.fraunhofer.abm.util;version=snapshot,\
 	de.fraunhofer.abm.http.client;version=snapshot,\
 	de.fraunhofer.abm.builder.docker.base;version=snapshot,\
-	de.fraunhofer.abm.builder.docker.sbt;version=snapshot,\
 	tx-control-provider-jdbc-local;version='[0.0.3,0.0.4)',\
 	tx-control-provider-jpa-local;version='[0.0.3,0.0.4)',\
 	tx-control-service-local;version='[0.0.3,0.0.4)',\
