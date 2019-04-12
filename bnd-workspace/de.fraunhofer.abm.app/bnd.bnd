@@ -25,7 +25,6 @@ JPM-Command:			abm
 	de.fraunhofer.abm.collection.dao;version=latest,\
 	de.fraunhofer.abm.domain;version=latest,\
 	de.fraunhofer.abm.security;version=latest,\
-	de.fraunhofer.abm.suitebuilder;version=latest,\
 	json,\
 	de.fraunhofer.abm.builder.api;version=latest,\
 	org.apache.felix.http.jetty,\
