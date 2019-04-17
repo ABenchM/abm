@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import de.fraunhofer.abm.app.auth.Authorizer;
 import de.fraunhofer.abm.collection.dao.CollectionDao;
 import de.fraunhofer.abm.collection.dao.VersionDao;
+import de.fraunhofer.abm.domain.ProjectObjectDTO;
 import de.fraunhofer.abm.domain.VersionDTO;
 import de.fraunhofer.abm.util.AbmApplicationConstants;
 import de.fraunhofer.abm.zenodo.ZenodoAPI;
@@ -45,8 +46,10 @@ public class ZenodoController extends AbstractController implements REST {
 	 
 	 
 	      
-	 private static String url = "https://sandbox.zenodo.org/";
-	 private static String token = AbmApplicationConstants.sandboxToken();
+	 private static String url = "https://zenodo.org/";
+	 private static String maven_base_url = "http://repo1.maven.org/maven2/";
+	 private static String token = AbmApplicationConstants.zenodoProdToken();
+	 
 	 static Map<String, String> header = new HashMap<>();
 	 
 	  interface VersionRequest extends RESTRequest {
@@ -57,6 +60,7 @@ public class ZenodoController extends AbstractController implements REST {
 	 {
 		 
 		 ArrayList<String> users = new ArrayList<String>();
+		 
 	  	  users.add("RegisteredUser");
 	  	  users.add("UserAdmin"); 
 	       authorizer.requireRoles(users);
@@ -68,7 +72,9 @@ public class ZenodoController extends AbstractController implements REST {
 	        } try {
 	        	ZenodoAPI client = new ZenodoAPIImpl(url,token);
 	        	
-	        	client.uploadCollectionToZenodo(version);
+	        	
+	        	
+	        	client.uploadCollectionToZenodo(version,maven_base_url);
 	        	
 	        } catch (IllegalArgumentException e ) {
 	        	 sendError(vr._response(), HttpServletResponse.SC_BAD_REQUEST, e.getLocalizedMessage());

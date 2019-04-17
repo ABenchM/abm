@@ -18,6 +18,7 @@ public class AbmApplicationConstants {
 	private static final String GOOGLE_CLIENT_ID = "googleClientId";
 	private static final String GITHUB_TOKEN = "githubToken";
     private static final String ZENODO_TOKEN = "zenodoSandBoxToken";
+    private static final String ZENODO_PROD_TOKEN = "zenodoProdToken";
 	/**
 	 * Get property if defined as system property
 	 * 
@@ -52,6 +53,10 @@ public class AbmApplicationConstants {
 	
 	public static String sandboxToken() {
 		return getIfDefined(ZENODO_TOKEN);
+	}
+	
+	public static String zenodoProdToken() {
+		return getIfDefined(ZENODO_PROD_TOKEN);
 	}
 
 	public static String userAddress() {

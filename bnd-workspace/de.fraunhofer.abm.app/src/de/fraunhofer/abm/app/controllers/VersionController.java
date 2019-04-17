@@ -111,10 +111,10 @@ public class VersionController extends AbstractController implements REST {
         // assign an UUID to all new commits
         for (ProjectObjectDTO project : version.projects) {
         	project.id = Optional.ofNullable(project.id).orElse(UUID.randomUUID().toString());
-             if (checkIfProjectExists(project)) {
-            	version.comment = "Project Exists";
-            	return version; 
-             }
+//             if (checkIfProjectExists(project)) {
+//            	version.comment = "Project Exists";
+//            	return version; 
+//             }
         }
         
         
