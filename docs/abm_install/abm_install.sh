@@ -14,66 +14,10 @@ echo "Logs can be found at: $LOGFILE"
 ##########################
 # Testing purposes: sudo apt remove git
 
-printf "Cloning ABM..."
-bash -c "apt-get install git -y &>> $LOGFILE"
-sudo -u $SUDO_USER bash -c "git clone --progress https://github.com/ABenchM/abm.git &>> $LOGFILE"
+printf "Creating directory for Eclipse Workspace"
 sudo -u $SUDO_USER bash -c "mkdir ./abm/eclipse_workspace &>> $LOGFILE"
 echo " Done."
 
-#######Docker Setup######
-#########################
-# Testing purposes:
-# sudo apt-get purge docker-ce
-# sudo rm -rf /var/lib/docker
-# sudo rm -rf /etc/docker
-# sudo groupdel docker
-
-printf "Installing Docker..."
-if hash docker 2>/dev/null
-then
-  echo "Docker already installed." >> "$LOGFILE" \
-  && echo " Done."
-else
- bash -c "apt-get remove --yes docker docker-engine docker.io &>> $LOGFILE" \
-    && bash -c "apt-get update &>> $LOGFILE" \
-    && bash -c "apt-get --yes --no-install-recommends install apt-transport-https ca-certificates &>> $LOGFILE" \
-    && bash -c "wget --quiet --output-document=- https://download.docker.com/linux/ubuntu/gpg | apt-key add - &>> $LOGFILE" \
-    && bash -c "add-apt-repository \"deb [arch=$(dpkg --print-architecture)] https://download.docker.com/linux/ubuntu $(lsb_release --codename --short) stable\" &>> $LOGFILE" \
-    && bash -c "apt-get update &>> $LOGFILE" \
-    && bash -c "apt-get --yes --no-install-recommends install docker-ce &>> $LOGFILE" \
-    && bash -c "usermod --append --groups docker "$SUDO_USER" &>> $LOGFILE" \
-    && bash -c "systemctl enable docker &>> $LOGFILE" \
-    && echo "Docker successfully installed" >> "$LOGFILE" \
-    && echo " Done."
-printf "Waiting for Docker to start..."
-sleep 3
-echo " Done."
-fi
-
-# Docker Compose
-# Testing purposes:
-# sudo apt-get purge docker-compose
-
-printf "Installing Docker Compose..."
-if hash docker-compose 2>/dev/null
-   then
-    echo "Docker compose already installed." >> "$LOGFILE" \
-    && echo " Done."
-else
-  bash -c "wget --output-document=/usr/local/bin/docker-compose https://github.com/docker/compose/releases/download/1.19.0/run.sh &>> $LOGFILE" \
-    && bash -c "chmod +x /usr/local/bin/docker-compose &>> $LOGFILE" \
-    && bash -c "wget --output-document=/etc/bash_completion.d/docker-compose \"https://raw.githubusercontent.com/docker/compose/$(docker-compose version --short)/contrib/completion/bash/docker-compose\" &>> $LOGFILE" \
-    && echo "Docker Compose successfully installed" >> "$LOGFILE" \
-    && echo " Done."
-fi  
-
-## Installing Images and Creating Volumes
-    
-printf "Installing Docker images and creating volumes. This step might take several minutes. Installation details can be found in the logs..."
-bash -c "docker-compose up -d --no-recreate &>> $LOGFILE"
-bash -c "docker volume create --name IVY_REPO -d local >/dev/null &>> $LOGFILE"
-bash -c "docker volume create --name M2_REPO -d local &>> $LOGFILE"
-echo " Done."
 
 ########MySQL Setup#####
 ########################
@@ -83,9 +27,10 @@ echo " Done."
 # sudo rm -rf /etc/docker
 # sudo groupdel docker
 
+ 
 read -sp "Enter your root MySQL password: " MYSQL_ROOT_PASSWORD
-echo ""
-
+echo "$MYSQL_ROOT_PASSWORD"
+ 
 printf "Installing MySQL..."
 if hash mysql 2>/dev/null
 then
@@ -139,6 +84,46 @@ printf "Initializing ABM tables..."
 mysql -u root -p$MYSQL_ROOT_PASSWORD -e "create database abm;" &>> $LOGFILE
 mysql -u root -p$MYSQL_ROOT_PASSWORD -D abm < abm/bnd-workspace/de.fraunhofer.abm.useradmin.dao.jdbc/useradmin_ddl.sql &>> $LOGFILE
 mysql -u root -p$MYSQL_ROOT_PASSWORD -D abm < abm/docs/abm.sql &>> $LOGFILE
+echo " Done."
+
+
+#######Docker Setup######
+#########################
+# Testing purposes:
+# sudo apt-get purge docker-ce
+# sudo rm -rf /var/lib/docker
+# sudo rm -rf /etc/docker
+# sudo groupdel docker
+
+printf "Installing Docker..."
+if hash docker 2>/dev/null
+then
+  echo "Docker already installed." >> "$LOGFILE" \
+  && echo " Done."
+else
+ bash -c "apt-get remove --yes docker docker-engine docker.io &>> $LOGFILE" \
+    && bash -c "apt-get update &>> $LOGFILE" \
+    && bash -c "apt-get --yes --no-install-recommends install apt-transport-https ca-certificates &>> $LOGFILE" \
+    && bash -c "wget --quiet --output-document=- https://download.docker.com/linux/ubuntu/gpg | apt-key add - &>> $LOGFILE" \
+    && bash -c "add-apt-repository \"deb [arch=$(dpkg --print-architecture)] https://download.docker.com/linux/ubuntu $(lsb_release --codename --short) stable\" &>> $LOGFILE" \
+    && bash -c "apt-get update &>> $LOGFILE" \
+    && bash -c "apt-get --yes --no-install-recommends install docker-ce &>> $LOGFILE" \
+    && bash -c "usermod --append --groups docker "$SUDO_USER" &>> $LOGFILE" \
+    && bash -c "systemctl enable docker &>> $LOGFILE" \
+    && echo "Docker successfully installed" >> "$LOGFILE" \
+    && echo " Done."
+printf "Waiting for Docker to start..."
+sleep 3
+echo " Done."
+fi
+
+ 
+
+## Installing Images and Creating Volumes
+    
+printf "Installing Docker images and creating volumes. This step might take several minutes. Installation details can be found in the logs..."
+bash -c "docker volume create --name IVY_REPO -d local >/dev/null &>> $LOGFILE"
+bash -c "docker volume create --name M2_REPO -d local &>> $LOGFILE"
 echo " Done."
 
 #####Java Setup######
