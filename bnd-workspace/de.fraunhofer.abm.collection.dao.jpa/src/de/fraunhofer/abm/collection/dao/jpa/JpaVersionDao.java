@@ -88,6 +88,7 @@ public class JpaVersionDao extends AbstractJpaDao implements VersionDao {
             JpaVersion jpaVersion = em.find(JpaVersion.class, version.id);
             jpaVersion.collection = em.find(JpaCollection.class, version.collectionId);
             jpaVersion.comment = version.comment;
+            jpaVersion.doi = version.doi;
             jpaVersion.number = version.number;
             jpaVersion.creationDate = version.creationDate;
             jpaVersion.frozen = version.frozen;

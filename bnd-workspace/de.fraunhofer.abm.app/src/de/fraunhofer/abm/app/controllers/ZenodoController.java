@@ -60,6 +60,7 @@ public class ZenodoController extends AbstractController implements REST {
 	 {
 		 
 		 ArrayList<String> users = new ArrayList<String>();
+		 String doi = "";
 		 
 	  	  users.add("RegisteredUser");
 	  	  users.add("UserAdmin"); 
@@ -74,15 +75,17 @@ public class ZenodoController extends AbstractController implements REST {
 	        	
 	        	
 	        	
-	        	client.uploadCollectionToZenodo(version,maven_base_url);
-	        	
+	        	 Integer depositionId  = client.uploadCollectionToZenodo(version,maven_base_url);
+	        	 doi = "http://doi.org/10.5281/zenodo.".concat(depositionId.toString());
+	        	 version.doi = doi;
+	        	 versionDao.update(version);
 	        } catch (IllegalArgumentException e ) {
 	        	 sendError(vr._response(), HttpServletResponse.SC_BAD_REQUEST, e.getLocalizedMessage());
 	             return null;
 	        }
 		 
 		 
-		 return version.id;
+		 return doi;
 	 }
 
 	@Override

@@ -3,6 +3,8 @@ package de.fraunhofer.abm.zenodo.impl;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -99,7 +101,14 @@ public class ZenodoAPIImpl implements ZenodoAPI {
 	
 	@Override
 	public boolean test() {
-		System.out.println("Token value" + token);
+		GetRequest request = prepareGetRequest(baseURL + API.Deposit.Depositions);
+		try {
+			HttpResponse<String> response = request.asString();
+			if (response.getStatus() == 200)
+				return true;
+		} catch (UnirestException e) {
+		}
+
 		return false;
 	}
 
@@ -228,6 +237,7 @@ public class ZenodoAPIImpl implements ZenodoAPI {
 
 		try {
 			final HttpResponse<String> response = post.asString();
+			System.out.println("Publish Response " + response);
 			if (response.getStatus() == 202)
 				return true;
 		} catch (UnirestException e) {
@@ -290,8 +300,10 @@ public class ZenodoAPIImpl implements ZenodoAPI {
 	 * @see de.fraunhofer.abm.zenodo.ZenodoAPI#uploadCollectionToZenodo(de.fraunhofer.abm.domain.VersionDTO)
 	 */
 	@Override
-	public boolean uploadCollectionToZenodo(VersionDTO version, String maven_base_url) throws UnsupportedOperationException, IOException {
+	public Integer uploadCollectionToZenodo(VersionDTO version, String maven_base_url) throws UnsupportedOperationException, IOException {
 		
+		 System.out.println(test());
+
 		 String artifactVersion = "";
 		 String artifactId = "";
 		 String artifactPath = "";
@@ -321,11 +333,14 @@ public class ZenodoAPIImpl implements ZenodoAPI {
       	}
     
 		if (publish(deposition.id) == true) {
+            System.out.println("Successfully published version " + version.id);		
+		Files.deleteIfExists(Paths.get("/var/lib/abm/workspace/"+artifactId+"-"+artifactVersion+".jar"));
+
 		
-        return true; 
+        return deposition.id; 
+		} 
 		}
-		}
-		return false;
+		return null;
 	}
 	
 	

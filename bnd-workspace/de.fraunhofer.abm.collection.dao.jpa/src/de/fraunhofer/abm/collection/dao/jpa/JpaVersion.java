@@ -38,6 +38,9 @@ public class JpaVersion {
 
     @Column
     public String comment;
+    
+    @Column
+    public String doi;
 
     @Column
     public boolean frozen;
@@ -64,6 +67,7 @@ public class JpaVersion {
         version.number = dto.number;
         version.name = dto.name;
         version.derivedFrom = dto.derivedFrom;
+        version.doi = dto.doi;
         version.comment = dto.comment;
         version.frozen = dto.frozen;
         version.privateStatus = dto.privateStatus;
@@ -86,6 +90,7 @@ public class JpaVersion {
         version.name = this.name;
         version.derivedFrom = this.derivedFrom;
         version.comment = this.comment;
+        version.doi = this.doi;
         version.frozen = this.frozen;
         version.privateStatus = this.privateStatus;
         version.filtered = this.filtered;
