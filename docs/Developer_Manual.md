@@ -3,7 +3,6 @@
   * [Installation scripts (Linux only)](#installation-scripts-linux-only)
   * [Complete installation (Linux and MacOS)](#complete-installation-linux-and-macos)
     * [Set up the ABM workspace](#set-up-the-abm-workspace)
-    * [Set up Docker](#set-up-docker)
     * [Set up the database](#set-up-the-database)
     * [Set up Eclipse](#set-up-eclipse)
     * [Launch ABM](#launch-abm)
@@ -18,11 +17,14 @@
 # Install ABM
 
 ## Installation scripts (Linux only)
-* Download the files found at abm/docs/abm_install and put them into a directory ${DIRECTORY} where you want to install ABM.
+* As a pre-requisite, you need Git installed in your system to clone the ABM repository.
+* Clone the ABM repository using the following command - 
+         git clone https://github.com/ABenchM/abm.git
+* Then to set up the ABM in your local machine, go to the following directory in the cloned repository -
+             /abm/docs/       and then
 * Run the installation script: 
   ```
-  $ cd ${DIRECTORY}
-  $ sudo bash ./abm_install.sh
+   $ sudo bash ./abm_install.sh
   ```
   * You will be prompted for your MySQL root password. If MySQL is already installed on your machine, provide the existing root password. If not, choose one.
     * To determine if MySQL is already installed on your machine, run `$ mysql`.
@@ -73,40 +75,6 @@ The installation of ABM is not recommended on Windows. We advise Windows users t
   $ chown -R ${USER} ${WORKSPACE_DIRECTORY}
   ```  
   
-### Set up Docker
-* Download and install Docker Community Edition
-  * Linux
-  ```
-  $ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-  $ sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-  $ sudo apt-get install -y docker-ce
-  ```
-  * MacOS `$ brew install docker`
-* Add your user to the docker group, so that you have access to docker: `$ sudo usermod -aG docker ${USER}`
-* Create local volumes:
-  ```
-  $ docker volume create --name IVY_REPO -d local
-  $ docker volume create --name M2_REPO -d local
-  ```
-* Create the sbt build image:
-  ```
-  $ cd ${DIRECTORY}/abm/docker_files/abm-sbt-0.13.13-jdk-8
-  $ docker build -t abm/sbt:01313-jdk-8 .
-  ```
-* Create the maven build image:
-  ```
-  $ cd ${DIRECTORY}/abm/docker_files/abm-maven-3-jdk-7
-  $ docker build -t abm/maven:3-jdk-7 .
-  ```
-* Create the gradle build Image:
-  `$ docker pull gradle`
-* Create the ant build image:
-  ```
-  $ cd ${DIRECTORY}/abm/docker_file/abm-ant-1.10.1-jdk-8
-  $ docker build -t abm/ant:1.10.1-jdk-8 .
-  ```
-* Pull the Hermes image: `$ docker pull opalj/sbt_scala_javafx`
-* Verify that the three images are running. You should see abm/ant, gradle, abm/sbt, abm/maven, and opalj/sbt_scala_javafx when running `$ docker images`
 
 ### Set up the database
 * Install MySQL Community Server >= 5.5
