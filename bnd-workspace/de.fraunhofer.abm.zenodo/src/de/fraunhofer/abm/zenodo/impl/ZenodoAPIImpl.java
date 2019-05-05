@@ -1,7 +1,10 @@
 package de.fraunhofer.abm.zenodo.impl;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -22,7 +25,9 @@ import com.mashape.unirest.request.GetRequest;
 import com.mashape.unirest.request.HttpRequestWithBody;
 import com.mashape.unirest.request.body.RequestBodyEntity;
 
+import de.fraunhofer.abm.domain.ProjectObjectDTO;
 import de.fraunhofer.abm.domain.VersionDTO;
+import de.fraunhofer.abm.http.client.HttpUtils;
 import de.fraunhofer.abm.zenodo.API;
 import de.fraunhofer.abm.zenodo.Deposition;
 import de.fraunhofer.abm.zenodo.DepositionFile;
@@ -96,7 +101,14 @@ public class ZenodoAPIImpl implements ZenodoAPI {
 	
 	@Override
 	public boolean test() {
-		System.out.println("Token value" + token);
+		GetRequest request = prepareGetRequest(baseURL + API.Deposit.Depositions);
+		try {
+			HttpResponse<String> response = request.asString();
+			if (response.getStatus() == 200)
+				return true;
+		} catch (UnirestException e) {
+		}
+
 		return false;
 	}
 
@@ -174,6 +186,7 @@ public class ZenodoAPIImpl implements ZenodoAPI {
         System.out.println(bytes.toString());
 		try {
 			HttpResponse<Deposition> response = completePost.asObject(Deposition.class);
+			System.out.println(response.getBody().id);
 			return response.getBody();
 
 		} catch (UnirestException e) {
@@ -203,21 +216,14 @@ public class ZenodoAPIImpl implements ZenodoAPI {
 
 	
 	@Override
-	public DepositionFile uploadFile(final FileMetadata f, Integer depositionId) throws UnsupportedOperationException, IOException {
-		ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-		HttpRequestWithBody post = preparePostFileRequest(baseURL + API.Deposit.Files).routeParam("id",
-				depositionId.toString());
-		String data = "{}";
-		data = objectMapper.writeValue(new Object() {
-			public FileMetadata files = f;
-		});
-		RequestBodyEntity completePost = post.body(data);
+	public DepositionFile uploadFile(String fileName, Integer depositionId) throws UnsupportedOperationException, IOException {
 		try {
-			completePost.getEntity().writeTo(bytes);
-			System.out.println(bytes.toString());
-			HttpResponse<DepositionFile> response = completePost.asObject(DepositionFile.class);
-			System.out.println(response.getStatus() + " " + response.getStatusText() + response.getBody().toString());
-			return response.getBody();
+			HttpResponse<com.mashape.unirest.http.JsonNode> jsonResponse = Unirest.post(baseURL+API.Deposit.Files).routeParam("id", depositionId.toString())
+		     		   .header("Authorization", "Bearer "+ token)
+					  .header("accept", "application/json")
+					  .field("filename", fileName)
+					  .field("file", new File("/var/lib/abm/workspace/"+fileName))
+					  .asJson();
 
 		} catch (UnirestException e) {
 			e.printStackTrace();
@@ -231,6 +237,7 @@ public class ZenodoAPIImpl implements ZenodoAPI {
 
 		try {
 			final HttpResponse<String> response = post.asString();
+			System.out.println("Publish Response " + response);
 			if (response.getStatus() == 202)
 				return true;
 		} catch (UnirestException e) {
@@ -293,21 +300,47 @@ public class ZenodoAPIImpl implements ZenodoAPI {
 	 * @see de.fraunhofer.abm.zenodo.ZenodoAPI#uploadCollectionToZenodo(de.fraunhofer.abm.domain.VersionDTO)
 	 */
 	@Override
-	public boolean uploadCollectionToZenodo(VersionDTO version) throws UnsupportedOperationException, IOException {
+	public Integer uploadCollectionToZenodo(VersionDTO version, String maven_base_url) throws UnsupportedOperationException, IOException {
 		
-			
+		 System.out.println(test());
+
+		 String artifactVersion = "";
+		 String artifactId = "";
+		 String artifactPath = "";
+		 String projectUrl = "";
 		Metadata collectionData =  new Metadata(Metadata.UploadType.DATASET	,
 				new Date(),
 				version.name,
 				version.collectionId,
 				version.id,
-				Metadata.AccessRight.CLOSED
+				Metadata.AccessRight.CLOSED,
+				Metadata.Creator.AUTHOR
 				);
 		
 		Deposition deposition = this.createDeposition(collectionData); 
 		
+		if(deposition.id != null) {
+		    
+			for (ProjectObjectDTO p: version.projects) {
+      	      String project = p.project_id.substring(p.project_id.indexOf("maven2/:")+ "maven2/:".length());
+      	      artifactId = project.substring(project.indexOf(":")+1,project.indexOf(":", project.indexOf(":")+1));
+      	      artifactVersion = project.substring(project.indexOf(":", project.indexOf(":")+1)+1);
+      	      artifactPath  = project.substring(0,project.indexOf(":")).replace(".", "/");
+      	      projectUrl =   maven_base_url+artifactPath+"/"+artifactId+"/"+artifactVersion+"/"+artifactId+"-"+artifactVersion+".jar";
+      	      HttpUtils.downloadJar(projectUrl, new File("/var/lib/abm/workspace/"+artifactId+"-"+artifactVersion+".jar"));
+      	      
+      	      DepositionFile newArtifact = uploadFile(artifactId+"-"+artifactVersion+".jar", deposition.id);
+      	}
+    
+		if (publish(deposition.id) == true) {
+            System.out.println("Successfully published version " + version.id);		
+		Files.deleteIfExists(Paths.get("/var/lib/abm/workspace/"+artifactId+"-"+artifactVersion+".jar"));
+
 		
-		return false;
+        return deposition.id; 
+		} 
+		}
+		return null;
 	}
 	
 	

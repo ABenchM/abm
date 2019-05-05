@@ -2,21 +2,15 @@ package de.fraunhofer.abm.test.http;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.Charset;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-	
-import org.json.JSONArray;
+
 import org.json.JSONObject;
 import org.junit.Assert;
 import org.junit.Test;
 
-import de.fraunhofer.abm.http.client.Base64.InputStream;
 import de.fraunhofer.abm.http.client.HttpResponse;
-	import de.fraunhofer.abm.http.client.HttpUtils;
+import de.fraunhofer.abm.http.client.HttpUtils;
 	public class UnlockUserControllerTest extends AbstractHttpTest {
 	    @Test
 	    public void testCollectionstatus() throws IOException {

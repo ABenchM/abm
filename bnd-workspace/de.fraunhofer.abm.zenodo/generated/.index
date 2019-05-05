@@ -1,9 +1,14 @@
 <?xml version='1.0' encoding='UTF-8'?>
+<<<<<<< HEAD
 <repository xmlns="http://www.osgi.org/xmlns/repository/v1.0.0" name="de.fraunhofer.abm.zenodo" increment="1554385162084">
+=======
+<repository xmlns="http://www.osgi.org/xmlns/repository/v1.0.0" name="de.fraunhofer.abm.zenodo" increment="1556477773763">
+>>>>>>> develop
   <resource>
     <capability namespace="osgi.identity">
       <attribute name="osgi.identity" value="de.fraunhofer.abm.zenodo"/>
       <attribute name="type" value="osgi.bundle"/>
+<<<<<<< HEAD
       <attribute name="version" value="1.0.0.201904041339" type="Version"/>
     </capability>
     <capability namespace="osgi.wiring.bundle">
@@ -12,6 +17,16 @@
     </capability>
     <capability namespace="osgi.wiring.host">
       <attribute name="bundle-version" value="1.0.0.201904041339" type="Version"/>
+=======
+      <attribute name="version" value="1.0.0.201904281856" type="Version"/>
+    </capability>
+    <capability namespace="osgi.wiring.bundle">
+      <attribute name="bundle-version" value="1.0.0.201904281856" type="Version"/>
+      <attribute name="osgi.wiring.bundle" value="de.fraunhofer.abm.zenodo"/>
+    </capability>
+    <capability namespace="osgi.wiring.host">
+      <attribute name="bundle-version" value="1.0.0.201904281856" type="Version"/>
+>>>>>>> develop
       <attribute name="osgi.wiring.host" value="de.fraunhofer.abm.zenodo"/>
     </capability>
     <capability namespace="osgi.wiring.package">
@@ -28,10 +43,17 @@
       <attribute name="objectClass" value="de.fraunhofer.abm.zenodo.ZenodoAPI" type="List&lt;String&gt;"/>
     </capability>
     <capability namespace="osgi.content">
+<<<<<<< HEAD
       <attribute name="size" value="27731" type="Long"/>
       <attribute name="url" value="generated/de.fraunhofer.abm.zenodo.jar"/>
       <attribute name="mime" value="application/vnd.osgi.bundle"/>
       <attribute name="osgi.content" value="39DF100FC51ADFE3E8F1313C49215E8EF6262045C53AC656443BC2E823767657"/>
+=======
+      <attribute name="size" value="29858" type="Long"/>
+      <attribute name="url" value="generated/de.fraunhofer.abm.zenodo.jar"/>
+      <attribute name="mime" value="application/vnd.osgi.bundle"/>
+      <attribute name="osgi.content" value="504B8A13EE215FC2304E0C5627E6C38361B7818DC059D1B1788C48F8D935B05C"/>
+>>>>>>> develop
     </capability>
     <capability namespace="bndtools.workspace">
       <attribute name="bndtools.workspace" value="file:/home/ankur/SHK/ABM/masterWorkspace"/>
@@ -66,6 +88,9 @@
     </requirement>
     <requirement namespace="osgi.wiring.package">
       <directive name="filter" value="(&amp;(osgi.wiring.package=de.fraunhofer.abm.domain)(&amp;(version&gt;=1.0.0)(!(version&gt;=2.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=de.fraunhofer.abm.http.client)(&amp;(version&gt;=1.0.0)(!(version&gt;=2.0.0))))"/>
     </requirement>
     <requirement namespace="osgi.wiring.package">
       <directive name="filter" value="(&amp;(osgi.wiring.package=de.fraunhofer.abm.zenodo)(&amp;(version&gt;=1.0.0)(!(version&gt;=2.0.0))))"/>

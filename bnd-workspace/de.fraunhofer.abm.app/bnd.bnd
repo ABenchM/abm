@@ -7,9 +7,7 @@ Bundle-Description: ABM main application
 
 Private-Package: \
 	de.fraunhofer.abm.app,\
-	de.fraunhofer.abm.app.controllers,\
-	de.fraunhofer.abm.app.websocket,\
-	de.fraunhofer.abm.app.download
+	de.fraunhofer.abm.app.controllers
 
 EnRoute-Application: 	de.fraunhofer.abm
 JPM-Command:			abm
@@ -21,34 +19,26 @@ JPM-Command:			abm
 
 -buildpath: \
 	osgi.enroute.base.api,\
-	de.fraunhofer.abm.crawler.api;version=latest,\
 	de.fraunhofer.abm.collection.dao;version=latest,\
 	de.fraunhofer.abm.domain;version=latest,\
 	de.fraunhofer.abm.security;version=latest,\
-	de.fraunhofer.abm.suitebuilder;version=latest,\
 	json,\
-	de.fraunhofer.abm.builder.api;version=latest,\
 	org.apache.felix.http.jetty,\
 	de.fraunhofer.abm.util;version=latest,\
-	de.fraunhofer.abm.projectanalysis;version=latest,\
 	de.fraunhofer.abm.http.client;version=latest,\
 	javax.activation:activation,\
 	javax.mail:mail,\
-	de.fraunhofer.abm.hermes;version=latest,\
 	de.fraunhofer.abm.zenodo;version=latest
 	
 -testpath: \
 	osgi.enroute.junit.wrapper;version=4.12
 -dsannotations: *
 -runrequires: \
-	osgi.identity;filter:='(osgi.identity=de.fraunhofer.abm.crawler.github)',\
 	osgi.identity;filter:='(osgi.identity=de.fraunhofer.abm.domain)',\
 	osgi.identity;filter:='(osgi.identity=org.apache.felix.gogo.shell)',\
 	osgi.identity;filter:='(osgi.identity=org.apache.felix.gogo.runtime)',\
-	osgi.identity;filter:='(osgi.identity=org.apache.felix.gogo.command)',\
-	osgi.identity;filter:='(osgi.identity=de.fraunhofer.abm.crawler.bitbucket)'
+	osgi.identity;filter:='(osgi.identity=org.apache.felix.gogo.command)'
 -runbundles: \
-	de.fraunhofer.abm.crawler.github;version=snapshot,\
 	de.fraunhofer.abm.domain;version=snapshot,\
 	de.fraunhofer.abm.http.client;version=snapshot,\
 	json;version='[20160212.0.0,20160212.0.1)',\
@@ -61,7 +51,6 @@ JPM-Command:			abm
 	org.eclipse.equinox.metatype;version='[1.4.100,1.4.101)',\
 	org.osgi.service.metatype;version='[1.3.0,1.3.1)',\
 	osgi.enroute.logger.simple.provider;version='[1.1.1,1.1.2)',\
-	de.fraunhofer.abm.crawler.bitbucket;version=latest,\
 	de.fraunhofer.abm.zenodo;version=latest
 Import-Package: *
 

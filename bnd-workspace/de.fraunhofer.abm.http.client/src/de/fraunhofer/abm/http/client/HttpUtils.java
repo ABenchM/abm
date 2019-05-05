@@ -1,5 +1,7 @@
 package de.fraunhofer.abm.http.client;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -472,6 +474,7 @@ public class HttpUtils {
         FileOutputStream fos = null;
         try {
             http = (HttpURLConnection) new URL(uri).openConnection();
+            System.out.println(http.getResponseCode());
             Map<String,String> headers = createFirefoxHeader();
             for (Iterator<Entry<String, String>> iterator = headers.entrySet().iterator(); iterator.hasNext();) {
                 Entry<String, String> entry = iterator.next();
@@ -492,5 +495,28 @@ public class HttpUtils {
                 fos.close();
             }
         }
+    }
+    
+    public static void downloadJar(String uri, File target) throws IOException {
+    	 
+    	URL url = new URL(uri);
+    	InputStream inStream = url.openStream();
+    	System.out.println(inStream.available());
+    	BufferedInputStream bufIn = new BufferedInputStream(inStream);
+    	             
+    	
+    	    OutputStream out= new FileOutputStream(target);
+    	    BufferedOutputStream bufOut = new BufferedOutputStream(out);
+    	                    byte buffer[] = new byte[1024];
+    	            while (true) {
+    	int nRead = bufIn.read(buffer, 0, buffer.length);
+    	if (nRead <= 0)
+    	  break;
+    	bufOut.write(buffer, 0, nRead);
+    	        }
+    	             
+    	            bufOut.flush();
+    	            out.close();
+    	            inStream.close();
     }
 }

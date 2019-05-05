@@ -1,3 +1,0 @@
--buildpath: de.fraunhofer.abm.domain;version=latest
-Export-Package: de.fraunhofer.abm.scm.api
-Bundle-Version: 1.0.0.${tstamp}

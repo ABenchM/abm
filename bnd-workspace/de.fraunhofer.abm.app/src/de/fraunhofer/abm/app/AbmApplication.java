@@ -1,10 +1,8 @@
 package de.fraunhofer.abm.app;
 
-import static de.fraunhofer.abm.util.AbmApplicationConstants.*;
+import static de.fraunhofer.abm.util.AbmApplicationConstants.googleClientId;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -12,8 +10,6 @@ import org.json.JSONObject;
 import org.osgi.dto.DTO;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
-import org.osgi.service.component.annotations.ReferenceCardinality;
-import org.osgi.service.component.annotations.ReferencePolicy;
 import org.osgi.service.useradmin.Group;
 import org.osgi.service.useradmin.Role;
 import org.osgi.service.useradmin.User;
@@ -22,9 +18,6 @@ import org.osgi.service.useradmin.UserAdmin;
 import de.fraunhofer.abm.app.auth.Authenticator;
 import de.fraunhofer.abm.app.auth.Authorizer;
 import de.fraunhofer.abm.app.auth.SecurityContext;
-import de.fraunhofer.abm.crawler.api.Crawler;
-
-import de.fraunhofer.abm.domain.RepositoryDTO;
 import de.fraunhofer.abm.http.client.HttpUtils;
 import osgi.enroute.configurer.api.RequireConfigurerExtender;
 import osgi.enroute.google.angular.capabilities.RequireAngularWebResource;
@@ -38,8 +31,7 @@ import osgi.enroute.webserver.capabilities.RequireWebServerExtender;
 public class AbmApplication implements REST {
 
 
-    @Reference(cardinality=ReferenceCardinality.AT_LEAST_ONE,bind="addCrawler",unbind="removeCrawler",policy=ReferencePolicy.DYNAMIC)
-    private volatile List<Crawler> crawlerList = new ArrayList<>();
+    
 
     @Reference
     private Authenticator authenticator;
@@ -50,41 +42,8 @@ public class AbmApplication implements REST {
     @Reference
     private Authorizer authorizer;
     
-    int i = 0;
     
 
-    public List<RepositoryDTO> getSearch(RESTRequest request, String query) throws Exception {
-    	ArrayList<String> users = new ArrayList<String>();
-    	users.add("RegisteredUser");
-    	users.add("UserAdmin"); 
-        authorizer.requireRoles(users);
-       
-        List<RepositoryDTO> result =new ArrayList<>();
-        for(Crawler c : crawlerList) {
-        	System.out.println(c.getClass().getSimpleName());
-//        	if(c.getClass().getSimpleName().equals("GithubCrawler")) {
-        		System.out.println("Using "+ c.getClass().getSimpleName() + " to search the query");
-        		result.addAll(c.search(query));
-//        	}
-        	
-         
-        }
-       // List<RepositoryDTO> result = crawler.search(query);
-        //crawler = new GithubCrawler();
-                   
-        return result;
-    }
-
-    
-    protected void addCrawler(Crawler crawler) {
-    	
-    	crawlerList.add(crawler);
-    }
-    
-    protected void removeCrawler(Crawler crawler) {
-    	crawlerList.remove(crawler);
-    }
-    
     interface LoginRequest extends RESTRequest {
         Credentials _body();
     }

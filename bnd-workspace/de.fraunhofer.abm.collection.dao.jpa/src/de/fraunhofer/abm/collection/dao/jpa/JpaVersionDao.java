@@ -1,5 +1,6 @@
 package de.fraunhofer.abm.collection.dao.jpa;
 
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -48,6 +49,24 @@ public class JpaVersionDao extends AbstractJpaDao implements VersionDao {
             return result.toDTO();
         });
     }
+    
+    @Override
+    public boolean findProjectByVersionId(String versionId, String projectId) {
+		
+      	return transactionControl.notSupported(() -> {
+      	    TypedQuery<JpaProject> query = em.createQuery("SELECT p FROM project p where p.version.id = :versionId and p.project_id = :projectId", JpaProject.class);
+            query.setParameter("versionId", versionId);
+            query.setParameter("projectId", projectId);
+            List<JpaProject> result = query.getResultList();
+            if(result.size() >=1) {
+            	
+            	return true;
+            }
+            return false;
+      	});
+    	
+    	
+    }
 
     @Override
     public void save(VersionDTO version) {
@@ -69,6 +88,7 @@ public class JpaVersionDao extends AbstractJpaDao implements VersionDao {
             JpaVersion jpaVersion = em.find(JpaVersion.class, version.id);
             jpaVersion.collection = em.find(JpaCollection.class, version.collectionId);
             jpaVersion.comment = version.comment;
+            jpaVersion.doi = version.doi;
             jpaVersion.number = version.number;
             jpaVersion.creationDate = version.creationDate;
             jpaVersion.frozen = version.frozen;

@@ -55,6 +55,10 @@ commons-logging:commons-logging:jar:1.2
 # https://mvnrepository.com/artifact/commons-codec/commons-codec
 commons-codec:commons-codec:jar:1.9
 
+# https://mvnrepository.com/artifact/org.json4s/json4s-native
+org.json4s:json4s-native_2.12:jar:3.6.5
+
+
 
 
 

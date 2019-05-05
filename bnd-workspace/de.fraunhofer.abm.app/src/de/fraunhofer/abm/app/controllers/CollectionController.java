@@ -1,6 +1,5 @@
 package de.fraunhofer.abm.app.controllers;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -11,24 +10,16 @@ import java.util.UUID;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.fraunhofer.abm.app.auth.Authorizer;
 import de.fraunhofer.abm.app.auth.SecurityContext;
-import de.fraunhofer.abm.collection.dao.BuildResultDao;
 import de.fraunhofer.abm.collection.dao.CollectionDao;
 import de.fraunhofer.abm.collection.dao.FilterStatusDao;
-import de.fraunhofer.abm.collection.dao.HermesResultDao;
-import de.fraunhofer.abm.domain.BuildResultDTO;
 import de.fraunhofer.abm.domain.CollectionDTO;
-import de.fraunhofer.abm.domain.CommitDTO;
-import de.fraunhofer.abm.domain.HermesResultDTO;
 import de.fraunhofer.abm.domain.ProjectObjectDTO;
 import de.fraunhofer.abm.domain.VersionDTO;
-
-import de.fraunhofer.abm.util.FileUtil;
 import osgi.enroute.configurer.api.RequireConfigurerExtender;
 import osgi.enroute.rest.api.REST;
 import osgi.enroute.rest.api.RESTRequest;
@@ -43,12 +34,6 @@ public class CollectionController extends AbstractController implements REST {
 
     @Reference
     private CollectionDao collectionDao;
-
-    @Reference
-    private BuildResultDao buildResultDao;
-
-    @Reference
-    private HermesResultDao hermesResultDao;
 
     @Reference
     private Authorizer authorizer;
@@ -120,13 +105,17 @@ public class CollectionController extends AbstractController implements REST {
     }
 
     public void postCollection(CollectionRequest cr) {
+    	
     	ArrayList<String> users = new ArrayList<String>();
     	users.add("RegisteredUser");
     	users.add("UserAdmin"); 
+    	 System.out.println("Testing creating collection  part 2" );
         authorizer.requireRoles(users);
+       
         CollectionDTO collection = cr._body();
         collection.id = UUID.randomUUID().toString();
         collection.user = SecurityContext.getInstance().getUser();
+  
         for (VersionDTO version : collection.versions) {
             version.id = Optional.ofNullable(version.id).orElse(UUID.randomUUID().toString());
             //set name and derivedFrom for initial version ( create new collection & version )
@@ -138,11 +127,12 @@ public class CollectionController extends AbstractController implements REST {
             	project.id = UUID.randomUUID().toString();
             }
         }
-
+        
         collectionDao.save(collection);
     }
 
     public void putCollection(CollectionRequest cr) {
+    	System.out.println("Testing creating collection  part 1" );
     	ArrayList<String> users = new ArrayList<String>();
     	users.add("RegisteredUser");
     	users.add("UserAdmin"); 
@@ -172,13 +162,7 @@ public class CollectionController extends AbstractController implements REST {
         // delete all build results of all version of this collection
         for (VersionDTO version : collection.versions) {
             if(version.frozen) {
-                BuildResultDTO buildResult = buildResultDao.findByVersion(version.id);
-                FileUtil.deleteRecursively(new File(buildResult.dir));
-                buildResultDao.delete(buildResult.id);
-                
-                //functionality to delete Hermes results as well by Ankur Gupta on 23.08.2017
-                 HermesResultDTO hermesResult = hermesResultDao.findByVersion(version.id);
-                 hermesResultDao.delete(hermesResult.id);
+              
                 
                  //functionality to delete filternames against the version of this collection.
                  
@@ -191,44 +175,7 @@ public class CollectionController extends AbstractController implements REST {
         collectionDao.delete(id);
     }
      
-    public VersionDTO getLastSuccessfullyBuiltVersion(String collectionID) throws IOException {
-    	ArrayList<String> users = new ArrayList<String>();
-    	users.add("RegisteredUser");
-    	users.add("UserAdmin"); 
-        authorizer.requireRoles(users);
-        
-        // Make sure the user is the owner of the collection.
-        CollectionDTO collection = collectionDao.findById(collectionID);
-        ensureUserIsOwner(authorizer, collection);
-        
-        if (!collection.privateStatus) {
-            return null;
-        }
-        
-        List<VersionDTO> successfullyBuiltVersions = new ArrayList<VersionDTO>();
-        
-        for (VersionDTO version : collection.versions) {
-            BuildResultDTO buildResult = buildResultDao.findByVersion(version.id);
-            
-            if (buildResult != null && buildResult.status.equals("FINISHED")) {
-                successfullyBuiltVersions.add(version);
-            }     	
-        }
-        
-        successfullyBuiltVersions.sort(new java.util.Comparator<VersionDTO>() {
-
-            @Override
-            public int compare(VersionDTO version1, VersionDTO version2) {
-                return -1 * version1.creationDate.compareTo(version2.creationDate);
-            }
-        });
-        
-        if (!successfullyBuiltVersions.isEmpty()) {
-            return successfullyBuiltVersions.get(0);
-        }
-        
-        return null;
-    }
+  
 
     @Override
     Logger getLogger() {

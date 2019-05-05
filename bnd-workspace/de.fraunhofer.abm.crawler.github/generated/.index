@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<repository xmlns="http://www.osgi.org/xmlns/repository/v1.0.0" name="de.fraunhofer.abm.crawler.github" increment="1554385161511">
+  <resource>
+    <capability namespace="osgi.identity">
+      <attribute name="osgi.identity" value="de.fraunhofer.abm.crawler.github"/>
+      <attribute name="type" value="osgi.bundle"/>
+      <attribute name="version" value="1.0.0.201904041339" type="Version"/>
+    </capability>
+    <capability namespace="osgi.wiring.bundle">
+      <attribute name="bundle-version" value="1.0.0.201904041339" type="Version"/>
+      <attribute name="osgi.wiring.bundle" value="de.fraunhofer.abm.crawler.github"/>
+    </capability>
+    <capability namespace="osgi.wiring.host">
+      <attribute name="bundle-version" value="1.0.0.201904041339" type="Version"/>
+      <attribute name="osgi.wiring.host" value="de.fraunhofer.abm.crawler.github"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <directive name="uses" value="de.fraunhofer.abm.domain"/>
+      <attribute name="version" value="1.0.0" type="Version"/>
+      <attribute name="osgi.wiring.package" value="de.fraunhofer.abm.crawler.api"/>
+    </capability>
+    <capability namespace="osgi.service">
+      <attribute name="objectClass" value="de.fraunhofer.abm.crawler.api.Crawler" type="List&lt;String&gt;"/>
+    </capability>
+    <capability namespace="osgi.content">
+      <attribute name="size" value="17399" type="Long"/>
+      <attribute name="url" value="generated/de.fraunhofer.abm.crawler.github.jar"/>
+      <attribute name="mime" value="application/vnd.osgi.bundle"/>
+      <attribute name="osgi.content" value="3ECDE295A29B4D6DAEB09A3F51D41F63A7683262BC56823F6E288BA55F0FF811"/>
+    </capability>
+    <capability namespace="bndtools.workspace">
+      <attribute name="bndtools.workspace" value="file:/home/ankur/SHK/ABM/masterWorkspace"/>
+      <attribute name="project.path" value="/de.fraunhofer.abm.crawler.github"/>
+    </capability>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=de.fraunhofer.abm.crawler.api)(&amp;(version&gt;=1.0.0)(!(version&gt;=1.1.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=de.fraunhofer.abm.domain)(&amp;(version&gt;=1.0.0)(!(version&gt;=2.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=de.fraunhofer.abm.http.client)(&amp;(version&gt;=1.0.0)(!(version&gt;=2.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=de.fraunhofer.abm.util)(&amp;(version&gt;=1.0.0)(!(version&gt;=2.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.json)(&amp;(version&gt;=20180813.0.0)(!(version&gt;=20180814.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.slf4j)(&amp;(version&gt;=1.7.0)(!(version&gt;=2.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.extender">
+      <directive name="filter" value="(&amp;(osgi.extender=osgi.component)(version&gt;=1.3.0)(!(version&gt;=2.0.0)))"/>
+    </requirement>
+    <requirement namespace="osgi.ee">
+      <directive name="filter" value="(&amp;(osgi.ee=JavaSE)(version=1.8))"/>
+    </requirement>
+  </resource>
+</repository>

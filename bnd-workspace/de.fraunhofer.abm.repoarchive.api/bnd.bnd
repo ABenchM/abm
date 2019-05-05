@@ -1,2 +1,0 @@
-Bundle-Version: 1.0.0.${tstamp}
-Export-Package: de.fraunhofer.abm.repoarchive.api

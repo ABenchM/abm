@@ -18,8 +18,19 @@
 
 ## Installation scripts (Linux only)
 * As a pre-requisite, you need Git installed in your system to clone the ABM repository.
+<<<<<<< HEAD
 * Clone the ABM repository using the following command - 
          git clone https://github.com/ABenchM/abm.git
+=======
+    ```
+    $ sudo apt-get install git
+    ```
+         
+* Clone the ABM repository using the following command - 
+    ```
+    $ git clone https://github.com/ABenchM/abm.git
+    ```
+>>>>>>> develop
 * Then to set up the ABM in your local machine, go to the following directory in the cloned repository -
              /abm/docs/       and then
 * Run the installation script: 

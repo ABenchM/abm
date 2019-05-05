@@ -60,5 +60,12 @@
   		<artifactId>json</artifactId>
   		<version>20141113</version>
   	</dependency>
+<!-- https://mvnrepository.com/artifact/org.apache.clerezza.ext/org.json.simple -->
+<dependency>
+    <groupId>org.apache.clerezza.ext</groupId>
+    <artifactId>org.json.simple</artifactId>
+    <version>0.4</version>
+</dependency>
+  	
   </dependencies>
 </project>

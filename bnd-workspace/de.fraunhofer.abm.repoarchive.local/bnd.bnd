@@ -1,6 +1,0 @@
--buildpath: \
-	de.fraunhofer.abm.repoarchive.api;version=latest,\
-	osgi.enroute.base.api,\
-	de.fraunhofer.abm.util;version=latest
-Private-Package: de.fraunhofer.abm.repoarchive.local
-Bundle-Version: 1.0.0.${tstamp}

@@ -2,7 +2,10 @@ package de.fraunhofer.abm.zenodo;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by benhermann on 01.06.17.
@@ -19,13 +22,16 @@ public class Metadata {
                     String title,
                     String description,
                     String version,
-                    AccessRight accessRight) {
+                    AccessRight accessRight,
+                    Creator creator) {
         this.upload_type  = upload_type.toString();
         this.publication_date = publication_date;
         this.title = title;
         this.description = description;
         this.version = version;
         this.access_right = accessRight.toString();
+        this.creators = creator.getCreator();
+        
     }
 
     public PreserveDOI preserve_doi;
@@ -34,8 +40,8 @@ public class Metadata {
     public String image_type;
     public Date publication_date;
     public String title;
-    // public ArrayList<Creator> creators;
     public String description;
+    public List<HashMap<String,String>> creators;
     public String access_right;
     public String license;
     public Date embargo_date;
@@ -74,6 +80,34 @@ public class Metadata {
     /**
      * Created by benhermann on 04.06.17.
      */
+    
+ public static class Creator{
+    	
+    	private String name ;
+    	private String affiliation;
+    	
+    	
+    	private Creator(String name,String affiliation) {
+    		this.name = name;
+    		this.affiliation = affiliation;
+//    		HashMap<String,String> data = new HashMap<String,String>();
+//    		data.put("affiliation", affiliation);
+//    		data.put("name", name);
+//    		this.creators.add(data);
+    	}
+    	
+       public List<HashMap<String,String>> getCreator() {
+    	   HashMap<String,String> data = new HashMap<String,String>();
+    	   List<HashMap<String,String>> author = new ArrayList<HashMap<String,String>>();
+    	   data.put("name", name);
+    	   data.put("affiliation", affiliation);
+    	   author.add(data);
+        return author;
+       }
+       
+       public static final Creator AUTHOR = new Creator("ABM", "UPB");
+    	
+    }
     public static class AccessRight {
         private String accessRight;
 

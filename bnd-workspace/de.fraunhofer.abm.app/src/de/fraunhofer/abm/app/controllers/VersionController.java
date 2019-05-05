@@ -1,7 +1,6 @@
 package de.fraunhofer.abm.app.controllers;
 
-import java.io.File;
-import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Optional;
@@ -16,16 +15,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.fraunhofer.abm.app.auth.Authorizer;
-import de.fraunhofer.abm.collection.dao.BuildResultDao;
 import de.fraunhofer.abm.collection.dao.CollectionDao;
 import de.fraunhofer.abm.collection.dao.VersionDao;
-import de.fraunhofer.abm.domain.BuildResultDTO;
 import de.fraunhofer.abm.domain.CollectionDTO;
-import de.fraunhofer.abm.domain.CommitDTO;
 import de.fraunhofer.abm.domain.ProjectObjectDTO;
 import de.fraunhofer.abm.domain.VersionDTO;
-import de.fraunhofer.abm.http.client.HttpResponse;
-import de.fraunhofer.abm.util.FileUtil;
 import osgi.enroute.configurer.api.RequireConfigurerExtender;
 import osgi.enroute.rest.api.REST;
 import osgi.enroute.rest.api.RESTRequest;
@@ -43,9 +37,7 @@ public class VersionController extends AbstractController implements REST {
     @Reference
     private VersionDao versionDao;
 
-    @Reference
-    private BuildResultDao buildResultDao;
-
+   
     @Reference
     private Authorizer authorizer;
 
@@ -106,7 +98,7 @@ public class VersionController extends AbstractController implements REST {
         return version;
     }
 
-    public VersionDTO putVersion(VersionRequest vr) {
+    public VersionDTO putVersion(VersionRequest vr) throws SQLException {
     	ArrayList<String> users = new ArrayList<String>();
   	    users.add("RegisteredUser");
   	    users.add("UserAdmin"); 
@@ -119,12 +111,26 @@ public class VersionController extends AbstractController implements REST {
         // assign an UUID to all new commits
         for (ProjectObjectDTO project : version.projects) {
         	project.id = Optional.ofNullable(project.id).orElse(UUID.randomUUID().toString());
+//             if (checkIfProjectExists(project)) {
+//            	version.comment = "Project Exists";
+//            	return version; 
+//             }
         }
-
+        
+        
+       
         versionDao.update(version);
         return version;
     }
 
+    private boolean checkIfProjectExists(ProjectObjectDTO project) {
+    
+    	  	if(versionDao.findProjectByVersionId(project.version_id, project.project_id)) {
+    		return true;
+    	}
+    	return false;
+    }
+    
     public void deleteVersion(RESTRequest rr, String id) {
     	ArrayList<String> users = new ArrayList<String>();
   	    users.add("RegisteredUser");

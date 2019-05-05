@@ -1,5 +1,6 @@
 package de.fraunhofer.abm.collection.dao;
 
+
 import de.fraunhofer.abm.domain.VersionDTO;
 
 public interface VersionDao {
@@ -8,5 +9,6 @@ public interface VersionDao {
     public void save(VersionDTO version);
     public void update(VersionDTO version);
     public void delete(String id);
+    public boolean findProjectByVersionId(String versionId, String projectId);
 
 }
