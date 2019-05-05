@@ -99,6 +99,20 @@ public class PinController extends AbstractController implements REST {
     	}
     }
 
+    public void deletePin(String type, String user , String id) {
+    	ArrayList<String> users = new ArrayList<String>();
+  	  users.add("RegisteredUser");
+  	  users.add("UserAdmin"); 
+        authorizer.requireRoles(users);
+//        PinRequestDTO req = pr._body();
+        authorizer.requireUser(user);
+    	if(type.equals("collection")){
+    		collectionPinDao.dropPin(user, id);
+    	} else {
+    		filterPinDao.dropPin(user, id);
+    	}
+    }
+    
     public void deletePin(PinRequest pr) {
     	ArrayList<String> users = new ArrayList<String>();
   	  users.add("RegisteredUser");

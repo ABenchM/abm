@@ -83,7 +83,7 @@ public class CollectionControllerTest extends AbstractHttpTest {
         String id = collection.getString("id");
 
        
-        String user = "demo"; String password = "demo";
+        String user = "test1"; String password = "test1";
         login(user, password);
         uri = baseUri + "/rest/collection/" + id;
         addSessionCookie(headers);
@@ -136,7 +136,7 @@ public class CollectionControllerTest extends AbstractHttpTest {
         Assert.assertEquals("Simple Logging Facade 4 Java", description);
 
         // update with wrong user
-        String user = "demo"; String password = "demo";
+        String user = "test1"; String password = "test1";
         login(user, password);
         uri = baseUri + "/rest/collection";
         addSessionCookie(headers);
@@ -230,132 +230,6 @@ public class CollectionControllerTest extends AbstractHttpTest {
         Assert.assertEquals(NUM200, response.getResponseCode());
     }
 
-    //@Test
-    public void testLastSuccessfullyBuiltVersion() throws IOException {
-    	// Create a private collection first.
-    	Map<String, String> headers = login();
-        headers.put("Content-Type", "application/json;charset=UTF-8");
-        String uri = baseUri + "/rest/collection";
-        String payload = "{\"name\":\"SimpleMavenApp\",\"description\":\"UnitTest\",\"versions\":"
-                + "[{\"number\":1,\"commits\":[{\"commitId\":\"HEAD\",\"repository\":{"
-                + "\"ownerType\":\"Organization\","
-                + "\"issuesUrl\":\"https://api.github.com/repos/jenkins-docs/simple-java-maven-app/issues{/number}\","
-                + "\"releasesUrl\":\"https://api.github.com/repos/jenkins-docs/simple-java-maven-app/releases{/id}\","
-                + "\"description\":\"For an introductory tutorial on how to use Jenkins to build a simple Java application with Maven.\","
-                + "\"contributorsUrl\":\"https://api.github.com/repos/jenkins-docs/simple-java-maven-app/contributors\","
-                + "\"isPrivate\":false,\"commitsUrl\":\"https://api.github.com/repos/jenkins-docs/simple-java-maven-app/commits{/sha}\","
-                + "\"openIssues\":9,\"latestUpdate\":\"2018-05-21T09:01:28Z\",\"score\":188,\"starred\":24,"
-                + "\"id\":\"a38166a0-0661-3f51-8085-f22c1b163f78\",\"forks\":2216,\"owner\":\"jenkins-docs\","
-                + "\"hasWiki\":true,\"defaultBranch\":\"master\","
-                + "\"htmlUrl\":\"https://github.com/jenkins-docs/simple-java-maven-app\","
-                + "\"creationDate\":\"2017-09-26T02:35:06\","
-                + "\"contentsUrl\":\"https://api.github.com/repos/jenkins-docs/simple-java-maven-app/contents/{+path}\","
-                + "\"remoteId\":104826554,\"repositoryUrl\":\"https://github.com/jenkins-docs/simple-java-maven-app.git\","
-                + "\"hasDownloads\":true,\"license\":\"\",\"watched\":24,\"size\":13,\"name\":\"simple-java-maven-app\","
-                + "\"repositoryType\":\"git\",\"properties\":[]},\"branchId\":\"master\"}],\"comment\":\"Initial Version\","
-                + "\"creationDate\":\"2018-05-28T13:15:19\"}],\"privateStatus\":true,"
-                + "\"creation_date\":\"2018-05-28T13:15:19\",\"user\":\"demo\"}";
-        HttpResponse response = HttpUtils.post(uri, headers, payload.getBytes(charset), charset);
-        Assert.assertEquals("", response.getContent());
-        Assert.assertEquals(NUM200, response.getResponseCode());
-
-        // Get the collection from the server.
-        uri = baseUri + "/rest/collection?user=" + USER;
-        String collections = HttpUtils.get(uri, headers, charset);
-        JSONArray array = new JSONArray(collections);
-
-        // Get version id of the version that has to be built.
-        JSONObject collection = null;
-        for (int i = 0; i < array.length(); i++) {
-            collection = (JSONObject)array.get(i);
-
-            if (collection.getString("name").equals("SimpleMavenApp")) {
-                break;
-            }
-        }
-        String collectionid = collection.getString("id");
-        String name = collection.getString("name");
-
-        Assert.assertEquals("SimpleMavenApp", name);
-        Assert.assertEquals(1,collection.getJSONArray("versions").length());
-        JSONArray versions = collection.getJSONArray("versions");
-        Assert.assertEquals(1, ((JSONObject)versions.get(0)).getJSONArray("commits").length());
-
-        JSONObject commit = (JSONObject)((JSONObject)versions.get(0)).getJSONArray("commits").get(0);
-        String versionid = commit.getString("versionId");
-        String commitid = commit.getString("id");
-
-        // Start the build.
-        uri = baseUri + "/rest/build";
-        payload = "{\"id\": \"" + versionid + "\", \"number\":1,\"commits\":[{\"versionId\":\"" + versionid + "\","
-                + "\"commitId\":\"HEAD\",\"id\":\"" + commitid + "\",\"creationDate\":null,\"message\":null,"
-                + "\"repository\":{\"ownerType\":\"Organization\","
-                + "\"issuesUrl\":\"https://api.github.com/repos/jenkins-docs/simple-java-maven-app/issues{/number}\","
-                + "\"releasesUrl\":\"https://api.github.com/repos/jenkins-docs/simple-java-maven-app/releases{/id}\","
-                + "\"description\":\"For an introductory tutorial on how to use Jenkins to build a simple Java application with Maven.\","
-                + "\"contributorsUrl\":\"https://api.github.com/repos/jenkins-docs/simple-java-maven-app/contributors\","
-                + "\"isPrivate\":false,\"commitsUrl\":\"https://api.github.com/repos/jenkins-docs/simple-java-maven-app/commits{/sha}\","
-                + "\"openIssues\":9,\"latestUpdate\":\"2018-05-21T09:01:28Z\",\"score\":188,"
-                + "\"starred\":24,\"id\":\"a38166a0-0661-3f51-8085-f22c1b163f78\","
-                + "\"forks\":2216,\"owner\":\"jenkins-docs\",\"hasWiki\":true,"
-                + "\"defaultBranch\":\"master\",\"htmlUrl\":\"https://github.com/jenkins-docs/simple-java-maven-app\","
-                + "\"creationDate\":\"2017-09-26T02:35:06\","
-                + "\"contentsUrl\":\"https://api.github.com/repos/jenkins-docs/simple-java-maven-app/contents/{+path}\","
-                + "\"remoteId\":104826554,\"repositoryUrl\":\"https://github.com/jenkins-docs/simple-java-maven-app.git\","
-                + "\"hasDownloads\":true,\"license\":\"\",\"watched\":24,\"size\":13,"
-                + "\"name\":\"simple-java-maven-app\",\"repositoryType\":\"git\","
-                + "\"properties\":[]}}],\"filtered\":false,\"frozen\":false,\"comment\":\"Initial Version\","
-                + "\"creationDate\":\"2018-05-28T13:15:19\",\"collectionId\":\"" + collectionid + "\"}";
-        response = HttpUtils.post(uri, headers, payload.getBytes(charset), charset);
-        Assert.assertEquals(NUM200, response.getResponseCode());
-
-        // Get the BuildDTO.
-        uri = baseUri + "/rest/builds/" + USER;
-
-        float buildProgress = 0F;
-        while (buildProgress < 1F) {
-            String json = HttpUtils.get(uri, headers, charset);
-            JSONArray builds = new JSONArray(json);
-
-            if (builds.length() > 0) {
-                try {
-            	    System.out.println("Waiting for build...");
-            	    Thread.sleep(NUM10000);
-                } catch (Exception x) {
-                    // Do nothing on interrupted Exception.
-                }
-            } else {
-                buildProgress = 1F;
-            }
-        }
-        System.out.println("Finished building");
-
-        // Final testing of lastsuccessfullybuiltversion.
-        uri = baseUri + "/rest/lastsuccessfullybuiltversion/" + collectionid;
-        String json = HttpUtils.get(uri, headers, charset);
-        
-        //if build failed 
-        Assert.assertEquals(true, json.isEmpty());
-        //if build passed 
-         if(!json.isEmpty()) {
-        JSONObject resultVersion = new JSONObject(json);
-        Assert.assertNotEquals(null, resultVersion);
-        Assert.assertEquals("Initial Version", resultVersion.getString("comment"));
-        Assert.assertEquals(1, resultVersion.getInt("number"));
-        }
-        System.out.println("Test passed. Unfreezing..");
-
-        // Unfreeze version so it can be deleted.
-        uri = baseUri + "/rest/version";
-        response = HttpUtils.put(uri, headers, payload.getBytes(charset), charset);
-        Assert.assertEquals(NUM200, response.getResponseCode());
-
-        System.out.println("Deleting..");
-
-        // Delete all mocked data.
-        uri = baseUri + "/rest/collection/" + collectionid;
-        response = HttpUtils.delete(uri, headers, charset);
-        Assert.assertEquals(NUM200, response.getResponseCode());
-    }
+  
     
 }

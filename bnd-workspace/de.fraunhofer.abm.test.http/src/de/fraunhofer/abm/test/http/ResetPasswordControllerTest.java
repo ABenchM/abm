@@ -31,6 +31,7 @@ public class ResetPasswordControllerTest extends AbstractHttpTest {
 	        // try to get a secured resource
 	        headers.put("Cookie", sessionCookie);
 	        testResetPassword();
+	        testResetPasswordApproval();
 	    }	   
 	   
 	    
@@ -50,4 +51,15 @@ public class ResetPasswordControllerTest extends AbstractHttpTest {
 		    response = HttpUtils.post(uri, headers, payload.getBytes(charset), charset);
 	        Assert.assertEquals(NUM200, response.getResponseCode());   
 		}
+		
+	    private void testResetPasswordApproval() throws IOException{
+	    	
+	    	HttpResponse response;
+	    	Map<String, String> headers = login();
+	    	headers.put("Content-Type", "application/json;charset=UTF-8");
+	    	 String uri = baseUri + "/rest/ApprovePassword";
+	    	 String payload = "{\"password\": \""+NEWPASSWORD+"\"}";
+	    	 response = HttpUtils.post(uri, headers, payload.getBytes(charset), charset);
+	    	 Assert.assertEquals(NUM200, response.getResponseCode()); 
+	    }
 }

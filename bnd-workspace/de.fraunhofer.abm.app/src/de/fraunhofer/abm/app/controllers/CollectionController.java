@@ -105,13 +105,17 @@ public class CollectionController extends AbstractController implements REST {
     }
 
     public void postCollection(CollectionRequest cr) {
+    	
     	ArrayList<String> users = new ArrayList<String>();
     	users.add("RegisteredUser");
     	users.add("UserAdmin"); 
+    	 System.out.println("Testing creating collection  part 2" );
         authorizer.requireRoles(users);
+       
         CollectionDTO collection = cr._body();
         collection.id = UUID.randomUUID().toString();
         collection.user = SecurityContext.getInstance().getUser();
+  
         for (VersionDTO version : collection.versions) {
             version.id = Optional.ofNullable(version.id).orElse(UUID.randomUUID().toString());
             //set name and derivedFrom for initial version ( create new collection & version )
@@ -123,11 +127,12 @@ public class CollectionController extends AbstractController implements REST {
             	project.id = UUID.randomUUID().toString();
             }
         }
-
+        
         collectionDao.save(collection);
     }
 
     public void putCollection(CollectionRequest cr) {
+    	System.out.println("Testing creating collection  part 1" );
     	ArrayList<String> users = new ArrayList<String>();
     	users.add("RegisteredUser");
     	users.add("UserAdmin"); 
