@@ -1,7 +1,5 @@
 package de.fraunhofer.abm.collection.dao.jpa;
 
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,7 +12,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-import de.fraunhofer.abm.domain.CommitDTO;
 import de.fraunhofer.abm.domain.VersionDTO;
 
 @Entity(name="version")
@@ -54,9 +51,7 @@ public class JpaVersion {
     @ManyToOne
     public JpaCollection collection;
 
-    @OneToMany(fetch=FetchType.LAZY, mappedBy="version", cascade=CascadeType.ALL)
-    public List<JpaCommit> commits;
-
+   
     @OneToMany(fetch=FetchType.LAZY, mappedBy="version", cascade=CascadeType.ALL)
     public List<JpaProject> projects;
 
@@ -106,11 +101,11 @@ public class JpaVersion {
         return version;
     }
 
-    static class RepositoryNameComparator implements Comparator<CommitDTO> {
-        @Override
-        public int compare(CommitDTO o1, CommitDTO o2) {
-            return o1.repository.name.compareTo(o2.repository.name);
-        }
-
-    }
+//    static class RepositoryNameComparator implements Comparator<CommitDTO> {
+//        @Override
+//        public int compare(CommitDTO o1, CommitDTO o2) {
+//            return o1.repository.name.compareTo(o2.repository.name);
+//        }
+//
+//    }
 }

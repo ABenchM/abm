@@ -173,11 +173,11 @@ public class JpaCollectionDao extends AbstractJpaDao implements CollectionDao {
         });
     }
 
-    private void attachRepositories(JpaCollection collection) {
-        for (JpaVersion version : collection.versions) {
-            super.attachRepositories(version);
-        }
-    }
+//    private void attachRepositories(JpaCollection collection) {
+//        for (JpaVersion version : collection.versions) {
+//            super.attachRepositories(version);
+//        }
+//    }
 
     @Override
     public void update(CollectionDTO collection) {

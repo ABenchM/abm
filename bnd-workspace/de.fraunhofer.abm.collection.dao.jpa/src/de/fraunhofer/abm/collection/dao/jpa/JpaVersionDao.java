@@ -16,7 +16,6 @@ import org.osgi.service.transaction.control.TransactionControl;
 import org.osgi.service.transaction.control.jpa.JPAEntityManagerProvider;
 
 import de.fraunhofer.abm.collection.dao.VersionDao;
-import de.fraunhofer.abm.domain.CommitDTO;
 import de.fraunhofer.abm.domain.ProjectObjectDTO;
 import de.fraunhofer.abm.domain.VersionDTO;
 
