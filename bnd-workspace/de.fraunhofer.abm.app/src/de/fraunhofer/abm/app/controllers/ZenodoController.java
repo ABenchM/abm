@@ -46,9 +46,9 @@ public class ZenodoController extends AbstractController implements REST {
 	 
 	 
 	      
-	 private static String url = "https://zenodo.org/";
+	 private static String url = "https://sandbox.zenodo.org/";
 	 private static String maven_base_url = "http://repo1.maven.org/maven2/";
-	 private static String token = AbmApplicationConstants.zenodoProdToken();
+	 private static String token = AbmApplicationConstants.sandboxToken();
 	 
 	 static Map<String, String> header = new HashMap<>();
 	 

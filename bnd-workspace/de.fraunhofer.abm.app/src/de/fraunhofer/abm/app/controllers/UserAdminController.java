@@ -18,6 +18,7 @@ import org.slf4j.LoggerFactory;
 
 import de.fraunhofer.abm.app.auth.Authorizer;
 import de.fraunhofer.abm.collection.dao.CollectionDao;
+import de.fraunhofer.abm.collection.dao.CollectionPinDao;
 import de.fraunhofer.abm.collection.dao.UserDao;
 import de.fraunhofer.abm.collection.dao.FilterPinDao;
 import osgi.enroute.configurer.api.RequireConfigurerExtender;
@@ -42,7 +43,7 @@ public class UserAdminController implements REST {
    private UserDao userDao;
    
    @Reference
-   private FilterPinDao filterPinDao;
+   private CollectionPinDao collectionPinDao;
 
    @Reference
    private CollectionDao collectionDao;
@@ -100,6 +101,7 @@ public class UserAdminController implements REST {
                  logger.debug("deleting collection with"+id);
                  // delete the collection
                  collectionDao.delete(id);
+                 System.out.println(users.get(0));
              } catch (Exception e) {
                logger.info("Exception");
              }
@@ -128,9 +130,9 @@ public class UserAdminController implements REST {
 					// Delete users private collections
 					collectionDao.deleteUserPrivateCollections(user);
 					// delete any entry for the user in filterPin table
-					List<String> pinList = filterPinDao.findPins(user);
+					List<String> pinList = collectionPinDao.findPins(user);
 					for (String pinId : pinList) {
-						filterPinDao.dropPin(user, pinId);
+						collectionPinDao.dropPin(user, pinId);
 					}
 					// delete any entry for the user in reset_token table
 					userDao.deleteUserResetToken(user);

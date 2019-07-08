@@ -85,6 +85,7 @@ public class JpaCollectionDao extends AbstractJpaDao implements CollectionDao {
         });
     }
     
+
     @Override
     public CollectionDTO getVersionDetails(String versionId) {
 
@@ -173,11 +174,11 @@ public class JpaCollectionDao extends AbstractJpaDao implements CollectionDao {
         });
     }
 
-    private void attachRepositories(JpaCollection collection) {
-        for (JpaVersion version : collection.versions) {
-            super.attachRepositories(version);
-        }
-    }
+//    private void attachRepositories(JpaCollection collection) {
+//        for (JpaVersion version : collection.versions) {
+//            super.attachRepositories(version);
+//        }
+//    }
 
     @Override
     public void update(CollectionDTO collection) {
@@ -196,10 +197,10 @@ public class JpaCollectionDao extends AbstractJpaDao implements CollectionDao {
         transactionControl.required(() -> {
             JpaCollection collection = em.find(JpaCollection.class, id);
             em.remove(collection);
-            Query deleteOrphanProperties = em.createNativeQuery("delete from repository_property where repository_property.repository_id not in (select distinct repository_id from commit)");
-            deleteOrphanProperties.executeUpdate();
-            Query deleteOrphanRepos = em.createNativeQuery("delete from repository where repository.id not in (select distinct repository_id from commit)");
-            deleteOrphanRepos.executeUpdate();
+//            Query deleteOrphanProperties = em.createNativeQuery("delete from repository_property where repository_property.repository_id not in (select distinct repository_id from commit)");
+//            deleteOrphanProperties.executeUpdate();
+//            Query deleteOrphanRepos = em.createNativeQuery("delete from repository where repository.id not in (select distinct repository_id from commit)");
+//            deleteOrphanRepos.executeUpdate();
             return null;
         });
     }

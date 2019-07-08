@@ -16,7 +16,6 @@ import org.osgi.service.transaction.control.TransactionControl;
 import org.osgi.service.transaction.control.jpa.JPAEntityManagerProvider;
 
 import de.fraunhofer.abm.collection.dao.VersionDao;
-import de.fraunhofer.abm.domain.CommitDTO;
 import de.fraunhofer.abm.domain.ProjectObjectDTO;
 import de.fraunhofer.abm.domain.VersionDTO;
 
@@ -48,6 +47,17 @@ public class JpaVersionDao extends AbstractJpaDao implements VersionDao {
             JpaVersion result = query.getSingleResult();
             return result.toDTO();
         });
+    }
+    
+    public List<VersionDTO> findByCollectionId(String collectionId) {
+    	
+    	return transactionControl.notSupported( () ->  {
+               	TypedQuery<JpaVersion> query = em.createQuery("SELECT v from version v where v.collection.id = :collectionId", JpaVersion.class);
+                query.setParameter("collectionId", collectionId);
+                List<JpaVersion> result = query.getResultList();
+                return result.stream().map(JpaVersion::toDTO).collect(Collectors.toList());
+    	});
+    	
     }
     
     @Override
@@ -129,10 +139,10 @@ public class JpaVersionDao extends AbstractJpaDao implements VersionDao {
         transactionControl.required(() -> {
             JpaVersion version = em.find(JpaVersion.class, id);
             em.remove(version);
-            Query deleteOrphanProperties = em.createNativeQuery("delete from repository_property where repository_property.repository_id not in (select distinct repository_id from commit)");
-            deleteOrphanProperties.executeUpdate();
-            Query deleteOrphanRepos = em.createNativeQuery("delete from repository where repository.id not in (select distinct repository_id from commit)");
-            deleteOrphanRepos.executeUpdate();
+//            Query deleteOrphanProperties = em.createNativeQuery("delete from repository_property where repository_property.repository_id not in (select distinct repository_id from commit)");
+//            deleteOrphanProperties.executeUpdate();
+//            Query deleteOrphanRepos = em.createNativeQuery("delete from repository where repository.id not in (select distinct repository_id from commit)");
+//            deleteOrphanRepos.executeUpdate();
             return null;
         });
     }

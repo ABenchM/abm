@@ -3,6 +3,7 @@ package de.fraunhofer.abm.app.controllers;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -172,6 +173,14 @@ public class VersionController extends AbstractController implements REST {
             }
         }
         return result;
+    }
+    
+    public List<VersionDTO> getCollectionVersions(String collectionId) {
+    	
+    	List<VersionDTO> result = new ArrayList<VersionDTO>();
+    	result = versionDao.findByCollectionId(collectionId);
+    	
+    	return result;
     }
 
     @Override
