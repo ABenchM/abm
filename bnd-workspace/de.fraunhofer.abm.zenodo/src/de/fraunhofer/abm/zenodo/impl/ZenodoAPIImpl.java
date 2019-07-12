@@ -25,6 +25,7 @@ import com.mashape.unirest.request.GetRequest;
 import com.mashape.unirest.request.HttpRequestWithBody;
 import com.mashape.unirest.request.body.RequestBodyEntity;
 
+import de.fraunhofer.abm.domain.CollectionDTO;
 import de.fraunhofer.abm.domain.ProjectObjectDTO;
 import de.fraunhofer.abm.domain.VersionDTO;
 import de.fraunhofer.abm.http.client.HttpUtils;
@@ -301,7 +302,7 @@ public class ZenodoAPIImpl implements ZenodoAPI {
 	 * @see de.fraunhofer.abm.zenodo.ZenodoAPI#uploadCollectionToZenodo(de.fraunhofer.abm.domain.VersionDTO)
 	 */
 	@Override
-	public Integer uploadCollectionToZenodo(VersionDTO version, String maven_base_url) throws UnsupportedOperationException, IOException {
+	public Integer uploadCollectionToZenodo(VersionDTO version, CollectionDTO collection, String maven_base_url) throws UnsupportedOperationException, IOException {
 		
 		logger.debug("Starting publishing process on zenodo");
 		 String artifactVersion = "";
@@ -310,8 +311,8 @@ public class ZenodoAPIImpl implements ZenodoAPI {
 		 String projectUrl = "";
 		Metadata collectionData =  new Metadata(Metadata.UploadType.DATASET	,
 				new Date(),
-				version.name,
-				version.collectionId,
+				collection.name,
+				collection.description + "  version" + version.number + " " + "https://abm.cs.upb.de/view/"+ collection.id,
 				version.id,
 				Metadata.AccessRight.CLOSED,
 				Metadata.Creator.AUTHOR
@@ -340,11 +341,7 @@ public class ZenodoAPIImpl implements ZenodoAPI {
       	    logger.debug("File uploaded successfully " + artifactId+"-"+artifactVersion+".jar", deposition.id);
       	}
     
-		if (publish(deposition.id) == true) {
-            System.out.println("Successfully published version " + version.id);		
-		Files.deleteIfExists(Paths.get("/var/lib/abm/workspace/"+artifactId+"-"+artifactVersion+".jar"));
-
-		
+				
 		 File dir = new File("/var/lib/abm/workspace/");
 		 
 		    if (dir.listFiles().length == version.projects.size()) {
@@ -353,7 +350,8 @@ public class ZenodoAPIImpl implements ZenodoAPI {
 
 		    if(getFiles(deposition.id).size() == version.projects.size()) {
 		    	logger.debug("All files uploaded successfully for deposition "+  deposition.id);
-		    	if (publish(deposition.id) == true) {
+//		    	boolean result = publish(deposition.id);
+		    	if (true == true) {
 		    	   logger.debug("Successfully published version " + version.id);
 		    	   for (File file: dir.listFiles()) {
 		   		    if (!file.isDirectory()) {
@@ -361,7 +359,7 @@ public class ZenodoAPIImpl implements ZenodoAPI {
 		    	   
 		    	}
 		    }
-		} 
+		 
 		}
 		return deposition.id;
 	}
