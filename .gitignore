@@ -3,6 +3,8 @@ eclipse_workspace
 workspace-eclipse
 workspace_eclipse
 dist
+*.jar
+.index
 .gradle
 .DS_Store
 *.class
