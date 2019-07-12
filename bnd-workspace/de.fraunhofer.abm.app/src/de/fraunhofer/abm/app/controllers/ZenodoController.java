@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import de.fraunhofer.abm.app.auth.Authorizer;
 import de.fraunhofer.abm.collection.dao.CollectionDao;
 import de.fraunhofer.abm.collection.dao.VersionDao;
+import de.fraunhofer.abm.domain.CollectionDTO;
 import de.fraunhofer.abm.domain.ProjectObjectDTO;
 import de.fraunhofer.abm.domain.VersionDTO;
 import de.fraunhofer.abm.util.AbmApplicationConstants;
@@ -46,9 +47,9 @@ public class ZenodoController extends AbstractController implements REST {
 	 
 	 
 	      
-	 private static String url = "https://sandbox.zenodo.org/";
+	 private static String url = "https://zenodo.org/";
 	 private static String maven_base_url = "http://repo1.maven.org/maven2/";
-	 private static String token = AbmApplicationConstants.sandboxToken();
+	 private static String token = AbmApplicationConstants.zenodoProdToken();
 	 
 	 static Map<String, String> header = new HashMap<>();
 	 
@@ -67,6 +68,9 @@ public class ZenodoController extends AbstractController implements REST {
 	       authorizer.requireRoles(users);
 
 	        VersionDTO version = vr._body();
+	        
+	        CollectionDTO collection = collectionDao.findById(version.collectionId);
+	                
 	        if(version.id == null) {
 	            sendError(vr._response(), HttpServletResponse.SC_BAD_REQUEST, "submitted version is missing an id");
 	            return null;
@@ -75,10 +79,10 @@ public class ZenodoController extends AbstractController implements REST {
 	        	
 	        	
 	        	
-	        	 Integer depositionId  = client.uploadCollectionToZenodo(version,maven_base_url);
+	        	 Integer depositionId  = client.uploadCollectionToZenodo(version,collection,maven_base_url);
+	        	 System.out.println(depositionId);
 	        	 doi = "http://doi.org/10.5281/zenodo.".concat(depositionId.toString());
-	        	 version.doi = doi;
-	        	 versionDao.update(version);
+
 	        } catch (IllegalArgumentException e ) {
 	        	 sendError(vr._response(), HttpServletResponse.SC_BAD_REQUEST, e.getLocalizedMessage());
 	             return null;

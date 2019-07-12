@@ -25,6 +25,7 @@ import com.mashape.unirest.request.GetRequest;
 import com.mashape.unirest.request.HttpRequestWithBody;
 import com.mashape.unirest.request.body.RequestBodyEntity;
 
+import de.fraunhofer.abm.domain.CollectionDTO;
 import de.fraunhofer.abm.domain.ProjectObjectDTO;
 import de.fraunhofer.abm.domain.VersionDTO;
 import de.fraunhofer.abm.http.client.HttpUtils;
@@ -34,12 +35,13 @@ import de.fraunhofer.abm.zenodo.DepositionFile;
 import de.fraunhofer.abm.zenodo.FileMetadata;
 import de.fraunhofer.abm.zenodo.Metadata;
 import de.fraunhofer.abm.zenodo.ZenodoAPI;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Component
 public class ZenodoAPIImpl implements ZenodoAPI {
 
-	
+	private static final transient Logger logger = LoggerFactory.getLogger(ZenodoAPIImpl.class);
 	static Map<String, String> header = new HashMap<>();
 	 
 	
@@ -183,10 +185,10 @@ public class ZenodoAPIImpl implements ZenodoAPI {
 
 		RequestBodyEntity completePost = post.body(data);
         completePost.getEntity().writeTo(bytes);
-        System.out.println(bytes.toString());
+      
 		try {
 			HttpResponse<Deposition> response = completePost.asObject(Deposition.class);
-			System.out.println(response.getBody().id);
+			
 			return response.getBody();
 
 		} catch (UnirestException e) {
@@ -237,7 +239,7 @@ public class ZenodoAPIImpl implements ZenodoAPI {
 
 		try {
 			final HttpResponse<String> response = post.asString();
-			System.out.println("Publish Response " + response);
+		
 			if (response.getStatus() == 202)
 				return true;
 		} catch (UnirestException e) {
@@ -300,26 +302,31 @@ public class ZenodoAPIImpl implements ZenodoAPI {
 	 * @see de.fraunhofer.abm.zenodo.ZenodoAPI#uploadCollectionToZenodo(de.fraunhofer.abm.domain.VersionDTO)
 	 */
 	@Override
-	public Integer uploadCollectionToZenodo(VersionDTO version, String maven_base_url) throws UnsupportedOperationException, IOException {
+	public Integer uploadCollectionToZenodo(VersionDTO version, CollectionDTO collection, String maven_base_url) throws UnsupportedOperationException, IOException {
 		
-		 System.out.println(test());
-
+		logger.debug("Starting publishing process on zenodo");
 		 String artifactVersion = "";
 		 String artifactId = "";
 		 String artifactPath = "";
 		 String projectUrl = "";
 		Metadata collectionData =  new Metadata(Metadata.UploadType.DATASET	,
 				new Date(),
-				version.name,
-				version.collectionId,
+				collection.name,
+				collection.description + "  version" + version.number + " " + "https://abm.cs.upb.de/view/"+ collection.id,
 				version.id,
 				Metadata.AccessRight.CLOSED,
 				Metadata.Creator.AUTHOR
 				);
 		
+		logger.info("Creating deposition for version " + version.id);
+		
 		Deposition deposition = this.createDeposition(collectionData); 
 		
+		logger.debug("Deposition created successfully for " + deposition.id);
+		
 		if(deposition.id != null) {
+			
+			logger.debug("Downloading artifacts for version " + version.id);
 		    
 			for (ProjectObjectDTO p: version.projects) {
       	      String project = p.project_id.substring(p.project_id.indexOf("maven2/:")+ "maven2/:".length());
@@ -329,18 +336,32 @@ public class ZenodoAPIImpl implements ZenodoAPI {
       	      projectUrl =   maven_base_url+artifactPath+"/"+artifactId+"/"+artifactVersion+"/"+artifactId+"-"+artifactVersion+".jar";
       	      HttpUtils.downloadJar(projectUrl, new File("/var/lib/abm/workspace/"+artifactId+"-"+artifactVersion+".jar"));
       	      
+      	    logger.debug("uploading file " + artifactId+"-"+artifactVersion+".jar");
       	      DepositionFile newArtifact = uploadFile(artifactId+"-"+artifactVersion+".jar", deposition.id);
+      	    logger.debug("File uploaded successfully " + artifactId+"-"+artifactVersion+".jar", deposition.id);
       	}
     
-		if (publish(deposition.id) == true) {
-            System.out.println("Successfully published version " + version.id);		
-		Files.deleteIfExists(Paths.get("/var/lib/abm/workspace/"+artifactId+"-"+artifactVersion+".jar"));
+				
+		 File dir = new File("/var/lib/abm/workspace/");
+		 
+		    if (dir.listFiles().length == version.projects.size()) {
+		    	logger.debug("All the artifacts for the version downloaded successfully " + version.id);
+		    }
 
-		
-        return deposition.id; 
-		} 
+		    if(getFiles(deposition.id).size() == version.projects.size()) {
+		    	logger.debug("All files uploaded successfully for deposition "+  deposition.id);
+//		    	boolean result = publish(deposition.id);
+		    	if (true == true) {
+		    	   logger.debug("Successfully published version " + version.id);
+		    	   for (File file: dir.listFiles()) {
+		   		    if (!file.isDirectory()) {
+		   		        file.delete(); }}
+		    	   
+		    	}
+		    }
+		 
 		}
-		return null;
+		return deposition.id;
 	}
 	
 	
