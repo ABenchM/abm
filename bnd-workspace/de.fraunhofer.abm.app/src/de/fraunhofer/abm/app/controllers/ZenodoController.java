@@ -76,9 +76,9 @@ public class ZenodoController extends AbstractController implements REST {
 	        	
 	        	
 	        	 Integer depositionId  = client.uploadCollectionToZenodo(version,maven_base_url);
+	        	 System.out.println(depositionId);
 	        	 doi = "http://doi.org/10.5281/zenodo.".concat(depositionId.toString());
-	        	 version.doi = doi;
-	        	 versionDao.update(version);
+
 	        } catch (IllegalArgumentException e ) {
 	        	 sendError(vr._response(), HttpServletResponse.SC_BAD_REQUEST, e.getLocalizedMessage());
 	             return null;

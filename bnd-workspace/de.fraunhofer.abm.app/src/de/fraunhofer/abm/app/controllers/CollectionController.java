@@ -109,7 +109,7 @@ public class CollectionController extends AbstractController implements REST {
     	ArrayList<String> users = new ArrayList<String>();
     	users.add("RegisteredUser");
     	users.add("UserAdmin"); 
-    	 System.out.println("Testing creating collection  part 2" );
+    	
         authorizer.requireRoles(users);
        
         CollectionDTO collection = cr._body();
@@ -132,7 +132,7 @@ public class CollectionController extends AbstractController implements REST {
     }
 
     public void putCollection(CollectionRequest cr) {
-    	System.out.println("Testing creating collection  part 1" );
+    	
     	ArrayList<String> users = new ArrayList<String>();
     	users.add("RegisteredUser");
     	users.add("UserAdmin"); 
