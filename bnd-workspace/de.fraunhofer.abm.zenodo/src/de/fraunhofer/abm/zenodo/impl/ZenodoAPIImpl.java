@@ -314,7 +314,7 @@ public class ZenodoAPIImpl implements ZenodoAPI {
 				collection.name,
 				collection.description + "  version" + version.number + " " + "https://abm.cs.upb.de/view/"+ collection.id,
 				version.id,
-				Metadata.AccessRight.CLOSED,
+				Metadata.AccessRight.OPEN,
 				Metadata.Creator.AUTHOR
 				);
 		
@@ -350,8 +350,8 @@ public class ZenodoAPIImpl implements ZenodoAPI {
 
 		    if(getFiles(deposition.id).size() == version.projects.size()) {
 		    	logger.debug("All files uploaded successfully for deposition "+  deposition.id);
-//		    	boolean result = publish(deposition.id);
-		    	if (true == true) {
+		    	boolean result = publish(deposition.id);
+		    	if (result == true) {
 		    	   logger.debug("Successfully published version " + version.id);
 		    	   for (File file: dir.listFiles()) {
 		   		    if (!file.isDirectory()) {
